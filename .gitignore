@@ -1,0 +1,11 @@
+# large inputs and caches are restored by scripts/restore_data.sh (SHA-256 pinned); never committed
+data/raw/
+data/processed/
+data/bridge/*.tif
+data/registry/*.tif
+data/external/
+*.partial
+__pycache__/
+*.pyc
+.cache/
+data/restore.log

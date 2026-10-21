@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hypotheses — and why H33 scored 0.2778</title><style>
+:root{--bg:#0f172a;--card:#111c33;--ink:#e5e7eb;--mut:#9ca3af;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--acc:#38bdf8;--line:#1f2a44}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:28px 20px 10px;max-width:1100px;margin:auto}h1{margin:0 0 6px;font-size:28px}h2{font-size:20px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+main{max-width:1100px;margin:auto;padding:0 20px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.banner{font-size:22px;font-weight:700;padding:16px 20px;border-radius:12px;margin:12px 0}.ok{background:#052e16;border:2px solid var(--ok)}.bad{background:#450a0a;border:2px solid var(--bad)}
+.btn{display:inline-block;background:var(--acc);color:#04141f;font-weight:700;padding:12px 18px;border-radius:10px;text-decoration:none;margin:6px 8px 6px 0}
+.btn.sec{background:#1e293b;color:var(--ink);border:1px solid var(--line)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:600}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;word-break:break-all}.mut{color:var(--mut)}
+nav a{color:var(--acc);margin-right:14px;text-decoration:none}.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.tag.h{background:#1e3a8a}.tag.o{background:#14532d}.tag.n{background:#7f1d1d}.small{font-size:13px}ul{margin:6px 0}
+</style></head><body><header><h1>Hypotheses — and why H33 scored 0.2778</h1><nav><a href="index.html">Home</a><a href="executive-summary.html">Executive summary: how to submit</a>
+<a href="hypotheses.html">Hypotheses & why H33 scored 0.2778</a><a href="holdout.html">Holdout evidence</a>
+<a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a>
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav></header><main><div class="card"><h2>Lane H78 — candidate hypotheses (written 2026-10-21, before any holdout result was read)</h2>
+<p>Every claim below is tagged: <b>[official]</b> organizer text, <b>[measured-here]</b> reproduced in</p>
+<p>this checkout (<code>evidence/forensics_h33_vs_d28.json</code>), <b>[owner-report]</b> a score copied from the</p>
+<p>family&#x27;s own ledger (never an organizer receipt), or <b>[inference]</b>.</p>
+<h2>0. Why <code>h33-h33-2-b2 … -zeros</code> is the family&#x27;s best file (0.2778 [owner-report])</h2>
+<p>1. <b>The metric is a budget, not a segmentation score.</b> [official] DTI = TPw / (TPw + 0.2·FPw +</p>
+<p>   0.8·FNw) with a 300 m triangular kernel and *max* credit per truth pixel. Because FNw = |G| − TPw,</p>
+<p>   a second dot inside another dot&#x27;s kernel earns nothing and still pays 0.2. The DTI of a soft field</p>
+<p>   is a ratio of two functions that are linear in each pixel value, so for any fixed geometry the</p>
+<p>   optimum is a vertex: <b>every emitted pixel should be exactly 0 or 1</b>. All three top files are</p>
+<p>   binary [measured-here: one distinct positive value, 1.0].</p>
+<p>2. <b>The family&#x27;s chain of gains is entirely emission-side on one field.</b> [measured-here] H19-5</p>
+<p>   solid = 121,131 line pixels; D2.8 = 44,090 dots, all of them on the H19-5 lines, nearest-neighbour</p>
+<p>   spacing min √8 = 2.83 px / median 3.0 px; H33 = an exact 37,654-dot subset of D2.8 whose 6,436</p>
+<p>   removed dots all lie 1.0–2.0 px from the catalogue. Owner-reported scores along that chain:</p>
+<p>   0.1922 → 0.2600 → 0.2778. Nothing about the detector changed; mass that the metric charges 0.2</p>
+<p>   per pixel for was removed.</p>
+<p>3. <b>Why the ≤2 px flank prune helped.</b> [official, forum 11516] catalogue pixels are masked out of</p>
+<p>   scoring; a dot 1–2 px from a mapped trace can only earn credit from an *unmapped* fault within</p>
+<p>   300 m of a mapped one. The live gain says that population is thin: hidden faults in the test set</p>
+<p>   are mostly &gt; 200 m from the catalogue. [inference] H33&#x27;s dots sit at median 19.6 px (≈2 km) from</p>
+<p>   the catalogue; p10 = 4 px.</p>
+<p>4. <b>What the chain cannot do.</b> The same field cannot be thinned further for free — the budget is</p>
+<p>   near the metric&#x27;s own break-even (0.2·DTI ≈ 0.056 credit per added dot). To go above 0.2778 the</p>
+<p>   *field* must put more kernel credit per dot on unmapped faults. That is a detector problem.</p>
+<p>5. <b>What the registry says about detectors.</b> Of ~90 owner-reported scores, every physics-first</p>
+<p>   field built without learning from the catalogue scored 0.00–0.16; every file ≥ 0.23 is an</p>
+<p>   out-of-fold learner trained on the catalogue and emitted as sparse dots. [inference] The hidden</p>
+<p>   test faults are drawn from the *same mapping process* as the catalogue (expert mapping of the</p>
+<p>   same lidar/geophysics), so the Bayes-optimal field is P(fault | features) learned from the</p>
+<p>   catalogue — with the catalogue&#x27;s *location* kept out of the features (so the model is not paid</p>
+<p>   to crowd known traces) and the metric&#x27;s sparse-dot emission applied.</p>
+<p><b>Answer to &quot;can we beat 0.2778?&quot;</b> Only with a field whose top-ranked ~35–45 k dots carry more</p>
+<p>credit toward unmapped faults than H19-5&#x27;s do, validated on a leakage-safe hide-and-recover holdout</p>
+<p>against the *same model class under the same emitter*. Nothing in this repository is a leaderboard</p>
+<p>projection; the only way to know is an organizer receipt.</p>
+<h2>1. Candidate hypotheses not yet run in the GEMSDOE family</h2>
+<table>
+<tr><th>Rank</th><th>ID</th><th>Layers</th><th>Physical signature / transform</th><th>Why it should catch faults *missing* from USGS/INGENIOUS</th><th>Named non-fault mimic</th><th>How it differs from prior lanes</th><th>Expected gain</th><th>Cost</th></tr>
+<tr><td><b>1 (run)</b></td><td><b>H78-A strike-steered lineament learning</b></td><td>det_elev (12), rtp (2), iso_grav_anom (13), depth_to_base_surf (15), cond_surf (17), band 6 (radiometric total count); catalogue used <b>only</b> for its orientation</td><td>Regional structural-strike field φ(x) from the doubled-angle structure tensor of the *visible* catalogue (σ = 4 km); Gaussian derivative filters at σ = 150 m and 300 m projected onto that frame: across-strike 2nd derivative H_nn, along-strike H_tt, across-strike step g_n, \</td><td>g_t\</td><td>; HGB learner on raw + rotation-invariant + steered features</td><td>Basin-and-Range / Walker Lane faults form sub-parallel arrays; the unmapped strand is the one parallel to its mapped neighbours but too subtle (&lt; 5 m scarp, piedmont, intrabasin) for 1:250k compilations. Steering turns &quot;is there a lineament&quot; into &quot;is there a lineament *with the regional structural grain*&quot;, which is what an expert does with lidar</td><td>Bedding / lithologic contacts and alluvial-fan drainage that also parallel range fronts; dune ridges</td><td>Template <code>strike_zone.py</code> and lanes h67a-orientip (0.0356), h79-orient (negative) used catalogue strike as a *post-hoc gate or zone*; no lane steered the filter bank as learner inputs, and no lane withheld all catalogue *location* features while keeping its *orientation*</td><td>small–moderate</td><td>low (done here)</td></tr>
+<tr><td>2</td><td>H78-H label-noise-robust (PU) refit</td><td>same features</td><td>Two-stage &quot;spy&quot; cleaning: fit, drop the top-k % highest-scoring negatives (likely unmapped faults), refit</td><td>The catalogue is incomplete by definition, so plain training suppresses exactly the targets</td><td>none (modelling change)</td><td>h20 nnPU (0.1890) used a different estimator; no iterative negative cleaning in the family</td><td>small–moderate</td><td>low</td></tr>
+<tr><td>3</td><td>H78-B across-strike spacing (&quot;missing tooth&quot;) prior</td><td>catalogue + any ridge field</td><td>Along the strike-normal, dominant spacing of catalogue crossings within ±10 km; candidate gaps at integer multiples, gated by field evidence</td><td>Domino arrays have quasi-regular spacing set by brittle-layer thickness</td><td>regularly spaced incised drainage, dune fields</td><td>h33d tip/step-over (0.2632) and GEMSDOE27 gap closure (0.2449) act *along* strike; this acts *across* strike</td><td>low–moderate</td><td>medium</td></tr>
+<tr><td>4</td><td>H78-C′ cover-regime-specific learners</td><td>depth_to_base_surf (15) as the regime switch</td><td>Separate models for exposed/piedmont (&lt; 100 m cover) vs basin (&gt; 300 m)</td><td>Fault expression changes from scarp to potential-field step under cover</td><td>basin facies changes, inversion smoothing</td><td>ovtr-ml-cover (0.1426) and GEMSDOE74 tri-regime (unscored) are close; partially tried</td><td>small</td><td>medium</td></tr>
+<tr><td>5</td><td>H78-G 2020 Mw 6.5 Monte Cristo Range coseismic rupture</td><td>external: USGS data release of the mapped surface rupture / ARIA InSAR</td><td>Rupture traces on largely unmapped Candelaria-system faults inside the footprint</td><td>A ruptured-but-uncatalogued fault is exactly hidden truth</td><td>none</td><td>never fetched by any lane</td><td>unknown, local</td><td>high; <b>not obtainable from this sandbox</b> (only github/pypi hosts reachable) — source: USGS ScienceBase / SRL 92(2A) field response; verify before proposing as viable</td></tr>
+</table>
+<p>Ranking is by expected DTI gain per unit implementation cost; it is a judgement, not a measurement.</p>
+<h2>2. Validation plan for H78-A (preregistered; see <code>registry/preregistration.json</code>)</h2>
+<li>Holdout: <code>vendor/gems57/holdout.buffered_component_draw(seed=20, hide_frac=0.20, buffer_px=3)</code></li>
+<p>  — whole components withheld inside label-blind eroded quadrants, 3-px feature collar, catalogue</p>
+<p>  masked pixel-exactly; scored by <code>vendor/gems57/evaluate_holdout.py</code> (<code>gems57-pooled-hide-v2</code>,</p>
+<p>  unmodified, sha256 <code>ad86640b…</code>), pooled DTI α 0.2 / β 0.8 / 300 m kernel, 95 % CI by paired</p>
+<p>  20-km-block bootstrap.</p>
+<li>Arms (same folds, same emitter, same budget): A0 raw 19 bands (the lineage&#x27;s base model class);</li>
+<p>  A1 raw + rotation-invariant derivatives (controls for &quot;more derivatives&quot;); A2 = A1 + steered</p>
+<p>  (the hypothesis). The paired A2 − A1 difference isolates steering.</p>
+<li>Emission: greedy max-score packing at ≥ √8 px (D2.8 geometry) with the ≤ 2 px visible-catalogue</li>
+<p>  flank excluded; budget swept 25 k–60 k. Variants on A2 only: flank 0/2/3 px, ridge-NMS on/off.</p>
+<li>Leakage canary: single-feature AUC on withheld truth vs. active background for all 103 features,</li>
+<p>  flag &gt; 0.90.</p>
+<li>Uniqueness: Spearman ρ of the final field vs. each registry raster on the footprint, and the</li>
+<p>  fraction of final dots within 3 px of D2.8 / H33 / H19-5 positives; stop if ρ &gt; 0.90 or</p>
+<p>  overlap &gt; 0.70.</p>
+<h2>3. Outcome (filled in after the runs; all numbers HOLDOUT-DTI, evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives)</h2>
+<li><b>H78-A supported.</b> A2 steered 0.1586 vs A1 isotropic 0.1462 vs A0 raw-19 0.1376 (all B2 @ 44,090 dots); paired Δ A2−A1 +0.0124 [+0.0032, +0.0223], A2−A0 +0.0210 [+0.0107, +0.0326]. Both preregistered tests pass; canary clean (max AUC 0.586).</li>
+<li><b>Emission.</b> Flank 3 px beats 2 px by +0.0240 [+0.0196, +0.0281]; dots at 2–3 px from visible faults earn mean credit 0.014 (break-even 0.032). Shipped primary = A2 · B3 · 44,090 dots = <b>0.1826 [0.1628, 0.2004]</b> (amendment IR-78-01b). Ridge-NMS hurts above 37 k dots. Budget keeps rising to 50 k (0.1843); 44,090 kept to stay inside the live-validated D2.8 geometry.</li>
+<li><b>Far-truth check</b> (truth &gt; 10 px from any visible fault, 5,150 positives): A2 0.066, Δ vs A1 +0.0147 [+0.006, +0.024], Δ vs A0 +0.0283 [+0.017, +0.040]; on par with D2.8 (+0.005 [−0.004, +0.016]). The steering gain is not a catalogue-halo artefact, but the absolute level far from the catalogue is low for every arm.</li>
+<li><b>Open risk IR-78-09:</b> the shipped field is closer to the catalogue (median 6 px, 43 % ≤ 5 px) than H33 (19.6 px, 15 %). Live score unknown until uploaded.</li>
+<li>H78-H, H78-B, H78-C′, H78-G: <b>not run</b> (budget). H78-G needs a USGS/ARIA download that this sandbox cannot reach; confirmed obtainable only in principle.</li></div></main></body></html>

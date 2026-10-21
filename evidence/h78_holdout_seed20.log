@@ -1,0 +1,111 @@
+{
+ "lane": "H78",
+ "evaluator_version": "gems57-pooled-hide-v2",
+ "seed": 20,
+ "hide_frac": 0.2,
+ "buffer_px": 3,
+ "fold_receipts": [
+  {
+   "fold": "NW",
+   "seed": 20,
+   "held_components": 96,
+   "withheld_positive_pixels": 1923,
+   "eligible_components": 598,
+   "boundary_buffer_px": 12,
+   "feature_buffer_px": 3,
+   "nearest_visible_to_truth_px": 3.1622776601683795,
+   "split_version": "buffered-whole-components-loqo-v2",
+   "evaluation_region_label_blind": true
+  },
+  {
+   "fold": "NE",
+   "seed": 20,
+   "held_components": 145,
+   "withheld_positive_pixels": 2367,
+   "eligible_components": 628,
+   "boundary_buffer_px": 12,
+   "feature_buffer_px": 3,
+   "nearest_visible_to_truth_px": 3.1622776601683795,
+   "split_version": "buffered-whole-components-loqo-v2",
+   "evaluation_region_label_blind": true
+  },
+  {
+   "fold": "SW",
+   "seed": 20,
+   "held_components": 223,
+   "withheld_positive_pixels": 3781,
+   "eligible_components": 983,
+   "boundary_buffer_px": 12,
+   "feature_buffer_px": 3,
+   "nearest_visible_to_truth_px": 3.1622776601683795,
+   "split_version": "buffered-whole-components-loqo-v2",
+   "evaluation_region_label_blind": true
+  },
+  {
+   "fold": "SE",
+   "seed": 20,
+   "held_components": 142,
+   "withheld_positive_pixels": 3250,
+   "eligible_components": 648,
+   "boundary_buffer_px": 12,
+   "feature_buffer_px": 3,
+   "nearest_visible_to_truth_px": 3.1622776601683795,
+   "split_version": "buffered-whole-components-loqo-v2",
+   "evaluation_region_label_blind": true
+  }
+ ],
+ "visible_px": 48340,
+ "hidden_px": 11321,
+ "withheld_positive_pixels_scored": 11321
+}
+features ready 107.0 s
+canary max AUC 0.5859 flagged: {}
+registry_D2.8_44090 0.09188832467218272
+registry_H33_37654 0.003698680598708719
+fit {'arm': 'A0_std19', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 19, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 15.6}
+  A0_std19|nms0_B2|25000: pooled HOLDOUT-DTI 0.0993
+  A0_std19|nms0_B2|30000: pooled HOLDOUT-DTI 0.1109
+  A0_std19|nms0_B2|35000: pooled HOLDOUT-DTI 0.1223
+  A0_std19|nms0_B2|37654: pooled HOLDOUT-DTI 0.1265
+  A0_std19|nms0_B2|40000: pooled HOLDOUT-DTI 0.1305
+  A0_std19|nms0_B2|44090: pooled HOLDOUT-DTI 0.1376
+  A0_std19|nms0_B2|50000: pooled HOLDOUT-DTI 0.1426
+fit {'arm': 'A1_iso', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 55, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 42.6}
+  A1_iso|nms0_B2|25000: pooled HOLDOUT-DTI 0.1082
+  A1_iso|nms0_B2|30000: pooled HOLDOUT-DTI 0.1209
+  A1_iso|nms0_B2|35000: pooled HOLDOUT-DTI 0.1326
+  A1_iso|nms0_B2|37654: pooled HOLDOUT-DTI 0.1376
+  A1_iso|nms0_B2|40000: pooled HOLDOUT-DTI 0.1412
+  A1_iso|nms0_B2|44090: pooled HOLDOUT-DTI 0.1461
+  A1_iso|nms0_B2|50000: pooled HOLDOUT-DTI 0.1514
+fit {'arm': 'A2_h78_steered', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 103, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 86.0}
+  A2_h78_steered|nms0_B0|25000: pooled HOLDOUT-DTI 0.0801
+  A2_h78_steered|nms0_B0|30000: pooled HOLDOUT-DTI 0.0937
+  A2_h78_steered|nms0_B0|35000: pooled HOLDOUT-DTI 0.1050
+  A2_h78_steered|nms0_B0|37654: pooled HOLDOUT-DTI 0.1118
+  A2_h78_steered|nms0_B0|40000: pooled HOLDOUT-DTI 0.1158
+  A2_h78_steered|nms0_B0|44090: pooled HOLDOUT-DTI 0.1225
+  A2_h78_steered|nms0_B0|50000: pooled HOLDOUT-DTI 0.1322
+  A2_h78_steered|nms0_B2|25000: pooled HOLDOUT-DTI 0.1259
+  A2_h78_steered|nms0_B2|30000: pooled HOLDOUT-DTI 0.1380
+  A2_h78_steered|nms0_B2|35000: pooled HOLDOUT-DTI 0.1475
+  A2_h78_steered|nms0_B2|37654: pooled HOLDOUT-DTI 0.1519
+  A2_h78_steered|nms0_B2|40000: pooled HOLDOUT-DTI 0.1543
+  A2_h78_steered|nms0_B2|44090: pooled HOLDOUT-DTI 0.1586
+  A2_h78_steered|nms0_B2|50000: pooled HOLDOUT-DTI 0.1625
+  A2_h78_steered|nms1_B2|25000: pooled HOLDOUT-DTI 0.1487
+  A2_h78_steered|nms1_B2|30000: pooled HOLDOUT-DTI 0.1546
+  A2_h78_steered|nms1_B2|35000: pooled HOLDOUT-DTI 0.1564
+  A2_h78_steered|nms1_B2|37654: pooled HOLDOUT-DTI 0.1577
+  A2_h78_steered|nms1_B2|40000: pooled HOLDOUT-DTI 0.1565
+  A2_h78_steered|nms1_B2|44090: pooled HOLDOUT-DTI 0.1547
+  A2_h78_steered|nms1_B2|50000: pooled HOLDOUT-DTI 0.1530
+  A2_h78_steered|nms1_B2|60000: pooled HOLDOUT-DTI 0.1480
+  A2_h78_steered|nms0_B3|25000: pooled HOLDOUT-DTI 0.1581
+  A2_h78_steered|nms0_B3|30000: pooled HOLDOUT-DTI 0.1687
+  A2_h78_steered|nms0_B3|35000: pooled HOLDOUT-DTI 0.1757
+  A2_h78_steered|nms0_B3|37654: pooled HOLDOUT-DTI 0.1778
+  A2_h78_steered|nms0_B3|40000: pooled HOLDOUT-DTI 0.1799
+  A2_h78_steered|nms0_B3|44090: pooled HOLDOUT-DTI 0.1826
+  A2_h78_steered|nms0_B3|50000: pooled HOLDOUT-DTI 0.1843
+wrote /home/user/GEMSDOE78/evidence/h78_holdout_seed20.json in 821.9 s
