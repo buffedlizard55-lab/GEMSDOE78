@@ -58,3 +58,11 @@ The downloadable H78-MPC raster is **research/education only; not OK to submit**
 
 ## 6 Standing rules for every session
 Read PROMPT.md and README.md first. Label every score. Never write a projection as a score. Check the literal forward uniqueness criterion before placement and on final dots. Fix shared tools in the template, never fork. Three experiments or two hours, then stop and write the run card.
+
+## 7 Session 2026-10-21 tooth/spy (MEASURED)
+
+* H78-TOOTH negative. Withheld d/λ p50 0.385; gap1 mean 0.118 on withheld vs 0.191 on background; symmetric AUC 0.514. Learner scores >0.5 on exactly the 48,340 visible training positives. `evidence/h78tooth_negative.json`. IR-78-17.
+* H78-SPY HOLDOUT-DTI 0.1808 [0.1623, 0.1985] vs reproduced A2 control 0.1826; paired delta −0.0018 [−0.0069, +0.0037]; evaluator gems57-pooled-hide-v2, 11,321 withheld. Deployment forward 3 px overlap vs H78-A = 0.9245. Verdict negative, duplicate, not OK to submit. `evidence/h78spy_run_card.json`. IR-78-18.
+* The inspection builder first stored a boolean NaN check and compared it to 0, so its own `passed` flag was false on a format-valid file. Independent `scripts/verify_tif.py` is the binding pass. IR-78-19.
+* GEMSDOE32 page fetched 2026-10-21 says no organiser score exists for H33-2-B2 (IR-78-20). 0.2778 stays an owner-report.
+* Control reproduction on sklearn 1.9.1 matched the published B3 budgets: 0.1778 / 0.1826 / 0.1843 at 37,654 / 44,090 / 50,000 dots.

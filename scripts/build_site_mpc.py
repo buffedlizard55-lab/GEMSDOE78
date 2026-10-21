@@ -192,3 +192,5 @@ print("site written; promote =", promote)
 # Historical promotion text must never bypass the current release gate.
 from audit_release import main as audit_release
 audit_release()
+import runpy
+runpy.run_path(str(Path(__file__).with_name("build_session_site.py")), run_name="__main__")

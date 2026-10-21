@@ -2,8 +2,8 @@
 
 ## Download status: YES to download · NO to submit
 
-**Both historical TIFFs remain downloadable, but neither is approved for a competition slot.**
-The automatic release audit overrides previous promotion claims. No new TIFF was generated in this review: the existing MPC candidate fails the user's literal duplicate stop rule. Renaming or perturbing it would not be a unique scientific submission.
+**Every TIFF in this repository is downloadable for inspection, and none is approved for a competition slot.**
+The automatic release audit overrides previous promotion claims for H78-A and H78-MPC. A later session generated one new inspection raster, H78-SPY, and that file is also blocked: it lost to its holdout control and 92.45% of its dots lie within 3 px of H78-A. Do not rename or perturb a blocked file and call it new.
 
 - [Download and validation dashboard](https://buffedlizard55-lab.github.io/GEMSDOE78/)
 - [Executive submission guide](docs/executive-summary.html)
@@ -14,6 +14,7 @@ The automatic release audit overrides previous promotion claims. No new TIFF was
 |---|---|---|
 | H78-A strike-steered | Automatically revalidated against pinned grid | **Blocked:** only three registry comparators; complete uniqueness not established |
 | H78-MPC monogenic phase congruency | Automatically revalidated against pinned grid | **Duplicate / stop:** recorded forward overlap exceeds the literal threshold |
+| H78-SPY inspection, 2026-10-21 | Format-valid; independent `verify_tif.py` passed | **Blocked:** HOLDOUT-DTI 0.1808 [0.1623, 0.1985] vs reproduced control 0.1826; paired delta −0.0018 [−0.0069, +0.0037]; forward overlap vs H78-A 0.9245. Filename ends in `DO-NOT-SUBMIT`. |
 
 Historical run cards under `evidence/` are preserved, not silently rewritten. Their `promote` verdicts are **superseded** by `evidence/release_audit.json`. They are not current upload authorizations. All remaining historical analyses must be read with the current review.
 
@@ -22,7 +23,7 @@ Historical run cards under `evidence/` are preserved, not silently rewritten. Th
 - **H78-MPC HOLDOUT-DTI:** 0.097684 [0.077985, 0.116303] (evaluator `gems57-pooled-hide-v2`, seed 20, 11,321 withheld positives). The paired difference against the fold-fair H33 analogue is +0.003823 [−0.012033, +0.019985], not significant. The stored same-instrument repository best is H78-A B3 at 0.184312 [0.165785, 0.201451]; the cross-lane comparison is descriptive, not a paired test.
 - **H78-MPC uniqueness:** pre-placement maximum sampled |ρ| = 0.1546 (passes 0.90); one-way forward 3-px overlap = 0.730 against a non-spacefilling registry raster and 0.9914 against the literal all-raster witness (both fail the 0.70 stop threshold). The local 74-raster set is not claimed to be globally exhaustive.
 - **H78-A:** current status is **not cleared** because its historical audit covers only three lineage rasters, not the full locally accessible inventory. This is an evidence gap, not a measured duplicate.
-- Both files pass local format/range checks and remain available for research/education. **No organizer receipt exists; neither file has an ORGANIZER-CONFIRMED score.** No new model experiment, TIFF, or submission slot was used in this review.
+- Both historical files pass local format/range checks and remain available for research/education. **No organizer receipt exists; no file in this repo has an ORGANIZER-CONFIRMED score.** The release review itself ran no new model experiment and spent no slot. The later tooth/spy session did run two experiments and wrote one inspection TIFF; that TIFF is the blocked H78-SPY row above, not a clearance.
 
 ## Mandatory starting point for every session
 
