@@ -30,6 +30,10 @@ def test_release_evidence_is_strict_json_and_negative():
     card = json.loads((ROOT / 'evidence/release_audit.json').read_text(), parse_constant=reject)
     assert card['verdict'] == 'negative'
     assert not card['new_tif_generated'] and card['new_experiments'] == 0
+    assert card['holdout']['seed'] == 20 and card['holdout']['withheld_positive_pixels'] == 11321
+    assert card['current_repo_best_holdout']['dti'] > card['holdout']['dti']
+    paired_ci = card['candidate_vs_h33_control_paired_difference']['ci95']
+    assert paired_ci[0] < 0 < paired_ci[1]
     assert len(card['submission_note']) <= 140
     assert len(card['correlation_overlap_vs_registry']['failed_forward_rows']) >= 2
     assert all(c['validator']['all_passed'] for c in card['candidates'])

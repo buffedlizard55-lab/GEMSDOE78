@@ -33,11 +33,12 @@ def main():
     m = load('evidence/h78mpc_run_card.json')
     u = load('evidence/h78mpc_uniqueness.json')
     prod = load('evidence/h78mpc_production.json')
+    a_review = load('evidence/h78a_current_review.json')
     failed = literal_failures(u['dot_rows'])
     fresh = load('evidence/rechecked_overlap.json')
     candidates = []
     for lane, filename, reason in [
-        ('H78-A', a['raster']['file'], 'INCOMPLETE: only three registry rasters checked; full preplacement and final-dot audits absent.'),
+        ('H78-A', a['raster']['file'], f"INCOMPLETE: {a_review['reason']}"),
         ('H78-MPC', prod['final_stem'] + '.tif', 'DUPLICATE: recorded forward overlap exceeds the literal threshold. Stop required.')]:
         p = ROOT / 'docs/downloads' / filename
         candidates.append(dict(lane=lane, file=filename, sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
@@ -47,14 +48,26 @@ def main():
                 mechanism=m['mechanism'], non_fault_mimic=m['mimic_nonfault_process'],
                 holdout={**m['holdout']['candidate_E2_MPC_SPACED'], 'evidence_class':'HOLDOUT-DTI',
                          'evaluator_version':m['holdout']['evaluator_version'],
+                         'seed':m['holdout'].get('seed', 20),
                          'withheld_positive_pixels':m['holdout']['withheld_positive_pixels'],
                          'provenance':'Historical evidence; not rerun in this review'},
+                candidate_vs_h33_control_paired_difference={
+                    'evidence_class':'HOLDOUT-DTI paired difference',
+                    **m['holdout']['paired_deltas_candidate_minus']['h33_analogue_foldfair']},
+                current_repo_best_holdout=m['current_repo_best_holdout'],
+                candidate_beats_current_repo_best_holdout=m['candidate_beats_current_repo_best_holdout'],
                 correlation_overlap_vs_registry=dict(surface_max_abs_sampled_rho=u['preplacement_max_abs_sampled_rho'],
+                    surface_correlation_limit=0.90,
+                    registry_rasters_compared=u['registry_count'],
+                    informative_forward_overlap=u['worst_forward_informative'],
+                    literal_all_rasters_forward_overlap=u['worst_forward_literal_all_rasters'],
+                    forward_3px_overlap_limit=0.70,
                     failed_forward_rows=failed, complete_registry_verified=False,
+                    scope_note='74 locally accessible rasters were compared; this is not proof of every sibling/organizer raster being available.',
                     provenance='evidence/h78mpc_uniqueness.json; historical measurements, not freshly recomputed'),
                 raster_sha256=candidates[1]['sha256'], validator_output=candidates[1]['validator'],
-                submission_name=prod['final_stem'], submission_note='DO NOT SUBMIT: literal forward-overlap gate failed; retained for reproducibility only.',
-                verdict='negative', ok_to_submit=False, stop_required=True, new_experiments=0,
+                submission_name=prod['name'], submission_note='DO NOT SUBMIT: literal forward-overlap gate failed; retained for reproducibility only.',
+                verdict='negative', ok_to_download=True, ok_to_submit=False, stop_required=True, new_experiments=0,
                 new_tif_generated=False, submission_slots_used=0, organizer_confirmed_score=None,
                 candidates=candidates)
     for row in fresh['rows']:

@@ -17,6 +17,13 @@ The automatic release audit overrides previous promotion claims. No new TIFF was
 
 Historical run cards under `evidence/` are preserved, not silently rewritten. Their `promote` verdicts are **superseded** by `evidence/release_audit.json`. They are not current upload authorizations. All remaining historical analyses must be read with the current review.
 
+## Current evidence and disposition
+
+- **H78-MPC HOLDOUT-DTI:** 0.097684 [0.077985, 0.116303] (evaluator `gems57-pooled-hide-v2`, seed 20, 11,321 withheld positives). The paired difference against the fold-fair H33 analogue is +0.003823 [−0.012033, +0.019985], not significant. The stored same-instrument repository best is H78-A B3 at 0.184312 [0.165785, 0.201451]; the cross-lane comparison is descriptive, not a paired test.
+- **H78-MPC uniqueness:** pre-placement maximum sampled |ρ| = 0.1546 (passes 0.90); one-way forward 3-px overlap = 0.730 against a non-spacefilling registry raster and 0.9914 against the literal all-raster witness (both fail the 0.70 stop threshold). The local 74-raster set is not claimed to be globally exhaustive.
+- **H78-A:** current status is **not cleared** because its historical audit covers only three lineage rasters, not the full locally accessible inventory. This is an evidence gap, not a measured duplicate.
+- Both files pass local format/range checks and remain available for research/education. **No organizer receipt exists; neither file has an ORGANIZER-CONFIRMED score.** No new model experiment, TIFF, or submission slot was used in this review.
+
 ## Mandatory starting point for every session
 
 Read this README, [PROMPT.md](PROMPT.md), and [the current review](docs/review-release.md) before running experiments. `PROMPT.md` contains an **excerpt**, not the entire user prompt; the sibling ledger is in `registry/family_scores.csv`. Do not claim that this repository contains a verbatim full prompt.

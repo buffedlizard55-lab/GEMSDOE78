@@ -46,5 +46,15 @@ unless stated. `registry/sources.json` is the machine-readable twin of this file
 * Far-truth stratum (> 10 px from any visible fault, 5,150 positives): A2 0.066 vs A1 +0.0147 [+0.006, +0.024], vs A0 +0.0283 [+0.017, +0.040]; on par with D2.8.
 * Distance-to-catalogue profile of the shipped primary: median 6.0 px, 43 % ≤ 5 px (H33: 19.6 px, 15 %). Open risk IR-78-09.
 
-## 5 Standing rules for every session
-Read PROMPT.md and README.md first. Label every number. Never write a projection as a score. Check uniqueness before placement and on final dots. Fix shared tools in the template, never fork. Three experiments or two hours, then stop and write the run card.
+## 5 H78-MPC audit correction (2026-10-21)
+
+The downloadable H78-MPC raster is **research/education only; not OK to submit**. The measurements below were already present in the repository; this review added no model experiment and spent no submission slot.
+
+* **HOLDOUT-DTI** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed 20; 95% CI): H78-MPC spaced candidate 0.0977 [0.0780, 0.1163]. Its paired difference from the fold-fair H33 analogue is +0.0038 [-0.0120, +0.0200], not statistically distinguishable from zero. The no-MPC ablation difference is +0.0121 [+0.0027, +0.0217], a feature-family ablation signal, not evidence that the candidate beats the project's best.
+* **HOLDOUT-DTI** (same evaluator/seed/withheld count; 95% CI): highest recorded same-instrument value in the current evidence is `A2_h78_steered|nms0_B3|50000` at 0.1843 [0.1658, 0.2015]. This is a different H78-A arm; its comparison with H78-MPC is descriptive only (no paired cross-lane CI was computed). H78-MPC does not beat the current repository holdout best.
+* **REGISTRY-MEASUREMENT:** pre-placement max absolute sampled Spearman rho is 0.1546 (limit 0.90, pass). Final-dot forward overlap within 3 px is 0.730 against the non-spacefilling GEMSDOE70 raster and 0.9914 against the R13 lattice (limit 0.70, both fail). The prior code/card used mutual overlap and an exception for space-filling rasters; that does not implement the literal `PROMPT.md` criterion. The comparison covers 74 locally accessible rasters and is not a global completeness claim. Details: `evidence/h78mpc_uniqueness.json`, `evidence/h78mpc_duplicate_stop.json`, IR-78-14.
+* The TIFF itself remains locally format-valid (float32, EPSG:32611, 3730×3292, sample transform, all finite in [0,1], no NaN, nodata=None); that is **not** organizer acceptance or uniqueness clearance. Its local SHA-256 is `c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256`.
+* Result: verdict `negative`, `ok_to_download=true` for research only, `ok_to_submit=false`, weekly slots used = 0. The hard duplicate-stop rule means no replacement TIF or further H78-MPC experiment is produced in this review.
+
+## 6 Standing rules for every session
+Read PROMPT.md and README.md first. Label every score. Never write a projection as a score. Check the literal forward uniqueness criterion before placement and on final dots. Fix shared tools in the template, never fork. Three experiments or two hours, then stop and write the run card.

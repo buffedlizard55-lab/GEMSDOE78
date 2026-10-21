@@ -76,5 +76,23 @@
     "severity": "medium",
     "what": "Provenance conflict for the family's 0.2778: GEMSDOE32's own site says 'NO ORGANISER SCORE EXISTS' for H33-2-B2, whereas GEMSDOE71's page labels 0.2778 ORGANIZER-CONFIRMED; no DrivenData receipt was exposed in either.",
     "action": "All family scores in this repo are labelled owner-report; the forensic analysis of H33-2-B2 is about its structure, which was measured from the pinned bytes and does not depend on the score's authenticity."
+  },
+  {
+    "id": "IR-78-14",
+    "severity": "high",
+    "what": "The H78-MPC TIFF fails the literal one-way duplicate rule in PROMPT.md: 0.730 of its candidate dots are within 3 px of the non-spacefilling GEMSDOE70 54,000-dot raster; 0.9914 overlap the r13 lattice witness. The prior status used mutual overlap and an exclusion for the lattice, neither of which is allowed by the current protocol. The scan covered 74 locally available rasters, not every possible sibling artifact.",
+    "action": "Classify H78-MPC as duplicate/negative; keep its range-valid TIFF only as a research/education artifact. Stop this lane, create no replacement raster, and use the shared forward-overlap measure as the binding gate."
+  },
+  {
+    "id": "IR-78-15",
+    "severity": "high",
+    "what": "The prior H78-MPC card said OK TO SUBMIT despite a non-significant candidate-vs-H33-control paired HOLDOUT-DTI difference (+0.0038; 95% CI [-0.0120, +0.0200]) and a lower candidate HOLDOUT-DTI 0.0977 [0.0780, 0.1163] than the stored repository best 0.1843 [0.1658, 0.2015]. All are HOLDOUT-DTI from evaluator gems57-pooled-hide-v2 with 11,321 withheld positives; no paired cross-lane difference was computed. No organizer receipt exists for H78-MPC.",
+    "action": "Correct the run card and H78-MPC pages to verdict negative, OK TO DOWNLOAD: research only, OK TO SUBMIT: NO. No weekly slot was spent; no new experiment was run in this review."
+  },
+  {
+    "id": "IR-78-16",
+    "severity": "high",
+    "what": "The root H78-A page/run card retains a historical promote/OK TO SUBMIT label, but its stored uniqueness audit compares only H19-5, D2.8, and H33 lineage rasters; this review has no full all-registry forward-overlap audit for that file. Under the current prompt, this is an evidence gap, not proof that H78-A is a duplicate or unique.",
+    "action": "The root site now marks H78-A downloadable for research/education only and NOT CLEARED for submission until the literal all-registry surface/dot audit is completed. This review did not alter its raster or run a cross-lane experiment."
   }
 ]

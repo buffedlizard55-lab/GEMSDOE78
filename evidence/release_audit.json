@@ -12,11 +12,39 @@
     ],
     "evidence_class": "HOLDOUT-DTI",
     "evaluator_version": "gems57-pooled-hide-v2",
+    "seed": 20,
     "withheld_positive_pixels": 11321,
     "provenance": "Historical evidence; not rerun in this review"
   },
+  "candidate_vs_h33_control_paired_difference": {
+    "evidence_class": "HOLDOUT-DTI paired difference",
+    "delta": 0.003823246424769472,
+    "ci95": [
+      -0.012033140746150695,
+      0.019985130937774338
+    ]
+  },
+  "current_repo_best_holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "seed": 20,
+    "withheld_positive_pixels": 11321,
+    "candidate": "A2_h78_steered|nms0_B3|50000",
+    "dti": 0.18431154590898757,
+    "ci95": [
+      0.16578477300738595,
+      0.20145090715451924
+    ],
+    "source": "evidence/h78_holdout_seed20.json"
+  },
+  "candidate_beats_current_repo_best_holdout": false,
   "correlation_overlap_vs_registry": {
     "surface_max_abs_sampled_rho": 0.1546,
+    "surface_correlation_limit": 0.9,
+    "registry_rasters_compared": 74,
+    "informative_forward_overlap": 0.73,
+    "literal_all_rasters_forward_overlap": 0.9914,
+    "forward_3px_overlap_limit": 0.7,
     "failed_forward_rows": [
       {
         "name": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
@@ -38,6 +66,7 @@
       }
     ],
     "complete_registry_verified": false,
+    "scope_note": "74 locally accessible rasters were compared; this is not proof of every sibling/organizer raster being available.",
     "provenance": "evidence/h78mpc_uniqueness.json; historical measurements, not freshly recomputed",
     "independent_recheck": {
       "evidence_class": "REGISTRY-MEASUREMENT",
@@ -91,9 +120,10 @@
       "sha256": "d83235d7cbe3445d44cac6788628fd77900a610c1035d4f3f3ceb11c9eaa6036"
     }
   },
-  "submission_name": "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros",
+  "submission_name": "gems78-h78mpc-monogenic-pc-spaced-37654-20261021",
   "submission_note": "DO NOT SUBMIT: literal forward-overlap gate failed; retained for reproducibility only.",
   "verdict": "negative",
+  "ok_to_download": true,
   "ok_to_submit": false,
   "stop_required": true,
   "new_experiments": 0,
@@ -135,7 +165,7 @@
       "ok_to_download": true,
       "ok_to_submit": false,
       "verdict": "negative",
-      "reason": "INCOMPLETE: only three registry rasters checked; full preplacement and final-dot audits absent."
+      "reason": "INCOMPLETE: The strict full-registry uniqueness check was not performed for H78-A in this review. This is an evidence gap, not a measured duplicate finding."
     },
     {
       "lane": "H78-MPC",

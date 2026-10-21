@@ -56,4 +56,4 @@ No live leaderboard feed, weekly cap verification, or organizer-authenticated ac
 
 1. Audited code and historical measurements; implemented automatic fail-closed release audit and clear downloadable-but-not-submittable pages.
 2. Added tests for exact threshold boundaries, asymmetric-overlap failures, file integrity, and rebuild safety. Fixed the verifier so ZIP mismatch also fails the overall result.
-3. Rebuilt both historical site generators followed by the common release gate; rechecked all tests and links. Preserved historical evidence without relabelling it as a fresh experiment. See PR for final test result.
+3. Rebuilt both historical site generators followed by the common release gate; rechecked outputs and all tests. The post-merge suite reports **21 passed**. Preserved historical evidence without relabelling it as a fresh experiment.

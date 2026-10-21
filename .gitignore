@@ -7,5 +7,6 @@ data/external/
 *.partial
 __pycache__/
 *.pyc
+.venv/
 .cache/
 data/restore.log
