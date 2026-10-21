@@ -1,0 +1,27 @@
+{
+ "final_stem": "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros",
+ "sha256": "c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256",
+ "note": "H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots",
+ "name": "gems78-h78mpc-monogenic-pc-spaced-37654-20261021",
+ "validator_all_passed": true,
+ "unique": true,
+ "unique_literal_all_rasters": false,
+ "superseded_clustered": {
+  "final_stem": "gems78-h78mpc-monogenic-pc-37654dots-20261021T220000Z-28dd7adf-zeros",
+  "sha256": "28dd7adf9bf717e3db49cfc8be17615c7b35434e88f2aa4d80e47b6c070c3c08",
+  "note": "H78-MPC monogenic phase-congruency LOQO HGB + 300m submod emit; holdout-DTI 0.047 (seed20 n=11321); 37654 dots",
+  "name": "gems78-h78mpc-monogenic-pc-37654-20261021",
+  "validator_all_passed": true,
+  "unique": false
+ },
+ "spacing": {
+  "frac_nn_le_1p5": 0.0,
+  "median_nn": 3.0
+ },
+ "unique_mutual_preregistered_gate": true,
+ "uniqueness_readings": {
+  "mutual_preregistered": 0.4879,
+  "forward_informative": 0.73,
+  "forward_literal_all_incl_spacefilling": 0.9914
+ }
+}

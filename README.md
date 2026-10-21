@@ -65,3 +65,24 @@ A parallel session without data access published a *NOT READY* site and negative
 * Budget sweep 44–60 k dots with B3 (holdout keeps rising to 50 k: 0.1843).
 * Detector upgrade: small U-Net over the 19 bands + steered features, trained with the same buffered-component folds (organizer reference solution as the baseline class).
 * After the first upload: copy the ORGANIZER-CONFIRMED score into `registry/live_scores.csv` and re-run `build_site.py`.
+
+---
+
+## Second independent lane (parallel session, merged additively): H78-MPC monogenic phase congruency
+
+A separate parallel session ran a distinct lane and it is preserved as a **second promoted candidate**
+(not a replacement for the H78-A primary above). Selector guidance: **H78-A first** (HOLDOUT-DTI 0.1826);
+H78-MPC is the diverse second file for a separate slot (mutual 3-px dot overlap vs H78-A = **0.3552 ≤ 0.70**,
+`evidence/h78mpc_vs_h78a_overlap.json`).
+
+| Item | Value |
+|---|---|
+| Page / guide | [`docs/h78mpc.html`](docs/h78mpc.html) · [`docs/h78mpc-executive-summary.html`](docs/h78mpc-executive-summary.html) |
+| File | `docs/downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif` (+ `.zip`, receipt) |
+| sha256 | `c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256` |
+| OK to submit | **YES** — verdict `promote` (preregistered gate; see caveats) |
+| Name / note (111) | `gems78-h78mpc-monogenic-pc-spaced-37654-20261021` / `H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots` |
+| HOLDOUT-DTI | **0.0977** [0.078, 0.116] (same evaluator/seed/11,321 withheld; H33 fold-fair control 0.0939; paired +0.0038 [−0.012, +0.020] n.s.; vs no-MPC ablation +0.0121 [0.0027, 0.0217] significant) |
+| Method | Riesz monogenic phase-congruency features (σ=1/2/4) + Frangi over a 48-band stack, LOQO HGB, spaced 37,654 dots; canaries 80/80 PASS; uniqueness ρmax 0.1546, mutual 0.4879 vs 74 registry rasters |
+| Disclosure | IR-78-EMIT-01: Pass-1 allocator emitted contiguous dot runs (HOLDOUT-DTI 0.0471); Pass-2 re-emitted frozen surfaces spaced (no retraining) → 0.0977. Both readings in `evidence/h78mpc_*.json`; run card `evidence/h78mpc_run_card.json`. Note: this lane's arms exclude visible-network context features, which is why its holdout trails H78-A — the significant MPC ablation is the transferable result |
+| Reproduce | `scripts/build_features.py` → `run_experiments.py` → `pass2_spaced_emission.py` → `build_production.py` → `pass2_rebuild_production.py` → `make_figures.py` / `build_run_card_mpc.py` / `build_site_mpc.py` (data: `scripts/restore_data.py`, manifest `registry/data_manifest_gems73.json`) |

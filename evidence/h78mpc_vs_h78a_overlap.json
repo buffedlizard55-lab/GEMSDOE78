@@ -1,0 +1,11 @@
+{
+ "comparison": "H78-MPC final dots vs primary lane H78-A shipped dots (post-merge check)",
+ "mine": "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif (37,654 dots)",
+ "theirs": "gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif (44,090 dots)",
+ "forward_mine_in_theirs_3px": 0.411,
+ "reverse": 0.3552,
+ "mutual": 0.3552,
+ "limit": 0.7,
+ "unique": true,
+ "tool": "vendor/gems57/uniqueness.dot_overlap"
+}

@@ -40,6 +40,7 @@ nav a{color:var(--acc);margin-right:14px;text-decoration:none}.tag{display:inlin
 NAV = """<nav><a href="index.html">Home</a><a href="executive-summary.html">Executive summary: how to submit</a>
 <a href="hypotheses.html">Hypotheses & why H33 scored 0.2778</a><a href="holdout.html">Holdout evidence</a>
 <a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a>
+<a href="h78mpc.html">H78-MPC lane (2nd candidate)</a>
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav>"""
 
 

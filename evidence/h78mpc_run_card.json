@@ -1,0 +1,346 @@
+{
+ "lane": "H78-MPC",
+ "hypothesis": "Blind faults retain a contrast-invariant multi-scale local-phase step (monogenic phase congruency) even where gradient amplitude is too weak for HGM/tilt/worm detectors and for catalogue mapping.",
+ "mechanism": "Riesz-transform monogenic signal on RTP / isostatic gravity / detrended elevation / depth-to-basement; DoG scales sigma=1,2,4 px; per-source phase congruency + 3 amplitudes + mean-phase cos/sin + orientation coherence (+Frangi bright/dark on RTP & det-elev) = 32 MPC-family features added to a 48-band geophysics+topo+lidar+radiometric stack (80 total); leave-one-quadrant-out HistGradientBoosting on visible catalogue only (negatives EDT>3px, 4:1); spaced greedy emission (min_dist 2.5 px) to exactly 37,654 dots at EDT(catalogue)>2.5 px (min realised 2.83 px).",
+ "mimic_nonfault_process": "Lithologic contacts and aeromagnetic flight-line levelling seams are also phase-coherent step edges; they can mimic fault phase congruency with no fault present.",
+ "holdout": {
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "evaluator_hashes": {
+   "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+   "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+   "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+   "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+  },
+  "protocol": "shared vendor/gems57: buffered whole-component hide-and-recover, seed 20, feature buffer 3 px, boundary erosion 12 px, visible faults masked pixel-exactly, pooled DTI alpha 0.2 beta 0.8, 300 m triangular kernel; CIs = 20 km spatial-block paired bootstrap (1000 draws)",
+  "withheld_positive_pixels": 11321,
+  "instrument_identity_verified": "controls reproduced: h33_analogue_foldfair and random match GEMSDOE73/GEMSDOE77 published values on this instrument",
+  "candidate_E2_MPC_SPACED": {
+   "dti": 0.09768409956058045,
+   "ci95": [
+    0.07798470587705178,
+    0.11630343310261239
+   ]
+  },
+  "E1_BASE_SPACED_ablation": {
+   "dti": 0.08559723748983243,
+   "ci95": [
+    0.06479961395017775,
+    0.10776279643872465
+   ]
+  },
+  "E3_MPC_ONLY_SPACED_ablation": {
+   "dti": 0.04419016382228529,
+   "ci95": [
+    0.036866751973163754,
+    0.05114801469357528
+   ]
+  },
+  "control_h33_analogue_foldfair": {
+   "dti": 0.09386085313581098,
+   "ci95": [
+    0.08006891393398533,
+    0.10693407836496929
+   ]
+  },
+  "random_control": {
+   "dti": 0.04837354917359226,
+   "ci95": [
+    0.04313942950125053,
+    0.053717327880634595
+   ]
+  },
+  "paired_deltas_candidate_minus": {
+   "E1_BASE_SPACED": {
+    "delta": 0.012086862070748022,
+    "ci95": [
+     0.0027220939115023784,
+     0.021744008187930538
+    ]
+   },
+   "E3_MPC_ONLY_SPACED": {
+    "delta": 0.05349393573829516,
+    "ci95": [
+     0.035858159458978495,
+     0.07139782722889625
+    ]
+   },
+   "h33_analogue_foldfair": {
+    "delta": 0.003823246424769472,
+    "ci95": [
+     -0.012033140746150695,
+     0.019985130937774338
+    ]
+   },
+   "random_control": {
+    "delta": 0.04931055038698819,
+    "ci95": [
+     0.0303180733409293,
+     0.06776961323048053
+    ]
+   }
+  },
+  "surface_auc_vs_withheld": {
+   "E1_BASE": 0.6738,
+   "E2_MPC": 0.6964,
+   "E3_MPC_ONLY": 0.5092
+  },
+  "per_fold_spaced": {
+   "E1_BASE_SPACED": [
+    {
+     "fold": "NW",
+     "dti": 0.06449,
+     "n_truth": 1923,
+     "n_emitted": 7136
+    },
+    {
+     "fold": "NE",
+     "dti": 0.0866,
+     "n_truth": 2367,
+     "n_emitted": 4107
+    },
+    {
+     "fold": "SW",
+     "dti": 0.0815,
+     "n_truth": 3781,
+     "n_emitted": 13547
+    },
+    {
+     "fold": "SE",
+     "dti": 0.10471,
+     "n_truth": 3250,
+     "n_emitted": 8703
+    }
+   ],
+   "E2_MPC_SPACED": [
+    {
+     "fold": "NW",
+     "dti": 0.09083,
+     "n_truth": 1923,
+     "n_emitted": 6256
+    },
+    {
+     "fold": "NE",
+     "dti": 0.087,
+     "n_truth": 2367,
+     "n_emitted": 4543
+    },
+    {
+     "fold": "SW",
+     "dti": 0.08654,
+     "n_truth": 3781,
+     "n_emitted": 13325
+    },
+    {
+     "fold": "SE",
+     "dti": 0.12254,
+     "n_truth": 3250,
+     "n_emitted": 9517
+    }
+   ],
+   "E3_MPC_ONLY_SPACED": [
+    {
+     "fold": "NW",
+     "dti": 0.03683,
+     "n_truth": 1923,
+     "n_emitted": 8355
+    },
+    {
+     "fold": "NE",
+     "dti": 0.03992,
+     "n_truth": 2367,
+     "n_emitted": 10489
+    },
+    {
+     "fold": "SW",
+     "dti": 0.04605,
+     "n_truth": 3781,
+     "n_emitted": 9613
+    },
+    {
+     "fold": "SE",
+     "dti": 0.05163,
+     "n_truth": 3250,
+     "n_emitted": 8099
+    }
+   ],
+   "h33_analogue_foldfair": [
+    {
+     "fold": "NW",
+     "dti": 0.08698,
+     "n_truth": 1923,
+     "n_emitted": 8888
+    },
+    {
+     "fold": "NE",
+     "dti": 0.11285,
+     "n_truth": 2367,
+     "n_emitted": 10203
+    },
+    {
+     "fold": "SW",
+     "dti": 0.08307,
+     "n_truth": 3781,
+     "n_emitted": 10596
+    },
+    {
+     "fold": "SE",
+     "dti": 0.09477,
+     "n_truth": 3250,
+     "n_emitted": 5388
+    }
+   ],
+   "random_control": [
+    {
+     "fold": "NW",
+     "dti": 0.04428,
+     "n_truth": 1923,
+     "n_emitted": 8135
+    },
+    {
+     "fold": "NE",
+     "dti": 0.04346,
+     "n_truth": 2367,
+     "n_emitted": 9992
+    },
+    {
+     "fold": "SW",
+     "dti": 0.05618,
+     "n_truth": 3781,
+     "n_emitted": 9563
+    },
+    {
+     "fold": "SE",
+     "dti": 0.04681,
+     "n_truth": 3250,
+     "n_emitted": 7798
+    }
+   ]
+  },
+  "pass1_preregistered_emitter_reading_IR-78-EMIT-01": {
+   "note": "As preregistered, vendor greedy_allocate+top-up produced contiguous dot runs (98.9% of dots with neighbour <=1.5 px, median NN 1.0 px), a defective geometry under the 300 m kernel. Those scores are retained here, not deleted: E2 0.0471 / E1 0.0366 / E3 0.0128 / control 0.0939 / random 0.0484 (evidence/h78mpc_experiments.json). Pass-2 re-emitted the FROZEN surfaces with the control's spaced emitter; no retraining. The MPC-vs-base paired effect is significant under BOTH emitters (+0.0105 clustered, +0.0121 spaced).",
+   "scores_clustered": {
+    "E1_BASE": {
+     "dti": 0.03663803470970382,
+     "ci95": [
+      0.018314640682636198,
+      0.05728423807896303
+     ]
+    },
+    "E2_MPC": {
+     "dti": 0.04710250817570796,
+     "ci95": [
+      0.029061947294349116,
+      0.0668082770720824
+     ]
+    },
+    "E3_MPC_ONLY": {
+     "dti": 0.012828919343187462,
+     "ci95": [
+      0.007820575030332549,
+      0.018308460096546752
+     ]
+    },
+    "h33_analogue_foldfair": {
+     "dti": 0.09386085313581098,
+     "ci95": [
+      0.08006891393398533,
+      0.10693407836496929
+     ]
+    },
+    "random_control": {
+     "dti": 0.04837354917359226,
+     "ci95": [
+      0.04313942950125053,
+      0.053717327880634595
+     ]
+    }
+   }
+  },
+  "caveat": "Candidate-vs-control paired delta is +0.0038 with 95% CI [-0.012, +0.020]: the point estimate beats the fold-fair H33 control but the advantage is NOT statistically significant. Holdout truth is the visible catalogue, so this instrument cannot reward genuinely new-fault geometry beyond catalogue-like structure (proxy limitation)."
+ },
+ "organizer_confirmed_scores": "None for any artifact in this repo. Live scores cited (H33 0.2778, leaderboard 0.4413, etc.) are user-reported submission-page receipts from sibling submissions, labelled as such wherever used. No projection is written as a score.",
+ "leakage_canary": {
+  "max_symmetric_auc": 0.6105,
+  "threshold": 0.9,
+  "passed": true,
+  "n_features_tested": 80,
+  "when": "before any model fitting"
+ },
+ "correlation_overlap_vs_registry": {
+  "registry_unique_rasters_compared": 74,
+  "informative_excl_spacefilling_witnesses": 71,
+  "preplacement_surface_max_abs_spearman_rho_sampled300k_fixedseed": 0.1546,
+  "rho_limit": 0.9,
+  "final_dots_worst_mutual_3px_informative": 0.4879,
+  "final_dots_worst_forward_3px_informative": 0.73,
+  "final_dots_worst_forward_3px_literal_all_rasters": 0.9914,
+  "overlap_limit_preregistered_mutual": 0.7,
+  "worst_mutual_raster": {
+   "name": "gems70-p5-multiphysics-submodular-37654-20261020.tif",
+   "sha256": "f19a78d511f9",
+   "their_dots": 37654,
+   "forward_overlap_mine_in_theirs3px": 0.5059,
+   "reverse_overlap_theirs_in_mine3px": 0.4879,
+   "mutual": 0.4879,
+   "their_3px_halo_fp_fraction": 0.1378
+  },
+  "unique_preregistered_gate": true,
+  "disclosure": "Forward-only readings exceed 0.70 only against (a) the 206,895-dot r13 lattice witness whose 3-px halo covers 99.9% of the footprint (vacuous test, disclosed) and (b) one 54,000-dot raster (forward 0.73, mutual 0.42). The preregistered criterion is mutual overlap, following GEMSDOE70/73 precedent; all per-raster rows are in evidence/h78mpc_uniqueness.json.",
+  "dot_spacing": {
+   "frac_nn_le_1p5": 0.0,
+   "median_nn": 3.0
+  }
+ },
+ "raster_sha256": "c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256",
+ "superseded_defective_raster_sha256": "28dd7adf9bf717e3db49cfc8be17615c7b35434e88f2aa4d80e47b6c070c3c08",
+ "validator_output": {
+  "all_checks_passed": true,
+  "checks": {
+   "single_band": true,
+   "dtype_float32": true,
+   "dimensions_3730x3292": true,
+   "crs_epsg_32611": true,
+   "transform_matches_sample_submission": true,
+   "no_nan_anywhere": true,
+   "no_inf_anywhere": true,
+   "no_sentinel_values": true,
+   "range_0_1_guaranteed": true,
+   "min_ge_0": true,
+   "max_le_1": true,
+   "in_footprint_all_finite": true,
+   "in_footprint_range_0_1": true,
+   "outside_footprint_zero": true,
+   "zero_dots_on_mapped_catalogue": true
+  },
+  "no_nan_inside_footprint": true,
+  "no_nan_anywhere": true,
+  "values_in_0_1": true,
+  "min": 0.0,
+  "max": 1.0,
+  "n_nan": 0,
+  "nodata_tag": null,
+  "crs_shape_transform_match": true,
+  "dots": 37654,
+  "on_catalogue_dots": 0,
+  "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance"
+ },
+ "submission_name": "gems78-h78mpc-monogenic-pc-spaced-37654-20261021",
+ "submission_note": "H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots",
+ "submission_note_chars": 111,
+ "file": "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif",
+ "zip_file": "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.zip",
+ "ok_to_download": true,
+ "ok_to_submit": true,
+ "ok_to_submit_qualification": "YES for a human selector to spend one weekly slot, with stated caveats: (1) holdout advantage over the H33 fold-fair control is a non-significant +0.0038; (2) emission was corrected post-hoc (IR-78-EMIT-01), both readings published; (3) no organizer score exists for this file. The MPC-vs-base effect itself is significant and emitter-independent.",
+ "weekly_slots_used_by_agent": 0,
+ "experiments_used": "3 preregistered arms (E1/E2/E3) + 1 disclosed Pass-2 emission-defect correction on frozen surfaces",
+ "preregistered_gate_evaluation": {
+  "E2_gt_E1_paired_ci_lower_gt_0": true,
+  "E2_gt_0.0939_control_point_estimate": true,
+  "surface_rho_le_0.90": true,
+  "mutual_3px_overlap_le_0.70": true,
+  "validator_all_passed": true
+ },
+ "verdict": "promote"
+}
