@@ -1,0 +1,23 @@
+{
+  "evidence_class": "REGISTRY-MEASUREMENT",
+  "scope": "One newly re-downloaded comparator; not complete registry",
+  "reference_repo": "buffedlizard55-lab/GEMSDOE70",
+  "reference_blob": "cd915f3f67ba82aa7f99412fc10f1586b49bfab1",
+  "reference_sha256": "00e8e1cb6ea34dbe2f6dc0ba3b7cc0d8d18ae2b0aaec11552bfa3ef11f1ea9f2",
+  "rows": [
+    {
+      "lane": "H78-A",
+      "candidate_sha256": "6815eac5ff08d913207fa725b7be8ce79c0493d480d17591b7415ab0062acc54",
+      "forward_overlap": 0.4675890224540712,
+      "reverse_overlap": 0.2967037037037037,
+      "rank_correlation": 0.012957573033251416
+    },
+    {
+      "lane": "H78-MPC",
+      "candidate_sha256": "c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256",
+      "forward_overlap": 0.7300154034099963,
+      "reverse_overlap": 0.4172777777777778,
+      "rank_correlation": 0.03388743035326935
+    }
+  ]
+}

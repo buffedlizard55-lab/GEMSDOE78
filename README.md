@@ -1,109 +1,72 @@
-# GEMSDOE78 — DOE GEMS competition 306
+# GEMSDOE78 — automated submission-readiness review
 
-**Read `PROMPT.md` at the start of every session.** It is the specification: unique GeoTIFF, obvious OK / not-OK, hide-and-recover holdout, no unlabeled numbers, no copied submission, three experiments then stop.
+## Download status: YES to download · NO to submit
 
-**Site:** https://buffedlizard55-lab.github.io/GEMSDOE78/ · **Status feed:** `docs/data/status.json` · **This session's run card:** `evidence/h78spy_run_card.json`
+**Every TIFF in this repository is downloadable for inspection, and none is approved for a competition slot.**
+The automatic release audit overrides previous promotion claims for H78-A and H78-MPC. A later session generated one new inspection raster, H78-SPY, and that file is also blocked: it lost to its holdout control and 92.45% of its dots lie within 3 px of H78-A. Do not rename or perturb a blocked file and call it new.
 
-## Status (2026-10-21, this session) — OK TO SUBMIT: NO
+- [Download and validation dashboard](https://buffedlizard55-lab.github.io/GEMSDOE78/)
+- [Executive submission guide](docs/executive-summary.html)
+- [Authoritative machine-readable release card](evidence/release_audit.json)
+- [Scientific review, ranked hypotheses, sources and next steps](docs/review-release.md)
 
-| Item | Value |
-|---|---|
-| New file | `docs/downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif` |
-| sha256 | `0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3` |
-| OK to submit | **NO.** Verdict `negative`. Do not upload it. |
-| Why | HOLDOUT-DTI **0.1808** [0.1623, 0.1985] (evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives) vs reproduced control **0.1826**. Paired delta −0.0018 [−0.0069, +0.0037]. 92.45% of deployment dots lie within 3 px of H78-A (limit 0.70): duplicate, stop. |
-| ORGANIZER-CONFIRMED | none |
-| Weekly slots used by the agent | 0 |
-| Format | Independent `scripts/verify_tif.py`: all checks passed (finite, [0, 1], EPSG:32611, 3730×3292, sample transform, nodata unset). Format validity is not a clearance. |
+| Candidate | Format | Scientific eligibility |
+|---|---|---|
+| H78-A strike-steered | Automatically revalidated against pinned grid | **Blocked:** only three registry comparators; complete uniqueness not established |
+| H78-MPC monogenic phase congruency | Automatically revalidated against pinned grid | **Duplicate / stop:** recorded forward overlap exceeds the literal threshold |
+| H78-SPY inspection, 2026-10-21 | Format-valid; independent `verify_tif.py` passed | **Blocked:** HOLDOUT-DTI 0.1808 [0.1623, 0.1985] vs reproduced control 0.1826; paired delta −0.0018 [−0.0069, +0.0037]; forward overlap vs H78-A 0.9245. Filename ends in `DO-NOT-SUBMIT`. |
 
-Two hypotheses were preregistered and run. **H78-TOOTH** (across-strike missing-tooth kernel) is falsified: withheld faults sit at median 0.39 of the local spacing, not 1, and the location-proxy features collapsed the learner onto the mapped traces (`evidence/h78tooth_negative.json`). **H78-SPY** (Liu drop-and-refit) is the file above. Neither beat the holdout best. No projection is written as a score.
+Historical run cards under `evidence/` are preserved, not silently rewritten. Their `promote` verdicts are **superseded** by `evidence/release_audit.json`. They are not current upload authorizations. All remaining historical analyses must be read with the current review.
 
-The family's 0.2778 figure remains an **owner-report**. Re-measured this session from the pinned H33 raster: 37,654 dots, exact subset of D2.8, 6,436 removed dots all 1.0–2.0 px from the catalogue, median distance to catalogue 19.6 px, nearest-neighbour median 3.0 px. GEMSDOE32's own page, re-fetched 2026-10-21, says no organiser score exists for that file (IR-78-17). Beating that owner-report needs a better off-catalogue field, which these two experiments did not produce.
+## Current evidence and disposition
 
----
+- **H78-MPC HOLDOUT-DTI:** 0.097684 [0.077985, 0.116303] (evaluator `gems57-pooled-hide-v2`, seed 20, 11,321 withheld positives). The paired difference against the fold-fair H33 analogue is +0.003823 [−0.012033, +0.019985], not significant. The stored same-instrument repository best is H78-A B3 at 0.184312 [0.165785, 0.201451]; the cross-lane comparison is descriptive, not a paired test.
+- **H78-MPC uniqueness:** pre-placement maximum sampled |ρ| = 0.1546 (passes 0.90); one-way forward 3-px overlap = 0.730 against a non-spacefilling registry raster and 0.9914 against the literal all-raster witness (both fail the 0.70 stop threshold). The local 74-raster set is not claimed to be globally exhaustive.
+- **H78-A:** current status is **not cleared** because its historical audit covers only three lineage rasters, not the full locally accessible inventory. This is an evidence gap, not a measured duplicate.
+- Both historical files pass local format/range checks and remain available for research/education. **No organizer receipt exists; no file in this repo has an ORGANIZER-CONFIRMED score.** The release review itself ran no new model experiment and spent no slot. The later tooth/spy session did run two experiments and wrote one inspection TIFF; that TIFF is the blocked H78-SPY row above, not a clearance.
 
-# Previous session — Lane H78-A (not regenerated; not this session's submission)
+## Mandatory starting point for every session
 
-## Core Values (Arena) — read before anything else
-1. **Maximize P(Win).** Every hour goes to the thing most likely to raise the organizer-confirmed score; a negative result that saves a submission slot counts.
-2. **Own the Outcome.** No manual steps, no unlabelled numbers, no hidden irregularities. If a tool is wrong, fix it in the shared template and say so.
+Read this README, [PROMPT.md](PROMPT.md), and [the current review](docs/review-release.md) before running experiments. `PROMPT.md` contains an **excerpt**, not the entire user prompt; the sibling ledger is in `registry/family_scores.csv`. Do not claim that this repository contains a verbatim full prompt.
 
-## Status (2026-10-21, session 1)
+### Current user requirements (operational restatement, not verbatim)
 
-| Item | Value |
-|---|---|
-| Shipped file | `docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif` (+ `.zip`, + receipt `.json`) |
-| sha256 | `6815eac5ff08d913207fa725b7be8ce79c0493d480d17591b7415ab0062acc54` |
-| OK to submit | **Previous-session gate only: YES** for that older file (canary, uniqueness, validator). It is not this session's new submission. The live homepage does not clear a new slot. Halo risk IR-78-09 still applies. |
-| Submission name | `gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros` |
-| Note (120 chars) | `GEMSDOE78 H78-A strike-steered HGB, 44090 dots >=283m apart, flank<=3px pruned; HOLDOUT-DTI 0.1826 s20; not a projection` |
-| HOLDOUT-DTI | **0.1826** [0.1628, 0.2004] (evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives) |
-| Controls (same folds) | A2 B2 0.1586 · A1 isotropic 0.1462 · A0 raw-19 0.1376 · registry D2.8 0.0919 · registry H33 0.0037 (structurally capped) |
-| ORGANIZER-CONFIRMED | none — the file has not been uploaded. A holdout number is never a projection. |
-| Open risk | IR-78-09: dots concentrate nearer the catalogue than H33 (median 6 px vs 19.6 px). See the home page box and `evidence/h78_distance_diagnostic.json`. |
+- Generate genuinely new, single-band GeoTIFF predictions, never copy or rename an old submission as new. Use the cached feature stack, shared evaluator and writer.
+- Remain in one explicitly assigned method lane. This session's prompt did not identify a distinct method paragraph; do not infer permission to mix the two historical lanes.
+- Before placement and on final dots, check the complete indexed registry. Rank correlation above 0.90 or **forward** 3-pixel dot overlap above 70% means duplicate: log and stop. Do not substitute mutual overlap or exclude inconvenient comparators.
+- Whole-segment buffered hide-and-recover; catalogue-derived features from visible faults only; exact visible-fault mask; pooled DTI with alpha 0.2, beta 0.8 and 300 m triangular kernel. Test each feature alone; AUC above 0.90 blocks pending leakage investigation.
+- Every measured competition-performance result must identify HOLDOUT-DTI with evaluator version, withheld positives and 95% CI, or ORGANIZER-CONFIRMED with a submission-page receipt. Unverified owner reports are not confirmed scores; projections are not scores. Diagnostic counts, hashes and overlaps are not DTI scores.
+- Propose and rank three to five geological hypotheses before implementation. Name layers, transform, missing-fault mechanism and non-fault mimic. Compare against current best on matched holdout, not only a weak control. No new external-data dependency is viable until availability is verified.
+- Stop after three experiments or two hours. Slot selection is separate and must respect a freshly verified weekly cap. No competition upload was authorized or performed here.
+- Automatically validate decoded TIFF values, finiteness, footprint, CRS, shape and transform. Give an obvious download/status panel, executive submission guide, unique name, note of at most 140 characters, SHA-256 and final JSON run card.
+- Preserve official-source provenance and explicitly flag inaccessible sources and conflicting leaderboard claims. No fabricated acceptance, live feed, literature verification or leaderboard prediction.
+- Review in three passes: implementation, defect/edge-case review, and final requirement audit. Open and merge a PR on completion; document limitations and next work.
 
-## How to submit
-The live homepage banner is the decision. It currently says **OK TO SUBMIT: NO** for the new file. Do not upload a file whose page says NO. Steps, the portal [0, 1] failure mode, and the earlier H78-A file are on `docs/executive-summary.html`. Record any future portal score in `registry/live_scores.csv` as ORGANIZER-CONFIRMED. A holdout number is never that score.
+## Core values
 
-## What was done (3 experiments + 1 declared diagnostic, ~1 h 45 m)
-* **Forensics** of the family's best file (why 0.2778): `scripts/forensics_h33.py` → `evidence/forensics_h33_vs_d28.json`; narrative in `research/h78_hypotheses.md` §0 and the site's *Hypotheses* page.
-* **Hypotheses H78-A…E** ranked by expected DTI gain × cost (`research/h78_hypotheses.md`); top candidate H78-A = steer multi-scale derivative filters of topography, magnetics, gravity, basement depth, conductivity, radiometrics into the regional catalogue-strike frame (orientation only, never location). Preregistered in `registry/preregistration.json`.
-* **Exp 1–2** (`scripts/run_holdout.py --seed 20`): spatially-blocked hide-and-recover holdout (whole components hidden, 3 px buffer, visible faults masked pixel-exactly, pooled DTI α 0.2 β 0.8, 300 m kernel), three arms, leakage canary, budget sweep, registry comparators. Paired block-bootstrap CIs: `scripts/pooled_ci.py`.
-* **Exp 3** (`scripts/build_submission.py`): fit A2 on the full catalogue, emit 44,090 dots ≥ 2.8 px apart with the ≤ 3 px catalogue flank removed, uniqueness audit before placement and on final dots, writer + independent validator, run card.
-* **Diagnostic** (`scripts/diagnose_distance.py`): credit-per-dot by distance to visible faults; far-truth stratum test. Led to amendment IR-78-01b (B3 primary).
-* **Site** (`scripts/build_site.py` → `docs/`), **tests** (`pytest tests`), **knowledge store** (`research/knowledge.md`), **sources/irregularities** (`registry/*.json`).
+**Maximize P(Win):** prioritize evidence that improves the probability of success, including negative results that save scarce slots. **Own the Outcome:** correct false readiness claims end to end, preserve audit trails, and do not shift automated validation to a human inspector.
 
-## Reproduce
+## Reproduce the release review
+
 ```bash
-pip install -r requirements.txt            # add --break-system-packages on Debian images
-bash scripts/restore_data.sh               # SHA-256-pinned inputs from the family's GitHub mirrors (needs gh auth)
-python scripts/forensics_h33.py
-python scripts/run_holdout.py --seed 20    # ~14 min on 2 CPUs, 4 GB
-python scripts/pooled_ci.py
-python scripts/build_submission.py         # ~3 min with cached features
-python scripts/diagnose_distance.py
-python scripts/build_site.py && python -m pytest -q tests
+python -m venv .venv
+.venv/bin/pip install -r requirements.txt
+# Restore pinned inputs; this historical command also fetches large training data:
+bash scripts/restore_data.sh
+.venv/bin/python scripts/audit_release.py
+.venv/bin/python -m pytest -q tests
 ```
-Deterministic: two builds produced byte-identical rasters (same sha256).
 
-## Layout
-`src/gems78/` lane code · `vendor/gems57/` shared template, unmodified (pins in GEMSDOE77 `registry/template_pin.json`) · `scripts/` runnable steps · `evidence/` every JSON/log a number on the site comes from · `registry/` preregistration, sources, irregularities, data manifest, live scores · `research/` hypotheses + knowledge · `docs/` GitHub Pages site and downloads · `tests/`.
+For a format-only review, just the `sample_submission` and `existing_faults` entries in `registry/data_manifest.json` are needed. They were restored and SHA-256 verified in this session. Both historical site generators now end with the common release audit, so rebuilding cannot restore a false green banner.
 
-## Concurrent blocked review (same day)
-A parallel session without data access published a *NOT READY* site and negative run card (PRs #3–#5). They are preserved verbatim under `docs/archive/blocked-review-2026-10-21/` and `docs/review-2026-10-21.md`; two of their observations are carried forward as IR-78-12 (leaderboard snapshot 0.4413 / 0.3904, 2026-10-21) and IR-78-13 (0.2778 provenance conflict between GEMSDOE32 and GEMSDOE71). This lane's state supersedes theirs because the inputs were restored and verified here (`data/restore_sha256.txt`).
+The audit reports a negative result rather than uploading anything. Missing reference data fails validation closed. No GPU is required for this audit; the official reference implementation also supports CPU training.
 
-## Limitations (honest list)
-1. **Holdout ≠ live.** Withheld truth lies median 9 px from a visible fault; live truth may not. The catalogue-truth proxy over-rewards near-halo dots (GEMSDOE32 saw +0.010 holdout turn into −0.003 live for a coverage change). Mitigation: the candidate's advantage persists on withheld truth > 10 px from visible faults, but the absolute level there is low (0.066).
-2. **One seed.** Only seed 20 was run; CIs are block-bootstrap within one draw, not across draws.
-3. **Flank radius chosen after results** (IR-78-01b). Transparent, consistent with the live D2.8 → H33 step, but not preregistered.
-4. **No organizer score** exists for anything in this repo; the 0.2778 / 0.3195 / 0.4413 figures are family or prompt claims.
-5. **Not an organizer-strength detector.** HGB on hand-made filters, not the U-Net reference; CPU-only sandbox.
-6. **External sources** outside github.com could not be re-fetched here; `registry/sources.json` states the fetch status of each link for manual review.
+## Next work and limitations
 
-## Next session
-* Seed 30 (and 40) holdout replicate; report across-seed spread.
-* Distance-stratified budget test (match H33's live distance profile) and a flank sweep 3–6 px — only on the holdout's far-truth stratum, to avoid the halo bias.
-* Budget sweep 44–60 k dots with B3 (holdout keeps rising to 50 k: 0.1843).
-* Detector upgrade: small U-Net over the 19 bands + steered features, trained with the same buffered-component folds (organizer reference solution as the baseline class).
-* After the first upload: copy the ORGANIZER-CONFIRMED score into `registry/live_scores.csv` and re-run `build_site.py`.
+1. Resolve the literal duplicate stop condition and assign a single lane before any new experiment. The current review contains three deferred hypotheses, not promised score gains.
+2. Build a hash-pinned, complete accessible registry inventory and audit surfaces as well as final dots with the exact requested statistics. Preserve scope: accessible owner repositories are not the organizer's complete submission registry.
+3. Then evaluate the top authorized candidate against the current best on matched folds with an independent seed and paired confidence intervals. The existing estimates are single-seed and do not establish live improvement.
+4. Obtain organizer receipt evidence and verify the weekly cap through the official submission page before a separate selector considers an upload. No DrivenData connection is available here and the host is outside the sandbox network allowlist.
+5. Official literature/rules/data hosts outside GitHub were not fetched. The pinned official reference README was retrieved; mirror hashes establish file identity, not organizer provenance.
 
----
-
-## Second independent lane (parallel session, merged additively): H78-MPC monogenic phase congruency
-
-A separate parallel session ran a distinct lane and it is preserved as a **second promoted candidate**
-(not a replacement for the H78-A primary above). Selector guidance: **H78-A first** (HOLDOUT-DTI 0.1826);
-H78-MPC is the diverse second file for a separate slot (mutual 3-px dot overlap vs H78-A = **0.3552 ≤ 0.70**,
-`evidence/h78mpc_vs_h78a_overlap.json`).
-
-| Item | Value |
-|---|---|
-| Page / guide | [`docs/h78mpc.html`](docs/h78mpc.html) · [`docs/h78mpc-executive-summary.html`](docs/h78mpc-executive-summary.html) |
-| File | `docs/downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif` (+ `.zip`, receipt) |
-| sha256 | `c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256` |
-| OK to submit | **YES** — verdict `promote` (preregistered gate; see caveats) |
-| Name / note (111) | `gems78-h78mpc-monogenic-pc-spaced-37654-20261021` / `H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots` |
-| HOLDOUT-DTI | **0.0977** [0.078, 0.116] (same evaluator/seed/11,321 withheld; H33 fold-fair control 0.0939; paired +0.0038 [−0.012, +0.020] n.s.; vs no-MPC ablation +0.0121 [0.0027, 0.0217] significant) |
-| Method | Riesz monogenic phase-congruency features (σ=1/2/4) + Frangi over a 48-band stack, LOQO HGB, spaced 37,654 dots; canaries 80/80 PASS; uniqueness ρmax 0.1546, mutual 0.4879 vs 74 registry rasters |
-| Disclosure | IR-78-EMIT-01: Pass-1 allocator emitted contiguous dot runs (HOLDOUT-DTI 0.0471); Pass-2 re-emitted frozen surfaces spaced (no retraining) → 0.0977. Both readings in `evidence/h78mpc_*.json`; run card `evidence/h78mpc_run_card.json`. Note: this lane's arms exclude visible-network context features, which is why its holdout trails H78-A — the significant MPC ablation is the transferable result |
-| Reproduce | `scripts/build_features.py` → `run_experiments.py` → `pass2_spaced_emission.py` → `build_production.py` → `pass2_rebuild_production.py` → `make_figures.py` / `build_run_card_mpc.py` / `build_site_mpc.py` (data: `scripts/restore_data.py`, manifest `registry/data_manifest_gems73.json`) |
+Previous reproduction instructions, results, and caveats are retained in [the historical README](research/history/README-before-release-audit.md); its promotion guidance is obsolete.

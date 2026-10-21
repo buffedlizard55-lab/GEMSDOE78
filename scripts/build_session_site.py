@@ -100,7 +100,17 @@ def main():
     (DOCS / "downloads" / "run_card_h78spy.json").write_text(json.dumps(spy, indent=2))
 
     home = f"""
-<div class="banner no">OK TO SUBMIT: NO. Do not upload <code>{esc(file)}</code>. It failed the holdout gate and it is a duplicate of the earlier H78-A raster.</div>
+<div class="banner no">OK TO DOWNLOAD: YES · OK TO SUBMIT: NO. Do not upload <code>{esc(file)}</code>. It failed the holdout gate and it is a duplicate of the earlier H78-A raster. The older H78-A and H78-MPC files are blocked too.</div>
+<div class="card">
+<h2 style="margin-top:0">Every downloadable file is blocked</h2>
+<table>
+<tr><th>File</th><th>Gate</th><th></th></tr>
+<tr><td>H78-SPY, this session</td><td>NO — holdout 0.1808 vs control 0.1826, and 92.45% of dots within 3 px of H78-A</td><td><a href="downloads/{esc(file)}">Download inspection GeoTIFF</a></td></tr>
+<tr><td>H78-A, previous session</td><td>NO — INCOMPLETE uniqueness check: only three lineage rasters (release audit, IR-78-16). Not a measured duplicate, and not cleared.</td><td><a href="downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif">Research TIFF — do not submit</a></td></tr>
+<tr><td>H78-MPC, previous session</td><td>NO — forward 3 px overlap 0.730 against a non-spacefilling registry raster (IR-78-14). Stop.</td><td><a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif">Research TIFF — do not submit</a></td></tr>
+</table>
+<p>Historical audit: <a href="data/release_audit.json">release_audit.json</a> · <a href="review-release.md">review</a>. This session's card: <a href="downloads/run_card_h78spy.json">run_card_h78spy.json</a>.</p>
+</div>
 <div class="card">
 <h2 style="margin-top:0">Download — inspection only</h2>
 <p>The file is format-valid. That is not permission to submit it. The filename contains <b>DO-NOT-SUBMIT</b>.</p>
@@ -122,7 +132,7 @@ def main():
 </div>
 <div class="card">
 <h2 style="margin-top:0">Why h33-h33-2-b2 is the family's best owner-reported file, and whether we can beat 0.2778</h2>
-<p><span class="tag n">owner-report</span> The prompt lists 0.2778 for <code>h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros</code>. That number is <b>not</b> ORGANIZER-CONFIRMED in this repository. The GEMSDOE32 page, re-fetched this session, says no organiser score exists for that file and its own note says projected 0.2747, unscored (IR-78-17). What was re-measured here, from the SHA-256-pinned raster <code>c55bafc4…</code>, is the structure:</p>
+<p><span class="tag n">owner-report</span> The prompt lists 0.2778 for <code>h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros</code>. That number is <b>not</b> ORGANIZER-CONFIRMED in this repository. The GEMSDOE32 page, re-fetched this session, says no organiser score exists for that file and its own note says projected 0.2747, unscored (IR-78-20). What was re-measured here, from the SHA-256-pinned raster <code>c55bafc4…</code>, is the structure:</p>
 <ul>
 <li>H19-5 is 121,131 line pixels. D2.8 is 44,090 binary dots, all of them on those lines. H33 is the 37,654-dot subset of D2.8.</li>
 <li>The 6,436 removed dots all lie 1.0–2.0 px from the catalogue. H33's own dots have nearest-neighbour spacing minimum 2.83 px, median 3.0 px, and median distance to the catalogue 19.6 px. Zero dots sit on the catalogue. Every value is 0 or 1, every cell finite, nodata unset.</li>
@@ -142,7 +152,7 @@ def main():
 <li>No file in this repository has an ORGANIZER-CONFIRMED score. Prompt figures 0.2778, 0.3195 and 0.4413 were not copied from a DrivenData receipt this session. The public leaderboard is login-walled from here.</li>
 <li>The catalogue hide-and-recover holdout cannot see a fault that does not resemble a withheld mapped component. A live gain is not implied by a holdout gain, and a holdout loss is not a live score either. It is enough to refuse a slot.</li>
 <li>The agent spent 0 weekly slots. Promotion is a human selector decision. The selector should not spend one on the file above.</li>
-<li>An earlier session's H78-A file (HOLDOUT-DTI 0.1826, its own promote gate) is preserved at <a href="h78a.html">h78a.html</a>. This session did not copy it into a new submission. It is the control this session failed to beat, not a new result.</li>
+<li>An earlier session's H78-A file (HOLDOUT-DTI 0.1826) is the control this session failed to beat. A later release audit blocked it for an incomplete uniqueness check (IR-78-16). It is preserved at <a href="h78a.html">h78a.html</a> and is not a new clearance.</li>
 </ul>
 </div>
 <div class="card">
@@ -159,7 +169,7 @@ def main():
     (DOCS / "index.html").write_text(page("GEMSDOE78 — do not submit this session's file", home))
 
     steps = f"""
-<div class="banner no">OK TO SUBMIT: NO. Stop on this page if you were about to upload the new GeoTIFF.</div>
+<div class="banner no">OK TO DOWNLOAD: YES · OK TO SUBMIT: NO. Stop on this page if you were about to upload the new GeoTIFF.</div>
 <div class="card">
 <h2 style="margin-top:0">Decision</h2>
 <p>This session generated one new GeoTIFF. It is format-valid and it is <b>not</b> cleared for a weekly slot.</p>

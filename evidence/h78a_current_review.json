@@ -1,0 +1,16 @@
+{
+  "lane": "H78-A",
+  "evidence_class": "REVIEW-STATUS",
+  "historical_run_card_verdict": "promote",
+  "current_prompt_status": "not-cleared",
+  "prior_uniqueness_scope": "The historical H78-A run card reports comparison to the H19-5, D2.8, and H33 lineage rasters; it does not evidence a full comparison against the 74-raster local inventory used in the H78-MPC audit.",
+  "current_protocol_requirement": "Check pre-placement surface rank-correlation and literal one-way final-dot overlap against every accessible registry raster; fail closed if evidence is incomplete.",
+  "ok_to_download": true,
+  "download_purpose": "Research / education only until the strict registry audit is completed.",
+  "ok_to_submit": false,
+  "duplicate_claim": false,
+  "reason": "The strict full-registry uniqueness check was not performed for H78-A in this review. This is an evidence gap, not a measured duplicate finding.",
+  "weekly_slots_used_by_this_review": 0,
+  "experiments_run_by_this_review": 0,
+  "action": "Keep the existing TIFF available for research, but do not upload or describe it as cleared under the current literal registry rule. A new lane review would need a complete registry audit before any slot decision."
+}

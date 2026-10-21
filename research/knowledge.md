@@ -46,13 +46,23 @@ unless stated. `registry/sources.json` is the machine-readable twin of this file
 * Far-truth stratum (> 10 px from any visible fault, 5,150 positives): A2 0.066 vs A1 +0.0147 [+0.006, +0.024], vs A0 +0.0283 [+0.017, +0.040]; on par with D2.8.
 * Distance-to-catalogue profile of the shipped primary: median 6.0 px, 43 % ≤ 5 px (H33: 19.6 px, 15 %). Open risk IR-78-09.
 
-## 5 Standing rules for every session
-Read PROMPT.md and README.md first. Label every number. Never write a projection as a score. Check uniqueness before placement and on final dots. Fix shared tools in the template, never fork. Three experiments or two hours, then stop and write the run card.
+## 5 H78-MPC audit correction (2026-10-21)
 
-## 6 Session 2026-10-21 tooth/spy (MEASURED)
+The downloadable H78-MPC raster is **research/education only; not OK to submit**. The measurements below were already present in the repository; this review added no model experiment and spent no submission slot.
 
-* H33 structure re-measured from pinned bytes: 37,654 dots, subset of D2.8 (44,090), all on H19-5 (121,131); 6,436 removed dots at distance 1.0–2.0 px from the catalogue; H33 nearest-neighbour min 2.828 px, median 3.0; distance-to-catalogue p50 19.65 px; values {0, 1}; nodata unset. Script: inline check in the session log; same facts as `evidence/forensics_h33_vs_d28.json`.
-* GEMSDOE32 page fetched 2026-10-21 says no organiser score exists for H33-2-B2 (IR-78-17). 0.2778 stays an owner-report.
-* H78-TOOTH negative. Withheld d/λ p50 0.385; gap1 mean 0.118 on withheld vs 0.191 on background; symmetric AUC 0.514. Learner scores >0.5 on exactly the 48,340 visible training positives. `evidence/h78tooth_negative.json`.
-* H78-SPY HOLDOUT-DTI 0.1808 [0.1623, 0.1985] vs reproduced A2 control 0.1826; paired delta −0.0018 [−0.0069, +0.0037]; evaluator gems57-pooled-hide-v2, 11,321 withheld. Deployment forward 3 px overlap vs H78-A = 0.9245. Verdict negative, duplicate, not OK to submit. `evidence/h78spy_run_card.json`.
+* **HOLDOUT-DTI** (evaluator `gems57-pooled-hide-v2`, 11,321 withheld positives, seed 20; 95% CI): H78-MPC spaced candidate 0.0977 [0.0780, 0.1163]. Its paired difference from the fold-fair H33 analogue is +0.0038 [-0.0120, +0.0200], not statistically distinguishable from zero. The no-MPC ablation difference is +0.0121 [+0.0027, +0.0217], a feature-family ablation signal, not evidence that the candidate beats the project's best.
+* **HOLDOUT-DTI** (same evaluator/seed/withheld count; 95% CI): highest recorded same-instrument value in the current evidence is `A2_h78_steered|nms0_B3|50000` at 0.1843 [0.1658, 0.2015]. This is a different H78-A arm; its comparison with H78-MPC is descriptive only (no paired cross-lane CI was computed). H78-MPC does not beat the current repository holdout best.
+* **REGISTRY-MEASUREMENT:** pre-placement max absolute sampled Spearman rho is 0.1546 (limit 0.90, pass). Final-dot forward overlap within 3 px is 0.730 against the non-spacefilling GEMSDOE70 raster and 0.9914 against the R13 lattice (limit 0.70, both fail). The prior code/card used mutual overlap and an exception for space-filling rasters; that does not implement the literal `PROMPT.md` criterion. The comparison covers 74 locally accessible rasters and is not a global completeness claim. Details: `evidence/h78mpc_uniqueness.json`, `evidence/h78mpc_duplicate_stop.json`, IR-78-14.
+* The TIFF itself remains locally format-valid (float32, EPSG:32611, 3730×3292, sample transform, all finite in [0,1], no NaN, nodata=None); that is **not** organizer acceptance or uniqueness clearance. Its local SHA-256 is `c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256`.
+* Result: verdict `negative`, `ok_to_download=true` for research only, `ok_to_submit=false`, weekly slots used = 0. The hard duplicate-stop rule means no replacement TIF or further H78-MPC experiment is produced in this review.
+
+## 6 Standing rules for every session
+Read PROMPT.md and README.md first. Label every score. Never write a projection as a score. Check the literal forward uniqueness criterion before placement and on final dots. Fix shared tools in the template, never fork. Three experiments or two hours, then stop and write the run card.
+
+## 7 Session 2026-10-21 tooth/spy (MEASURED)
+
+* H78-TOOTH negative. Withheld d/λ p50 0.385; gap1 mean 0.118 on withheld vs 0.191 on background; symmetric AUC 0.514. Learner scores >0.5 on exactly the 48,340 visible training positives. `evidence/h78tooth_negative.json`. IR-78-17.
+* H78-SPY HOLDOUT-DTI 0.1808 [0.1623, 0.1985] vs reproduced A2 control 0.1826; paired delta −0.0018 [−0.0069, +0.0037]; evaluator gems57-pooled-hide-v2, 11,321 withheld. Deployment forward 3 px overlap vs H78-A = 0.9245. Verdict negative, duplicate, not OK to submit. `evidence/h78spy_run_card.json`. IR-78-18.
+* The inspection builder first stored a boolean NaN check and compared it to 0, so its own `passed` flag was false on a format-valid file. Independent `scripts/verify_tif.py` is the binding pass. IR-78-19.
+* GEMSDOE32 page fetched 2026-10-21 says no organiser score exists for H33-2-B2 (IR-78-20). 0.2778 stays an owner-report.
 * Control reproduction on sklearn 1.9.1 matched the published B3 budgets: 0.1778 / 0.1826 / 0.1843 at 37,654 / 44,090 / 50,000 dots.

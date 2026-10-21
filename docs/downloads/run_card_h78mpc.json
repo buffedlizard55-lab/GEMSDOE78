@@ -12,6 +12,7 @@
    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
    "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
   },
+  "seed": 20,
   "protocol": "shared vendor/gems57: buffered whole-component hide-and-recover, seed 20, feature buffer 3 px, boundary erosion 12 px, visible faults masked pixel-exactly, pooled DTI alpha 0.2 beta 0.8, 300 m triangular kernel; CIs = 20 km spatial-block paired bootstrap (1000 draws)",
   "withheld_positive_pixels": 11321,
   "instrument_identity_verified": "controls reproduced: h33_analogue_foldfair and random match GEMSDOE73/GEMSDOE77 published values on this instrument",
@@ -52,6 +53,7 @@
   },
   "paired_deltas_candidate_minus": {
    "E1_BASE_SPACED": {
+    "evidence_class": "HOLDOUT-DTI paired difference",
     "delta": 0.012086862070748022,
     "ci95": [
      0.0027220939115023784,
@@ -59,6 +61,7 @@
     ]
    },
    "E3_MPC_ONLY_SPACED": {
+    "evidence_class": "HOLDOUT-DTI paired difference",
     "delta": 0.05349393573829516,
     "ci95": [
      0.035858159458978495,
@@ -66,6 +69,7 @@
     ]
    },
    "h33_analogue_foldfair": {
+    "evidence_class": "HOLDOUT-DTI paired difference",
     "delta": 0.003823246424769472,
     "ci95": [
      -0.012033140746150695,
@@ -73,12 +77,27 @@
     ]
    },
    "random_control": {
+    "evidence_class": "HOLDOUT-DTI paired difference",
     "delta": 0.04931055038698819,
     "ci95": [
      0.0303180733409293,
      0.06776961323048053
     ]
    }
+  },
+  "current_repo_best_holdout": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "seed": 20,
+   "withheld_positive_pixels": 11321,
+   "candidate": "A2_h78_steered|nms0_B3|50000",
+   "dti": 0.18431154590898757,
+   "ci95": [
+    0.16578477300738595,
+    0.20145090715451924
+   ],
+   "source": "evidence/h78_holdout_seed20.json",
+   "comparison_to_E2_MPC_SPACED": "descriptive point estimates only; no paired difference CI computed in this review"
   },
   "surface_auc_vs_withheld": {
    "E1_BASE": 0.6738,
@@ -257,9 +276,23 @@
     }
    }
   },
-  "caveat": "Candidate-vs-control paired delta is +0.0038 with 95% CI [-0.012, +0.020]: the point estimate beats the fold-fair H33 control but the advantage is NOT statistically significant. Holdout truth is the visible catalogue, so this instrument cannot reward genuinely new-fault geometry beyond catalogue-like structure (proxy limitation)."
+  "caveat": "Candidate-vs-control paired HOLDOUT-DTI difference is +0.0038 with 95% CI [-0.0120, +0.0200]: the point estimate beats the fold-fair H33 control but the advantage is NOT statistically significant. The candidate HOLDOUT-DTI is also below the highest stored same-instrument repository HOLDOUT-DTI. Holdout truth is the visible catalogue, so this instrument cannot reward genuinely new-fault geometry beyond catalogue-like structure (proxy limitation)."
  },
- "organizer_confirmed_scores": "None for any artifact in this repo. Live scores cited (H33 0.2778, leaderboard 0.4413, etc.) are user-reported submission-page receipts from sibling submissions, labelled as such wherever used. No projection is written as a score.",
+ "organizer_confirmed_scores": "None for any artifact in this repo. Sibling-site and user-supplied values (including H33 0.2778 and leaderboard figures) are owner/user reports or dated public-page observations; no submission-page receipt is stored here, so none is classified ORGANIZER-CONFIRMED. No projection is written as a score.",
+ "current_repo_best_holdout": {
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "seed": 20,
+  "withheld_positive_pixels": 11321,
+  "candidate": "A2_h78_steered|nms0_B3|50000",
+  "dti": 0.18431154590898757,
+  "ci95": [
+   0.16578477300738595,
+   0.20145090715451924
+  ],
+  "source": "evidence/h78_holdout_seed20.json"
+ },
+ "candidate_beats_current_repo_best_holdout": false,
  "leakage_canary": {
   "max_symmetric_auc": 0.6105,
   "threshold": 0.9,
@@ -269,14 +302,17 @@
  },
  "correlation_overlap_vs_registry": {
   "registry_unique_rasters_compared": 74,
+  "minimum_recorded_local_registry_count": 74,
+  "recorded_local_registry_scope_passed": true,
+  "scope_note": "This is the 74-raster locally accessible comparison inventory recorded by the prior run, not proof of exhaustive coverage of every sibling site or organizer registry.",
   "informative_excl_spacefilling_witnesses": 71,
   "preplacement_surface_max_abs_spearman_rho_sampled300k_fixedseed": 0.1546,
   "rho_limit": 0.9,
-  "final_dots_worst_mutual_3px_informative": 0.4879,
+  "final_dots_worst_mutual_3px_informative_diagnostic_only": 0.4879,
   "final_dots_worst_forward_3px_informative": 0.73,
   "final_dots_worst_forward_3px_literal_all_rasters": 0.9914,
-  "overlap_limit_preregistered_mutual": 0.7,
-  "worst_mutual_raster": {
+  "overlap_limit_forward": 0.7,
+  "worst_mutual_raster_diagnostic_only": {
    "name": "gems70-p5-multiphysics-submodular-37654-20261020.tif",
    "sha256": "f19a78d511f9",
    "their_dots": 37654,
@@ -285,8 +321,17 @@
    "mutual": 0.4879,
    "their_3px_halo_fp_fraction": 0.1378
   },
-  "unique_preregistered_gate": true,
-  "disclosure": "Forward-only readings exceed 0.70 only against (a) the 206,895-dot r13 lattice witness whose 3-px halo covers 99.9% of the footprint (vacuous test, disclosed) and (b) one 54,000-dot raster (forward 0.73, mutual 0.42). The preregistered criterion is mutual overlap, following GEMSDOE70/73 precedent; all per-raster rows are in evidence/h78mpc_uniqueness.json.",
+  "strict_protocol_gate_passed": false,
+  "duplicate_stop": {
+   "required": true,
+   "reason": "The literal one-way criterion in PROMPT.md is exceeded: 73.00% of candidate dots fall within 3 px of the non-spacefilling 54,000-dot GEMSDOE70 raster; the maximum against all compared rasters is 99.14% against the r13 lattice witness.",
+   "informative_witness": "gems70-p5-submodular-multiphysics-hydro-54000-20261020.tif",
+   "informative_witness_forward_overlap": 0.73,
+   "all_rasters_witness": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+   "all_rasters_forward_overlap": 0.9914,
+   "action": "Reclassify H78-MPC as duplicate/negative; keep its TIF only as a downloadable research artifact and stop without a slot or replacement raster."
+  },
+  "disclosure": "Earlier audit text used mutual overlap and excluded a dense lattice witness. That is not the literal one-way >0.70 stop rule in PROMPT.md. The raw forward and reverse measurements remain in evidence/h78mpc_uniqueness.json; forward overlap is binding here.",
   "dot_spacing": {
    "frac_nn_le_1p5": 0.0,
    "median_nn": 3.0
@@ -331,10 +376,11 @@
  "file": "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif",
  "zip_file": "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.zip",
  "ok_to_download": true,
- "ok_to_submit": true,
- "ok_to_submit_qualification": "YES for a human selector to spend one weekly slot, with stated caveats: (1) holdout advantage over the H33 fold-fair control is a non-significant +0.0038; (2) emission was corrected post-hoc (IR-78-EMIT-01), both readings published; (3) no organizer score exists for this file. The MPC-vs-base effect itself is significant and emitter-independent.",
+ "download_purpose": "Research / education only. Local format validator passes, but this is not an eligible competition submission.",
+ "ok_to_submit": false,
+ "ok_to_submit_qualification": "NO. The candidate is a duplicate under PROMPT.md's literal one-way 3-px criterion (0.730 against an informative registry raster; 0.9914 against the full compared set), and its HOLDOUT-DTI point estimate is below the stored repository best. The H33-control paired 95% CI also crosses zero. No slot was spent; retain the TIF only as a research artifact.",
  "weekly_slots_used_by_agent": 0,
- "experiments_used": "3 preregistered arms (E1/E2/E3) + 1 disclosed Pass-2 emission-defect correction on frozen surfaces",
+ "experiments_used": "Prior run: 3 preregistered arms (E1/E2/E3) + 1 disclosed Pass-2 emission-defect correction on frozen surfaces; this review ran no new experiment.",
  "preregistered_gate_evaluation": {
   "E2_gt_E1_paired_ci_lower_gt_0": true,
   "E2_gt_0.0939_control_point_estimate": true,
@@ -342,5 +388,16 @@
   "mutual_3px_overlap_le_0.70": true,
   "validator_all_passed": true
  },
- "verdict": "promote"
+ "original_preregistered_gate_passed": true,
+ "strict_eligibility_gate_evaluation": {
+  "E2_gt_E1_paired_ci_lower_gt_0": true,
+  "E2_beats_h33_control_paired_ci_lower_gt_0": false,
+  "E2_gt_current_repo_best_holdout_point_estimate": false,
+  "registry_at_least_74_recorded_local_rasters": true,
+  "surface_rho_le_0.90": true,
+  "forward_3px_overlap_le_0.70_informative_registry": false,
+  "forward_3px_overlap_le_0.70_all_registry_rasters": false,
+  "validator_all_passed": true
+ },
+ "verdict": "negative"
 }

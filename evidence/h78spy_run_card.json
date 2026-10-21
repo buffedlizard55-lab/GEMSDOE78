@@ -166,7 +166,7 @@
     "independent_verify_tif": {
       "script": "scripts/verify_tif.py",
       "all_passed": true,
-      "note": "The builder's own passed flag was false because it compared the boolean no_nan_inside_footprint to 0 (True == 0 is False). That comparison was a script bug, fixed in scripts/build_spy_inspection.py after this file was written. The independent re-read is the binding format result. IR-78-16."
+      "note": "The builder's own passed flag was false because it compared the boolean no_nan_inside_footprint to 0 (True == 0 is False). That comparison was a script bug, fixed in scripts/build_spy_inspection.py after this file was written. The independent re-read is the binding format result. IR-78-19."
     },
     "builder_passed_flag_was_buggy": true
   },

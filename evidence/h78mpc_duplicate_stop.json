@@ -1,0 +1,45 @@
+{
+ "lane": "H78-MPC",
+ "status": "duplicate-stop",
+ "evidence_class": "REGISTRY-MEASUREMENT",
+ "file": "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif",
+ "raster_sha256": "c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256",
+ "preplacement_surface_max_abs_spearman_rho": 0.1546,
+ "preplacement_surface_limit": 0.9,
+ "surface_gate_passed": true,
+ "final_dots_max_forward_3px_overlap_informative": 0.73,
+ "final_dots_max_forward_3px_overlap_all_compared": 0.9914,
+ "final_dots_limit": 0.7,
+ "final_dots_gate_passed": false,
+ "duplicate_witness_nonspacefilling": "gems70-p5-submodular-multiphysics-hydro-54000-20261020.tif",
+ "duplicate_witness_nonspacefilling_overlap": 0.73,
+ "duplicate_witness_all_rasters": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+ "duplicate_witness_all_rasters_overlap": 0.9914,
+ "holdout_dti": {
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "withheld_positive_pixels": 11321,
+  "dti": 0.09768409956058045,
+  "ci95": [
+   0.07798470587705178,
+   0.11630343310261239
+  ]
+ },
+ "current_repo_best_holdout_dti": {
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "seed": 20,
+  "withheld_positive_pixels": 11321,
+  "candidate": "A2_h78_steered|nms0_B3|50000",
+  "dti": 0.18431154590898757,
+  "ci95": [
+   0.16578477300738595,
+   0.20145090715451924
+  ],
+  "source": "evidence/h78_holdout_seed20.json"
+ },
+ "ok_to_download": true,
+ "ok_to_submit": false,
+ "weekly_slots_used": 0,
+ "action": "Stop this lane. Retain the existing validated TIFF for research/education only; do not submit and do not build a replacement raster in this lane."
+}

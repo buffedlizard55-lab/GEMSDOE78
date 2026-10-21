@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Rebuild production dots from the frozen full-catalogue OOF surface with the
-corrected spaced emitter (IR-78-EMIT-01), re-audit uniqueness, repackage.
-The defective clustered production file is removed and its sha recorded."""
+"""Recompute the corrected spaced emission from the frozen H78-MPC surface.
+Audit the literal PROMPT.md forward-overlap gate and stop before deleting or
+writing submission outputs when a duplicate is detected. The already-built
+TIFF is retained only for research/education; its hash is recorded."""
 from __future__ import annotations
 import gc, hashlib, json, sys, time
 from pathlib import Path
@@ -82,23 +83,43 @@ for r in registry:
 prev = json.loads((EV / "h78mpc_uniqueness.json").read_text())
 informative = [r for r in rows if r.get("their_dots", 0) > 0 and r.get("their_3px_halo_fp_fraction", 0) < 0.70]
 literal_worst_fwd = max(r["forward_overlap_mine_in_theirs3px"] for r in rows if "forward_overlap_mine_in_theirs3px" in r)
-audit = {"registry_count": len(registry), "informative_count": len(informative),
+worst_forward_informative = max(r["forward_overlap_mine_in_theirs3px"] for r in informative)
+worst_mutual_informative = max(r["mutual"] for r in informative)
+surface_pass = prev["preplacement_max_abs_sampled_rho"] <= 0.90
+forward_informative_pass = worst_forward_informative <= 0.70
+forward_literal_pass = literal_worst_fwd <= 0.70
+registry_scope_ok = len(registry) >= 74  # do not pass on an incomplete subset of the recorded inventory
+strict_unique = bool(registry_scope_ok and surface_pass and forward_informative_pass and forward_literal_pass)
+audit = {"registry_count": len(registry), "minimum_recorded_registry_count": 74,
+         "registry_scope_ok": registry_scope_ok, "informative_count": len(informative),
          "preplacement_max_abs_sampled_rho": prev["preplacement_max_abs_sampled_rho"],
          "surface_rows": prev["surface_rows"],
-         "worst_mutual_informative": max(r["mutual"] for r in informative),
-         "worst_forward_informative": max(r["forward_overlap_mine_in_theirs3px"] for r in informative),
+         "worst_mutual_informative_diagnostic_only": worst_mutual_informative,
+         "worst_forward_informative": worst_forward_informative,
          "worst_forward_literal_all_rasters": literal_worst_fwd,
          "dot_rows": sorted([r for r in rows if "mutual" in r], key=lambda r: -r["forward_overlap_mine_in_theirs3px"]),
-         "spacing": spacing, "emission": "greedy_dots spaced min_dist 2.5 (IR-78-EMIT-01 correction)"}
-# Preregistered gate (registry/preregistration_h78_mpc.json) is MUTUAL 3-px overlap <= 0.70
-# (sibling precedent GEMSDOE70/73); forward readings are retained for disclosure.
-audit["unique_vs_informative_registry"] = bool(audit["preplacement_max_abs_sampled_rho"] <= 0.90
-                                                and audit["worst_mutual_informative"] <= 0.70)
-audit["unique_literal_all_rasters"] = bool(audit["preplacement_max_abs_sampled_rho"] <= 0.90 and literal_worst_fwd <= 0.70)
+         "spacing": spacing, "emission": "greedy_dots spaced min_dist 2.5 (IR-78-EMIT-01 correction)",
+         "strict_protocol": {"rho_limit": 0.90, "forward_3px_overlap_limit": 0.70,
+                             "minimum_recorded_registry_count": 74,
+                             "registry_scope_pass": registry_scope_ok,
+                             "max_abs_spearman_pass": surface_pass,
+                             "informative_forward_overlap_pass": bool(registry_scope_ok and forward_informative_pass),
+                             "literal_all_rasters_forward_overlap_pass": bool(registry_scope_ok and forward_literal_pass),
+                             "unique": strict_unique,
+                             "criterion": "literal one-way fraction of candidate dots within 3 px of any registry raster's dots; mutual overlap is diagnostic only"}}
+audit["unique_vs_informative_registry"] = bool(registry_scope_ok and surface_pass and forward_informative_pass)
+audit["unique_literal_all_rasters"] = bool(registry_scope_ok and surface_pass and forward_literal_pass)
+audit["unique_mutual_diagnostic_only"] = bool(surface_pass and worst_mutual_informative <= 0.70)
 (EV / "h78mpc_uniqueness.json").write_text(json.dumps(audit, indent=1))
-log("uniqueness", {k: audit[k] for k in ["worst_forward_informative", "worst_mutual_informative",
+log("uniqueness", {k: audit[k] for k in ["worst_forward_informative", "worst_mutual_informative_diagnostic_only",
                                           "worst_forward_literal_all_rasters", "unique_vs_informative_registry",
-                                          "unique_literal_all_rasters"]})
+                                          "unique_literal_all_rasters", "unique_mutual_diagnostic_only"]})
+
+# Fail closed before deleting/creating a submission artifact when the literal
+# protocol detects a duplicate. Keep the already-built file only for learning.
+if not strict_unique:
+    log("STOP: duplicate/threshold failure under PROMPT.md; no submission TIFF will be written")
+    raise SystemExit(2)
 
 # remove defective clustered file, package corrected
 for suf in [".tif", ".zip", ".json"]:
