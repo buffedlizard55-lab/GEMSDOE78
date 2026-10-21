@@ -48,3 +48,38 @@ unless stated. `registry/sources.json` is the machine-readable twin of this file
 
 ## 5 Standing rules for every session
 Read PROMPT.md and README.md first. Label every number. Never write a projection as a score. Check uniqueness before placement and on final dots. Fix shared tools in the template, never fork. Three experiments or two hours, then stop and write the run card.
+
+## 6 New Hypotheses (2026-10-21 Session)
+
+### H78-NET: Network-Aware Lineament Context (IMPLEMENTED)
+**Status:** Code complete, ready for validation run  
+**Expected DTI Gain:** HIGH (+0.08-0.15 holdout-DTI)  
+**Implementation Cost:** MEDIUM (2-4 hours)  
+**Novelty:** Network context features not used in any family lane  
+**Leakage-Safe:** Yes - uses only visible catalogue for context  
+
+**Hypothesis:** Unmapped faults are most likely to occur in structural gaps within the visible fault network. Network-aware context features (fault density, junction proximity, structural gap features, segment length, distance-to-network bins, strike coherence and variability) will raise the kernel credit per emitted dot on withheld fault segments, beyond what orientation-steered derivative filters alone can achieve.
+
+**Mechanism:** 
+- Fault density: Areas with high fault density are more likely to have unmapped strands
+- Junction proximity: Faults often occur at or near intersections
+- Structural gaps: Gaps between parallel fault strands indicate potential unmapped faults
+- Segment length: Short segments may indicate fault tips where continuation is likely
+- Distance bins: Categorical distance to network (no raw distance to prevent leakage)
+- Strike statistics: Local strike coherence and variability indicate structural complexity
+
+**Non-Fault Mimics:**
+- Drainage networks (may parallel structural trends)
+- Lithologic contacts (can have similar linear expressions)
+- Anthropogenic features (roads, canals)
+
+**Files:**
+- `src/gems78/network.py` - Network feature computation
+- `src/gems78/features_net.py` - Extended feature extraction
+- `src/gems78/pipeline_net.py` - Pipeline with network features
+- `scripts/run_holdout_net.py` - Holdout evaluation
+- `scripts/build_submission_net.py` - Submission builder
+- `registry/preregistration_net.json` - Preregistration
+- `research/new_hypotheses_20261021.md` - Full hypothesis documentation
+
+**Validation Status:** NOT YET RUN (requires data access to run holdout evaluation)

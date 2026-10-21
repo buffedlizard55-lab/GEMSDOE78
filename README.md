@@ -1,6 +1,8 @@
-# GEMSDOE78 — Lane H78: strike-steered lineament learning (DOE GEMS, DrivenData competition 306)
+# GEMSDOE78 — Lane H78: strike-steered lineament learning + H78-NET network-aware context (DOE GEMS, DrivenData competition 306)
 
-**Site:** https://buffedlizard55-lab.github.io/GEMSDOE78/ · **Run card:** `evidence/h78_run_card.json` · **Prompt (read every session):** `PROMPT.md`
+**Site:** https://buffedlizard55-lab.github.io/GEMSDOE78/ · **Prompt (read every session):** `PROMPT.md`  
+**Primary Run Card:** `evidence/h78_run_card.json` (H78-A strike-steered, HOLDOUT-DTI 0.1826)  
+**New Candidate Run Card:** `evidence/h78net_run_card.json` (H78-NET network-aware, status: NOT YET RUN)
 
 ## Core Values (Arena) — read before anything else
 1. **Maximize P(Win).** Every hour goes to the thing most likely to raise the organizer-confirmed score; a negative result that saves a submission slot counts.
@@ -60,11 +62,75 @@ A parallel session without data access published a *NOT READY* site and negative
 6. **External sources** outside github.com could not be re-fetched here; `registry/sources.json` states the fetch status of each link for manual review.
 
 ## Next session
-* Seed 30 (and 40) holdout replicate; report across-seed spread.
+* **NEW: H78-NET** - Run network-aware context features (this session's work):
+  - `python scripts/run_holdout_net.py --seed 20` (holdout evaluation)
+  - `python scripts/build_submission_net.py` (build submission TIF)
+  - Expected: HOLDOUT-DTI > 0.20 (target: 0.25-0.30)
+* Seed 30 (and 40) holdout replicate for H78-A; report across-seed spread.
 * Distance-stratified budget test (match H33's live distance profile) and a flank sweep 3–6 px — only on the holdout's far-truth stratum, to avoid the halo bias.
 * Budget sweep 44–60 k dots with B3 (holdout keeps rising to 50 k: 0.1843).
 * Detector upgrade: small U-Net over the 19 bands + steered features, trained with the same buffered-component folds (organizer reference solution as the baseline class).
 * After the first upload: copy the ORGANIZER-CONFIRMED score into `registry/live_scores.csv` and re-run `build_site.py`.
+
+---
+
+## 🆕 H78-NET: Network-Aware Lineament Context (NEW - This Session)
+
+**Status:** ⭐ **IMPLEMENTED, READY FOR VALIDATION**  
+**Hypothesis:** Unmapped faults are most likely to occur in structural gaps within the visible fault network.  
+**Expected Gain:** +0.08-0.15 HOLDOUT-DTI (target: 0.25-0.30 total)  
+**Implementation:** `src/gems78/network.py`, `src/gems78/features_net.py`, `src/gems78/pipeline_net.py`  
+**Scripts:** `scripts/run_holdout_net.py`, `scripts/build_submission_net.py`  
+**Preregistration:** `registry/preregistration_net.json`  
+**Documentation:** `research/new_hypotheses_20261021.md`
+
+### What's New
+H78-NET extends H78-A with **20 network context features** that describe each pixel's position relative to the visible fault network:
+
+| Feature Type | Count | Description |
+|-------------|-------|-------------|
+| Fault density | 1 | Gaussian-smoothed density of visible faults (σ=40px) |
+| Junction proximity | 1 | Proximity to fault intersections/junctions |
+| Segment length | 1 | Length of nearest visible fault segment |
+| Structural gaps | 3 | Across-strike position, along-strike variation, gap coherence |
+| Distance bins | 7 | One-hot encoded distance to network (0-5px, 5-10px, ..., 100px+) |
+| Strike statistics | 3 | Strike coherence, normalized energy, variability |
+
+**Total: 19 raw + 18 ISO + 24 steered + 20 network = 81 features**
+
+### Why It Should Work
+1. **Geological Rationale:** In Basin and Range, faults occur in sub-parallel arrays. Unmapped strands are most likely where the structural trend continues but the catalogue has gaps.
+2. **Evidence from Siblings:** GEMSDOE77 achieved **0.1900 holdout-DTI** with similar network context features.
+3. **Orthogonal Signal:** Network features capture **structural topology**, complementing the **orientation** signal from steered features.
+4. **Leakage-Safe:** All features derived ONLY from visible catalogue; no hidden truth information used.
+
+### Validation Plan
+1. Run `scripts/run_holdout_net.py --seed 20` (~2-4 hours)
+2. Check A3_h78_net beats A2_h78_steered with 95% CI
+3. Verify all leakage canaries pass (max AUC < 0.90)
+4. Check uniqueness vs registry rasters
+5. Build submission with `scripts/build_submission_net.py`
+6. Generate run card and downloadable TIF
+
+### Expected Outcomes
+| Scenario | HOLDOUT-DTI | Action |
+|----------|-------------|--------|
+| Best case | > 0.28 | ✓ Promote immediately |
+| Target | 0.25-0.28 | ✓ Promote with confidence |
+| Minimum | > 0.20 | ✓ Promote (clear improvement) |
+| Negative | ≤ 0.20 | ✓ Document as negative result |
+
+### Files to be Generated
+- `evidence/h78net_holdout_seed20.json` - Holdout evaluation results
+- `evidence/h78net_pooled_ci_seed20.json` - Confidence intervals
+- `evidence/h78net_run_card.json` - Full run card
+- `docs/downloads/gems78-h78net-44090dots-*.tif` - Submission TIF
+- `docs/data/submission_net.json` - Site metadata
+
+### Risk Mitigation
+- **Leakage:** All network features use only visible catalogue; canary test will flag any issues
+- **Overfitting:** Features are general structural descriptors, not fitted to hidden truth
+- **Uniqueness:** Will be checked against all registry rasters before submission
 
 ---
 

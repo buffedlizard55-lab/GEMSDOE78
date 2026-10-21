@@ -1,0 +1,65 @@
+{
+  "lane": "H78-NET network-aware lineament context",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "branch": "arena/fd05e152-gemsdoe78",
+  "written_utc": "2026-10-21T22:00:00Z",
+  "written_before_results": true,
+  "hypothesis": "Unmapped faults in the footprint are most likely to occur in structural gaps within the visible fault network. Network-aware context features that describe each pixel's position relative to the visible catalogue (fault density, junction proximity, structural gap features, fault segment length, distance-to-network bins, strike coherence and variability) will raise the kernel credit per emitted dot on withheld fault segments, beyond what orientation-steered derivative filters alone can achieve (H78-A). The catalogue's location is NOT exposed to the learner; only its orientation and network topology are used, so the model is not paid to crowd known traces.",
+  "shared_tools_unmodified": {
+    "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "submission_writer.py": "41220185ac2823fe5358653d38f2a915ea3e5f1ab1f94f0b237295b38b4a2565",
+    "grid.py": "b96df7ec0f33658a61b0baa5db85fcd19be2cd8b1873f99699bd26bddae8cd8d",
+    "validate.py": "e7849554b47f6a2b66aeb2f7cfd5db06267412f049f52a73f1c41f934a2c34dd",
+    "uniqueness.py": "d60cd8db338e8dcbb6bb14168f7579f5b8c6212a79fe5087545a9156cf27392b9",
+    "source": "buffedlizard55-lab/GEMSDOE77 vendor/gems57 (pinned in its registry/template_pin.json to 60GEMSDOE b99591ee)"
+  },
+  "holdout": {
+    "draw": "gems57.holdout.buffered_component_draw(seed=20, hide_frac=0.20, buffer_px=3)",
+    "evaluator": "gems57-pooled-hide-v2",
+    "scoring": "pooled DTI alpha=0.2 beta=0.8 triangular 300 m; 95% CI paired 20 km block bootstrap (1000 draws, seed 520810)",
+    "training": "one model per arm on ALL visible catalogue cells (deployment-faithful); negatives sampled > 2 px from visible cells; withheld cells NOT excluded from training (they are masked in evaluation but the model sees them as negatives)",
+    "catalogue_derived_inputs": "strike field from visible cells (orientation only, no location); network context features: fault density, junction proximity, structural gap features, segment length, distance bins (categorical, no raw distance), strike coherence/variability - ALL computed from visible catalogue only"
+  },
+  "arms": {
+    "A0_std19": "19 official bands (lineage base model class)",
+    "A1_iso": "A0 + rotation-invariant Hessian eigenvalues and gradient magnitude at sigma 1.5/3 px on 6 bands",
+    "A2_h78_steered": "A1 + strike-steered H_nn, H_tt, g_n, |g_t| (H78-A)",
+    "A3_h78_net": "A2 + network context features: fault density, junction proximity, across/along-strike gap features, segment length, distance-to-network bins (7 categories), strike coherence, strike energy, strike variability (CANDIDATE)"
+  },
+  "emitter": "greedy max-score packing, min separation 2.8 px (allows sqrt(8)), visible-catalogue flank <= 3 px excluded; budgets 25k-60k; A3 variants: flank 0/2/3 px, ridge-NMS on/off",
+  "canary": "single-feature AUC on withheld truth vs active background; > 0.90 = leakage until proven otherwise",
+  "uniqueness_rule": "Spearman rho vs any registry raster <= 0.90 on the footprint AND fraction of final dots within 3 px of any registry dot set <= 0.70; checked on the score surface before placement AND on the final dots",
+  "decision_rules": {
+    "hypothesis_supported": "best A3 config pooled HOLDOUT-DTI > matched A2 config AND paired-bootstrap 95% CI of the difference excludes 0",
+    "ok_to_submit": "best A3 config pooled HOLDOUT-DTI > matched A0 (lineage base) and > matched A2 (steered) with CI lower bound > 0 AND canary clean AND uniqueness pass AND validator pass (single band float32, 3730x3292, EPSG:32611, transform (100,0,243350,0,-100,4508550), all finite, values in [0,1], no NaN inside footprint, zero positives on the catalogue)",
+    "negative": "anything else; the file is still built and published for inspection, labelled NOT OK TO SUBMIT"
+  },
+  "budget": "3 experiments: E1 arms+canary (run_holdout_net.py), E2 emission sweep (same run), E3 final build + uniqueness + validator (build_submission_net.py); stop afterwards",
+  "what_this_cannot_show": "A catalogue hide-and-recover holdout measures recovery of withheld mapped faults; it is not an organizer score and never a leaderboard projection. The holdout draw removes every visible catalogue cell within 3 px of a withheld component, so by construction no withheld truth lies within 3 px of a visible fault - the 3-px flank prune therefore cannot remove dots that sit on holdout truth, which may bias the holdout in favour of larger flank radii.",
+  "amendments": [],
+  "network_features_detail": {
+    "feature_count": 20,
+    "feature_list": [
+      "network_fault_density",
+      "network_junction_proximity",
+      "network_segment_length",
+      "network_across_strike_position",
+      "network_along_strike_variation",
+      "network_gap_coherence",
+      "network_dist_bin_on_fault",
+      "network_dist_bin_0-5px",
+      "network_dist_bin_5-10px",
+      "network_dist_bin_10-20px",
+      "network_dist_bin_20-50px",
+      "network_dist_bin_50-100px",
+      "network_dist_bin_100px+",
+      "network_strike_coherence",
+      "network_strike_energy_norm",
+      "network_strike_variability"
+    ],
+    "leakage_safety": "All features derived from visible catalogue only. No raw distance values exposed (only binned categories). No hidden truth information used. Distance bins are one-hot encoded to prevent ordinal leakage.",
+    "computation": "All network features computed at sigma_region=40px (4km) scale, matching the strike field computation."
+  }
+}

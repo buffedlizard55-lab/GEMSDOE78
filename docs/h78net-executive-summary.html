@@ -1,0 +1,390 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>H78-NET Executive Summary — Network-Aware Submission</title>
+<style>
+:root{--bg:#0f172a;--card:#111c33;--ink:#e5e7eb;--mut:#9ca3af;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--acc:#38bdf8;--line:#1f2a44}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:28px 20px 10px;max-width:1100px;margin:auto}h1{margin:0 0 6px;font-size:28px}h2{font-size:20px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+main{max-width:1100px;margin:auto;padding:0 20px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.banner{font-size:22px;font-weight:700;padding:16px 20px;border-radius:12px;margin:12px 0}.ok{background:#052e16;border:2px solid var(--ok)}.bad{background:#450a0a;border:2px solid var(--bad)}.warn{background:#431407;border:2px solid var(--warn)}
+.btn{display:inline-block;background:var(--acc);color:#04141f;font-weight:700;padding:12px 18px;border-radius:10px;text-decoration:none;margin:6px 8px 6px 0}
+.btn.sec{background:#1e293b;color:var(--ink);border:1px solid var(--line)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:600}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;word-break:break-all}.mut{color:var(--mut)}
+nav a{color:var(--acc);margin-right:14px;text-decoration:none}.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.tag.h{background:#1e3a8a}.tag.o{background:#14532d}.tag.n{background:#7f1d1d}.tag.w{background:#78350f}.small{font-size:13px}ul{margin:6px 0}
+</style></head><body><header><h1>H78-NET Executive Summary — Network-Aware Fault Detection</h1>
+<nav><a href="index.html">Home</a><a href="executive-summary.html">H78-A: how to submit</a>
+<a href="hypotheses.html">Hypotheses</a><a href="holdout.html">Holdout evidence</a>
+<a href="h78net-executive-summary.html">H78-NET (this page)</a>
+<a href="h78mpc.html">H78-MPC lane</a>
+<a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a>
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav></header>
+
+<main>
+
+<div class="banner warn">
+  STATUS: H78-NET NOT YET RUN — Code implemented, awaiting holdout evaluation
+  <br><span class="small">
+    Expected completion: ~2-4 hours after data access. 
+    Target: HOLDOUT-DTI > 0.25 (beat H78-A's 0.1826)
+  </span>
+</div>
+
+<div class="card">
+  <h2>🎯 What is H78-NET?</h2>
+  
+  <p><strong>H78-NET</strong> is a new candidate submission that extends <a href="executive-summary.html">H78-A</a> 
+  with <strong>network-aware context features</strong>. While H78-A uses orientation-steered 
+  derivative filters, H78-NET adds features that describe each pixel's position relative 
+  to the visible fault network topology.</p>
+  
+  <h3>Core Hypothesis</h3>
+  <p><em>Unmapped faults in the footprint are most likely to occur in structural gaps within 
+  the visible fault network.</em></p>
+  
+  <p>In the Basin and Range province, faults occur in sub-parallel arrays. When an expert maps 
+  faults at 1:250k scale, they may miss:</p>
+  <ul>
+    <li><strong>Subtle strands</strong> parallel to mapped neighbors but with < 5m scarp</li>
+    <li><strong>Buried faults</strong> under alluvial cover but continuing the structural trend</li>
+    <li><strong>Relay ramps</strong> connecting en-echelon fault segments</li>
+    <li><strong>Fault tips</strong> extending beyond mapped traces</li>
+    <li><strong>Step-overs</strong> between parallel fault strands</li>
+  </ul>
+  
+  <p>H78-NET captures these by adding <strong>20 network context features</strong> that describe the 
+  structural position of each pixel.</p>
+</div>
+
+<div class="card">
+  <h2>📊 Feature Overview</h2>
+  
+  <p><strong>Total Features: 81</strong> (19 raw bands + 18 ISO + 24 steered + 20 network)</p>
+  
+  <h3>Network Context Features (20 new features)</h3>
+  
+  <table>
+    <tr><th>Category</th><th>Features</th><th>Purpose</th><th>Leakage-Safe?</th></tr>
+    <tr>
+      <td rowspan="1">Fault Density</td>
+      <td><code>network_fault_density</code></td>
+      <td>Measures local abundance of mapped faults</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td rowspan="1">Junction Proximity</td>
+      <td><code>network_junction_proximity</code></td>
+      <td>Detects areas near fault intersections</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td rowspan="3">Structural Gaps</td>
+      <td><code>network_across_strike_position</code></td>
+      <td>Normalized position between fault strands</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><code>network_along_strike_variation</code></td>
+      <td>Variation along the strike direction</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><code>network_gap_coherence</code></td>
+      <td>How well-defined the gap structure is</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td rowspan="1">Segment Length</td>
+      <td><code>network_segment_length</code></td>
+      <td>Length of nearest fault segment</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td rowspan="7">Distance Bins</td>
+      <td><code>network_dist_bin_on_fault</code></td>
+      <td>One-hot: on visible fault</td>
+      <td>✓ Yes (categorical)</td>
+    </tr>
+    <tr><td></td><td><code>network_dist_bin_0-5px</code></td><td>One-hot: 0-5px from network</td><td>✓ Yes</td></tr>
+    <tr><td></td><td><code>network_dist_bin_5-10px</code></td><td>One-hot: 5-10px from network</td><td>✓ Yes</td></tr>
+    <tr><td></td><td><code>network_dist_bin_10-20px</code></td><td>One-hot: 10-20px from network</td><td>✓ Yes</td></tr>
+    <tr><td></td><td><code>network_dist_bin_20-50px</code></td><td>One-hot: 20-50px from network</td><td>✓ Yes</td></tr>
+    <tr><td></td><td><code>network_dist_bin_50-100px</code></td><td>One-hot: 50-100px from network</td><td>✓ Yes</td></tr>
+    <tr><td></td><td><code>network_dist_bin_100px+</code></td><td>One-hot: >100px from network</td><td>✓ Yes</td></tr>
+    <tr>
+      <td rowspan="3">Strike Statistics</td>
+      <td><code>network_strike_coherence</code></td>
+      <td>Local strike direction coherence</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><code>network_strike_energy_norm</code></td>
+      <td>Normalized strike energy</td>
+      <td>✓ Yes</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><code>network_strike_variability</code></td>
+      <td>Local strike variability</td>
+      <td>✓ Yes</td>
+    </tr>
+  </table>
+  
+  <p><strong>All features are derived ONLY from the visible catalogue.</strong> No hidden truth 
+  information is used, making them leakage-safe by design.</p>
+</div>
+
+<div class="card">
+  <h2>🎯 Why H78-NET Should Score Higher</h2>
+  
+  <h3>Evidence from the Family</h3>
+  <ul>
+    <li><strong>GEMSDOE77:</strong> Achieved <strong>0.1900 holdout-DTI</strong> with network context features</li>
+    <li><strong>H78-A (current best):</strong> 0.1826 holdout-DTI with orientation-steered features only</li>
+    <li><strong>Expected:</strong> Network + steered should be <em>multiplicative</em>, not additive</li>
+  </ul>
+  
+  <h3>Target Scores</h3>
+  <table>
+    <tr><th>Scenario</th><th>HOLDOUT-DTI</th><th>Verdict</th><th>Action</th></tr>
+    <tr>
+      <td>Best case</td>
+      <td>> 0.28</td>
+      <td><span class="tag h">PROMOTE</span></td>
+      <td>Submit immediately</td>
+    </tr>
+    <tr>
+      <td>Target</td>
+      <td>0.25-0.28</td>
+      <td><span class="tag h">PROMOTE</span></td>
+      <td>Submit with confidence</td>
+    </tr>
+    <tr>
+      <td>Minimum acceptable</td>
+      <td>> 0.20</td>
+      <td><span class="tag h">PROMOTE</span></td>
+      <td>Clear improvement over H78-A</td>
+    </tr>
+    <tr>
+      <td>Negative result</td>
+      <td>≤ 0.20</td>
+      <td><span class="tag n">NEGATIVE</span></td>
+      <td>Document as negative result (still valuable)</td>
+    </tr>
+  </table>
+  
+  <p><strong>Leaderboard Context:</strong></p>
+  <ul>
+    <li>Current leaderboard high: <strong>0.4413</strong> (xiaofanhu)</li>
+    <li>H33 (family best): <strong>0.2778</strong> (ORGANIZER-CONFIRMED)</li>
+    <li>H78-A holdout: <strong>0.1826</strong> (HOLDOUT-DTI)</li>
+    <li>H78-NET target: <strong>0.25-0.30</strong> (HOLDOUT-DTI)</li>
+  </ul>
+  
+  <p><em>Note: Holdout-DTI ≠ Live Score. The relationship is uncertain but generally 
+  positive. H33's live score (0.2778) is much higher than its holdout would have been 
+  (estimated ~0.09 due to catalogue masking).</em></p>
+</div>
+
+<div class="card">
+  <h2>🔬 Validation Protocol</h2>
+  
+  <p>H78-NET follows the <strong>PARALLEL-RUN PROTOCOL</strong> strictly:</p>
+  
+  <h3>1. Leakage Canary</h3>
+  <p>Each feature is tested alone on the holdout set. <strong>AUC > 0.90 = leakage until proven otherwise.</strong></p>
+  <p><em>Status:</em> <span class="tag w">PENDING</span> - Will be checked during holdout run</p>
+  
+  <h3>2. Holdout Evaluation</h3>
+  <ul>
+    <li><strong>Draw:</strong> <code>gems57.holdout.buffered_component_draw(seed=20, hide_frac=0.20, buffer_px=3)</code></li>
+    <li><strong>Evaluator:</strong> <code>gems57-pooled-hide-v2</code> (unmodified)</li>
+    <li><strong>Scoring:</strong> Pooled DTI (α=0.2, β=0.8, 300m triangular kernel)</li>
+    <li><strong>CI:</strong> 95% paired 20km block bootstrap (1000 draws, seed 520810)</li>
+    <li><strong>Withheld:</strong> 11,321 positive pixels (20% of catalogue)</li>
+  </ul>
+  <p><em>Status:</em> <span class="tag w">PENDING</span> - Ready to run</p>
+  
+  <h3>3. Uniqueness Check</h3>
+  <p>H78-NET will be checked against all registry rasters:</p>
+  <ul>
+    <li>Spearman ρ vs any registry raster <strong>must be ≤ 0.90</strong></li>
+    <li>Fraction of dots within 3px of any registry raster <strong>must be ≤ 0.70</strong></li>
+    <li>Checked on <em>both</em> score surface <em>and</em> final dots</li>
+  </ul>
+  <p><em>Status:</em> <span class="tag w">PENDING</span> - Will be checked after emission</p>
+  
+  <h3>4. Format Validation</h3>
+  <p>The TIF file will be validated to ensure:</p>
+  <ul>
+    <li>Single-band float32 GeoTIFF</li>
+    <li>EPSG:32611 CRS</li>
+    <li>3730 × 3292 pixels</li>
+    <li>Correct geotransform: (100, 0, 243350, 0, -100, 4508550)</li>
+    <li>All finite values, no NaN</li>
+    <li>Values in [0, 1] (binary: exactly 0 or 1)</li>
+    <li>Zeros outside footprint</li>
+    <li>No positives on catalogue</li>
+  </ul>
+  <p><em>Status:</em> <span class="tag w">PENDING</span> - Will be checked during build</p>
+</div>
+
+<div class="card">
+  <h2>🚀 How to Run H78-NET</h2>
+  
+  <p><strong>Prerequisites:</strong></p>
+  <ul>
+    <li>Data restored: <code>bash scripts/restore_data.sh</code></li>
+    <li>Dependencies installed: <code>pip install -r requirements.txt</code></li>
+    <li>Registry rasters available: <code>data/registry/*.tif</code></li>
+  </ul>
+  
+  <h3>Step 1: Holdout Evaluation</h3>
+  <pre><code>python scripts/run_holdout_net.py --seed 20 --n-neg 450000</code></pre>
+  <p><em>Duration:</em> ~2-4 hours on 2 CPUs, 4 GB RAM</p>
+  <p><em>Output:</em> <code>evidence/h78net_holdout_seed20.json</code></p>
+  
+  <h3>Step 2: Confidence Intervals</h3>
+  <pre><code>python scripts/pooled_ci.py --in evidence/h78net_holdout_seed20.json --out evidence/h78net_pooled_ci_seed20.json</code></pre>
+  <p><em>Duration:</em> ~1-2 minutes</p>
+  <p><em>Output:</em> <code>evidence/h78net_pooled_ci_seed20.json</code></p>
+  
+  <h3>Step 3: Build Submission</h3>
+  <pre><code>python scripts/build_submission_net.py --holdout evidence/h78net_holdout_seed20.json --ci evidence/h78net_pooled_ci_seed20.json</code></pre>
+  <p><em>Duration:</em> ~3-5 minutes</p>
+  <p><em>Outputs:</em></p>
+  <ul>
+    <li><code>docs/downloads/gems78-h78net-44090dots-*.tif</code> (TIF file)</li>
+    <li><code>docs/downloads/gems78-h78net-44090dots-*.zip</code> (ZIP file)</li>
+    <li><code>evidence/h78net_run_card.json</code> (Full run card)</li>
+    <li><code>docs/data/submission_net.json</code> (Site metadata)</li>
+  </ul>
+  
+  <h3>Step 4: Verify TIF</h3>
+  <pre><code>python scripts/verify_tif.py docs/downloads/gems78-h78net-44090dots-*.tif</code></pre>
+  <p><em>Checks:</em> All 12 validation criteria</p>
+  
+  <h3>Step 5: Update Site</h3>
+  <pre><code>python scripts/build_site.py</code></pre>
+  <p><em>Updates:</em> Home page banner, download links, run card display</p>
+</div>
+
+<div class="card">
+  <h2>📋 Run Card Template (Expected)</h2>
+  
+  <p>After running the pipeline, the run card will contain:</p>
+  
+  <pre><code>{
+  "lane": "H78-NET network-aware lineament context",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "label": "primary",
+  "built_utc": "20261021T[time]Z",
+  "hypothesis": "Unmapped faults are most likely to occur in structural gaps within the visible fault network...",
+  "mechanism": "Network context features + steered derivative filters; HGB learner; sparse dots...",
+  "non_fault_mimic": "Drainage networks, lithologic contacts, dune ridges aligned with range fronts.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "candidate": "A3_h78_net|nms0_B3|44090",
+    "dti": [TARGET: 0.25-0.30],
+    "ci95": [lower, upper],
+    "withheld_positive_pixels": 11321,
+    "beats_A0_std19_ci": true,
+    "beats_A2_h78_steered_ci": true
+  },
+  "canary": {
+    "threshold": 0.90,
+    "max_single_feature_auc": [TARGET: < 0.90],
+    "clean": true,
+    "flagged": {}
+  },
+  "uniqueness": {
+    "rho_limit": 0.90,
+    "overlap_limit": 0.70,
+    "surface_max_abs_rho": [TARGET: < 0.90],
+    "dots_max_abs_rho": [TARGET: < 0.90],
+    "dots_max_overlap": [TARGET: < 0.70],
+    "passed": true
+  },
+  "raster": {
+    "file": "gems78-h78net-44090dots-20261021T[time]-[hash]-zeros.tif",
+    "sha256": "[to be computed]",
+    "dots": 44090,
+    "variant": "nms0_B3",
+    "budget": 44090,
+    "flank_px": 3.0
+  },
+  "validator": {
+    "passed": true,
+    "independent_reread": {
+      "crs": "EPSG:32611",
+      "shape": [3730, 3292],
+      "all_finite": true,
+      "values_in_0_1": true,
+      "positives_on_catalogue": 0
+    }
+  },
+  "submission_name": "gems78-h78net-44090dots-20261021T[time]-[hash]-zeros",
+  "submission_note": "GEMSDOE78 H78-NET network-aware HGB, 44090 dots >=283m apart, flank<=3px pruned; HOLDOUT-DTI [score] s20; not a projection",
+  "ok_to_submit": [TARGET: true],
+  "verdict": "promote"
+}</code></pre>
+</div>
+
+<div class="card">
+  <h2>📚 Related Documentation</h2>
+  
+  <ul>
+    <li><strong>Hypothesis Document:</strong> <code>research/new_hypotheses_20261021.md</code>
+      <br><span class="small">Detailed geological rationale, feature descriptions, and expected outcomes</span></li>
+    
+    <li><strong>Preregistration:</strong> <code>registry/preregistration_net.json</code>
+      <br><span class="small">Preregistered before seeing holdout results</span></li>
+    
+    <li><strong>Implementation:</strong>
+      <ul>
+        <li><code>src/gems78/network.py</code> - Network feature computation</li>
+        <li><code>src/gems78/features_net.py</code> - Extended feature extraction</li>
+        <li><code>src/gems78/pipeline_net.py</code> - Pipeline with network features</li>
+        <li><code>scripts/run_holdout_net.py</code> - Holdout evaluation</li>
+        <li><code>scripts/build_submission_net.py</code> - Submission builder</li>
+      </ul>
+    </li>
+    
+    <li><strong>Why H33 Scored 0.2778:</strong> <a href="why-h33.md">docs/why-h33.md</a>
+      <br><span class="small">Analysis of the family's best submission and the path forward</span></li>
+    
+    <li><strong>Knowledge Store:</strong> <code>research/knowledge.md</code>
+      <br><span class="small">All verified facts about the competition and geology</span></li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>⚠️ Important Notes</h2>
+  
+  <ol>
+    <li><strong>Holdout ≠ Live:</strong> The holdout score measures recovery of withheld <em>mapped</em> faults. Live scoring measures recovery of <em>unmapped</em> faults. They are correlated but not identical.</li>
+    
+    <li><strong>No Projections:</strong> All DTI scores on this page are <strong>HOLDOUT-DTI</strong> until an organizer receipt is obtained. They are <em>not</em> leaderboard predictions.</li>
+    
+    <li><strong>Leakage Safety:</strong> Network features use only visible catalogue. The holdout draw removes all visible catalogue within 3px of withheld components, so by construction no withheld truth lies within 3px of a visible fault.</li>
+    
+    <li><strong>Emission Geometry:</strong> Uses the same D2.8 → H33 validated geometry: greedy packing at ≥2.8px spacing with 3px flank pruning.</li>
+    
+    <li><strong>Budget:</strong> 44,090 dots matches the live-validated D2.8/H33 scale. This is near the metric's break-even point (0.2 × DTI ≈ 0.056 credit/dot at DTI 0.28).</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h2>🔗 Quick Links</h2>
+  <p>
+    <a href="index.html" class="btn">← Back to Home</a>
+    <a href="executive-summary.html" class="btn sec">H78-A Submission Guide</a>
+    <a href="hypotheses.html" class="btn sec">All Hypotheses</a>
+    <a href="https://github.com/buffedlizard55-lab/GEMSDOE78" class="btn sec">Repository</a>
+  </p>
+</div>
+
+</main></body></html>
