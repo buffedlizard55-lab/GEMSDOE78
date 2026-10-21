@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GEMS Prize GeoTIFF submission requirements and readiness.">
+  <title>Submission guide | GEMSDOE78</title>
+  <style>
+    :root { color-scheme:light; --ink:#172b36; --muted:#516773; --line:#d5e0e4; --paper:#f3f7f7; --white:#fff; --teal:#12665f; --red:#8e2e21; --pale-red:#fff1ed; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { background:#123d46; color:white; padding:30px 20px; }
+    .wrap { max-width:880px; margin:auto; padding:0 20px; }
+    h1 { margin:0; line-height:1.15; }
+    main { padding:26px 0 50px; }
+    section { background:var(--white); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin-bottom:17px; }
+    h2 { font-size:1.22rem; margin:0 0 8px; }
+    .alert { border:2px solid #d58a78; background:var(--pale-red); }
+    .alert h2 { color:var(--red); }
+    .alert p:last-child { margin-bottom:0; }
+    li { padding-left:4px; margin:.4em 0; }
+    a { color:var(--teal); font-weight:650; }
+    code { background:#eef3f3; padding:2px 5px; border-radius:4px; }
+    .back { display:inline-block; margin:16px 0 0; }
+    .note { color:var(--muted); font-size:.94rem; }
+  </style>
+</head>
+<body>
+<header><div class="wrap"><h1>Executive summary: making a GEMS submission</h1></div></header>
+<main class="wrap">
+  <section class="alert" role="alert">
+    <h2>Current project status: not ready — no submission file</h2>
+    <p><strong>Do not upload a TIFF from this repository.</strong> This checkout contains no authorized competition data or validated candidate TIFF. There is deliberately no active download button. The input data page requires competition login; no authentication or data files were provided here.</p>
+    <p>A TIFF becomes eligible for the download button only after the shared writer produces it and the exact file passes all checks below and the preregistered holdout gate.</p>
+  </section>
+  <section>
+    <h2>What the contest requires</h2>
+    <p>DrivenData requests one GeoTIFF containing predictions for faults across the region. Per the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/#submission-format">official submission format</a>, it must have:</p>
+    <ul>
+      <li>the training data's projected CRS, <strong>EPSG:32611 (UTM zone 11N)</strong>;</li>
+      <li>the same 100 m resolution, bounds, shape, and geotransform as the training data;</li>
+      <li>a single band of <strong>32-bit float</strong> values, expressing confidence/probability in the range <strong>[0, 1]</strong>;</li>
+      <li>data outside the study bounds represented as null/NaN (per the official format page).</li>
+    </ul>
+    <p>The portal error “Predicted values must be in range [0, 1]” means the written output must be inspected for out-of-range values and nodata/sentinel handling. Check the output bytes after writing, not just the in-memory array. NaNs are only appropriate outside the footprint when accepted by the official format; the footprint must have no NaN. Do not replace nodata with an arbitrary large negative value.</p>
+  </section>
+  <section>
+    <h2>Safe path to submission</h2>
+    <ol>
+      <li>Obtain the official competition data through your authorized DrivenData account and place it in the project's documented data location. Do not copy a previous team's submission as a prediction.</li>
+      <li>Use the shared cached feature stack, holdout evaluator, and submission writer. For this project, the preregistered holdout must hide whole fault segments with a buffer, derive catalogue-based features only from visible faults, mask visible faults pixel-exactly, and evaluate pooled DTI with α=0.2, β=0.8, and a 300 m triangular kernel.</li>
+      <li>Before candidate placement, pass the lane duplicate checks against available registry rasters: rank correlation must not exceed 0.90, and no more than 70% of dots may fall within 3 px of one registry raster. Repeat these checks on final dots. Test each feature alone; AUC &gt; 0.90 is a leakage canary.</li>
+      <li>Promote for packaging only if the candidate beats the current holdout best under the preregistered rule. Include evaluator version, withheld-positive count, 95% CI, per-fold outcomes and the negative-control results.</li>
+      <li>Re-open the exact GeoTIFF from disk and validate band count, dtype, all in-footprint values in [0,1], no NaNs inside the footprint, outside-footprint nodata, CRS, shape and affine transform. Record SHA-256 and the validation report.</li>
+      <li>Only then show an explicit “Download validated submission TIFF” link and display a unique submission name and a note no longer than 140 characters. The user may download it, then use the official form to select the file, enter the name/note if requested, review competition rules and submit while signed in.</li>
+      <li>Label an online score as <strong>ORGANIZER-CONFIRMED</strong> only when copied from the actual submission receipt or official scoring record. Holdout-DTI and modeled projections are not organizer scores.</li>
+    </ol>
+    <p class="note">The full details, hypothesis ranking, sourced findings, and current blockers are in the <a href="README.md">project README</a>. Competition submission policy, slot caps, and the active form should be checked directly on DrivenData before submission.</p>
+  </section>
+  <section>
+    <h2>Why this site currently has no download link</h2>
+    <p>Review of this checkout found only a README and no raster data, submission sample, registry inventory, evaluator, writer, validator, or output. Guessing dimensions/transform or downloading a sibling TIFF would not meet the required validation and would violate the non-copying/duplicate checks. A fictitious GeoTIFF could be rejected or consume a scarce slot. The correct result is blocked, not-ready status until authorized inputs and shared tools are available.</p>
+  </section>
+  <a class="back" href="index.html">← Back to GEMSDOE78</a>
+</main>
+</body>
+</html>

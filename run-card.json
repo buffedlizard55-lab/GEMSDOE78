@@ -1,0 +1,27 @@
+{
+  "hypothesis": "Time-series Sentinel-1 InSAR displacement discontinuities may reveal active or fluid-pressure-related concealed faults absent from the surface-fault catalogue.",
+  "mechanism": "A repeatable narrow line-of-sight deformation gradient across coherent interferometric pairs can mark localized slip or fluid-driven deformation along a structure. Opposing orbit geometries may help distinguish vertical from east-west displacement; this is not a direct fault observation.",
+  "named_non_fault_mimic": "Groundwater-withdrawal compaction or atmospheric delay; decorrelation and orbital ramps are additional measurement artifacts.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positives": null,
+    "dti": null,
+    "ci95": null,
+    "status": "NOT RUN: no Sentinel-1 scenes, competition feature stack, catalogue labels, shared evaluator, or holdout splits in this checkout."
+  },
+  "registry_comparison": {
+    "rank_correlation": null,
+    "fraction_within_3px": null,
+    "status": "NOT RUN: registry rasters and an unambiguous assigned lane are absent."
+  },
+  "raster_sha256": null,
+  "validator": {
+    "no_nan_inside_footprint": "NOT RUN: no candidate raster or footprint available.",
+    "values_in_0_1": "NOT RUN: no candidate raster available.",
+    "crs_shape_transform_match": "NOT RUN: no candidate raster or sample-submission raster available."
+  },
+  "submission_name": null,
+  "submission_note": "No validated candidate; do not submit.",
+  "verdict": "negative"
+}

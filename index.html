@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Auditable GEMS Prize research and submission-readiness status.">
+  <title>GEMSDOE78 | GEMS Prize research</title>
+  <style>
+    :root { color-scheme: light; --ink:#172b36; --muted:#516773; --line:#d5e0e4; --paper:#f3f7f7; --white:#fff; --teal:#12665f; --red:#8e2e21; --pale-red:#fff1ed; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { background:#123d46; color:white; padding:38px 20px 32px; }
+    .wrap { max-width:960px; margin:auto; padding:0 20px; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.12em; font-size:.78rem; font-weight:700; color:#b9dfd8; }
+    h1 { margin:.3em 0 .1em; font-size:clamp(2rem,5vw,3.25rem); line-height:1.1; }
+    header p { max-width:700px; margin:.7em 0 0; color:#e2efef; }
+    main { padding:26px 0 54px; }
+    .alert { border:2px solid #d58a78; background:var(--pale-red); border-radius:12px; padding:20px 22px; margin-bottom:22px; }
+    .alert h2 { color:var(--red); margin:0 0 5px; font-size:1.25rem; }
+    .alert p { margin:0; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(245px,1fr)); gap:16px; }
+    .card { background:var(--white); border:1px solid var(--line); border-radius:12px; padding:20px; box-shadow:0 2px 9px #123d4608; }
+    .card h2,.card h3 { margin:0 0 8px; font-size:1.15rem; }
+    .card p { color:var(--muted); margin:0 0 12px; }
+    a { color:var(--teal); font-weight:650; }
+    .button { display:inline-block; text-decoration:none; border:1px solid var(--teal); border-radius:7px; padding:9px 13px; margin:3px 5px 0 0; }
+    .button.primary { color:white; background:var(--teal); }
+    .button.disabled { color:#59676d; border-color:#9aa8ad; background:#edf0f1; cursor:not-allowed; }
+    .small { font-size:.9rem; }
+    footer { border-top:1px solid var(--line); padding:20px 0 32px; color:var(--muted); font-size:.9rem; }
+  </style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="eyebrow">DOE GEMS Prize Challenge · Research workspace</div>
+  <h1>GEMSDOE78</h1>
+  <p>Evidence-first experiments for discovering unmapped geothermal-indicative faults. Submission status is shown before any download link.</p>
+</div></header>
+<main class="wrap">
+  <section class="alert" role="alert" aria-live="polite">
+    <h2>⛔ No validated submission TIFF — do not submit a file from this project</h2>
+    <p>This repository currently has no competition rasters, cached feature stack, shared holdout evaluator/writer, registry raster inventory, or validated output. No TIFF has been generated. We will not offer a made-up or copied raster as a competition submission.</p>
+  </section>
+  <section class="grid" aria-label="Project actions and status">
+    <article class="card">
+      <h2>Executive summary</h2>
+      <p>See the competition's exact GeoTIFF requirements and the safe, step-by-step path from a candidate to a submission. This page distinguishes a local test from an organizer receipt.</p>
+      <a class="button primary" href="executive-summary.html">Read how to submit</a>
+    </article>
+    <article class="card">
+      <h2>Research plan</h2>
+      <p>Five untested candidate hypotheses are ranked by qualitative potential and implementation cost. None has a measured holdout score; no numerical improvement is projected.</p>
+      <a class="button" href="research.html">Review hypotheses</a>
+    </article>
+    <article class="card">
+      <h2>Competition links</h2>
+      <p>Start with the official problem description, data access page, rules and current public leaderboard.</p>
+      <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Problem &amp; format</a>
+      <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Leaderboard</a>
+      <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">Data (login)</a>
+    </article>
+    <article class="card">
+      <h2>Project record</h2>
+      <p>The README contains the operating brief, sourced findings, known blockers, experiment rules and next steps.</p>
+      <a class="button" href="README.md">Open project README</a>
+    </article>
+  </section>
+</main>
+<footer><div class="wrap">Core values: maximize probability of winning; own the outcome. A candidate is not submission-ready until the exact output bytes pass format, holdout and duplicate checks.</div></footer>
+</body>
+</html>

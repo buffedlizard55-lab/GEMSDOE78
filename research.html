@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research and hypotheses | GEMSDOE78</title>
+  <style>
+    :root { color-scheme:light; --ink:#172b36; --muted:#516773; --line:#d5e0e4; --paper:#f3f7f7; --white:#fff; --teal:#12665f; --red:#8e2e21; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { background:#123d46; color:white; padding:30px 20px; }
+    .wrap { max-width:980px; margin:auto; padding:0 20px; }
+    h1 { margin:0; line-height:1.15; }
+    main { padding:25px 0 50px; }
+    section { background:var(--white); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin:0 0 17px; }
+    h2 { margin:0 0 8px; font-size:1.2rem; }
+    .status { border-left:5px solid #d58a78; }
+    .status strong { color:var(--red); }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; min-width:800px; width:100%; font-size:.94rem; }
+    th,td { text-align:left; vertical-align:top; padding:10px; border:1px solid var(--line); }
+    th { background:#eaf2f1; }
+    a { color:var(--teal); font-weight:650; }
+    .note { color:var(--muted); }
+    li { margin:.35em 0; }
+  </style>
+</head>
+<body>
+<header><div class="wrap"><h1>Research plan &amp; evidence</h1></div></header>
+<main class="wrap">
+  <section class="status"><h2>Evidence status</h2><p><strong>No experiments or holdout runs were possible.</strong> This repository has no competition grids, cached feature stack, shared evaluator/writer, registry rasters, or submission footprint. The hypotheses below are untested, not score claims. No numerical DTI improvements are projected.</p><p>The requested 0.2778 is <strong>UNVERIFIED OWNER-REPORTED in this workspace; not a HOLDOUT-DTI from this project</strong>. GEMSDOE32 explicitly says no organizer score exists for its artifact, while the GEMSDOE71 page calls the same figure ORGANIZER-CONFIRMED without a submission receipt in the reviewed material. This conflict is flagged, not inferred away. The official public leaderboard, read 2026-10-21 UTC, lists rank 1 at 0.4413 (**ORGANIZER-CONFIRMED** from that official page at the time). Re-check the dynamic page before decisions.</p></section>
+  <section><h2>Candidate experiments — provisional novelty, ranked qualitatively</h2><p class="note">No score gain is measured or forecast. Candidate novelty is assessed against the GEMSDOE32 H33 method record and owner pages GEMSDOE71–75 that were inspected, not certified across the full fleet. They already cover multiphysics/radiometric and LiDAR lineaments, radon, shallow probes, springs/geothermometers and hydrothermal-conduit evidence. The earlier radiometric/multiphysics idea was therefore excluded. The assigned lane is still not explicit; no implementation is approved.</p>
+    <div class="table-wrap"><table><thead><tr><th>Rank</th><th>Hypothesis / data layers</th><th>Physical signature; why it may find uncatalogued faults</th><th>Difference vs reviewed prior methods</th><th>Expected DTI potential / cost (qualitative)</th><th>Non-fault mimic</th><th>Official source / access check</th></tr></thead><tbody>
+      <tr><td>1</td><td>Time-series Sentinel-1 InSAR: ascending/descending SLC interferograms, line-of-sight displacement and coherence.</td><td>A repeatable narrow deformation gradient along a hidden structure may indicate fault creep or geothermal-fluid pressure even without a surface scarp. Multiple looks help separate vertical and east-west motion; artifacts must be controlled.</td><td>No InSAR method appeared in reviewed H33 or H71–75 reports; this is a different measurement (time-varying surface deformation), but uniqueness is not certified across every sibling repo.</td><td>Medium but highly uncertain; high processing cost. Most faults may be locked/inactive.</td><td>Groundwater withdrawal/compaction, atmosphere, landslide, mining, volcanic deformation, decorrelation/orbital ramps.</td><td>Copernicus lists SLC outside Europe from 2021 onward and states Sentinel data are free. Exact AOI repeat-pair availability was not queried; not yet verified viable. <a href="https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-missions/sentinel-1">Mission/archive</a> · <a href="https://documentation.dataspace.copernicus.eu/Data/SentinelMissions/Sentinel1.html">Mission documentation</a>.</td></tr>
+      <tr><td>2</td><td>Persistent Landsat thermal residual corridors: USGS Landsat 8/9 Collection 2 Level-2 surface-temperature scenes, multi-season composites, elevation/slope/land-cover controls.</td><td>Repeated, localized thermal contrast aligned with a structure could indicate shallow fluid discharge or advective heat transfer along a concealed fault; temporal persistence filters some single-scene noise.</td><td>Different measurement from the GDR 2 m probes/spring temperatures described by H71, but overlaps the same geothermal thermal-process family; not certified untried.</td><td>Low-to-medium, uncertain; medium/high cost (cloud masking, seasonal normalization, scene compositing).</td><td>Solar aspect, land cover/albedo, irrigation, fire, mines/roads, transient wetness.</td><td>USGS states global Level-2 ST availability for Landsat 8 from 2013 and Landsat 9 from 2022, no restrictions on use. Actual cloud-free scene coverage over the footprint not queried. <a href="https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-temperature">USGS product record</a>.</td></tr>
+      <tr><td>3</td><td>ASTER historical VNIR/SWIR surface reflectance, mineral ratios/indices and alteration patch edges.</td><td>Coherent iron/clay/silica-related reflectance contrasts may preserve hydrothermal alteration around faults where present relief is weak; screen spatially coherent patches rather than all spectral edges.</td><td>Different sensor and mineral spectra than GeoDAWN K/Th, spring geochemistry and radon features in inspected reports. Physical-purpose overlap remains; full registry check is required.</td><td>Low-to-medium and uncertain; high processing cost, uneven historical coverage.</td><td>Ordinary lithologic boundary, desert varnish/weathering, soil mixtures, shadow and striping.</td><td>NASA lists global ASTER AST_07XT V004, open, from 2000 onward, but its record says SWIR detectors stopped working in 2009: usable SWIR is historical only. Nevada scene/quality coverage was not queried; conditional, not verified viable. <a href="https://www.earthdata.nasa.gov/data/catalog/lpcloud-ast-07xt-004">NASA LP DAAC</a> · <a href="https://doi.org/10.5067/ASTER/AST_07XT.004">DOI</a>.</td></tr>
+    </tbody></table></div>
+    <p><strong>Prior-art correction:</strong> the public <a href="https://gdr.openei.org/submissions/1391">INGENIOUS GDR compilation</a> provides spring/well chemistry, 2 m temperature probes and paleogeothermal features (public CC-BY 4.0), but GEMSDOE71 reports already using those signals with magnetic and scarp features; H33-A already tried multi-physics lineament consensus. They are not presented here as novel candidates.</p>
+  </section>
+  <section><h2>Top candidate: viability and holdout gate</h2><p>Sentinel-1 SLC is the most methodologically distinct candidate found in the reviewed archive, but Copernicus' catalogue-level statement does not prove there are sufficient repeat SLC scenes for this exact Nevada footprint. Search the official catalogue by AOI and date, verify compatible repeat geometry and pair count, and inspect real products before proposing it as viable.</p>
+    <ol><li>Resolve the assigned method lane; obtain the authorized feature stack, fault components, sample submission and full registry inventory.</li><li>Only after scene availability is verified, derive displacement/coherence surfaces without labels; compare the surface to every registry raster and stop if the rank-correlation or 3-px overlap threshold is exceeded.</li><li>Run feature-alone leakage canaries; AUC above 0.90 is presumed leakage until explained.</li><li>Use the shared buffered whole-segment holdout, visible-fault-only feature derivation and pixel-exact masking. Report evaluator version, withheld positives and 95% CI for pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel).</li><li>Compare against current holdout best; no weekly/final competition entry is selected in this research step.</li></ol>
+    <p><strong>Current verdict: negative / blocked before experiment.</strong> The run card records null values and reasons: <a href="run-card.json">view JSON run card</a>.</p></section>
+  <section><h2>Official and primary sources</h2><ul>
+    <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData problem statement, features, metric and exact GeoTIFF format</a></li>
+    <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">DrivenData data page</a> (redirects to login in this review)</li>
+    <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData official public leaderboard</a></li>
+    <li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">DOE/NLR GEMS official rules (September 2026)</a></li>
+    <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN data release</a> · <a href="https://gbcge.org/current-projects/ingenious/">GBCGE INGENIOUS</a></li>
+    <li><a href="https://epsg.io/32611">EPSG:32611</a> · <a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData reference solution</a></li>
+    <li><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html">GEMSDOE32 report</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-audit.json">H33 artifact audit</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/h33-hypotheses.md">H33 method record</a> (owner evidence, not organizer scoring receipts)</li>
+    <li>Inspected prior-method pages: <a href="https://buffedlizard55-lab.github.io/GEMSDOE71/">71</a>, <a href="https://buffedlizard55-lab.github.io/GEMSDOE73/">73</a>, <a href="https://buffedlizard55-lab.github.io/GEMSDOE74/">74</a>, <a href="https://buffedlizard55-lab.github.io/GEMSDOE75/docs/index.html">75</a> (owner reports; verify claims independently)</li>
+  </ul><p>For project operating rules, findings, limitations and future steps, see the <a href="README.md">full README</a>. For submission file requirements and the current “no download” status, see the <a href="executive-summary.html">submission guide</a>.</p></section>
+  <p><a href="index.html">← Project home</a></p>
+</main>
+</body>
+</html>
