@@ -35,6 +35,8 @@ def main(path):
         with zipfile.ZipFile(z) as zf:
             names = zf.namelist(); same = len(names) == 1 and zf.read(names[0]) == path.read_bytes()
         out["zip"] = dict(file=z.name, single_tif_byte_identical=same, sha256=hashlib.sha256(z.read_bytes()).hexdigest())
+    if "zip" in out:
+        out["all_passed"] = out["all_passed"] and out["zip"]["single_tif_byte_identical"]
     print(json.dumps(out, indent=1)); return 0 if out["all_passed"] else 1
 
 if __name__ == "__main__":
