@@ -17,7 +17,7 @@ unless stated. `registry/sources.json` is the machine-readable twin of this file
 | Submission: single-layer 100 m GeoTIFF (or zip), values in [0, 1]; previous portal rejection text "Predicted values must be in range [0, 1]" | OFFICIAL + user report | rules PDF https://docs.nlr.gov/docs/fy26osti/96647.pdf ; prompt (PROMPT.md) |
 | Weekly submission cap and single final selection across prize rounds | OFFICIAL | rules PDF §3.4–3.6 (cited via GEMSDOE32 `research/official-rules-review-2026-10-03.md`) |
 | Organizer reference solution: U-Net with Monte-Carlo cross-validation (Prof. John Lipor) | OFFICIAL | https://github.com/drivendataorg/gems-prize-reference-solution — README fetched 2026-10-21 |
-| Leaderboard tops quoted in prompt: 0.4413 (GEMSDOE family claim) / 0.3195 / 0.3262 (2026-10-04) | FAMILY | https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ (login; not reachable here) |
+| Public leaderboard 2026-10-21 (concurrent session's snapshot): #1 xiaofanhu 0.4413, #2 cfld__ 0.3904; prompt's 0.3195 is stale | OFFICIAL snapshot (not a receipt; observed by sibling session, not re-fetched here) | https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ (login; not reachable here) |
 
 **Metric consequences (derived, MEASURED by algebra on the official formula):** a dot of credit c changes DTI by
 ≈ (c − 0.2·DTI·(1−c)) / denominator, so an emitted pixel helps only when its max-credit exceeds ≈ 0.2 × DTI (0.032 at DTI 0.16; 0.056 at 0.28). Max-credit per truth pixel means a second dot within 300 m of the same truth adds cost and no credit → sparse dots ≥ 2.83 px apart dominate dense lines (the D1.5 → D2.8 → H33 chain).

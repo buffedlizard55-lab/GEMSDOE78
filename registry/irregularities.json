@@ -58,5 +58,23 @@
     "severity": "info",
     "what": "A fourth evaluation (distance diagnostic) was run after the 3-experiment budget; it re-used existing dots and scores and fitted nothing.",
     "action": "Declared here; counted as a diagnostic, not an experiment."
+  },
+  {
+    "id": "IR-78-11",
+    "severity": "medium",
+    "what": "A concurrent session on this repository (PRs #3-#5, merged to main 2026-10-21 ~21:54 UTC) had no data or template in its checkout and published a root site stating 'NOT READY - do not submit'. This lane restored the SHA-256-pinned inputs and built a validated file, so the two states conflicted at merge time.",
+    "action": "Their pages, README and negative run card are preserved unchanged under docs/archive/blocked-review-2026-10-21/ and docs/review-2026-10-21.md; the live site and README reflect this lane's validated state. Facts from their review are carried into IR-78-12 and IR-78-13."
+  },
+  {
+    "id": "IR-78-12",
+    "severity": "info",
+    "what": "Public-leaderboard snapshot observed by the concurrent session on 2026-10-21: #1 xiaofanhu 0.4413, #2 cfld__ 0.3904 (class: official public-leaderboard snapshot, not a receipt). The prompt's 0.3195 figure is stale relative to it.",
+    "action": "Recorded in research/knowledge.md; nothing in this repo is compared against it as a score."
+  },
+  {
+    "id": "IR-78-13",
+    "severity": "medium",
+    "what": "Provenance conflict for the family's 0.2778: GEMSDOE32's own site says 'NO ORGANISER SCORE EXISTS' for H33-2-B2, whereas GEMSDOE71's page labels 0.2778 ORGANIZER-CONFIRMED; no DrivenData receipt was exposed in either.",
+    "action": "All family scores in this repo are labelled owner-report; the forensic analysis of H33-2-B2 is about its structure, which was measured from the pinned bytes and does not depend on the score's authenticity."
   }
 ]

@@ -48,6 +48,9 @@ Deterministic: two builds produced byte-identical rasters (same sha256).
 ## Layout
 `src/gems78/` lane code · `vendor/gems57/` shared template, unmodified (pins in GEMSDOE77 `registry/template_pin.json`) · `scripts/` runnable steps · `evidence/` every JSON/log a number on the site comes from · `registry/` preregistration, sources, irregularities, data manifest, live scores · `research/` hypotheses + knowledge · `docs/` GitHub Pages site and downloads · `tests/`.
 
+## Concurrent blocked review (same day)
+A parallel session without data access published a *NOT READY* site and negative run card (PRs #3–#5). They are preserved verbatim under `docs/archive/blocked-review-2026-10-21/` and `docs/review-2026-10-21.md`; two of their observations are carried forward as IR-78-12 (leaderboard snapshot 0.4413 / 0.3904, 2026-10-21) and IR-78-13 (0.2778 provenance conflict between GEMSDOE32 and GEMSDOE71). This lane's state supersedes theirs because the inputs were restored and verified here (`data/restore_sha256.txt`).
+
 ## Limitations (honest list)
 1. **Holdout ≠ live.** Withheld truth lies median 9 px from a visible fault; live truth may not. The catalogue-truth proxy over-rewards near-halo dots (GEMSDOE32 saw +0.010 holdout turn into −0.003 live for a coverage change). Mitigation: the candidate's advantage persists on withheld truth > 10 px from visible faults, but the absolute level there is low (0.066).
 2. **One seed.** Only seed 20 was run; CIs are block-bootstrap within one draw, not across draws.
