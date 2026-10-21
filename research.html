@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research and hypotheses | GEMSDOE78</title>
+  <style>
+    :root { color-scheme:light; --ink:#172b36; --muted:#516773; --line:#d5e0e4; --paper:#f3f7f7; --white:#fff; --teal:#12665f; --red:#8e2e21; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { background:#123d46; color:white; padding:30px 20px; }
+    .wrap { max-width:980px; margin:auto; padding:0 20px; }
+    h1 { margin:0; line-height:1.15; }
+    main { padding:25px 0 50px; }
+    section { background:var(--white); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin:0 0 17px; }
+    h2 { margin:0 0 8px; font-size:1.2rem; }
+    .status { border-left:5px solid #d58a78; }
+    .status strong { color:var(--red); }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; min-width:800px; width:100%; font-size:.94rem; }
+    th,td { text-align:left; vertical-align:top; padding:10px; border:1px solid var(--line); }
+    th { background:#eaf2f1; }
+    a { color:var(--teal); font-weight:650; }
+    .note { color:var(--muted); }
+    li { margin:.35em 0; }
+  </style>
+</head>
+<body>
+<header><div class="wrap"><h1>Research plan &amp; evidence</h1></div></header>
+<main class="wrap">
+  <section class="status"><h2>Evidence status</h2><p><strong>No experiments or holdout runs were possible.</strong> This repository has no competition grids, cached feature stack, shared evaluator/writer, registry rasters, or submission footprint. The hypotheses below are untested, not score claims. No numerical DTI improvements are projected.</p><p>The requested 0.2778 is <strong>not ORGANIZER-CONFIRMED and is not a HOLDOUT-DTI measurement from this project</strong>: the GEMSDOE32 page explicitly says no organizer score exists for that artifact and labels its model outputs as projections. The official public leaderboard, read 2026-10-21 UTC, lists rank 1 at 0.4413 (**ORGANIZER-CONFIRMED** from the official leaderboard at that time). The page is dynamic; check it again before decisions.</p></section>
+  <section><h2>Candidate experiments, ranked qualitatively</h2><p class="note">All candidates differ from the literally empty implementation in this checkout. That is not a claim of uniqueness across sibling repositories. Confirm the single selected lane and check registry correlation/3-pixel overlap before any implementation. “Expected potential” is an ordinal research judgment, not a score forecast.</p>
+    <div class="table-wrap"><table><thead><tr><th>Rank</th><th>Hypothesis / layers</th><th>Physical signature and discovery rationale</th><th>Difference here</th><th>Potential / cost</th><th>Non-fault mimic</th></tr></thead><tbody>
+      <tr><td>1</td><td>Cross-physics radiometric alteration edge + magnetic edge; GeoDAWN K/eU/eTh and competition magnetic gradients.</td><td>Spatially coherent radiometric contrast/ratio anomaly co-located with a magnetic boundary may indicate hydrothermal alteration near a structure not in the catalogue. Indirect association only.</td><td>No implementation exists; adds radiometric channels and tests independent sensor coincidence, not a single scarp or existing trace.</td><td>Highest qualitative potential; medium/high cost.</td><td>Lithologic contact, soil/moisture/vegetation variation, survey-height or flight-line artifact, non-geothermal alteration.</td></tr>
+      <tr><td>2</td><td>Scale-space magnetic–gravity edge concordance; TMI/RTP, isostatic gravity and slope bands.</td><td>Persistent boundaries supported across potential-field sources may expose buried structural discontinuities lacking mapped surface traces.</td><td>No implementation exists; cross-field persistence differs from raw single-field edges.</td><td>Medium-high potential; medium cost.</td><td>Lithologic boundary, batholith margin, survey seam/leveling, non-unique potential-field source.</td></tr>
+      <tr><td>3</td><td>Strain–structure orientation interaction; dilatation, shear strain, second invariant with potential-field orientations.</td><td>A strain-accommodation corridor crossing a persistent geophysical boundary could indicate a concealed permeable structure.</td><td>No implementation exists; interaction and orientation/persistence rather than standalone strain magnitude.</td><td>Medium potential; medium cost.</td><td>Regional tectonic strain, interpolation artifact, non-fault deformation zone.</td></tr>
+      <tr><td>4</td><td>Multi-scale radiometric alteration texture gated by magnetic edge and strain context.</td><td>Local spectral/compositional texture may help distinguish alteration adjacent to fluid pathways from generic linear boundaries.</td><td>No implementation exists; multi-scale texture with independent structural gate, not a simple ratio threshold.</td><td>Medium potential; high cost.</td><td>Lithology, regolith, weathering, contamination, acquisition geometry.</td></tr>
+      <tr><td>5</td><td>Multi-resolution strain-gradient persistence gated by magnetic/gravity support.</td><td>A narrow repeatable deformation-field gradient might indicate reactivated structures absent from surface inventories.</td><td>No implementation exists; scale persistence plus an independent geophysical gate.</td><td>Lower/uncertain potential; low/medium cost.</td><td>Broad tectonic gradient or gridding artifact; resolution may not capture individual faults.</td></tr>
+    </tbody></table></div>
+  </section>
+  <section><h2>Top candidate: viability and test gate</h2><p>The official <a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN record</a> links a public magnetic/radiometric data release (<a href="https://doi.org/10.5066/P93LGLVQ">DOI 10.5066/P93LGLVQ</a>) and describes GeoTIFF products and CC0 rights. This verifies publication/access path, not that we acquired or checked the files or their exact channel schemas. Before testing rank 1, verify channel identity, coverage, license, grids and registration against the competition grid.</p>
+  <ol><li>Choose/record the method lane; get the authorized training stack, fault segments, sample grid, and registry rasters.</li><li>On the proposed radiometric edge surface, calculate rank correlation and dot overlap with every registry raster. Stop and mark duplicate if the agreed thresholds are exceeded.</li><li>Run the leakage canary feature by feature (AUC &gt; 0.90 is leakage until explained).</li><li>Use the shared evaluator for buffered whole-segment spatial holdout; derive catalogue features from visible faults only, mask them pixel-exactly, and score pooled DTI with alpha 0.2, beta 0.8, and 300 m triangular kernel.</li><li>Report evaluator version, withheld positives and 95% CI. Compare against current holdout best; no real submission slot is selected in this research step.</li></ol><p><strong>Current verdict: negative / not testable from this checkout.</strong> The run card records the missing inputs and null results: <a href="run-card.json">view JSON run card</a>.</p></section>
+  <section><h2>Official and primary sources</h2><ul>
+    <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData problem statement, features, metric and exact GeoTIFF format</a></li>
+    <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">DrivenData data page</a> (redirects to login in this review)</li>
+    <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData official public leaderboard</a></li>
+    <li><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">DOE/NLR GEMS official rules (September 2026)</a></li>
+    <li><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN data release</a> · <a href="https://gbcge.org/current-projects/ingenious/">GBCGE INGENIOUS</a></li>
+    <li><a href="https://epsg.io/32611">EPSG:32611</a> · <a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData reference solution</a></li>
+    <li><a href="https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html">GEMSDOE32 owner-site report</a> (secondary evidence; its score/model statements are not organizer receipts)</li>
+  </ul><p>For project operating rules, findings, limitations and future steps, see the <a href="README.md">full README</a>. For submission file requirements and the current “no download” status, see the <a href="executive-summary.html">submission guide</a>.</p></section>
+  <p><a href="index.html">← Project home</a></p>
+</main>
+</body>
+</html>
