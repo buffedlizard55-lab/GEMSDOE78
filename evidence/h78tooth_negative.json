@@ -1,0 +1,47 @@
+{
+  "lane": "H78-TOOTH",
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "seed": 20,
+  "withheld_positive_pixels": 11321,
+  "sklearn_version": "1.9.1",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "hypothesis_falsified": true,
+  "control_reproduction": {
+    "note": "A2 strike-steered, nms0_B3, same emitter and seed as the published H78-A run. Printed from scripts/run_tooth_holdout.py before the candidate emission failed.",
+    "B3_37654": 0.1778,
+    "B3_44090": 0.1826,
+    "B3_50000": 0.1843,
+    "published_B3_44090": 0.1826,
+    "reproduced_within_0p005": true
+  },
+  "candidate_collapse": {
+    "fit": {"n_pos": 48340, "n_neg": 450000, "n_features": 109, "fit_seconds": 21.1},
+    "high_score_pixels_gt_0p5": 48340,
+    "high_score_pixels_on_visible_catalogue": 48340,
+    "high_score_distance_to_visible_px": 0.0,
+    "allowed_B3_and_score_gt_0p01": 0,
+    "dots_available_pool_400k": 37475,
+    "dots_available_pool_1p5M": 50000,
+    "interpretation": "The six catalogue-derived tooth features let HistGradientBoosting separate the 48,340 training positives perfectly (score>0.5 exactly on those cells, nowhere else). After the preregistered 3 px flank cut, no ranked pixel remains. A larger pool only fills the budget with tied near-zero scores. This is not a submittable field."
+  },
+  "mechanism_test": {
+    "tooth_gap1_symmetric_auc": 0.5136,
+    "tooth_gap15_symmetric_auc": 0.6056,
+    "tooth_width_ratio_symmetric_auc": 0.6411,
+    "tooth_lambda_px_symmetric_auc": 0.5367,
+    "tooth_support_symmetric_auc": 0.715,
+    "tooth_cv_symmetric_auc": 0.516,
+    "max_auc": 0.715,
+    "leakage_threshold": 0.90,
+    "rotation_control_gap1_auc": 0.5236,
+    "withheld_d_over_lambda_p10_p50_p90": [0.1789, 0.3854, 0.9234],
+    "background_d_over_lambda_p10_p50_p90": [0.1788, 0.8068, 2.0313],
+    "withheld_gap1_mean": 0.1177,
+    "background_gap1_mean": 0.1912,
+    "interpretation": "Withheld whole components sit at a median of 0.39 local spacings from the nearest visible fault, i.e. closer than an ordinary trough (0.5), not at one spacing. gap1 is higher on empty background than on withheld faults. The missing-tooth prediction is in the wrong direction on this draw. support/width_ratio acted as location proxies (the collapse), but neither exceeded the 0.90 leakage canary."
+  },
+  "experiments_charged": 1,
+  "E2_not_the_preregistered_sigma20": "Sigma is not the failure. A sigma=20 refit would still see catalogue-location proxies and the same anti-aligned gap kernel. Declared in registry/preregistration_h78_spy.json: the next experiment leaves this falsified mechanism."
+}

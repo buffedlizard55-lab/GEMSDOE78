@@ -1,6 +1,28 @@
-# GEMSDOE78 — Lane H78: strike-steered lineament learning (DOE GEMS, DrivenData competition 306)
+# GEMSDOE78 — DOE GEMS competition 306
 
-**Site:** https://buffedlizard55-lab.github.io/GEMSDOE78/ · **Run card:** `evidence/h78_run_card.json` · **Prompt (read every session):** `PROMPT.md`
+**Read `PROMPT.md` at the start of every session.** It is the specification: unique GeoTIFF, obvious OK / not-OK, hide-and-recover holdout, no unlabeled numbers, no copied submission, three experiments then stop.
+
+**Site:** https://buffedlizard55-lab.github.io/GEMSDOE78/ · **Status feed:** `docs/data/status.json` · **This session's run card:** `evidence/h78spy_run_card.json`
+
+## Status (2026-10-21, this session) — OK TO SUBMIT: NO
+
+| Item | Value |
+|---|---|
+| New file | `docs/downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif` |
+| sha256 | `0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3` |
+| OK to submit | **NO.** Verdict `negative`. Do not upload it. |
+| Why | HOLDOUT-DTI **0.1808** [0.1623, 0.1985] (evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives) vs reproduced control **0.1826**. Paired delta −0.0018 [−0.0069, +0.0037]. 92.45% of deployment dots lie within 3 px of H78-A (limit 0.70): duplicate, stop. |
+| ORGANIZER-CONFIRMED | none |
+| Weekly slots used by the agent | 0 |
+| Format | Independent `scripts/verify_tif.py`: all checks passed (finite, [0, 1], EPSG:32611, 3730×3292, sample transform, nodata unset). Format validity is not a clearance. |
+
+Two hypotheses were preregistered and run. **H78-TOOTH** (across-strike missing-tooth kernel) is falsified: withheld faults sit at median 0.39 of the local spacing, not 1, and the location-proxy features collapsed the learner onto the mapped traces (`evidence/h78tooth_negative.json`). **H78-SPY** (Liu drop-and-refit) is the file above. Neither beat the holdout best. No projection is written as a score.
+
+The family's 0.2778 figure remains an **owner-report**. Re-measured this session from the pinned H33 raster: 37,654 dots, exact subset of D2.8, 6,436 removed dots all 1.0–2.0 px from the catalogue, median distance to catalogue 19.6 px, nearest-neighbour median 3.0 px. GEMSDOE32's own page, re-fetched 2026-10-21, says no organiser score exists for that file (IR-78-17). Beating that owner-report needs a better off-catalogue field, which these two experiments did not produce.
+
+---
+
+# Previous session — Lane H78-A (not regenerated; not this session's submission)
 
 ## Core Values (Arena) — read before anything else
 1. **Maximize P(Win).** Every hour goes to the thing most likely to raise the organizer-confirmed score; a negative result that saves a submission slot counts.
@@ -12,7 +34,7 @@
 |---|---|
 | Shipped file | `docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif` (+ `.zip`, + receipt `.json`) |
 | sha256 | `6815eac5ff08d913207fa725b7be8ce79c0493d480d17591b7415ab0062acc54` |
-| OK to submit | **YES** — verdict `promote` (preregistered gate, canary, uniqueness, validator all pass; independent re-read `scripts/verify_tif.py` 12/12) |
+| OK to submit | **Previous-session gate only: YES** for that older file (canary, uniqueness, validator). It is not this session's new submission. The live homepage does not clear a new slot. Halo risk IR-78-09 still applies. |
 | Submission name | `gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros` |
 | Note (120 chars) | `GEMSDOE78 H78-A strike-steered HGB, 44090 dots >=283m apart, flank<=3px pruned; HOLDOUT-DTI 0.1826 s20; not a projection` |
 | HOLDOUT-DTI | **0.1826** [0.1628, 0.2004] (evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives) |
@@ -20,9 +42,8 @@
 | ORGANIZER-CONFIRMED | none — the file has not been uploaded. A holdout number is never a projection. |
 | Open risk | IR-78-09: dots concentrate nearer the catalogue than H33 (median 6 px vs 19.6 px). See the home page box and `evidence/h78_distance_diagnostic.json`. |
 
-## How to submit (details on the site's *Executive summary* page)
-1. Check the home page banner says **OK TO SUBMIT: YES**. 2. Download the `.tif` (or `.zip`). 3. DrivenData → competition 306 → *New submission* → upload. 4. Paste the note above. 5. Record the returned score in `registry/live_scores.csv` as ORGANIZER-CONFIRMED.
-The file is single-band float32, EPSG:32611, 3730 × 3292, sample geotransform, **all finite, values exactly 0 or 1, zeros outside the footprint** — the earlier portal error "Predicted values must be in range [0, 1]" cannot recur for that reason.
+## How to submit
+The live homepage banner is the decision. It currently says **OK TO SUBMIT: NO** for the new file. Do not upload a file whose page says NO. Steps, the portal [0, 1] failure mode, and the earlier H78-A file are on `docs/executive-summary.html`. Record any future portal score in `registry/live_scores.csv` as ORGANIZER-CONFIRMED. A holdout number is never that score.
 
 ## What was done (3 experiments + 1 declared diagnostic, ~1 h 45 m)
 * **Forensics** of the family's best file (why 0.2778): `scripts/forensics_h33.py` → `evidence/forensics_h33_vs_d28.json`; narrative in `research/h78_hypotheses.md` §0 and the site's *Hypotheses* page.

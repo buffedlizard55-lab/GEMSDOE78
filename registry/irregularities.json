@@ -76,5 +76,29 @@
     "severity": "medium",
     "what": "Provenance conflict for the family's 0.2778: GEMSDOE32's own site says 'NO ORGANISER SCORE EXISTS' for H33-2-B2, whereas GEMSDOE71's page labels 0.2778 ORGANIZER-CONFIRMED; no DrivenData receipt was exposed in either.",
     "action": "All family scores in this repo are labelled owner-report; the forensic analysis of H33-2-B2 is about its structure, which was measured from the pinned bytes and does not depend on the score's authenticity."
+  },
+  {
+    "id": "IR-78-14",
+    "severity": "high",
+    "what": "H78-TOOTH falsified on seed-20 hide-and-recover (11,321 withheld positives). gap1 mean 0.118 on withheld faults vs 0.191 on background; withheld d/lambda median 0.385, not ~1. The six catalogue-derived features let HGB score >0.5 on exactly the 48,340 training positives and nowhere else. After the 3 px flank cut, zero ranked pixels remained.",
+    "action": "No tooth raster was written. Recorded in evidence/h78tooth_negative.json. Not OK to submit. Do not retune sigma; the mechanism is anti-aligned, not under-smoothed."
+  },
+  {
+    "id": "IR-78-15",
+    "severity": "high",
+    "what": "H78-SPY is a duplicate of H78-A and does not beat it. HOLDOUT-DTI 0.1808 vs reproduced control 0.1826, paired delta -0.0018, 95% CI [-0.0069, +0.0037]. Deployment dots: 92.45% within 3 px of H78-A (limit 0.70). Surface |rho| max 0.140 (limit 0.90).",
+    "action": "Logged as a duplicate and stopped. Inspection GeoTIFF written with DO-NOT-SUBMIT in the filename. ok_to_submit false. Agent spent 0 weekly slots."
+  },
+  {
+    "id": "IR-78-16",
+    "severity": "low",
+    "what": "build_spy_inspection.py initially stored no_nan_inside_footprint as a boolean and then compared it to 0, so validator.passed was false even though every real check passed. scripts/verify_tif.py on the written file returned all_passed true.",
+    "action": "Script comparison fixed after the file was written (no second raster). Run card corrected to passed true, with the bug disclosed. Binding format result is the independent re-read."
+  },
+  {
+    "id": "IR-78-17",
+    "severity": "medium",
+    "what": "Re-fetched https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html on 2026-10-21. That page says no organiser score exists for H33-2-B2 and its own note says projected 0.2747 UNSCORED. The prompt's 0.2778 is therefore still an owner-report, not a receipt copied this session.",
+    "action": "Structure of the H33 raster was re-measured from the SHA-256-pinned file (37,654 dots, subset of D2.8, 6,436 removed dots at 1.0-2.0 px from the catalogue). The score itself is not treated as ORGANIZER-CONFIRMED."
   }
 ]

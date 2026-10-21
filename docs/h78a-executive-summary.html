@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary — how to make a submission</title><style>
+:root{--bg:#0f172a;--card:#111c33;--ink:#e5e7eb;--mut:#9ca3af;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--acc:#38bdf8;--line:#1f2a44}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:28px 20px 10px;max-width:1100px;margin:auto}h1{margin:0 0 6px;font-size:28px}h2{font-size:20px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+main{max-width:1100px;margin:auto;padding:0 20px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.banner{font-size:22px;font-weight:700;padding:16px 20px;border-radius:12px;margin:12px 0}.ok{background:#052e16;border:2px solid var(--ok)}.bad{background:#450a0a;border:2px solid var(--bad)}
+.btn{display:inline-block;background:var(--acc);color:#04141f;font-weight:700;padding:12px 18px;border-radius:10px;text-decoration:none;margin:6px 8px 6px 0}
+.btn.sec{background:#1e293b;color:var(--ink);border:1px solid var(--line)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:600}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;word-break:break-all}.mut{color:var(--mut)}
+nav a{color:var(--acc);margin-right:14px;text-decoration:none}.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.tag.h{background:#1e3a8a}.tag.o{background:#14532d}.tag.n{background:#7f1d1d}.small{font-size:13px}ul{margin:6px 0}
+</style></head><body><header><h1>Executive summary — how to make a submission</h1><nav><a href="index.html">Home</a><a href="executive-summary.html">Executive summary: how to submit</a>
+<a href="hypotheses.html">Hypotheses & why H33 scored 0.2778</a><a href="holdout.html">Holdout evidence</a>
+<a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a>
+<a href="h78mpc.html">H78-MPC lane (2nd candidate)</a>
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav></header><main><div class="banner ok">OK TO SUBMIT: YES — <code>gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif</code> passed the preregistered holdout gate, the leakage canary, the uniqueness audit and the format validator. Verdict: promote.</div><div class="card">
+<ol>
+<li>Confirm the banner on the <a href="index.html">home page</a> says <b>OK TO SUBMIT: YES</b>. If it says NO, stop — the file is for inspection only.</li>
+<li>Download <code>gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif</code> from the home page (or the .zip; both contain the same single-band GeoTIFF).</li>
+<li>Open <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">the competition's submissions page</a> (login required) → <b>New submission</b> → <b>File to submit</b> → choose the .tif (or .zip).</li>
+<li>In <b>Note</b> paste: <code>GEMSDOE78 H78-A strike-steered HGB, 44090 dots &gt;=283m apart, flank&lt;=3px pruned; HOLDOUT-DTI 0.1826 s20; not a projection</code></li>
+<li>Submit. The portal checks CRS (EPSG:32611), shape (3730 × 3292), geotransform and that values are in [0, 1]. This file is all-finite (zeros outside the footprint) with values exactly 0 or 1, so the earlier portal error "Predicted values must be in range [0, 1]" (seen on a NaN-outside file) cannot recur for this reason.</li>
+<li>Copy the score the portal returns into <code>registry/live_scores.csv</code> as ORGANIZER-CONFIRMED. Until then the file has no score.</li>
+</ol>
+<p class="mut small">Weekly cap: the rules allow a limited number of platform submissions per week and one final selection across both prize rounds (official rules PDF, §3.4–3.6). Promotion to a slot is a separate selector decision; this page only certifies that the file is format-valid and passed its preregistered holdout gate.</p></div></main></body></html>

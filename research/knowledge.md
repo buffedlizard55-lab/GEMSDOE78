@@ -48,3 +48,11 @@ unless stated. `registry/sources.json` is the machine-readable twin of this file
 
 ## 5 Standing rules for every session
 Read PROMPT.md and README.md first. Label every number. Never write a projection as a score. Check uniqueness before placement and on final dots. Fix shared tools in the template, never fork. Three experiments or two hours, then stop and write the run card.
+
+## 6 Session 2026-10-21 tooth/spy (MEASURED)
+
+* H33 structure re-measured from pinned bytes: 37,654 dots, subset of D2.8 (44,090), all on H19-5 (121,131); 6,436 removed dots at distance 1.0–2.0 px from the catalogue; H33 nearest-neighbour min 2.828 px, median 3.0; distance-to-catalogue p50 19.65 px; values {0, 1}; nodata unset. Script: inline check in the session log; same facts as `evidence/forensics_h33_vs_d28.json`.
+* GEMSDOE32 page fetched 2026-10-21 says no organiser score exists for H33-2-B2 (IR-78-17). 0.2778 stays an owner-report.
+* H78-TOOTH negative. Withheld d/λ p50 0.385; gap1 mean 0.118 on withheld vs 0.191 on background; symmetric AUC 0.514. Learner scores >0.5 on exactly the 48,340 visible training positives. `evidence/h78tooth_negative.json`.
+* H78-SPY HOLDOUT-DTI 0.1808 [0.1623, 0.1985] vs reproduced A2 control 0.1826; paired delta −0.0018 [−0.0069, +0.0037]; evaluator gems57-pooled-hide-v2, 11,321 withheld. Deployment forward 3 px overlap vs H78-A = 0.9245. Verdict negative, duplicate, not OK to submit. `evidence/h78spy_run_card.json`.
+* Control reproduction on sklearn 1.9.1 matched the published B3 budgets: 0.1778 / 0.1826 / 0.1843 at 37,654 / 44,090 / 50,000 dots.

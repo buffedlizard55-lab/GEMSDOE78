@@ -1,0 +1,215 @@
+{
+  "lane": "H78-SPY",
+  "hypothesis": "Spy-cleaning unlabeled cells that score like faults, then refitting the strike-steered learner, raises hide-and-recover DTI.",
+  "mechanism": "Stage-1 A2 HistGradientBoosting; drop negatives at or above the 15th percentile of positive scores (cap 20%); one refit; dots >= 2.8 px apart, flank <= 3 px, 44090 dots.",
+  "mimic_nonfault_process": "Lithologic contacts and range-front-parallel drainages also score like faults; dropping them from the negatives marks those non-fault lineaments more willingly.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "withheld_positive_pixels": 11321,
+    "spy_dti": 0.18077914125502179,
+    "spy_ci95": [
+      0.16226503151974203,
+      0.19852760694969213
+    ],
+    "control_dti": 0.1825746728455537,
+    "paired_delta": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": -0.001795531590531918,
+      "ci95": [
+        -0.0069339379661185535,
+        0.003693031687086105
+      ],
+      "withheld_positive_pixels": 11321
+    },
+    "hypothesis_supported": false,
+    "beats_published_0_1826": false
+  },
+  "organizer_confirmed_score": null,
+  "leakage_canary": {
+    "max_auc": 0.5861,
+    "flagged": {},
+    "threshold": 0.9,
+    "top10": [
+      [
+        "det_elev_s1.5_Hnn",
+        0.5861
+      ],
+      [
+        "det_elev_s3.0_Hnn",
+        0.5857
+      ],
+      [
+        "det_elev_s3.0_l1",
+        0.583
+      ],
+      [
+        "det_elev_s1.5_l1",
+        0.5816
+      ],
+      [
+        "det_elev_s3.0_gm",
+        0.5814
+      ],
+      [
+        "det_elev_s1.5_gm",
+        0.5776
+      ],
+      [
+        "geod_2ndinv",
+        0.5667
+      ],
+      [
+        "geod_shearrate",
+        0.5659
+      ],
+      [
+        "det_elev_slope",
+        0.5631
+      ],
+      [
+        "tc_totalcount_s3.0_Hnn",
+        0.5454
+      ]
+    ]
+  },
+  "correlation_overlap_vs_registry": {
+    "surface_before_placement": {
+      "H19-5": 0.12702900039626627,
+      "D2.8": 0.0714392224708771,
+      "H33": 0.05440915527684723,
+      "H78-A": 0.1345106591497825,
+      "H78-A-altB2": 0.13984783408018414,
+      "H78-MPC": 0.06946318483200112,
+      "anderson-pinn": 0.05472867787492909,
+      "gems70-dual-submod": 0.054890867459385394,
+      "h27-4-solo-d28": 0.0612556153585305,
+      "h33d-tip-stepover": 0.06448751258029638
+    },
+    "surface_max_abs_rho": 0.13984783408018414,
+    "final_dots": {
+      "H19-5": {
+        "forward_3px": 0.45030619188024495,
+        "reverse_3px": 0.3974787626619115,
+        "spearman": 0.0356763021407577
+      },
+      "D2.8": {
+        "forward_3px": 0.40966205488772967,
+        "reverse_3px": 0.3664776593331821,
+        "spearman": 0.019348744330711466
+      },
+      "H33": {
+        "forward_3px": 0.37210251757768203,
+        "reverse_3px": 0.3543315451213683,
+        "spearman": 0.022282497355244523
+      },
+      "H78-A": {
+        "forward_3px": 0.9244726695395782,
+        "reverse_3px": 0.896234973916988,
+        "spearman": 0.2610115199416574
+      },
+      "H78-A-altB2": {
+        "forward_3px": 0.8671580857337264,
+        "reverse_3px": 0.8855522794284418,
+        "spearman": 0.12549369688985745
+      },
+      "H78-MPC": {
+        "forward_3px": 0.3637786346110229,
+        "reverse_3px": 0.4025070377649121,
+        "spearman": 0.025820101871757452
+      },
+      "anderson-pinn": {
+        "forward_3px": 0.37679745974143797,
+        "reverse_3px": 0.3509548566428167,
+        "spearman": 0.02200552030637962
+      },
+      "gems70-dual-submod": {
+        "forward_3px": 0.3107507371286006,
+        "reverse_3px": 0.39764699633505074,
+        "spearman": 0.02750231940408466
+      },
+      "h27-4-solo-d28": {
+        "forward_3px": 0.39374007711499204,
+        "reverse_3px": 0.3716759123361278,
+        "spearman": 0.021050923868374666
+      },
+      "h33d-tip-stepover": {
+        "forward_3px": 0.4016330233613064,
+        "reverse_3px": 0.36751463035948884,
+        "spearman": 0.019828108604399763
+      }
+    },
+    "worst_forward_3px": 0.9244726695395782,
+    "worst_abs_rho": 0.2610115199416574,
+    "rho_limit": 0.9,
+    "overlap_limit": 0.7,
+    "passed": false
+  },
+  "raster_sha256": "0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3",
+  "validator_output": {
+    "single_band": true,
+    "dtype_float32": true,
+    "crs_epsg_32611": true,
+    "shape_3730x3292": true,
+    "transform_match": true,
+    "nodata_unset": true,
+    "all_finite": true,
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "min": 0.0,
+    "max": 1.0,
+    "zero_outside_footprint": true,
+    "zero_on_catalogue": true,
+    "dots": 44090,
+    "passed": true,
+    "independent_verify_tif": {
+      "script": "scripts/verify_tif.py",
+      "all_passed": true,
+      "note": "The builder's own passed flag was false because it compared the boolean no_nan_inside_footprint to 0 (True == 0 is False). That comparison was a script bug, fixed in scripts/build_spy_inspection.py after this file was written. The independent re-read is the binding format result. IR-78-16."
+    },
+    "builder_passed_flag_was_buggy": true
+  },
+  "distance_to_catalogue_px": {
+    "median_px": 6.082762530298219,
+    "p10_px": 3.1622776601683795,
+    "p90_px": 18.788294228055936,
+    "fraction_within_5px": 0.4177591290542073,
+    "fraction_beyond_30px": 0.04502154683601724
+  },
+  "submission_name": "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT",
+  "submission_note": "NOT OK TO SUBMIT. H78-SPY holdout 0.1808 vs 0.1826 control; inspection only, not a projection",
+  "submission_note_chars": 93,
+  "file": "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif",
+  "zip_file": "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.zip",
+  "cleaning_deployment": {
+    "t": 0.24260714650154114,
+    "n_dropped": 25872,
+    "stage1": {
+      "n_pos": 60988,
+      "n_neg": 450000,
+      "fit_seconds": 35.3
+    },
+    "stage2": {
+      "n_pos": 60988,
+      "n_neg": 424128,
+      "fit_seconds": 35.0
+    }
+  },
+  "features": {
+    "tag": "full",
+    "n_footprint": 5167373,
+    "n_features": 103,
+    "strike_sigma_region_px": 40.0,
+    "strike_sigma_line_px": 1.5,
+    "visible_catalogue_px": 60988,
+    "coherence_median": 0.5577561259269714,
+    "seconds": 99.6
+  },
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "weekly_slots_used_by_agent": 0,
+  "experiments_used": 3,
+  "verdict": "negative",
+  "seconds": 276.4
+}

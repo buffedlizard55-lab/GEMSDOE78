@@ -63,5 +63,20 @@
     "what": "Shared template (vendor/gems57) origin",
     "url": "https://github.com/buffedlizard55-lab/GEMSDOE77",
     "verified": "Files copied unmodified; sha256 match GEMSDOE77 registry/template_pin.json."
+  },
+  {
+    "what": "Ackermann, Schlische, Withjack 2001 — normal-fault spacing scales with brittle-layer thickness",
+    "url": "https://www.sciencedirect.com/science/article/abs/pii/S0191814101000281",
+    "verified": "DOI 10.1016/S0191-8141(01)00028-1 confirmed by search snippet 2026-10-21. Full text not fetched (host not on the sandbox allowlist)."
+  },
+  {
+    "what": "Soliva and Benedicto 2006 — near-regular spacing of layer-bound normal faults",
+    "url": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2004JB003507",
+    "verified": "DOI 10.1029/2004JB003507 confirmed by search snippet 2026-10-21. Full text not fetched."
+  },
+  {
+    "what": "GEMSDOE32 page re-fetch: H33-2-B2 has no organiser score on that site",
+    "url": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html",
+    "verified": "Fetched 2026-10-21. Page states no organiser score exists; note text says projected 0.2747 UNSCORED. IR-78-17."
   }
 ]

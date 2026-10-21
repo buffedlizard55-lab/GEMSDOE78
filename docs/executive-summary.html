@@ -1,25 +1,52 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Executive summary — how to make a submission</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Executive summary — how a submission is made, and why this one is not cleared</title><style>
 :root{--bg:#0f172a;--card:#111c33;--ink:#e5e7eb;--mut:#9ca3af;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--acc:#38bdf8;--line:#1f2a44}
 *{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-header{padding:28px 20px 10px;max-width:1100px;margin:auto}h1{margin:0 0 6px;font-size:28px}h2{font-size:20px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
-main{max-width:1100px;margin:auto;padding:0 20px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
-.banner{font-size:22px;font-weight:700;padding:16px 20px;border-radius:12px;margin:12px 0}.ok{background:#052e16;border:2px solid var(--ok)}.bad{background:#450a0a;border:2px solid var(--bad)}
-.btn{display:inline-block;background:var(--acc);color:#04141f;font-weight:700;padding:12px 18px;border-radius:10px;text-decoration:none;margin:6px 8px 6px 0}
-.btn.sec{background:#1e293b;color:var(--ink);border:1px solid var(--line)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
-th{color:var(--mut);font-weight:600}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;word-break:break-all}.mut{color:var(--mut)}
-nav a{color:var(--acc);margin-right:14px;text-decoration:none}.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700}
-.tag.h{background:#1e3a8a}.tag.o{background:#14532d}.tag.n{background:#7f1d1d}.small{font-size:13px}ul{margin:6px 0}
-</style></head><body><header><h1>Executive summary — how to make a submission</h1><nav><a href="index.html">Home</a><a href="executive-summary.html">Executive summary: how to submit</a>
-<a href="hypotheses.html">Hypotheses & why H33 scored 0.2778</a><a href="holdout.html">Holdout evidence</a>
-<a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a> <a href="h78mpc.html">H78-MPC lane (2nd candidate)</a>
-<a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav></header><main><div class="banner ok">OK TO SUBMIT: YES — <code>gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif</code> passed the preregistered holdout gate, the leakage canary, the uniqueness audit and the format validator. Verdict: promote.</div><div class="card">
+header{padding:28px 20px 8px;max-width:980px;margin:auto}h1{margin:0 0 6px;font-size:28px}h2{font-size:20px;margin:22px 0 8px}
+main{max-width:980px;margin:auto;padding:0 20px 64px}
+.banner{font-size:22px;font-weight:800;padding:18px 20px;border-radius:12px;margin:14px 0;line-height:1.35}
+.no{background:#450a0a;border:3px solid var(--bad)}
+.yes{background:#052e16;border:2px solid var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.btn{display:inline-block;font-weight:800;padding:12px 16px;border-radius:10px;text-decoration:none;margin:6px 8px 6px 0}
+.btn.bad{background:var(--bad);color:#fff}
+.btn.sec{background:#1e293b;color:var(--ink);border:1px solid var(--line)}
+nav a{color:var(--acc);margin-right:14px;text-decoration:none}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{color:var(--mut)}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;word-break:break-all}
+.mut{color:var(--mut)}.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.tag.h{background:#1e3a8a}.tag.n{background:#7f1d1d}.tag.o{background:#14532d}
+</style></head><body>
+<header><h1>Executive summary — how a submission is made, and why this one is not cleared</h1><nav>
+<a href="index.html">Home</a>
+<a href="executive-summary.html">How to submit</a>
+<a href="hypotheses.html">Earlier hypotheses</a>
+<a href="holdout.html">H78-A holdout</a>
+<a href="sources.html">Sources</a>
+<a href="irregularities.html">Irregularities</a>
+<a href="h78a.html">Previous H78-A page</a>
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a>
+</nav></header><main>
+<div class="banner no">OK TO SUBMIT: NO. Stop on this page if you were about to upload the new GeoTIFF.</div>
+<div class="card">
+<h2 style="margin-top:0">Decision</h2>
+<p>This session generated one new GeoTIFF. It is format-valid and it is <b>not</b> cleared for a weekly slot.</p>
 <ol>
-<li>Confirm the banner on the <a href="index.html">home page</a> says <b>OK TO SUBMIT: YES</b>. If it says NO, stop — the file is for inspection only.</li>
-<li>Download <code>gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif</code> from the home page (or the .zip; both contain the same single-band GeoTIFF).</li>
-<li>Open <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">the competition's submissions page</a> (login required) → <b>New submission</b> → <b>File to submit</b> → choose the .tif (or .zip).</li>
-<li>In <b>Note</b> paste: <code>GEMSDOE78 H78-A strike-steered HGB, 44090 dots &gt;=283m apart, flank&lt;=3px pruned; HOLDOUT-DTI 0.1826 s20; not a projection</code></li>
-<li>Submit. The portal checks CRS (EPSG:32611), shape (3730 × 3292), geotransform and that values are in [0, 1]. This file is all-finite (zeros outside the footprint) with values exactly 0 or 1, so the earlier portal error "Predicted values must be in range [0, 1]" (seen on a NaN-outside file) cannot recur for this reason.</li>
-<li>Copy the score the portal returns into <code>registry/live_scores.csv</code> as ORGANIZER-CONFIRMED. Until then the file has no score.</li>
+<li>Read the red banner. If it says <b>OK TO SUBMIT: NO</b>, do not upload that file. The current banner says NO.</li>
+<li>The inspection file, if you need to look at the bytes, is <a href="downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif">gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif</a>. sha256 <code>0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3</code>. Name and note are on the home page. Do not paste them into a live submission.</li>
+<li>A legal upload, when a future file is actually cleared, is a single-band GeoTIFF or a zip containing that one GeoTIFF. DrivenData competition 306, New submission. The portal checks CRS EPSG:32611, shape 3730×3292, the sample geotransform, and values in [0, 1]. Files from this repo's writer are all-finite, nodata unset, values exactly 0 or 1, which is the fix for the portal error "Predicted values must be in range [0, 1]". Format validity is necessary and not sufficient.</li>
+<li>Rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">competition home</a>, <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem and metric</a>, <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">rules PDF</a>. Weekly cap and single final selection are in that PDF; this agent does not spend a slot.</li>
+<li>If a human later uploads a cleared file, copy the portal score into <code>registry/live_scores.csv</code> and label it ORGANIZER-CONFIRMED. Until that receipt exists, there is no score.</li>
 </ol>
-<p class="mut small">Weekly cap: the rules allow a limited number of platform submissions per week and one final selection across both prize rounds (official rules PDF, §3.4–3.6). Promotion to a slot is a separate selector decision; this page only certifies that the file is format-valid and passed its preregistered holdout gate.</p></div></main></body></html>
+</div>
+<div class="card">
+<h2 style="margin-top:0">Why the new file fails the gate</h2>
+<ul>
+<li><span class="tag h">HOLDOUT-DTI</span> 0.1808 does not beat the reproduced control 0.1826 or the published holdout best 0.1826. The paired 95% interval on the difference includes zero.</li>
+<li>92.45% of its dots fall within 3 px of H78-A. The parallel-run rule stops a lane at 70%. It is not a new submission.</li>
+<li>H78-TOOTH, the other experiment, produced no raster: the model collapsed onto the mapped catalogue.</li>
+</ul>
+<p>Earlier H78-A file, not regenerated this session: see <a href="h78a.html">the archived H78-A page</a>. Submitting it would not be a test of this session's hypotheses. Its own page records a catalogue-halo risk (median 6 px from mapped faults versus 19.6 px for H33).</p>
+</div>
+</main></body></html>

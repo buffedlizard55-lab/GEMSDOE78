@@ -214,13 +214,27 @@ def main():
     card = load("evidence/h78_run_card.json")
     hold = load("evidence/h78_holdout_seed20.json")
     forensic = load("evidence/forensics_h33_vs_d28.json")
-    (DOCS / "index.html").write_text(index(card, hold, forensic))
-    (DOCS / "executive-summary.html").write_text(exec_summary(card))
+    # H78-A pages are preserved, but they are not the session homepage. A later
+    # negative result must not be covered by this function's green banner.
+    h78a = index(card, hold, forensic)
+    warn = (
+        '<div class="banner" style="background:#451a03;border:2px solid #d97706">'
+        'Previous session only. The live homepage decision is '
+        '<a href="index.html">OK TO SUBMIT: NO</a> for the new file. '
+        'The green banner below is the earlier H78-A gate, not a new clearance.</div>'
+    )
+    h78a = h78a.replace("<main>", "<main>" + warn, 1)
+    (DOCS / "h78a.html").write_text(h78a)
+    (DOCS / "h78a-executive-summary.html").write_text(exec_summary(card))
     (DOCS / "hypotheses.html").write_text(hypotheses_page())
     (DOCS / "holdout.html").write_text(holdout_page(hold))
     (DOCS / "sources.html").write_text(sources_page())
     (DOCS / "irregularities.html").write_text(irregularities_page())
     (ROOT / "index.html").write_text('<!doctype html><meta http-equiv="refresh" content="0; url=docs/index.html">')
+    # Session homepage (tooth/spy negative) overwrites index + executive summary
+    # after the H78-A archive pages are written. Do not remove this call.
+    import runpy
+    runpy.run_path(str(Path(__file__).with_name("build_session_site.py")), run_name="__main__")
     print("site built")
 
 

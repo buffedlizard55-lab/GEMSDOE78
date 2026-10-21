@@ -2,7 +2,7 @@
 data/raw/
 data/processed/
 data/bridge/*.tif
-data/registry/*.tif
+data/registry/
 data/external/
 *.partial
 __pycache__/
