@@ -53,20 +53,49 @@ def test_zero_dots_on_catalogue():
         a = s.read(1)
     assert int(((a > 0) & cat).sum()) == 0
 
-def test_run_card_promote_and_labeled():
+def test_run_card_negative_duplicate_stop_and_labeled():
     rc = json.loads((ROOT / "evidence" / "h78mpc_run_card.json").read_text())
-    assert rc["verdict"] == "promote"
-    assert rc["ok_to_download"] is True and rc["ok_to_submit"] is True
-    assert all(rc["preregistered_gate_evaluation"].values())
+    assert rc["verdict"] == "negative"
+    assert rc["ok_to_download"] is True and rc["ok_to_submit"] is False
+    assert rc["download_purpose"].startswith("Research / education only")
+    assert rc["original_preregistered_gate_passed"] is True
+    assert all(rc["preregistered_gate_evaluation"].values())  # historical gate, preserved as originally preregistered
+    gates = rc["strict_eligibility_gate_evaluation"]
+    assert gates["E2_gt_E1_paired_ci_lower_gt_0"] is True
+    assert gates["E2_beats_h33_control_paired_ci_lower_gt_0"] is False
+    assert gates["E2_gt_current_repo_best_holdout_point_estimate"] is False
+    assert gates["forward_3px_overlap_le_0.70_informative_registry"] is False
+    assert gates["forward_3px_overlap_le_0.70_all_registry_rasters"] is False
+    assert gates["validator_all_passed"] is True
     assert rc["holdout"]["evidence_class"] == "HOLDOUT-DTI"
+    assert rc["holdout"]["evaluator_version"] == "gems57-pooled-hide-v2"
+    assert rc["holdout"]["seed"] == 20
     assert rc["holdout"]["withheld_positive_pixels"] == 11321
+    assert rc["current_repo_best_holdout"]["evidence_class"] == "HOLDOUT-DTI"
+    assert rc["current_repo_best_holdout"]["seed"] == rc["holdout"]["seed"]
+    assert rc["current_repo_best_holdout"]["dti"] > rc["holdout"]["candidate_E2_MPC_SPACED"]["dti"]
     assert len(rc["submission_note"]) <= 140
     assert rc["raster_sha256"] == PROD["sha256"]
     assert rc["validator_output"]["all_checks_passed"] is True
+    assert rc["correlation_overlap_vs_registry"]["strict_protocol_gate_passed"] is False
+    assert rc["correlation_overlap_vs_registry"]["final_dots_worst_forward_3px_informative"] > 0.70
+    assert rc["weekly_slots_used_by_agent"] == 0
+    assert json.loads((ROOT / "evidence/h78mpc_duplicate_stop.json").read_text())["status"] == "duplicate-stop"
     # both emission readings retained (IR-78-EMIT-01 disclosure)
     cl = rc["holdout"]["pass1_preregistered_emitter_reading_IR-78-EMIT-01"]["scores_clustered"]
     assert cl["E2_MPC"]["dti"] < rc["holdout"]["candidate_E2_MPC_SPACED"]["dti"]
-    assert rc["correlation_overlap_vs_registry"]["final_dots_worst_mutual_3px_informative"] <= 0.70
+
+def test_literal_forward_overlap_is_binding():
+    audit = json.loads((ROOT / "evidence/h78mpc_uniqueness.json").read_text())
+    strict = audit["strict_protocol"]
+    assert strict["max_abs_spearman_pass"] is True
+    assert strict["informative_forward_overlap_pass"] is False
+    assert strict["literal_all_rasters_forward_overlap_pass"] is False
+    assert strict["unique"] is False
+    assert audit["worst_forward_informative"] == pytest.approx(0.73)
+    assert audit["worst_forward_literal_all_rasters"] == pytest.approx(0.9914)
+    prod = json.loads((ROOT / "evidence/h78mpc_production.json").read_text())
+    assert prod["unique"] is False and prod["eligible_to_submit"] is False
 
 def test_dot_spacing_kernel_packed():
     from scipy.spatial import cKDTree
@@ -76,8 +105,23 @@ def test_dot_spacing_kernel_packed():
     d, _ = cKDTree(np.c_[ys, xs].astype(float)).query(np.c_[ys, xs].astype(float), k=2)
     assert float((d[:, 1] <= 1.5).mean()) == 0.0  # no contiguous runs (IR-78-EMIT-01)
 
-def test_site_says_ok_and_discloses_caveats():
+def test_prior_root_candidate_fails_closed_until_full_registry_audit():
+    review = json.loads((ROOT / "evidence/h78a_current_review.json").read_text())
+    assert review["historical_run_card_verdict"] == "promote"
+    assert review["current_prompt_status"] == "not-cleared"
+    assert review["duplicate_claim"] is False
+    home = (ROOT / "docs/index.html").read_text()
+    summary = (ROOT / "docs/executive-summary.html").read_text()
+    assert "OK TO SUBMIT: NO / NOT CLEARED" in home
+    assert "NOT CLEARED" in summary and "do not upload" in summary.lower()
+    assert "only the H19-5/D2.8/H33 lineage rasters" in home
+
+def test_site_says_research_only_and_discloses_caveats():
     html = (ROOT / "docs" / "h78mpc.html").read_text()
-    assert "OK TO DOWNLOAD &amp; SUBMIT" in html and "OK to download: YES" in html
+    assert "OK TO DOWNLOAD: YES — RESEARCH ONLY · OK TO SUBMIT: NO" in html
+    assert "do not submit" in html and "duplicate under the specified rule" in html
     assert "IR-78-EMIT-01" in html and "not statistically significant" in html
     assert PROD["final_stem"] in html and PROD["note"] in html
+    summary = (ROOT / "docs" / "h78mpc-executive-summary.html").read_text()
+    assert "OK TO SUBMIT: NO" in summary
+    assert "Do not upload the H78-MPC research artifact" in summary

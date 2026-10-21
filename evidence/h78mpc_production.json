@@ -4,7 +4,7 @@
  "note": "H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots",
  "name": "gems78-h78mpc-monogenic-pc-spaced-37654-20261021",
  "validator_all_passed": true,
- "unique": true,
+ "unique": false,
  "unique_literal_all_rasters": false,
  "superseded_clustered": {
   "final_stem": "gems78-h78mpc-monogenic-pc-37654dots-20261021T220000Z-28dd7adf-zeros",
@@ -23,5 +23,10 @@
   "mutual_preregistered": 0.4879,
   "forward_informative": 0.73,
   "forward_literal_all_incl_spacefilling": 0.9914
- }
+ },
+ "prior_legacy_mutual_gate_unique": true,
+ "strict_protocol_unique": false,
+ "eligible_to_submit": false,
+ "disposition": "duplicate-stop; existing TIFF is research/education only",
+ "status_correction": "The earlier unique=true value was under the prior mutual-overlap gate and is superseded by the literal one-way 3-px forward test in PROMPT.md."
 }

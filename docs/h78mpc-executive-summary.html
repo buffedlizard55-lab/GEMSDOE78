@@ -11,30 +11,30 @@ code{background:#eee;padding:2px 5px;border-radius:4px;word-break:break-all}
 img{max-width:100%}.small{font-size:.85rem;color:#555}.warn{background:#fff8e6;border:1px solid #e0b400;border-radius:8px;padding:10px 14px}
 </style></head><body>
 <h1>Executive summary: exactly how to make the submission</h1>
-<div class="banner ok" style="padding:16px"><p class="big" style="margin:0">✅ OK TO DOWNLOAD: YES · ✅ OK TO SUBMIT: YES (verdict promote;
-human selector checks the weekly cap and uploads once). HOLDOUT-DTI 0.0977 vs 0.0939 control —
-point-estimate win, not statistically significant; no organizer score exists yet. Full evidence on the <a style="color:#fff" href="h78mpc.html">H78-MPC page</a>.</p></div>
+<div class="banner bad"><p class="big">⛔ OK TO DOWNLOAD: YES — RESEARCH / EDUCATION ONLY · OK TO SUBMIT: NO. Do not upload this file or spend a slot. Literal forward 3-px overlap is 0.730 (>0.700) against an informative registry raster; the recorded repository-best HOLDOUT-DTI is 0.1843 [0.1658, 0.2015], above the candidate. No new raster was built after the required duplicate stop.</p></div>
 <div class="card">
-<h2>Step 1 — Download one file (either format, not both)</h2>
-<p><a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif"><b>gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif</b></a> or <a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.zip"><b>gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.zip</b></a>
-(the ZIP contains exactly that one TIFF). Optional integrity check: <code>sha256sum gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif</code> →
-<code>c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256</code>.</p>
-<h2>Step 2 — Open the DrivenData form</h2>
-<p><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition 306</a> → sign in →
-<b>New submission</b>. First read the weekly submission cap shown on that page — this system spends 0 slots;
-the slot is spent only when you click submit.</p>
-<h2>Step 3 — "File to submit"</h2>
-<p>Choose the downloaded <code>.tif</code> (or the <code>.zip</code>). Portal contract (all enforced fail-closed by our writer and
-re-verified from disk): single-band GeoTIFF, CRS EPSG:32611, shape 3730×3292, geotransform (100, 0, 243350, 0, −100, 4508550).</p>
-<h2>Step 4 — Name and Note (copy exactly)</h2>
-<div class="copy"><b>Unique submission name:</b><br><code>gems78-h78mpc-monogenic-pc-spaced-37654-20261021</code></div>
-<div class="copy"><b>Note (optional) — 111/140 characters:</b><br><code>H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots</code></div>
-<h2>Step 5 — Why "Predicted values must be in range [0, 1]" cannot happen</h2>
-<p>Causes of that error: values outside [0,1]; a nodata tag carrying a sentinel (e.g. −3.4028234663852886e+38 from
-<code>training_features.tif</code>); or NaN cells. This file is written <b>all-finite zeros-outside</b>: all 12,279,160 cells finite,
-min 0.0, max 1.0, 0 NaN, <code>nodata=None</code> — verified by re-opening the written bytes
-(<a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.json">validator receipt</a>; local preflight, not organiser acceptance).</p>
-<h2>Step 6 — After submitting</h2>
-<p>Copy the score from the submission-page receipt verbatim, label it <b>ORGANIZER-CONFIRMED</b> with the submission name
-above, and record it against sha256 <code>c7932fbda98120b5…</code>. Never record a HOLDOUT-DTI or a projection as a score.</p></div>
+<h2>Current candidate disposition</h2>
+<p>This H78-MPC TIFF is <b>downloadable for research/education, but not eligible for submission</b>. Do not select it in DrivenData. Its final-dot forward overlap exceeds the strict 3-px duplicate limit, and its HOLDOUT-DTI does not beat the repository's recorded best. No slot has been spent; no replacement was generated after the mandatory stop.</p>
+<h2>Step 1 — Download for inspection only (not for upload)</h2>
+<p><a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif"><b>gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif — research artifact; do not submit</b></a> or <a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.zip"><b>gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.zip — research artifact; do not submit</b></a>
+(the ZIP contains exactly that one TIFF). Integrity check: <code>sha256sum gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif</code> → <code>c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256</code>.</p>
+<h2>Step 2 — When a future candidate is explicitly marked OK TO SUBMIT: YES</h2>
+<p>Use <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition 306</a> → sign in → <b>New submission</b>.
+Read the current weekly cap on the competition page. Do not upload the H78-MPC research artifact described here.</p>
+<h2>Step 3 — File to submit (future eligible candidate only)</h2>
+<p>Choose the exact <code>.tif</code> linked from the eligible candidate's page (or its single-TIFF <code>.zip</code> if allowed).
+The H78-MPC file itself passes local format checks: single-band float32, EPSG:32611, shape 3730×3292, geotransform
+(100, 0, 243350, 0, −100, 4508550), all finite, and values in [0,1]. Local preflight is not organizer acceptance.</p>
+<h2>Step 4 — Name and Note (future eligible candidate only)</h2>
+<p>Copy the unique name and note only from a page whose automated run card says <code>ok_to_submit: true</code>.
+Do not paste the H78-MPC artifact metadata below into the form.</p>
+<div class="copy"><b>Research artifact name — not for portal use:</b><br><code>gems78-h78mpc-monogenic-pc-spaced-37654-20261021</code></div>
+<div class="copy"><b>Research artifact note — not for portal use:</b><br><code>H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots</code></div>
+<h2>Step 5 — Range error preflight</h2>
+<p>The local verifier re-opened this research TIFF: all 12,279,160 cells are finite, min 0.0, max 1.0, 0 NaN, and <code>nodata=None</code>
+(<a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.json">validator receipt</a>). Thus the stored bytes do not show an out-of-range/NaN cause for the reported
+"Predicted values must be in range [0, 1]" error; this does not guarantee organizer acceptance.</p>
+<h2>Step 6 — After a future submission</h2>
+<p>Copy the score verbatim from that submission-page receipt, label it <b>ORGANIZER-CONFIRMED</b> with the file name and SHA-256.
+Never record a HOLDOUT-DTI or a projection as an organizer score.</p></div>
 <p><a href="h78mpc.html">← H78-MPC page</a> · <a href="index.html">Primary lane home</a></p></body></html>

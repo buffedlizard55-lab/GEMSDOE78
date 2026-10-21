@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Production build for the promoted H78 arm: LOQO retrain on the FULL
-catalogue, emit exactly 37,654 dots at EDT(catalogue)>2.5px, audit uniqueness
-(surface rho pre-placement + final-dot overlap) vs the local registry set,
-then package via vendor submission_writer (fail-closed validator).
+"""Historical H78-MPC full-catalogue LOQO build with fail-closed eligibility.
+
+It reproduces the frozen full-catalogue surface and audits uniqueness before
+packaging. Under the current PROMPT.md rule, the recorded H78-MPC dots exceed
+the literal one-way 3-px threshold, so this script must stop before writing a
+new TIFF. Do not treat the historical artifact as a submission candidate.
 
 Usage: python3 scripts/build_production.py --bands all|base
-Registry rasters are read from the sibling checkouts listed in REGISTRY_DIRS
-(re-clone instructions in README); every compared file's sha256 is recorded.
-"""
+Registry rasters are read from REGISTRY_DIRS; every compared file's SHA-256 is
+recorded. Missing/insufficient registry inventory fails closed."""
 from __future__ import annotations
 import argparse, gc, hashlib, json, sys, time
 from pathlib import Path
@@ -167,15 +168,32 @@ for r in registry:
 informative = [r for r in dot_rows if r.get("their_dots", 0) > 0 and r.get("their_3px_halo_fp_fraction", 0) < 0.70]
 worst_mutual = max((r["mutual"] for r in informative), default=0.0)
 worst_fwd_inf = max((r["forward_overlap_mine_in_theirs3px"] for r in informative), default=0.0)
-unique = bool(max_rho <= 0.90 and worst_fwd_inf <= 0.70)
-audit = {"registry_count": len(registry), "informative_count": len(informative),
-         "preplacement_max_abs_sampled_rho": max_rho, "worst_mutual_informative": worst_mutual,
-         "worst_forward_informative": worst_fwd_inf, "unique_vs_informative_registry": unique,
+worst_fwd_all = max((r["forward_overlap_mine_in_theirs3px"] for r in dot_rows if "forward_overlap_mine_in_theirs3px" in r), default=1.0)
+registry_scope_ok = len(registry) >= 74  # 74 unique local rasters were present in the recorded audit.
+unique = bool(registry_scope_ok and max_rho <= 0.90 and worst_fwd_inf <= 0.70 and worst_fwd_all <= 0.70)
+audit = {"registry_count": len(registry), "minimum_recorded_registry_count": 74,
+         "registry_scope_ok": registry_scope_ok, "informative_count": len(informative),
+         "preplacement_max_abs_sampled_rho": max_rho, "worst_mutual_informative_diagnostic_only": worst_mutual,
+         "worst_forward_informative": worst_fwd_inf, "worst_forward_literal_all_rasters": worst_fwd_all,
+         "unique_vs_informative_registry": bool(registry_scope_ok and max_rho <= 0.90 and worst_fwd_inf <= 0.70),
+         "unique_literal_all_rasters": bool(registry_scope_ok and max_rho <= 0.90 and worst_fwd_all <= 0.70),
+         "strict_protocol_unique": unique,
+         "strict_protocol": {"rho_limit": 0.90, "forward_3px_overlap_limit": 0.70,
+                             "registry_scope_pass": registry_scope_ok,
+                             "max_abs_spearman_pass": bool(max_rho <= 0.90),
+                             "informative_forward_overlap_pass": bool(registry_scope_ok and worst_fwd_inf <= 0.70),
+                             "literal_all_rasters_forward_overlap_pass": bool(registry_scope_ok and worst_fwd_all <= 0.70),
+                             "unique": unique,
+                             "criterion": "literal one-way fraction of candidate dots within 3 px of any registry raster's dots; mutual overlap is diagnostic only"},
          "surface_rows": sorted(surf_rows, key=lambda r: -abs(r["sampled_spearman_rho"])),
-         "dot_rows": sorted([r for r in dot_rows if "mutual" in r], key=lambda r: -r["mutual"])}
+         "dot_rows": sorted([r for r in dot_rows if "mutual" in r], key=lambda r: -r["forward_overlap_mine_in_theirs3px"])}
 (EV / "h78mpc_uniqueness.json").write_text(json.dumps(audit, indent=1))
-log("uniqueness:", {k: audit[k] for k in ["registry_count", "informative_count",
-    "preplacement_max_abs_sampled_rho", "worst_mutual_informative", "worst_forward_informative", "unique_vs_informative_registry"]})
+log("uniqueness:", {k: audit[k] for k in ["registry_count", "registry_scope_ok", "informative_count",
+    "preplacement_max_abs_sampled_rho", "worst_mutual_informative_diagnostic_only", "worst_forward_informative",
+    "worst_forward_literal_all_rasters", "strict_protocol_unique"]})
+if not unique:
+    log("STOP: literal forward-overlap/surface/registry-scope gate failed; no TIFF will be packaged")
+    raise SystemExit(2)
 
 # ---- package ----
 exp = json.loads((EV / "h78mpc_experiments.json").read_text())

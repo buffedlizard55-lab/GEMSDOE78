@@ -1033,5 +1033,25 @@
  },
  "emission": "greedy_dots spaced min_dist 2.5 (IR-78-EMIT-01 correction)",
  "unique_vs_informative_registry": false,
- "unique_literal_all_rasters": false
+ "unique_literal_all_rasters": false,
+ "strict_protocol": {
+  "rho_limit": 0.9,
+  "forward_3px_overlap_limit": 0.7,
+  "max_abs_spearman_pass": true,
+  "informative_forward_overlap_pass": false,
+  "literal_all_rasters_forward_overlap_pass": false,
+  "unique": false,
+  "overlap_definition": "Fraction of candidate dots within 3 px of any registry raster dots; one-way forward overlap. Mutual overlap is diagnostic only."
+ },
+ "uniqueness_scope_note": "74 locally accessible, SHA-256-deduplicated registry rasters; this is not proof that all sibling sites or organizer rasters were available.",
+ "prior_mutual_gate_disposition": "An earlier run card used mutual overlap and excluded the space-filling witness; that gate does not match the literal PROMPT.md rule and is superseded.",
+ "duplicate_stop": {
+  "required": true,
+  "informative_witness": "gems70-p5-submodular-multiphysics-hydro-54000-20261020.tif",
+  "informative_forward_overlap": 0.73,
+  "literal_max_witness": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+  "literal_max_forward_overlap": 0.9914,
+  "action": "Negative result; no competition submission; preserve TIFF for research/education only."
+ },
+ "unique_mutual_diagnostic_only": true
 }

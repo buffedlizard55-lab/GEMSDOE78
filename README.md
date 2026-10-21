@@ -6,13 +6,13 @@
 1. **Maximize P(Win).** Every hour goes to the thing most likely to raise the organizer-confirmed score; a negative result that saves a submission slot counts.
 2. **Own the Outcome.** No manual steps, no unlabelled numbers, no hidden irregularities. If a tool is wrong, fix it in the shared template and say so.
 
-## Status (2026-10-21, session 1)
+## Historical H78-A status (2026-10-21, session 1; not current clearance)
 
 | Item | Value |
 |---|---|
 | Shipped file | `docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif` (+ `.zip`, + receipt `.json`) |
 | sha256 | `6815eac5ff08d913207fa725b7be8ce79c0493d480d17591b7415ab0062acc54` |
-| OK to submit | **YES** — verdict `promote` (preregistered gate, canary, uniqueness, validator all pass; independent re-read `scripts/verify_tif.py` 12/12) |
+| Historical run-card verdict | `promote` under that prior lane's gates; current review status is **NOT CLEARED** under the literal all-registry rule because the stored audit covers only three lineage rasters (IR-78-16). |
 | Submission name | `gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros` |
 | Note (120 chars) | `GEMSDOE78 H78-A strike-steered HGB, 44090 dots >=283m apart, flank<=3px pruned; HOLDOUT-DTI 0.1826 s20; not a projection` |
 | HOLDOUT-DTI | **0.1826** [0.1628, 0.2004] (evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives) |
@@ -20,9 +20,13 @@
 | ORGANIZER-CONFIRMED | none — the file has not been uploaded. A holdout number is never a projection. |
 | Open risk | IR-78-09: dots concentrate nearer the catalogue than H33 (median 6 px vs 19.6 px). See the home page box and `evidence/h78_distance_diagnostic.json`. |
 
-## How to submit (details on the site's *Executive summary* page)
-1. Check the home page banner says **OK TO SUBMIT: YES**. 2. Download the `.tif` (or `.zip`). 3. DrivenData → competition 306 → *New submission* → upload. 4. Paste the note above. 5. Record the returned score in `registry/live_scores.csv` as ORGANIZER-CONFIRMED.
-The file is single-band float32, EPSG:32611, 3730 × 3292, sample geotransform, **all finite, values exactly 0 or 1, zeros outside the footprint** — the earlier portal error "Predicted values must be in range [0, 1]" cannot recur for that reason.
+## Current review status (session 2)
+
+Read `PROMPT.md` and this README before any project work. Neither historical lane is cleared for upload under this review: H78-A is **not cleared** because its stored uniqueness audit does not cover the full accessible registry (IR-78-16); H78-MPC is **negative / duplicate-stop** under the literal forward-overlap rule (IR-78-14 / IR-78-15). Both files remain downloadable for research/education only. This review selected nothing, used 0 new model experiments, and spent 0 competition slots.
+
+## Submission workflow (only for a future cleared candidate; details on the site's *Executive summary* page)
+1. Proceed only when the current home-page banner and run card both say **OK TO SUBMIT: YES** / `ok_to_submit: true`. 2. Download the exact `.tif` (or permitted `.zip`) linked from that eligible card. 3. DrivenData → competition 306 → *New submission* → upload. 4. Copy the exact name and note only from the eligible run card; **do not use the historical H78-A metadata above**. 5. Record the returned submission-page receipt and score in `registry/live_scores.csv` as ORGANIZER-CONFIRMED.
+The historical H78-A file passed local format/range checks (single-band float32, EPSG:32611, 3730 × 3292, sample geotransform, all finite, binary values, zeros outside the footprint). That local check is not current uniqueness clearance or organizer acceptance, and it does not guarantee that a future upload will be accepted.
 
 ## What was done (3 experiments + 1 declared diagnostic, ~1 h 45 m)
 * **Forensics** of the family's best file (why 0.2778): `scripts/forensics_h33.py` → `evidence/forensics_h33_vs_d28.json`; narrative in `research/h78_hypotheses.md` §0 and the site's *Hypotheses* page.
@@ -68,21 +72,20 @@ A parallel session without data access published a *NOT READY* site and negative
 
 ---
 
-## Second independent lane (parallel session, merged additively): H78-MPC monogenic phase congruency
+## H78-MPC lane — negative result (research artifact only)
 
-A separate parallel session ran a distinct lane and it is preserved as a **second promoted candidate**
-(not a replacement for the H78-A primary above). Selector guidance: **H78-A first** (HOLDOUT-DTI 0.1826);
-H78-MPC is the diverse second file for a separate slot (mutual 3-px dot overlap vs H78-A = **0.3552 ≤ 0.70**,
-`evidence/h78mpc_vs_h78a_overlap.json`).
+A prior parallel run generated an H78-MPC raster. Its original preregistered gate passed, but that gate used mutual overlap and a point-estimate control threshold; it did not satisfy the literal forward-overlap and current-best requirements in `PROMPT.md`. This review therefore corrects the prior promotion label. The required outcome is **negative / stop**: the TIF remains
+available for research and education, but **do not upload it or spend a weekly slot**. No replacement raster was made.
 
 | Item | Value |
 |---|---|
 | Page / guide | [`docs/h78mpc.html`](docs/h78mpc.html) · [`docs/h78mpc-executive-summary.html`](docs/h78mpc-executive-summary.html) |
-| File | `docs/downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif` (+ `.zip`, receipt) |
+| Research artifact | `docs/downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif` (+ `.zip`, receipt) |
 | sha256 | `c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256` |
-| OK to submit | **YES** — verdict `promote` (preregistered gate; see caveats) |
-| Name / note (111) | `gems78-h78mpc-monogenic-pc-spaced-37654-20261021` / `H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots` |
-| HOLDOUT-DTI | **0.0977** [0.078, 0.116] (same evaluator/seed/11,321 withheld; H33 fold-fair control 0.0939; paired +0.0038 [−0.012, +0.020] n.s.; vs no-MPC ablation +0.0121 [0.0027, 0.0217] significant) |
-| Method | Riesz monogenic phase-congruency features (σ=1/2/4) + Frangi over a 48-band stack, LOQO HGB, spaced 37,654 dots; canaries 80/80 PASS; uniqueness ρmax 0.1546, mutual 0.4879 vs 74 registry rasters |
-| Disclosure | IR-78-EMIT-01: Pass-1 allocator emitted contiguous dot runs (HOLDOUT-DTI 0.0471); Pass-2 re-emitted frozen surfaces spaced (no retraining) → 0.0977. Both readings in `evidence/h78mpc_*.json`; run card `evidence/h78mpc_run_card.json`. Note: this lane's arms exclude visible-network context features, which is why its holdout trails H78-A — the significant MPC ablation is the transferable result |
-| Reproduce | `scripts/build_features.py` → `run_experiments.py` → `pass2_spaced_emission.py` → `build_production.py` → `pass2_rebuild_production.py` → `make_figures.py` / `build_run_card_mpc.py` / `build_site_mpc.py` (data: `scripts/restore_data.py`, manifest `registry/data_manifest_gems73.json`) |
+| Status | **OK TO DOWNLOAD: YES, research/education only · OK TO SUBMIT: NO** (`verdict: negative`) |
+| HOLDOUT-DTI | 0.0977 [0.0780, 0.1163] (evaluator `gems57-pooled-hide-v2`, seed 20, 11,321 withheld positives). Paired HOLDOUT-DTI candidate−H33-control difference +0.0038 [−0.0120, +0.0200], not significant. |
+| Current repository best | HOLDOUT-DTI 0.1843 [0.1658, 0.2015] for H78-A `A2_h78_steered|nms0_B3|50000` (same evaluator/seed/withheld count; descriptive cross-lane comparison, no paired difference CI). |
+| Literal uniqueness gate | Pre-placement max |ρ| = 0.1546 (passes 0.90); final forward 3-px overlap = **0.730** with a non-spacefilling registry raster and **0.9914** across the compared set (both exceed the 0.70 stop limit). The prior mutual-overlap rule was incorrect for this prompt. |
+| Automated validator | PASS for local file format/range: float32, EPSG:32611, 3730×3292, exact sample transform, all finite, values [0,1], no NaN, nodata=None. This is not a uniqueness clearance or organizer acceptance. |
+| Evidence / irregularities | [`evidence/h78mpc_run_card.json`](evidence/h78mpc_run_card.json) · [`evidence/h78mpc_duplicate_stop.json`](evidence/h78mpc_duplicate_stop.json) · IR-78-14 / IR-78-15 |
+| Slot / experiment count | This review spent 0 slots and ran 0 new model experiments. The previous lane already reached its three-arm budget plus the disclosed emission correction. |
