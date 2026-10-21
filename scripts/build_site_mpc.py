@@ -188,3 +188,7 @@ Never record a HOLDOUT-DTI or a projection as an organizer score.</p></div>
 (DOCS / "h78mpc.html").write_text(index)
 (DOCS / "h78mpc-executive-summary.html").write_text(exec_sum)
 print("site written; promote =", promote)
+
+# Historical promotion text must never bypass the current release gate.
+from audit_release import main as audit_release
+audit_release()

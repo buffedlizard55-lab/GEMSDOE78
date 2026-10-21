@@ -107,21 +107,30 @@ def test_dot_spacing_kernel_packed():
 
 def test_prior_root_candidate_fails_closed_until_full_registry_audit():
     review = json.loads((ROOT / "evidence/h78a_current_review.json").read_text())
+    release = json.loads((ROOT / "evidence/release_audit.json").read_text())
     assert review["historical_run_card_verdict"] == "promote"
     assert review["current_prompt_status"] == "not-cleared"
     assert review["duplicate_claim"] is False
     home = (ROOT / "docs/index.html").read_text()
     summary = (ROOT / "docs/executive-summary.html").read_text()
-    assert "OK TO SUBMIT: NO / NOT CLEARED" in home
-    assert "NOT CLEARED" in summary and "do not upload" in summary.lower()
-    assert "only the H19-5/D2.8/H33 lineage rasters" in home
+    root_candidate = next(c for c in release["candidates"] if c["lane"] == "H78-A")
+    assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: NO" in home
+    assert "OK TO SUBMIT: NO" in summary
+    assert root_candidate["ok_to_submit"] is False
+    assert "INCOMPLETE" in root_candidate["reason"]
+    assert "not a measured duplicate finding" in root_candidate["reason"]
+    assert "H19-5, D2.8, and H33 lineage rasters" in review["prior_uniqueness_scope"]
+    assert "INCOMPLETE" in home
 
-def test_site_says_research_only_and_discloses_caveats():
+def test_site_says_research_only_and_links_release_audit():
     html = (ROOT / "docs" / "h78mpc.html").read_text()
-    assert "OK TO DOWNLOAD: YES — RESEARCH ONLY · OK TO SUBMIT: NO" in html
-    assert "do not submit" in html and "duplicate under the specified rule" in html
-    assert "IR-78-EMIT-01" in html and "not statistically significant" in html
-    assert PROD["final_stem"] in html and PROD["note"] in html
+    assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: NO" in html
+    assert "data/release_audit.json" in html
+    assert "DUPLICATE" in html and "do not submit" in html
+    assert PROD["final_stem"] in html
+    release = json.loads((ROOT / "evidence/release_audit.json").read_text())
+    assert release["submission_name"] == PROD["name"]
+    assert release["submission_note"].startswith("DO NOT SUBMIT")
+    assert len(release["submission_note"]) <= 140
     summary = (ROOT / "docs" / "h78mpc-executive-summary.html").read_text()
     assert "OK TO SUBMIT: NO" in summary
-    assert "Do not upload the H78-MPC research artifact" in summary

@@ -1,25 +1,10 @@
-"""Parallel-run gates, with an information-carrying duplicate test.
+"""Shared literal parallel-run gates.
 
-Two readings are always produced and both are reported:
-
-``literal``
-    positive finite pixels are the inherited support definition.  A
-    whole-footprint (or whole-footprint *halo*, e.g. a 5 px lattice) registry
-    raster is then a universal blocker: **every** nonempty candidate exceeds
-    the 0.70 forward-overlap limit against it, including a uniformly random dot
-    set.  That reading is kept for completeness and for the record.
-
-``like-for-like`` (binding from 2026-10-21, irregularity IR-H85-01)
-    the inherited 0.70 / 0.90 thresholds applied only to priors whose 3 px halo
-    does **not** already cover the allowed domain.  A prior that any random dot
-    set "overlaps" cannot discriminate dot placement, so its firing is not
-    evidence of duplication; counting it as one makes the gate unsatisfiable by
-    construction rather than strict.  The surface rank-correlation test is
-    unaffected and still applies to every prior.
-
-Thresholds are unchanged.  :func:`representation_class` now classifies by the
-quantity the overlap test actually interrogates -- halo coverage of the allowed
-domain -- instead of by raw support fraction, which mislabels a regular lattice.
+Forward overlap above 0.70 or rank correlation above 0.90 blocks against ANY
+registry raster. Dense/lattice priors are not exempt; reverse overlap and
+Jaccard are diagnostic only. Incomplete inventories fail closed. Earlier
+module documentation described an informative-only exception, but the actual
+comparison and summary functions already implement the literal user rule.
 """
 from __future__ import annotations
 import hashlib
