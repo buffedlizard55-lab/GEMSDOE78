@@ -221,7 +221,9 @@ def main():
     (DOCS / "sources.html").write_text(sources_page())
     (DOCS / "irregularities.html").write_text(irregularities_page())
     (ROOT / "index.html").write_text('<!doctype html><meta http-equiv="refresh" content="0; url=docs/index.html">')
-    print("site built")
+    from audit_release import main as audit_release
+    audit_release()
+    print("site built with fail-closed release audit")
 
 
 if __name__ == "__main__":

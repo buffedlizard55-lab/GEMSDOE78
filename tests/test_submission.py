@@ -53,7 +53,7 @@ def test_zero_dots_on_catalogue():
         a = s.read(1)
     assert int(((a > 0) & cat).sum()) == 0
 
-def test_run_card_promote_and_labeled():
+def test_historical_run_card_preserved_and_labeled():
     rc = json.loads((ROOT / "evidence" / "h78mpc_run_card.json").read_text())
     assert rc["verdict"] == "promote"
     assert rc["ok_to_download"] is True and rc["ok_to_submit"] is True
@@ -76,8 +76,11 @@ def test_dot_spacing_kernel_packed():
     d, _ = cKDTree(np.c_[ys, xs].astype(float)).query(np.c_[ys, xs].astype(float), k=2)
     assert float((d[:, 1] <= 1.5).mean()) == 0.0  # no contiguous runs (IR-78-EMIT-01)
 
-def test_site_says_ok_and_discloses_caveats():
+def test_site_blocks_submission_and_links_audit():
     html = (ROOT / "docs" / "h78mpc.html").read_text()
-    assert "OK TO DOWNLOAD &amp; SUBMIT" in html and "OK to download: YES" in html
-    assert "IR-78-EMIT-01" in html and "not statistically significant" in html
-    assert PROD["final_stem"] in html and PROD["note"] in html
+    assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: NO" in html
+    assert "data/release_audit.json" in html
+    assert PROD["final_stem"] in html
+    release = json.loads((ROOT / "evidence/release_audit.json").read_text())
+    assert release["verdict"] == "negative" and release["stop_required"]
+    assert not any(c["ok_to_submit"] for c in release["candidates"])
