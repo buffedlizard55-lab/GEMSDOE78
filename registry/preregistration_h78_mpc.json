@@ -1,0 +1,21 @@
+{
+  "lane": "H78-MPC monogenic phase-congruency (Riesz) lineaments + LOQO HGB + exact-mass submodular emission",
+  "frozen_before_experiment_1": true,
+  "date_utc": "2026-10-21",
+  "instrument": "vendor/gems57 evaluate_holdout.py gems57-pooled-hide-v2; holdout.buffered_component_draw(seed=20, buffer_px=3, boundary_px=12); expected withheld = 11321",
+  "experiments_max": 3,
+  "arms": {
+    "E1_BASE": "LOQO HGB on 19 competition bands + external u8 stacks (lidar_scarp 12, geodawn_rad 4, geodawn_extensions 4, topo10m 9). No catalogue-derived features. No SGMC.",
+    "E2_MPC": "E1 + monogenic phase-congruency feature family (Riesz transform, DoG scales sigma 1/2/4, sources rtp/iso_grav_anom/det_elev/depth_to_base_surf): per source PC, A1,A2,A3, cos/sin of amplitude-weighted mean phase, orientation coherence = 24; plus Frangi vesselness sigma1/2 on rtp+det_elev = 4. Total +28.",
+    "E3_MPC_ONLY": "Unsupervised: mean percentile-rank of PC across 4 source fields, same emission. Mechanism ablation."
+  },
+  "training": "Leave-one-quadrant-out. Positives = visible catalogue only (seed-20 hidden + 3px collar excluded by buffered_component_draw visible mask). Negatives = footprint cells with EDT(catalogue)>3px in training quadrants, neg:pos = 4:1, rng 7800+q. HGB: lr=0.06, max_iter=400, max_leaf_nodes=63, min_samples_leaf=40, l2=1.0, early_stopping off.",
+  "emission": "p_oof rescaled so sum over footprint = 7905 (Kcal). vendor gems57.emit.greedy_allocate(k_truth=7905, max_dots=37654); if greedy stops early, top up by batched exact marginal-gain (300m triangular kernel, cover-tracked) to exactly 37654. Same rule all arms. Allowed mask: HOLDOUT arms use fold-fair visible catalogue (footprint & EDT(visible)>2.5px, region-wise & ~masked_known, identical construction to GEMSDOE73 allow_hold_25) -- using the full catalogue here would ban dots near withheld truth and invalidate the instrument. PRODUCTION uses EDT(full catalogue)>2.5px. Control h33_analogue_foldfair reproduced exactly as GEMSDOE73: greedy spaced dots (min_dist 2.5, pool 600k) on h19-5 binary support with allow_ctrl_20 (d_vis>2.0); expected HOLDOUT-DTI 0.0939.",
+  "canary": "Every feature alone: symmetric AUC vs seed-20 withheld truth on scored folds sample. >0.90 = leakage stop.",
+  "gates": {
+    "promote_if": "E2 HOLDOUT-DTI pooled > E1 with paired 95% CI lower bound > 0 AND E2 > 0.0939 (sibling-published fold-fair H33 control on identical instrument) AND uniqueness: surface |Spearman rho| <= 0.90 and mutual 3px dot overlap <= 0.70 vs every registry raster AND validator all checks pass",
+    "otherwise": "verdict negative; TIF labelled NOT OK TO SUBMIT; 0 weekly slots spent by agent in all cases (human submits)"
+  },
+  "production": "If promoted: retrain LOQO on full catalogue with E2 features, emit exactly 37654, re-run uniqueness + validator on final dots.",
+  "mimic_process": "Lithologic contacts and aeromagnetic flight-line seams are also phase-coherent step edges; they can mimic fault phase congruency without any fault."
+}

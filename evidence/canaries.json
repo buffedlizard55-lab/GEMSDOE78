@@ -1,0 +1,565 @@
+{
+ "max_symmetric_auc": 0.6105,
+ "features": [
+  {
+   "feature": "tf_mag_anom",
+   "auc_catalogue": 0.4901,
+   "auc_withheld": 0.5114,
+   "symmetric_auc": 0.5114,
+   "passed": true
+  },
+  {
+   "feature": "tf_rtp",
+   "auc_catalogue": 0.4977,
+   "auc_withheld": 0.521,
+   "symmetric_auc": 0.521,
+   "passed": true
+  },
+  {
+   "feature": "tf_tmi_hg",
+   "auc_catalogue": 0.5305,
+   "auc_withheld": 0.5343,
+   "symmetric_auc": 0.5343,
+   "passed": true
+  },
+  {
+   "feature": "tf_geod_2ndinv",
+   "auc_catalogue": 0.5763,
+   "auc_withheld": 0.572,
+   "symmetric_auc": 0.5763,
+   "passed": true
+  },
+  {
+   "feature": "tf_iso_grav_anom_slope",
+   "auc_catalogue": 0.5378,
+   "auc_withheld": 0.526,
+   "symmetric_auc": 0.5378,
+   "passed": true
+  },
+  {
+   "feature": "tf_tc",
+   "auc_catalogue": 0.4393,
+   "auc_withheld": 0.4628,
+   "symmetric_auc": 0.5607,
+   "passed": true
+  },
+  {
+   "feature": "tf_geod_shearrate",
+   "auc_catalogue": 0.5746,
+   "auc_withheld": 0.5713,
+   "symmetric_auc": 0.5746,
+   "passed": true
+  },
+  {
+   "feature": "tf_geod_dilaterate",
+   "auc_catalogue": 0.5295,
+   "auc_withheld": 0.5195,
+   "symmetric_auc": 0.5295,
+   "passed": true
+  },
+  {
+   "feature": "tf_tmi_vg",
+   "auc_catalogue": 0.4855,
+   "auc_withheld": 0.4872,
+   "symmetric_auc": 0.5145,
+   "passed": true
+  },
+  {
+   "feature": "tf_deq_n100a15",
+   "auc_catalogue": 0.5548,
+   "auc_withheld": 0.5422,
+   "symmetric_auc": 0.5548,
+   "passed": true
+  },
+  {
+   "feature": "tf_iso_grav_anom_vg",
+   "auc_catalogue": 0.5315,
+   "auc_withheld": 0.5202,
+   "symmetric_auc": 0.5315,
+   "passed": true
+  },
+  {
+   "feature": "tf_det_elev",
+   "auc_catalogue": 0.4847,
+   "auc_withheld": 0.5148,
+   "symmetric_auc": 0.5153,
+   "passed": true
+  },
+  {
+   "feature": "tf_iso_grav_anom",
+   "auc_catalogue": 0.456,
+   "auc_withheld": 0.4587,
+   "symmetric_auc": 0.544,
+   "passed": true
+  },
+  {
+   "feature": "tf_tmi",
+   "auc_catalogue": 0.4874,
+   "auc_withheld": 0.5109,
+   "symmetric_auc": 0.5126,
+   "passed": true
+  },
+  {
+   "feature": "tf_depth_to_base_surf",
+   "auc_catalogue": 0.5128,
+   "auc_withheld": 0.5261,
+   "symmetric_auc": 0.5261,
+   "passed": true
+  },
+  {
+   "feature": "tf_ieq_n100a15",
+   "auc_catalogue": 0.5757,
+   "auc_withheld": 0.5478,
+   "symmetric_auc": 0.5757,
+   "passed": true
+  },
+  {
+   "feature": "tf_cond_surf",
+   "auc_catalogue": 0.4809,
+   "auc_withheld": 0.4778,
+   "symmetric_auc": 0.5222,
+   "passed": true
+  },
+  {
+   "feature": "tf_iso_grav_anom_hg",
+   "auc_catalogue": 0.4995,
+   "auc_withheld": 0.4923,
+   "symmetric_auc": 0.5077,
+   "passed": true
+  },
+  {
+   "feature": "tf_det_elev_slope",
+   "auc_catalogue": 0.5637,
+   "auc_withheld": 0.5703,
+   "symmetric_auc": 0.5703,
+   "passed": true
+  },
+  {
+   "feature": "lidar_ex_max",
+   "auc_catalogue": 0.5688,
+   "auc_withheld": 0.592,
+   "symmetric_auc": 0.592,
+   "passed": true
+  },
+  {
+   "feature": "lidar_ex_mean",
+   "auc_catalogue": 0.5605,
+   "auc_withheld": 0.5851,
+   "symmetric_auc": 0.5851,
+   "passed": true
+  },
+  {
+   "feature": "lidar_step_max",
+   "auc_catalogue": 0.5697,
+   "auc_withheld": 0.5931,
+   "symmetric_auc": 0.5931,
+   "passed": true
+  },
+  {
+   "feature": "lidar_lapneg_max",
+   "auc_catalogue": 0.5733,
+   "auc_withheld": 0.5957,
+   "symmetric_auc": 0.5957,
+   "passed": true
+  },
+  {
+   "feature": "lidar_lappos_max",
+   "auc_catalogue": 0.5761,
+   "auc_withheld": 0.5988,
+   "symmetric_auc": 0.5988,
+   "passed": true
+  },
+  {
+   "feature": "lidar_downface_max",
+   "auc_catalogue": 0.582,
+   "auc_withheld": 0.6053,
+   "symmetric_auc": 0.6053,
+   "passed": true
+  },
+  {
+   "feature": "lidar_upface_max",
+   "auc_catalogue": 0.5874,
+   "auc_withheld": 0.6105,
+   "symmetric_auc": 0.6105,
+   "passed": true
+  },
+  {
+   "feature": "lidar_cross_max",
+   "auc_catalogue": 0.5791,
+   "auc_withheld": 0.6049,
+   "symmetric_auc": 0.6049,
+   "passed": true
+  },
+  {
+   "feature": "lidar_relief",
+   "auc_catalogue": 0.5705,
+   "auc_withheld": 0.5917,
+   "symmetric_auc": 0.5917,
+   "passed": true
+  },
+  {
+   "feature": "lidar_coh100",
+   "auc_catalogue": 0.5104,
+   "auc_withheld": 0.5288,
+   "symmetric_auc": 0.5288,
+   "passed": true
+  },
+  {
+   "feature": "lidar_strike",
+   "auc_catalogue": 0.5292,
+   "auc_withheld": 0.5442,
+   "symmetric_auc": 0.5442,
+   "passed": true
+  },
+  {
+   "feature": "lidar_valid",
+   "auc_catalogue": 0.5225,
+   "auc_withheld": 0.5351,
+   "symmetric_auc": 0.5351,
+   "passed": true
+  },
+  {
+   "feature": "rad_K",
+   "auc_catalogue": 0.4304,
+   "auc_withheld": 0.4569,
+   "symmetric_auc": 0.5696,
+   "passed": true
+  },
+  {
+   "feature": "rad_Th",
+   "auc_catalogue": 0.4433,
+   "auc_withheld": 0.4724,
+   "symmetric_auc": 0.5567,
+   "passed": true
+  },
+  {
+   "feature": "rad_U",
+   "auc_catalogue": 0.4725,
+   "auc_withheld": 0.467,
+   "symmetric_auc": 0.533,
+   "passed": true
+  },
+  {
+   "feature": "rad_TC",
+   "auc_catalogue": 0.4393,
+   "auc_withheld": 0.4627,
+   "symmetric_auc": 0.5607,
+   "passed": true
+  },
+  {
+   "feature": "gdx_ThK",
+   "auc_catalogue": 0.4828,
+   "auc_withheld": 0.4991,
+   "symmetric_auc": 0.5172,
+   "passed": true
+  },
+  {
+   "feature": "gdx_UK",
+   "auc_catalogue": 0.5404,
+   "auc_withheld": 0.5112,
+   "symmetric_auc": 0.5404,
+   "passed": true
+  },
+  {
+   "feature": "gdx_UTh",
+   "auc_catalogue": 0.5461,
+   "auc_withheld": 0.5153,
+   "symmetric_auc": 0.5461,
+   "passed": true
+  },
+  {
+   "feature": "gdx_TMI_up150",
+   "auc_catalogue": 0.4887,
+   "auc_withheld": 0.5116,
+   "symmetric_auc": 0.5116,
+   "passed": true
+  },
+  {
+   "feature": "topo10_slope_p90",
+   "auc_catalogue": 0.568,
+   "auc_withheld": 0.5748,
+   "symmetric_auc": 0.5748,
+   "passed": true
+  },
+  {
+   "feature": "topo10_slope_max",
+   "auc_catalogue": 0.5714,
+   "auc_withheld": 0.578,
+   "symmetric_auc": 0.578,
+   "passed": true
+  },
+  {
+   "feature": "topo10_steep_frac",
+   "auc_catalogue": 0.5462,
+   "auc_withheld": 0.5548,
+   "symmetric_auc": 0.5548,
+   "passed": true
+  },
+  {
+   "feature": "topo10_slope_std",
+   "auc_catalogue": 0.5861,
+   "auc_withheld": 0.5945,
+   "symmetric_auc": 0.5945,
+   "passed": true
+  },
+  {
+   "feature": "topo10_relief_local",
+   "auc_catalogue": 0.5651,
+   "auc_withheld": 0.5723,
+   "symmetric_auc": 0.5723,
+   "passed": true
+  },
+  {
+   "feature": "topo10_curv_prof_absmax",
+   "auc_catalogue": 0.5798,
+   "auc_withheld": 0.5919,
+   "symmetric_auc": 0.5919,
+   "passed": true
+  },
+  {
+   "feature": "topo10_aspect_coherence",
+   "auc_catalogue": 0.5166,
+   "auc_withheld": 0.5016,
+   "symmetric_auc": 0.5166,
+   "passed": true
+  },
+  {
+   "feature": "topo10_hs_lineament",
+   "auc_catalogue": 0.5716,
+   "auc_withheld": 0.5828,
+   "symmetric_auc": 0.5828,
+   "passed": true
+  },
+  {
+   "feature": "topo10_dem_mean",
+   "auc_catalogue": 0.5077,
+   "auc_withheld": 0.5302,
+   "symmetric_auc": 0.5302,
+   "passed": true
+  },
+  {
+   "feature": "mpc_rtp_pc",
+   "auc_catalogue": 0.5049,
+   "auc_withheld": 0.4974,
+   "symmetric_auc": 0.5049,
+   "passed": true
+  },
+  {
+   "feature": "mpc_rtp_amp1",
+   "auc_catalogue": 0.5333,
+   "auc_withheld": 0.5332,
+   "symmetric_auc": 0.5333,
+   "passed": true
+  },
+  {
+   "feature": "mpc_rtp_amp2",
+   "auc_catalogue": 0.5352,
+   "auc_withheld": 0.529,
+   "symmetric_auc": 0.5352,
+   "passed": true
+  },
+  {
+   "feature": "mpc_rtp_amp3",
+   "auc_catalogue": 0.5353,
+   "auc_withheld": 0.5281,
+   "symmetric_auc": 0.5353,
+   "passed": true
+  },
+  {
+   "feature": "mpc_rtp_cos_phase",
+   "auc_catalogue": 0.4919,
+   "auc_withheld": 0.4988,
+   "symmetric_auc": 0.5081,
+   "passed": true
+  },
+  {
+   "feature": "mpc_rtp_sin_phase",
+   "auc_catalogue": 0.5081,
+   "auc_withheld": 0.519,
+   "symmetric_auc": 0.519,
+   "passed": true
+  },
+  {
+   "feature": "mpc_rtp_orient_coh",
+   "auc_catalogue": 0.507,
+   "auc_withheld": 0.4981,
+   "symmetric_auc": 0.507,
+   "passed": true
+  },
+  {
+   "feature": "mpc_iso_grav_anom_pc",
+   "auc_catalogue": 0.4819,
+   "auc_withheld": 0.5166,
+   "symmetric_auc": 0.5181,
+   "passed": true
+  },
+  {
+   "feature": "mpc_iso_grav_anom_amp1",
+   "auc_catalogue": 0.546,
+   "auc_withheld": 0.5177,
+   "symmetric_auc": 0.546,
+   "passed": true
+  },
+  {
+   "feature": "mpc_iso_grav_anom_amp2",
+   "auc_catalogue": 0.5473,
+   "auc_withheld": 0.516,
+   "symmetric_auc": 0.5473,
+   "passed": true
+  },
+  {
+   "feature": "mpc_iso_grav_anom_amp3",
+   "auc_catalogue": 0.5492,
+   "auc_withheld": 0.5182,
+   "symmetric_auc": 0.5492,
+   "passed": true
+  },
+  {
+   "feature": "mpc_iso_grav_anom_cos_phase",
+   "auc_catalogue": 0.5203,
+   "auc_withheld": 0.5329,
+   "symmetric_auc": 0.5329,
+   "passed": true
+  },
+  {
+   "feature": "mpc_iso_grav_anom_sin_phase",
+   "auc_catalogue": 0.5117,
+   "auc_withheld": 0.5171,
+   "symmetric_auc": 0.5171,
+   "passed": true
+  },
+  {
+   "feature": "mpc_iso_grav_anom_orient_coh",
+   "auc_catalogue": 0.4997,
+   "auc_withheld": 0.5019,
+   "symmetric_auc": 0.5019,
+   "passed": true
+  },
+  {
+   "feature": "mpc_det_elev_pc",
+   "auc_catalogue": 0.4998,
+   "auc_withheld": 0.4899,
+   "symmetric_auc": 0.5101,
+   "passed": true
+  },
+  {
+   "feature": "mpc_det_elev_amp1",
+   "auc_catalogue": 0.5456,
+   "auc_withheld": 0.5415,
+   "symmetric_auc": 0.5456,
+   "passed": true
+  },
+  {
+   "feature": "mpc_det_elev_amp2",
+   "auc_catalogue": 0.5496,
+   "auc_withheld": 0.5405,
+   "symmetric_auc": 0.5496,
+   "passed": true
+  },
+  {
+   "feature": "mpc_det_elev_amp3",
+   "auc_catalogue": 0.5539,
+   "auc_withheld": 0.5406,
+   "symmetric_auc": 0.5539,
+   "passed": true
+  },
+  {
+   "feature": "mpc_det_elev_cos_phase",
+   "auc_catalogue": 0.4716,
+   "auc_withheld": 0.4813,
+   "symmetric_auc": 0.5284,
+   "passed": true
+  },
+  {
+   "feature": "mpc_det_elev_sin_phase",
+   "auc_catalogue": 0.5206,
+   "auc_withheld": 0.5281,
+   "symmetric_auc": 0.5281,
+   "passed": true
+  },
+  {
+   "feature": "mpc_det_elev_orient_coh",
+   "auc_catalogue": 0.518,
+   "auc_withheld": 0.5154,
+   "symmetric_auc": 0.518,
+   "passed": true
+  },
+  {
+   "feature": "mpc_depth_to_base_surf_pc",
+   "auc_catalogue": 0.4884,
+   "auc_withheld": 0.5182,
+   "symmetric_auc": 0.5182,
+   "passed": true
+  },
+  {
+   "feature": "mpc_depth_to_base_surf_amp1",
+   "auc_catalogue": 0.5373,
+   "auc_withheld": 0.5267,
+   "symmetric_auc": 0.5373,
+   "passed": true
+  },
+  {
+   "feature": "mpc_depth_to_base_surf_amp2",
+   "auc_catalogue": 0.5423,
+   "auc_withheld": 0.5275,
+   "symmetric_auc": 0.5423,
+   "passed": true
+  },
+  {
+   "feature": "mpc_depth_to_base_surf_amp3",
+   "auc_catalogue": 0.5416,
+   "auc_withheld": 0.5271,
+   "symmetric_auc": 0.5416,
+   "passed": true
+  },
+  {
+   "feature": "mpc_depth_to_base_surf_cos_phase",
+   "auc_catalogue": 0.4731,
+   "auc_withheld": 0.4907,
+   "symmetric_auc": 0.5269,
+   "passed": true
+  },
+  {
+   "feature": "mpc_depth_to_base_surf_sin_phase",
+   "auc_catalogue": 0.4945,
+   "auc_withheld": 0.5023,
+   "symmetric_auc": 0.5055,
+   "passed": true
+  },
+  {
+   "feature": "mpc_depth_to_base_surf_orient_coh",
+   "auc_catalogue": 0.4918,
+   "auc_withheld": 0.4949,
+   "symmetric_auc": 0.5082,
+   "passed": true
+  },
+  {
+   "feature": "frangi_rtp_bright",
+   "auc_catalogue": 0.4927,
+   "auc_withheld": 0.5002,
+   "symmetric_auc": 0.5073,
+   "passed": true
+  },
+  {
+   "feature": "frangi_rtp_dark",
+   "auc_catalogue": 0.5259,
+   "auc_withheld": 0.5204,
+   "symmetric_auc": 0.5259,
+   "passed": true
+  },
+  {
+   "feature": "frangi_det_elev_bright",
+   "auc_catalogue": 0.4621,
+   "auc_withheld": 0.4734,
+   "symmetric_auc": 0.5379,
+   "passed": true
+  },
+  {
+   "feature": "frangi_det_elev_dark",
+   "auc_catalogue": 0.5832,
+   "auc_withheld": 0.5808,
+   "symmetric_auc": 0.5832,
+   "passed": true
+  }
+ ]
+}

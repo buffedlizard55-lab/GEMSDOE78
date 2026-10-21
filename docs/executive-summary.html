@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>Executive summary — exactly how to submit · GEMSDOE78</title><style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.55;color:#1a1a1a;background:#fafafa}
+.banner{border-radius:12px;padding:22px;margin:18px 0;color:#fff}.ok{background:linear-gradient(135deg,#14663a,#1e9e57)}
+.bad{background:linear-gradient(135deg,#8f1d1d,#c0392b)}.banner h1{margin:0 0 8px;font-size:1.6rem}.big{font-size:1.12rem;font-weight:600}
+.dl{display:inline-block;background:#fff;color:#14663a;font-weight:700;padding:12px 20px;border-radius:8px;text-decoration:none;margin:8px 8px 0 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}td,th{border:1px solid #ddd;padding:7px 9px;text-align:left;font-size:.92rem}
+code{background:#eee;padding:2px 5px;border-radius:4px;word-break:break-all}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px 20px;margin:16px 0}
+.copy{background:#f4f4f4;border:1px dashed #999;border-radius:8px;padding:12px;margin:8px 0}
+img{max-width:100%}.small{font-size:.85rem;color:#555}.warn{background:#fff8e6;border:1px solid #e0b400;border-radius:8px;padding:10px 14px}
+</style></head><body>
+<h1>Executive summary: exactly how to make the submission</h1>
+<div class="banner ok" style="padding:16px"><p class="big" style="margin:0">✅ OK TO DOWNLOAD: YES · ✅ OK TO SUBMIT: YES (verdict promote;
+human selector checks the weekly cap and uploads once). HOLDOUT-DTI 0.0977 vs 0.0939 control —
+point-estimate win, not statistically significant; no organizer score exists yet. Full evidence on the <a style="color:#fff" href="index.html">front page</a>.</p></div>
+<div class="card">
+<h2>Step 1 — Download one file (either format, not both)</h2>
+<p><a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif"><b>gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif</b></a> or <a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.zip"><b>gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.zip</b></a>
+(the ZIP contains exactly that one TIFF). Optional integrity check: <code>sha256sum gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif</code> →
+<code>c7932fbda98120b5abce37247852220befe1798dac4828fd58f785534e081256</code>.</p>
+<h2>Step 2 — Open the DrivenData form</h2>
+<p><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition 306</a> → sign in →
+<b>New submission</b>. First read the weekly submission cap shown on that page — this system spends 0 slots;
+the slot is spent only when you click submit.</p>
+<h2>Step 3 — "File to submit"</h2>
+<p>Choose the downloaded <code>.tif</code> (or the <code>.zip</code>). Portal contract (all enforced fail-closed by our writer and
+re-verified from disk): single-band GeoTIFF, CRS EPSG:32611, shape 3730×3292, geotransform (100, 0, 243350, 0, −100, 4508550).</p>
+<h2>Step 4 — Name and Note (copy exactly)</h2>
+<div class="copy"><b>Unique submission name:</b><br><code>gems78-h78mpc-monogenic-pc-spaced-37654-20261021</code></div>
+<div class="copy"><b>Note (optional) — 111/140 characters:</b><br><code>H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI 0.098 vs 0.094 H33 ctrl; 37654 dots</code></div>
+<h2>Step 5 — Why "Predicted values must be in range [0, 1]" cannot happen</h2>
+<p>Causes of that error: values outside [0,1]; a nodata tag carrying a sentinel (e.g. −3.4028234663852886e+38 from
+<code>training_features.tif</code>); or NaN cells. This file is written <b>all-finite zeros-outside</b>: all 12,279,160 cells finite,
+min 0.0, max 1.0, 0 NaN, <code>nodata=None</code> — verified by re-opening the written bytes
+(<a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.json">validator receipt</a>; local preflight, not organiser acceptance).</p>
+<h2>Step 6 — After submitting</h2>
+<p>Copy the score from the submission-page receipt verbatim, label it <b>ORGANIZER-CONFIRMED</b> with the submission name
+above, and record it against sha256 <code>c7932fbda98120b5…</code>. Never record a HOLDOUT-DTI or a projection as a score.</p></div>
+<p><a href="index.html">← Front page</a></p></body></html>
