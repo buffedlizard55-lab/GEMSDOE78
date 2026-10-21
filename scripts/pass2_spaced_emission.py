@@ -84,5 +84,5 @@ for cand in ["E2_MPC_SPACED", "E1_BASE_SPACED"]:
     s = evaluate_holdout.pooled_summary(terms, draws=1000, seed=78078, candidate=cand)
     out["summaries"][cand] = s
     log(cand, {k: round(v["dti"], 4) for k, v in s["scores"].items()})
-(EV / "experiments_pass2_spaced.json").write_text(json.dumps(out, indent=1, default=float))
+(EV / "h78mpc_experiments_pass2_spaced.json").write_text(json.dumps(out, indent=1, default=float))
 log("DONE")

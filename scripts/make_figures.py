@@ -13,7 +13,7 @@ from gems57 import grid as gm  # noqa
 g = gm.load_grid(ROOT / ".cache/gems_data"); fp, cat = g.footprint, g.catalogue
 oof = np.load(ROOT / ".cache/work/oof_e2.npy")
 dots = np.load(ROOT / ".cache/work/production_dots_spaced.npy")
-exp = json.loads((ROOT / "evidence/experiments_pass2_spaced.json").read_text())
+exp = json.loads((ROOT / "evidence/h78mpc_experiments_pass2_spaced.json").read_text())
 scores = exp["summaries"]["E2_MPC_SPACED"]["scores"]
 
 def down(a, f=4):

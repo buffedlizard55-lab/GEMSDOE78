@@ -20,7 +20,7 @@ H, W, BUDGET = 3730, 3292, 37654
 def log(*a): print(time.strftime("%H:%M:%S"), *a, flush=True)
 def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
-old = json.loads((EV / "production.json").read_text())
+old = json.loads((EV / "h78mpc_production.json").read_text())
 g = grid_mod.load_grid(DATA); fp, cat = g.footprint, g.catalogue
 oof = np.load(WORK / "oof_production.npy")
 d_cat = distance_transform_edt(~cat).astype(np.float32)
@@ -79,7 +79,7 @@ for r in registry:
         e["mutual"] = round(min(e["forward_overlap_mine_in_theirs3px"], e["reverse_overlap_theirs_in_mine3px"]), 4)
         e["their_3px_halo_fp_fraction"] = round(float(UQ._near(td)[fp].mean()), 4)
     rows.append(e); del a; gc.collect()
-prev = json.loads((EV / "uniqueness_production.json").read_text())
+prev = json.loads((EV / "h78mpc_uniqueness.json").read_text())
 informative = [r for r in rows if r.get("their_dots", 0) > 0 and r.get("their_3px_halo_fp_fraction", 0) < 0.70]
 literal_worst_fwd = max(r["forward_overlap_mine_in_theirs3px"] for r in rows if "forward_overlap_mine_in_theirs3px" in r)
 audit = {"registry_count": len(registry), "informative_count": len(informative),
@@ -95,7 +95,7 @@ audit = {"registry_count": len(registry), "informative_count": len(informative),
 audit["unique_vs_informative_registry"] = bool(audit["preplacement_max_abs_sampled_rho"] <= 0.90
                                                 and audit["worst_mutual_informative"] <= 0.70)
 audit["unique_literal_all_rasters"] = bool(audit["preplacement_max_abs_sampled_rho"] <= 0.90 and literal_worst_fwd <= 0.70)
-(EV / "uniqueness_production.json").write_text(json.dumps(audit, indent=1))
+(EV / "h78mpc_uniqueness.json").write_text(json.dumps(audit, indent=1))
 log("uniqueness", {k: audit[k] for k in ["worst_forward_informative", "worst_mutual_informative",
                                           "worst_forward_literal_all_rasters", "unique_vs_informative_registry",
                                           "unique_literal_all_rasters"]})
@@ -104,7 +104,7 @@ log("uniqueness", {k: audit[k] for k in ["worst_forward_informative", "worst_mut
 for suf in [".tif", ".zip", ".json"]:
     q = DL / f"{old['final_stem']}{suf}"
     if q.exists(): q.unlink()
-exp2 = json.loads((EV / "experiments_pass2_spaced.json").read_text())
+exp2 = json.loads((EV / "h78mpc_experiments_pass2_spaced.json").read_text())
 dti = exp2["summaries"]["E2_MPC_SPACED"]["scores"]["E2_MPC_SPACED"]["dti"]
 name = "gems78-h78mpc-monogenic-pc-spaced-37654-20261021"
 note = f"H78-MPC monogenic phase-congruency LOQO HGB, spaced 2.5px emit; HOLDOUT-DTI {dti:.3f} vs 0.094 H33 ctrl; 37654 dots"
@@ -135,6 +135,6 @@ prod = {"final_stem": final_stem, "sha256": receipt["sha256"], "note": note, "na
         "unique": audit["unique_vs_informative_registry"],
         "unique_literal_all_rasters": audit["unique_literal_all_rasters"],
         "superseded_clustered": old, "spacing": spacing}
-(EV / "production.json").write_text(json.dumps(prod, indent=1))
+(EV / "h78mpc_production.json").write_text(json.dumps(prod, indent=1))
 log("FINAL", final_stem, receipt["sha256"])
 print(json.dumps(prod, indent=1))

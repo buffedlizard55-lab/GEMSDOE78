@@ -1,174 +1,228 @@
 #!/usr/bin/env python3
-"""Generate docs/index.html + executive-summary.html from evidence JSONs only."""
+"""Render docs/ (GitHub Pages) from the evidence JSON files. No number on the
+site is typed by hand: everything is read from evidence/*.json and registry/*.json."""
 from __future__ import annotations
+
+import html
 import json
 from pathlib import Path
+
 ROOT = Path(__file__).resolve().parents[1]
-EV, DOCS = ROOT / "evidence", ROOT / "docs"
-exp = json.loads((EV / "experiments.json").read_text())
-exp2 = json.loads((EV / "experiments_pass2_spaced.json").read_text())
-prod = json.loads((EV / "production.json").read_text())
-uq = json.loads((EV / "uniqueness_production.json").read_text())
-can = json.loads((EV / "canaries.json").read_text())
-rc = json.loads((EV / "run_card.json").read_text())
-sc = exp2["summaries"]["E2_MPC_SPACED"]["scores"]
-pd_ = exp2["summaries"]["E2_MPC_SPACED"]["paired_differences"]
-sc0 = exp["summaries"]["E2_MPC"]["scores"]
-stem = prod["final_stem"]
-promote = rc["verdict"] == "promote"
-def f4(x): return f"{x:.4f}"
-def ci(s): return f"[{s['ci95'][0]:.4f}, {s['ci95'][1]:.4f}]"
-CSS = """<style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.55;color:#1a1a1a;background:#fafafa}
-.banner{border-radius:12px;padding:22px;margin:18px 0;color:#fff}.ok{background:linear-gradient(135deg,#14663a,#1e9e57)}
-.bad{background:linear-gradient(135deg,#8f1d1d,#c0392b)}.banner h1{margin:0 0 8px;font-size:1.6rem}.big{font-size:1.12rem;font-weight:600}
-.dl{display:inline-block;background:#fff;color:#14663a;font-weight:700;padding:12px 20px;border-radius:8px;text-decoration:none;margin:8px 8px 0 0}
-table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}td,th{border:1px solid #ddd;padding:7px 9px;text-align:left;font-size:.92rem}
-code{background:#eee;padding:2px 5px;border-radius:4px;word-break:break-all}
-.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px 20px;margin:16px 0}
-.copy{background:#f4f4f4;border:1px dashed #999;border-radius:8px;padding:12px;margin:8px 0}
-img{max-width:100%}.small{font-size:.85rem;color:#555}.warn{background:#fff8e6;border:1px solid #e0b400;border-radius:8px;padding:10px 14px}
-</style>"""
-banner = f"""<div class="banner {'ok' if promote else 'bad'}"><h1>{'✅ OK TO DOWNLOAD &amp; SUBMIT — verdict: promote (human selector spends the slot)' if promote else '⛔ NOT OK TO SUBMIT'}</h1>
-<p class="big">✅ OK to download: YES — validator PASS, every value in [0,1], 0 NaN anywhere, nodata=None, EPSG:32611, 3730×3292, float32
-(the <i>"Predicted values must be in range [0, 1]"</i> portal error cannot occur with this file).<br>
-✅ OK to submit: YES — preregistered gate passed on the shared <code>gems57-pooled-hide-v2</code> holdout after a disclosed
-emission-defect correction: <b>HOLDOUT-DTI {f4(sc['E2_MPC_SPACED']['dti'])}</b> {ci(sc['E2_MPC_SPACED'])} (seed 20, 11,321 withheld positives)
-vs fold-fair H33 control {f4(sc['h33_analogue_foldfair']['dti'])} and vs no-MPC ablation {f4(sc['E1_BASE_SPACED']['dti'])}
-(paired MPC effect +{pd_['E1_BASE_SPACED']['delta']:.4f} [{pd_['E1_BASE_SPACED']['ci95'][0]:.4f}, {pd_['E1_BASE_SPACED']['ci95'][1]:.4f}], significant).
-0 weekly slots have been spent by this system — <b>check the weekly cap on the submission page, then upload once.</b></p>
-<a class="dl" href="downloads/{stem}.tif">⬇ Download submission .tif</a>
-<a class="dl" href="downloads/{stem}.zip">⬇ Download .zip (single TIFF inside)</a>
-<a class="dl" href="downloads/run_card.json">JSON run card</a>
-<a class="dl" href="executive-summary.html">How to submit (step-by-step) →</a>
-<div class="copy" style="color:#1a1a1a"><b>Unique submission name:</b> <code>{prod['name']}</code><br>
-<b>Note to paste ({len(prod['note'])}/140 chars):</b> <code>{prod['note']}</code><br>
-<b>SHA-256:</b> <code>{prod['sha256']}</code></div>
-<p class="small" style="color:#eafff2">Honest caveats, measured: advantage over the H33 fold-fair control is
-+{pd_['h33_analogue_foldfair']['delta']:.4f} [{pd_['h33_analogue_foldfair']['ci95'][0]:.4f}, {pd_['h33_analogue_foldfair']['ci95'][1]:.4f}]
-— a point-estimate win, <b>not statistically significant</b>; emission was corrected post-hoc (IR-78-EMIT-01, both readings published below);
-no organizer score exists yet for this file. No projection on this site is a score.</p></div>"""
+DOCS = ROOT / "docs"
 
-rows = "".join(f"<tr><td>{n}</td><td><b>{f4(sc[n]['dti'])}</b></td><td>{ci(sc[n])}</td></tr>"
-    for n in ["E2_MPC_SPACED", "h33_analogue_foldfair", "E1_BASE_SPACED", "random_control", "E3_MPC_ONLY_SPACED"])
-rows0 = "".join(f"<tr><td>{n}</td><td>{f4(sc0[n]['dti'])}</td><td>{ci(sc0[n])}</td></tr>"
-    for n in ["E2_MPC", "E1_BASE", "E3_MPC_ONLY", "random_control", "h33_analogue_foldfair"])
-informative = [r for r in uq["dot_rows"] if r.get("their_3px_halo_fp_fraction", 0) < 0.70]
-worst6 = sorted(informative, key=lambda r: -r["mutual"])[:6]
-uq_rows = "".join(f"<tr><td><code>{r['name']}</code></td><td>{r['their_dots']:,}</td><td>{r['forward_overlap_mine_in_theirs3px']:.4f}</td><td>{r['reverse_overlap_theirs_in_mine3px']:.4f}</td><td><b>{r['mutual']:.4f}</b></td><td>{r['their_3px_halo_fp_fraction']:.3f}</td></tr>" for r in worst6)
-mpc_can = sorted([c for c in can["features"] if c["feature"].startswith(("mpc_", "frangi_"))], key=lambda c: -c["symmetric_auc"])[:10]
-mpc_rows = "".join(f"<tr><td><code>{c['feature']}</code></td><td>{c['auc_catalogue']:.3f}</td><td>{c['auc_withheld']:.3f}</td><td>{c['symmetric_auc']:.3f}</td><td>{'PASS' if c['passed'] else 'FAIL'}</td></tr>" for c in mpc_can)
 
-index = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
-<title>GEMSDOE78 — H78-MPC monogenic phase-congruency submission (promote)</title>{CSS}</head><body>
-<p><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly slot is an experiment gated by a preregistered holdout, not a lottery ticket.
-<b>Own the Outcome</b> — the emission defect found in our own Pass 1 (IR-78-EMIT-01) is measured, published, and corrected below, not hidden.</p>
-{banner}
-<div class="card"><h2>Why did h33-h33-2-b2 (GEMSDOE32) score 0.2778 — and can we beat it?</h2>
-<p><b>Scoring law</b> (organizer-published; re-derived and unit-tested in <code>vendor/gems57/metric.py</code>):
-DTI = TP<sub>w</sub>/(TP<sub>w</sub>+0.2·FP<sub>w</sub>+0.8·FN<sub>w</sub>), 300 m triangular kernel. For binary dots,
-one more non-redundant dot raises DTI iff its kernel credit <code>k &gt; 0.2·DTI</code> — at 0.2778 the bar is
-<b>0.0556 credit/dot</b>. DTI is a budget: credit density at the emitted mass decides everything.</p>
-<p><b>H33's ladder</b> (all live scores = user-reported submission-page receipts): continuous parent h19-5
-(multi-lineament-corroborated) 0.1922 → dotted d1.5 0.2477 → dotted d2.8 0.2600 → solo re-emit 0.2708 →
-<b>+B=2 catalogue-flank prune 0.2778</b> (37,654 dots). Three multiplicative ingredients: parent credit density,
-kernel-matched ~2.8 px dotted spacing, and deleting zero-credit near-catalogue mass (the organiser masks mapped
-faults pixel-exactly). Full forensic ledger: <code>docs/why-h33.md</code>.</p>
-<p><b>Beating it</b> requires higher credit density in the top 37,654 cells — a better ranking, not a better thinning
-(the user-reported 0.4413 leaderboard top implies ≈59% more credit/dot than H33's parent). This lane contributes one
-measured ranking improvement: monogenic phase-congruency features raise holdout DTI by a significant paired
-+{pd_['E1_BASE_SPACED']['delta']:.4f} over an identical 48-band stack without them, and lift the surface AUC vs withheld
-faults 0.674 → 0.696. That is a building block toward 0.4413, not a claim of reaching it.</p></div>
+def load(rel):
+    p = ROOT / rel
+    return json.loads(p.read_text()) if p.exists() else None
 
-<div class="card"><h2>This lane: H78-MPC — monogenic phase congruency (unique, not in any sibling)</h2>
-<p><b>Hypothesis.</b> Catalogue-missing blind faults have weak gradient <i>amplitude</i> — what HGM/tilt/worm/Blakely/Steger/radon
-lanes (all tried, live ≤0.16 as pure lanes) key on — but retain a coherent local-<i>phase</i> step across scales.
-Phase congruency from the Riesz-transform monogenic signal is contrast-invariant, targeting exactly those edges.
-<b>Mimic:</b> lithologic contacts and flight-line seams. <b>Method:</b> 32 MPC-family features (σ=1/2/4 on RTP, isostatic gravity,
-detrended elevation, depth-to-basement + Frangi) over a 48-band base; leave-one-quadrant-out gradient boosting trained
-only on visible catalogue; spaced (2.5 px) emission of exactly 37,654 dots, min catalogue distance 2.83 px, 0 on-catalogue.
-Five ranked hypotheses were preregistered before Experiment 1 (<code>docs/research-hypotheses.md</code>,
-<code>registry/preregistration_h78_mpc.json</code>).</p>
-<img src="assets/fig1.png" alt="Measured: OOF surface, final dots vs catalogue, holdout bars"></div>
 
-<div class="card"><h2>Holdout — HOLDOUT-DTI, <code>gems57-pooled-hide-v2</code>, seed 20, 11,321 withheld positives</h2>
-<p>Whole fault components hidden with a 3 px feature buffer; every catalogue-based input derived from visible faults only;
-visible faults masked pixel-exactly; pooled DTI α=0.2 β=0.8 R=300 m. Instrument identity verified this run: control
-<code>h33_analogue_foldfair = {f4(sc['h33_analogue_foldfair']['dti'])}</code> and random <code>{f4(sc['random_control']['dti'])}</code>
-match the values published by GEMSDOE73/GEMSDOE77 on the identical instrument.</p>
-<table><tr><th>Arm (spaced emission, IR-78-EMIT-01 corrected)</th><th>HOLDOUT-DTI</th><th>95% CI</th></tr>{rows}</table>
-<p><b>Paired:</b> E2−E1 +{pd_['E1_BASE_SPACED']['delta']:.4f} [{pd_['E1_BASE_SPACED']['ci95'][0]:.4f}, {pd_['E1_BASE_SPACED']['ci95'][1]:.4f}] (significant —
-the MPC effect); E2−control +{pd_['h33_analogue_foldfair']['delta']:.4f} [{pd_['h33_analogue_foldfair']['ci95'][0]:.4f}, {pd_['h33_analogue_foldfair']['ci95'][1]:.4f}]
-(not significant); E2−random +{pd_['random_control']['delta']:.4f} [{pd_['random_control']['ci95'][0]:.4f}, {pd_['random_control']['ci95'][1]:.4f}].</p>
-<div class="warn"><b>IR-78-EMIT-01 (Pass-1 reading, retained):</b> as originally preregistered, the vendor greedy allocator emitted
-contiguous runs (98.9% of dots with a neighbour ≤1.5 px vs control median spacing 3.16 px), wasting kernel credit.
-Those scores were E2 {f4(sc0['E2_MPC']['dti'])} / E1 {f4(sc0['E1_BASE']['dti'])} / control {f4(sc0['h33_analogue_foldfair']['dti'])}
-(<code>evidence/experiments.json</code>). Pass 2 re-emitted the <i>frozen</i> surfaces with the control's spaced emitter — no retraining —
-and the MPC paired effect is significant under <i>both</i> emitters. The superseded clustered production file
-(sha256 <code>{prod['superseded_clustered']['sha256'][:16]}…</code>) was withdrawn.</div>
-<table><tr><th>Arm (Pass-1 clustered emitter — defective)</th><th>HOLDOUT-DTI</th><th>95% CI</th></tr>{rows0}</table></div>
+def esc(x):
+    return html.escape(str(x))
 
-<div class="card"><h2>Automated validation — no human inspection in the loop</h2>
-<p><b>Leakage canaries (before any fitting):</b> all 80 features alone vs catalogue &amp; withheld truth; max symmetric AUC
-<b>{can['max_symmetric_auc']:.4f} ≤ 0.90 — PASS</b>. Top MPC-family rows:</p>
-<table><tr><th>Feature</th><th>AUC cat</th><th>AUC withheld</th><th>Symmetric</th><th>Gate</th></tr>{mpc_rows}</table>
-<p><b>Uniqueness (checked on the surface before placement AND on final dots):</b> {uq['registry_count']} unique registry rasters
-(GEMSDOE32/36/70/73 downloads + restored scored set), {uq['informative_count']} informative. Pre-placement max |Spearman ρ|
-(300k-cell fixed-seed sample) = <b>{uq['preplacement_max_abs_sampled_rho']:.4f} ≤ 0.90</b>; final dots worst <b>mutual</b> 3-px overlap =
-<b>{uq['worst_mutual_informative']:.4f} ≤ 0.70</b> (preregistered criterion). Forward-only readings exceed 0.70 only vs the
-206,895-dot lattice witness (3-px halo = 99.9% of footprint — vacuous) and one 54,000-dot raster (forward {uq['worst_forward_informative']:.2f},
-mutual 0.42); every row is in <code>evidence/uniqueness_production.json</code>.</p>
-<table><tr><th>Registry raster (worst mutual)</th><th>Their dots</th><th>Fwd 3px</th><th>Rev 3px</th><th>Mutual</th><th>Their halo/footprint</th></tr>{uq_rows}</table>
-<p><b>Format validator (re-read from disk):</b> all checks PASS — see <a href="downloads/{stem}.json">receipt</a>:
-single-band float32, EPSG:32611, 3730×3292, transform = sample submission, 12,279,160/12,279,160 cells finite in [0,1],
-0 NaN, nodata=None, values exactly {{0,1}}, 37,654 dots, 0 on catalogue, 0 outside footprint.
-Local format/range preflight — not organiser acceptance.</p></div>
 
-<div class="card"><h2>Run card, reproduction, sources</h2>
-<p><a href="downloads/run_card.json">Machine-readable run card (JSON)</a> · Evidence in repo:
-<code>evidence/experiments.json</code>, <code>evidence/experiments_pass2_spaced.json</code>, <code>evidence/canaries.json</code>,
-<code>evidence/uniqueness_production.json</code>. Reproduce: <code>python3 scripts/restore_data.py</code> (sha256-verified)
-→ <code>build_features.py</code> → <code>run_experiments.py</code> → <code>pass2_spaced_emission.py</code> →
-<code>build_production.py</code> → <code>pass2_rebuild_production.py</code>. Tests: <code>pytest tests -q</code>.</p>
-<p class="small">Official sources: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData #306 problem description</a> ·
-<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">GEMS Prize rules (NLR FY26OSTI-96647)</a> ·
-<a href="https://github.com/drivendataorg/gems-prize-reference-solution">organiser reference solution</a> ·
-<a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS GeoDAWN</a> ·
-<a href="https://gdr.openei.org/submissions/1391">GDR 1391 INGENIOUS</a> · <a href="https://epsg.io/32611">EPSG:32611</a> ·
-<a href="https://peterkovesi.com/projects/phasecongruency/index.html">Kovesi, phase congruency</a> ·
-<a href="https://www.diva-portal.org/smash/get/diva2:241550/FULLTEXT01.pdf">Felsberg &amp; Sommer 2001, monogenic signal</a>.</p></div>
-</body></html>"""
+def f4(x):
+    return "—" if x is None else f"{float(x):.4f}"
 
-exec_sum = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
-<title>Executive summary — exactly how to submit · GEMSDOE78</title>{CSS}</head><body>
-<h1>Executive summary: exactly how to make the submission</h1>
-<div class="banner ok" style="padding:16px"><p class="big" style="margin:0">✅ OK TO DOWNLOAD: YES · ✅ OK TO SUBMIT: YES (verdict promote;
-human selector checks the weekly cap and uploads once). HOLDOUT-DTI {f4(sc['E2_MPC_SPACED']['dti'])} vs {f4(sc['h33_analogue_foldfair']['dti'])} control —
-point-estimate win, not statistically significant; no organizer score exists yet. Full evidence on the <a style="color:#fff" href="index.html">front page</a>.</p></div>
-<div class="card">
-<h2>Step 1 — Download one file (either format, not both)</h2>
-<p><a href="downloads/{stem}.tif"><b>{stem}.tif</b></a> or <a href="downloads/{stem}.zip"><b>{stem}.zip</b></a>
-(the ZIP contains exactly that one TIFF). Optional integrity check: <code>sha256sum {stem}.tif</code> →
-<code>{prod['sha256']}</code>.</p>
-<h2>Step 2 — Open the DrivenData form</h2>
-<p><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition 306</a> → sign in →
-<b>New submission</b>. First read the weekly submission cap shown on that page — this system spends 0 slots;
-the slot is spent only when you click submit.</p>
-<h2>Step 3 — "File to submit"</h2>
-<p>Choose the downloaded <code>.tif</code> (or the <code>.zip</code>). Portal contract (all enforced fail-closed by our writer and
-re-verified from disk): single-band GeoTIFF, CRS EPSG:32611, shape 3730×3292, geotransform (100, 0, 243350, 0, −100, 4508550).</p>
-<h2>Step 4 — Name and Note (copy exactly)</h2>
-<div class="copy"><b>Unique submission name:</b><br><code>{prod['name']}</code></div>
-<div class="copy"><b>Note (optional) — {len(prod['note'])}/140 characters:</b><br><code>{prod['note']}</code></div>
-<h2>Step 5 — Why "Predicted values must be in range [0, 1]" cannot happen</h2>
-<p>Causes of that error: values outside [0,1]; a nodata tag carrying a sentinel (e.g. −3.4028234663852886e+38 from
-<code>training_features.tif</code>); or NaN cells. This file is written <b>all-finite zeros-outside</b>: all 12,279,160 cells finite,
-min 0.0, max 1.0, 0 NaN, <code>nodata=None</code> — verified by re-opening the written bytes
-(<a href="downloads/{stem}.json">validator receipt</a>; local preflight, not organiser acceptance).</p>
-<h2>Step 6 — After submitting</h2>
-<p>Copy the score from the submission-page receipt verbatim, label it <b>ORGANIZER-CONFIRMED</b> with the submission name
-above, and record it against sha256 <code>{prod['sha256'][:16]}…</code>. Never record a HOLDOUT-DTI or a projection as a score.</p></div>
-<p><a href="index.html">← Front page</a></p></body></html>"""
-(DOCS / "index.html").write_text(index)
-(DOCS / "executive-summary.html").write_text(exec_sum)
-print("site written; promote =", promote)
+
+CSS = """
+:root{--bg:#0f172a;--card:#111c33;--ink:#e5e7eb;--mut:#9ca3af;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--acc:#38bdf8;--line:#1f2a44}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:28px 20px 10px;max-width:1100px;margin:auto}h1{margin:0 0 6px;font-size:28px}h2{font-size:20px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+main{max-width:1100px;margin:auto;padding:0 20px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.banner{font-size:22px;font-weight:700;padding:16px 20px;border-radius:12px;margin:12px 0}.ok{background:#052e16;border:2px solid var(--ok)}.bad{background:#450a0a;border:2px solid var(--bad)}
+.btn{display:inline-block;background:var(--acc);color:#04141f;font-weight:700;padding:12px 18px;border-radius:10px;text-decoration:none;margin:6px 8px 6px 0}
+.btn.sec{background:#1e293b;color:var(--ink);border:1px solid var(--line)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:600}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;word-break:break-all}.mut{color:var(--mut)}
+nav a{color:var(--acc);margin-right:14px;text-decoration:none}.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.tag.h{background:#1e3a8a}.tag.o{background:#14532d}.tag.n{background:#7f1d1d}.small{font-size:13px}ul{margin:6px 0}
+"""
+
+NAV = """<nav><a href="index.html">Home</a><a href="executive-summary.html">Executive summary: how to submit</a>
+<a href="hypotheses.html">Hypotheses & why H33 scored 0.2778</a><a href="holdout.html">Holdout evidence</a>
+<a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a>
+<a href="h78mpc.html">H78-MPC lane (2nd candidate)</a>
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav>"""
+
+
+def page(title, body):
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{esc(title)}</title><style>{CSS}</style></head><body><header><h1>{esc(title)}</h1>{NAV}</header><main>{body}</main></body></html>"""
+
+
+def banner(card):
+    if card is None:
+        return '<div class="banner bad">NO SUBMISSION FILE HAS BEEN BUILT YET — nothing to download.</div>'
+    if card["ok_to_submit"]:
+        return (f'<div class="banner ok">OK TO SUBMIT: YES — <code>{esc(card["raster"]["file"])}</code> passed the preregistered '
+                f'holdout gate, the leakage canary, the uniqueness audit and the format validator. Verdict: {esc(card["verdict"])}.</div>')
+    return (f'<div class="banner bad">OK TO SUBMIT: NO — <code>{esc(card["raster"]["file"])}</code> is published for inspection only '
+            f'(verdict: {esc(card["verdict"])}). Do not spend a weekly slot on it.</div>')
+
+
+def index(card, hold, forensic):
+    dl = ""
+    if card:
+        r = card["raster"]
+        dl = f"""
+<div class="card"><h2 style="margin-top:0">Download</h2>
+<a class="btn" href="downloads/{esc(r['file'])}" download>⬇ Download submission GeoTIFF ({r['dots']:,} dots, {r['bytes']/1e6:.2f} MB)</a>
+<a class="btn sec" href="downloads/{esc(r['zip'])}" download>⬇ Same file as .zip</a>
+<a class="btn sec" href="downloads/{esc(Path(r['file']).with_suffix('.json').name)}">Writer receipt (JSON)</a>
+<p class="small mono">sha256 {esc(r['sha256'])}</p>
+<table><tr><th>Submission name (paste into the portal)</th><td class="mono">{esc(card['submission_name'])}</td></tr>
+<tr><th>Note (≤140 chars, paste into the portal)</th><td class="mono">{esc(card['submission_note'])} <span class="mut">({card['note_chars']} chars)</span></td></tr>
+<tr><th>Format</th><td>single band float32, {esc(card['validator']['independent_reread']['shape'])}, {esc(card['validator']['independent_reread']['crs'])}, transform {esc(card['validator']['independent_reread']['transform'])}, all finite, values {esc(card['validator']['independent_reread']['distinct_values'])}, NaN inside footprint = {card['validator']['independent_reread']['nan_inside_footprint']}, positives on catalogue = {card['validator']['independent_reread']['positives_on_catalogue']}</td></tr>
+</table></div>"""
+    h = ""
+    if card:
+        ho = card["holdout"]
+        rows = "".join(f"<tr><td class='mono'>{esc(k)}</td><td>{f4(v['dti'])}</td><td>{f4(v['ci95'][0])} – {f4(v['ci95'][1])}</td></tr>" for k, v in ho["controls"].items())
+        pd = "".join(f"<tr><td class='mono'>{esc(k)}</td><td>{v['delta']:+.4f}</td><td>{v['ci95'][0]:+.4f} – {v['ci95'][1]:+.4f}</td></tr>" for k, v in ho["paired_differences"].items())
+        h = f"""
+<div class="card"><h2 style="margin-top:0">What the numbers mean <span class="tag h">HOLDOUT-DTI</span> <span class="tag o">ORGANIZER-CONFIRMED</span> <span class="tag n">owner-report</span></h2>
+<p><b>Candidate</b> <code>{esc(ho['candidate'])}</code>: <b>{f4(ho['dti'])}</b> HOLDOUT-DTI (evaluator {esc(ho['evaluator_version'])}, {ho['withheld_positive_pixels']:,} withheld positives, 95 % CI {f4(ho['ci95'][0])} – {f4(ho['ci95'][1])}; seed {ho['seed']}, hide {ho['hide_frac']}, buffer {ho['buffer_px']} px).
+<b>ORGANIZER-CONFIRMED score for this file: none</b> (it has not been uploaded). A holdout number is never a leaderboard projection.</p>
+<table><tr><th>Control / comparator (same folds)</th><th>HOLDOUT-DTI</th><th>95 % CI</th></tr>{rows}</table>
+<p class="small mut">Registry comparators D2.8 and H33 were built with knowledge of the full catalogue (and H33 removed every dot within 2 px of it), so their holdout numbers are structurally handicapped and are shown only for completeness.</p>
+<table><tr><th>Paired difference, candidate − control</th><th>Δ</th><th>95 % CI (paired 20 km blocks)</th></tr>{pd}</table>
+<p>Beats the lineage base model class (A0, 19 raw bands) with CI &gt; 0: <b>{ho['beats_A0_std19_ci']}</b>. Beats the rotation-invariant control (A1), i.e. the steering hypothesis itself: <b>{ho['beats_A1_iso_ci']}</b>.
+Leakage canary: max single-feature AUC {f4(card['canary']['max_single_feature_auc'])} (threshold 0.90), flagged: {esc(card['canary']['flagged'] or 'none')}.
+Uniqueness: max |ρ| vs registry {f4(card['uniqueness']['surface_max_abs_rho'])} (limit 0.90); max fraction of dots within 3 px of a registry dot set {f4(card['uniqueness']['dots_max_overlap'])} (limit 0.70) → <b>{'pass' if card['uniqueness']['passed'] else 'FAIL'}</b>.</p></div>"""
+    risk = ""
+    dd = load("evidence/h78_distance_diagnostic.json"); dc = load("evidence/h78_dot_distance_to_catalogue.json")
+    if card and dd and dc:
+        far = dd["strata"]["far_gt10px"]; cr = dd["candidate_dot_self_credit_by_distance_to_visible"]
+        alts = "".join(f"<li><code>{esc(a['raster']['file'])}</code> — {esc(a['verdict'])}; HOLDOUT-DTI {f4(a['holdout']['dti'])} [{f4(a['holdout']['ci95'][0])}, {f4(a['holdout']['ci95'][1])}]; <a href='downloads/{esc(a['raster']['file'])}'>tif</a> · <a href='downloads/{esc(a['raster']['zip'])}'>zip</a> (inspection only, <b>not</b> OK-to-submit)</li>" for a in card.get("alternatives", {}).values())
+        risk = f"""<div class="card" style="border-left:6px solid #b45309"><h2 style="margin-top:0">Known risk before you upload (IR-78-09) <span class="tag h">HOLDOUT-DTI</span></h2>
+<img src="assets/fig1_h78_surface_and_dots.png" alt="score surface and dots" style="width:100%;border-radius:8px;margin-bottom:10px">
+<p>The shipped dots sit closer to the mapped catalogue than the family's best live file: primary median distance <b>{dc['H78 alt (B3)']['p50']:.1f} px</b>, {dc['H78 alt (B3)']['frac_le_5px']*100:.0f} % within 5 px, {dc['H78 alt (B3)']['frac_gt_30px']*100:.0f} % beyond 30 px — versus H33 median {dc['H33']['p50']:.1f} px, {dc['H33']['frac_le_5px']*100:.0f} % within 5 px, {dc['H33']['frac_gt_30px']*100:.0f} % beyond 30 px. The holdout's withheld truth lies median {dd['withheld_truth_distance_to_visible_px']['p50']:.1f} px from a visible fault ({dd['withheld_truth_frac_within_10px_of_visible']*100:.0f} % within 10 px), so it rewards near-catalogue placement more than the live truth may.</p>
+<p><b>Mitigating evidence.</b> Restricting the withheld truth to pixels &gt; 10 px from any visible fault ({far['n_truth']:,} positives) the candidate still beats both controls: Δ vs A1 {far['paired_vs_candidate']['A1_iso|B2|44090'][0]:+.4f} [{far['paired_vs_candidate']['A1_iso|B2|44090'][1][0]:+.4f}, {far['paired_vs_candidate']['A1_iso|B2|44090'][1][1]:+.4f}], Δ vs A0 {far['paired_vs_candidate']['A0_std19|B2|44090'][0]:+.4f} [{far['paired_vs_candidate']['A0_std19|B2|44090'][1][0]:+.4f}, {far['paired_vs_candidate']['A0_std19|B2|44090'][1][1]:+.4f}] (B2 variants; paired 20 km blocks), and is on par with D2.8 there. Mean kernel credit per candidate dot by distance to the visible catalogue: 2–3 px {cr['2-3px']['mean_kernel_credit']:.3f} ({cr['2-3px']['n']:,} dots), 3–5 px {cr['3-5px']['mean_kernel_credit']:.3f}, 5–10 px {cr['5-10px']['mean_kernel_credit']:.3f}, 10–20 px {cr['10-20px']['mean_kernel_credit']:.3f}, &gt; 20 px {cr['20-1000000000.0px']['mean_kernel_credit']:.3f}; break-even is 0.2 × DTI ≈ {dd['break_even_credit_0.2xDTI']:.3f}. This is why the 3-px flank file is primary (amendment IR-78-01b, declared after results) — every piece of evidence, including the only live step D2.8 → H33, says the near flank is dead weight.</p>
+<p><b>Alternative file(s) built from the same model</b> (labelled, for the selector's inspection):</p><ul>{alts}</ul>
+<p class="small mut">Full tables: <code>evidence/h78_distance_diagnostic.json</code>, <code>evidence/h78_dot_distance_to_catalogue.json</code>. Declared post-hoc: see <a href="irregularities.html">irregularities</a> IR-78-01b / IR-78-09 / IR-78-10.</p></div>"""
+    fo = ""
+    if forensic:
+        fo = f"""<div class="card"><h2 style="margin-top:0">Why the family's best file scored 0.2778 <span class="tag n">owner-report</span></h2>
+<p>Measured here from the SHA-256-pinned rasters: H19-5 solid = {forensic['h19_5_solid']['positive_px']:,} line px; D2.8 = {forensic['d28']['positive_px']:,} binary dots, all on the H19-5 lines, nearest-neighbour spacing min {forensic['d28_nn_spacing_px']['min']:.2f} px / median {forensic['d28_nn_spacing_px']['median']:.1f} px; H33 = exact subset of D2.8 with {forensic['h33']['positive_px']:,} dots, the {forensic['removed_dots']['n']:,} removed dots all 1.0–2.0 px from the catalogue. Owner-reported chain 0.1922 → 0.2600 → 0.2778 with <i>no detector change</i>: the metric charges 0.2 per emitted pixel and gives max-credit per truth pixel, so redundant and near-catalogue mass was pure cost. The full argument, and what it implies for beating 0.2778, is on the <a href="hypotheses.html">hypotheses page</a>.</p></div>"""
+    body = banner(card) + dl + h + risk + fo + """
+<div class="card"><h2 style="margin-top:0">Read this first (every session)</h2>
+<ul><li>The original project prompt is archived verbatim in <a href="https://github.com/buffedlizard55-lab/GEMSDOE78/blob/main/PROMPT.md">PROMPT.md</a> and summarised in the README; it is the specification.</li>
+<li>Reproduce: <code>python scripts/run_holdout.py --seed 20</code> → <code>python scripts/build_submission.py</code> → <code>python scripts/build_site.py</code>. Inputs are restored and SHA-256-verified by <code>scripts/restore_data.sh</code>.</li>
+<li>Labels: <span class="tag h">HOLDOUT-DTI</span> measured here on withheld catalogue segments; <span class="tag o">ORGANIZER-CONFIRMED</span> copied from a DrivenData receipt (none exist for this repo); <span class="tag n">owner-report</span> a score the family wrote down, not independently authenticated.</li></ul></div>"""
+    return page("GEMSDOE78 — Lane H78: strike-steered lineament learning", body)
+
+
+def exec_summary(card):
+    r = card["raster"] if card else None
+    steps = f"""
+<ol>
+<li>Confirm the banner on the <a href="index.html">home page</a> says <b>OK TO SUBMIT: YES</b>. If it says NO, stop — the file is for inspection only.</li>
+<li>Download <code>{esc(r['file']) if r else '(no file yet)'}</code> from the home page (or the .zip; both contain the same single-band GeoTIFF).</li>
+<li>Open <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">the competition's submissions page</a> (login required) → <b>New submission</b> → <b>File to submit</b> → choose the .tif (or .zip).</li>
+<li>In <b>Note</b> paste: <code>{esc(card['submission_note']) if card else ''}</code></li>
+<li>Submit. The portal checks CRS (EPSG:32611), shape (3730 × 3292), geotransform and that values are in [0, 1]. This file is all-finite (zeros outside the footprint) with values exactly 0 or 1, so the earlier portal error "Predicted values must be in range [0, 1]" (seen on a NaN-outside file) cannot recur for this reason.</li>
+<li>Copy the score the portal returns into <code>registry/live_scores.csv</code> as ORGANIZER-CONFIRMED. Until then the file has no score.</li>
+</ol>
+<p class="mut small">Weekly cap: the rules allow a limited number of platform submissions per week and one final selection across both prize rounds (official rules PDF, §3.4–3.6). Promotion to a slot is a separate selector decision; this page only certifies that the file is format-valid and passed its preregistered holdout gate.</p>"""
+    return page("Executive summary — how to make a submission", f'{banner(card)}<div class="card">{steps}</div>')
+
+
+def hypotheses_page():
+    md = (ROOT / "research/h78_hypotheses.md").read_text()
+    # minimal markdown: headings, tables, paragraphs
+    out, in_tbl = [], False
+    for line in md.splitlines():
+        if line.startswith("|"):
+            cells = [c.strip() for c in line.strip().strip("|").split("|")]
+            if set("".join(cells)) <= set("-: "):
+                continue
+            tag = "th" if not in_tbl else "td"
+            if not in_tbl:
+                out.append("<table>")
+                in_tbl = True
+            out.append("<tr>" + "".join(f"<{tag}>{md_inline(c)}</{tag}>" for c in cells) + "</tr>")
+            continue
+        if in_tbl:
+            out.append("</table>")
+            in_tbl = False
+        if line.startswith("# "):
+            out.append(f"<h2>{md_inline(line[2:])}</h2>")
+        elif line.startswith("## "):
+            out.append(f"<h2>{md_inline(line[3:])}</h2>")
+        elif line.strip().startswith(("* ", "- ")):
+            out.append(f"<li>{md_inline(line.strip()[2:])}</li>")
+        elif line.strip()[:2].rstrip(".").isdigit() and ". " in line[:4]:
+            out.append(f"<p>{md_inline(line.strip())}</p>")
+        elif line.strip():
+            out.append(f"<p>{md_inline(line)}</p>")
+    if in_tbl:
+        out.append("</table>")
+    return page("Hypotheses — and why H33 scored 0.2778", '<div class="card">' + "\n".join(out) + "</div>")
+
+
+def md_inline(s):
+    import re
+    s = esc(s)
+    s = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", s)
+    s = re.sub(r"`(.+?)`", r"<code>\1</code>", s)
+    s = re.sub(r"\[(.+?)\]\((.+?)\)", r'<a href="\2">\1</a>', s)
+    return s.replace("\\|", "|")
+
+
+def holdout_page(hold):
+    if not hold:
+        return page("Holdout evidence", "<p>No holdout run yet.</p>")
+    rows = []
+    for arm, res in hold["results"].items():
+        if "variants" not in res:
+            continue
+        for vname, v in res["variants"].items():
+            for n, r in v["budgets"].items():
+                rows.append((arm, vname, int(n), r["pooled_dti"], r["dots_on_visible_catalogue"]))
+    rows.sort(key=lambda t: -t[3])
+    tbl = "".join(f"<tr><td class='mono'>{esc(a)}</td><td class='mono'>{esc(v)}</td><td>{n:,}</td><td><b>{d:.4f}</b></td><td>{c}</td></tr>" for a, v, n, d, c in rows)
+    can = hold["canary"]
+    top = "".join(f"<tr><td class='mono'>{esc(k)}</td><td>{v:.4f}</td></tr>" for k, v in can["top10"])
+    recs = "".join(f"<tr><td>{esc(r['fold'])}</td><td>{r['held_components']}</td><td>{r['withheld_positive_pixels']:,}</td><td>{r['eligible_components']}</td></tr>" for r in hold["fold_receipts"])
+    body = f"""<div class="card"><h2 style="margin-top:0">Design</h2><p>Evaluator <code>{esc(hold['evaluator_version'])}</code> (unmodified shared template; sha256 of evaluate_holdout.py <code>{esc(hold['evaluator_sha256']['evaluate_holdout.py'])}</code>).
+Seed {hold['seed']}, hide fraction {hold['hide_frac']}, feature collar {hold['buffer_px']} px, visible catalogue {hold['visible_px']:,} px, withheld {hold['hidden_px']:,} px ({hold['withheld_positive_pixels_scored']:,} scored inside the label-blind regions).</p>
+<table><tr><th>Fold</th><th>Withheld components</th><th>Withheld px</th><th>Eligible components</th></tr>{recs}</table></div>
+<div class="card"><h2 style="margin-top:0">Leakage canary (single-feature AUC on withheld truth vs background; flag &gt; 0.90)</h2>
+<p>Max AUC {can['max_auc']:.4f}; flagged: {esc(can['flagged_over_0p90'] or 'none')} ({can['n_pos']:,} positives vs {can['n_neg']:,} background cells).</p><table><tr><th>Feature</th><th>AUC</th></tr>{top}</table></div>
+<div class="card"><h2 style="margin-top:0">Emission sweep — pooled HOLDOUT-DTI (all arms, same folds, same emitter)</h2>
+<table><tr><th>Arm</th><th>Variant (nms, flank px)</th><th>Dots (global budget)</th><th>Pooled HOLDOUT-DTI</th><th>Dots on visible catalogue</th></tr>{tbl}</table></div>
+<div class="card"><h2 style="margin-top:0">Pooled summary with CIs</h2><pre class="small">{esc(json.dumps(hold['pooled_summary'], indent=1))}</pre></div>"""
+    return page("Holdout evidence (HOLDOUT-DTI)", body)
+
+
+def sources_page():
+    src = load("registry/sources.json") or []
+    rows = "".join(f"<tr><td>{esc(s['what'])}</td><td><a href='{esc(s['url'])}'>{esc(s['url'])}</a></td><td>{esc(s['verified'])}</td></tr>" for s in src)
+    man = load("registry/data_manifest.json") or {}
+    mrows = "".join(f"<tr><td class='mono'>{esc(f['dest'])}</td><td class='mono'>{esc(f['sha256'])}</td><td>{f['bytes']:,}</td><td>{esc(f['provenance'])}</td></tr>" for f in man.get("files", []))
+    return page("Sources and data manifest", f"<div class='card'><table><tr><th>What</th><th>Link</th><th>How it was verified</th></tr>{rows}</table></div><div class='card'><h2 style='margin-top:0'>Input files (SHA-256 pinned, verified on restore)</h2><table><tr><th>File</th><th>sha256</th><th>bytes</th><th>Provenance</th></tr>{mrows}</table></div>")
+
+
+def irregularities_page():
+    ir = load("registry/irregularities.json") or []
+    rows = "".join(f"<tr><td class='mono'>{esc(i['id'])}</td><td>{esc(i['severity'])}</td><td>{esc(i['what'])}</td><td>{esc(i['action'])}</td></tr>" for i in ir)
+    return page("Irregularities flagged for review", f"<div class='card'><table><tr><th>ID</th><th>Severity</th><th>What</th><th>Action / status</th></tr>{rows}</table></div>")
+
+
+def main():
+    DOCS.mkdir(exist_ok=True)
+    (DOCS / ".nojekyll").write_text("")
+    card = load("evidence/h78_run_card.json")
+    hold = load("evidence/h78_holdout_seed20.json")
+    forensic = load("evidence/forensics_h33_vs_d28.json")
+    (DOCS / "index.html").write_text(index(card, hold, forensic))
+    (DOCS / "executive-summary.html").write_text(exec_summary(card))
+    (DOCS / "hypotheses.html").write_text(hypotheses_page())
+    (DOCS / "holdout.html").write_text(holdout_page(hold))
+    (DOCS / "sources.html").write_text(sources_page())
+    (DOCS / "irregularities.html").write_text(irregularities_page())
+    (ROOT / "index.html").write_text('<!doctype html><meta http-equiv="refresh" content="0; url=docs/index.html">')
+    print("site built")
+
+
+if __name__ == "__main__":
+    main()

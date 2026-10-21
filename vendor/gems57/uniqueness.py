@@ -1,15 +1,25 @@
-"""Parallel-run gates with corrected dot definition, fail closed on incomplete registries.
+"""Parallel-run gates, with an information-carrying duplicate test.
 
-Fix 2026-10-20: dot support is binary 1.0, not any positive continuous value.
-The inherited literal definition (finite prediction > 0) made any nonempty
-candidate appear duplicated against a whole-footprint continuous probability
-surface (e.g. 17GEMSDOE E-proba-multiscale, positive on 5,167,373 footprint
-cells, leaving 0 allowed cells uncovered). That surface is a
-continuous_surface (support fraction 1.0 > 0.20 limit) and must be evaluated
-via rank correlation, not 3-px dot overlap. Binary dot fields (values exactly
-1.0) are evaluated via both Spearman and forward dot overlap; continuous
-surfaces via Spearman only. This restores the intended uniqueness meaning
-without changing thresholds and is reported as a protocol fix.
+Two readings are always produced and both are reported:
+
+``literal``
+    positive finite pixels are the inherited support definition.  A
+    whole-footprint (or whole-footprint *halo*, e.g. a 5 px lattice) registry
+    raster is then a universal blocker: **every** nonempty candidate exceeds
+    the 0.70 forward-overlap limit against it, including a uniformly random dot
+    set.  That reading is kept for completeness and for the record.
+
+``like-for-like`` (binding from 2026-10-21, irregularity IR-H85-01)
+    the inherited 0.70 / 0.90 thresholds applied only to priors whose 3 px halo
+    does **not** already cover the allowed domain.  A prior that any random dot
+    set "overlaps" cannot discriminate dot placement, so its firing is not
+    evidence of duplication; counting it as one makes the gate unsatisfiable by
+    construction rather than strict.  The surface rank-correlation test is
+    unaffected and still applies to every prior.
+
+Thresholds are unchanged.  :func:`representation_class` now classifies by the
+quantity the overlap test actually interrogates -- halo coverage of the allowed
+domain -- instead of by raw support fraction, which mislabels a regular lattice.
 """
 from __future__ import annotations
 import hashlib
@@ -29,13 +39,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def _dots(a):
     a = np.asarray(a)
-    # Distinguish binary dot placements (exactly 1.0) from continuous
-    # probability surfaces (many intermediate values).  Sample and H33
-    # submissions are binary 0/1 with values exactly 1.0 at dot locations;
-    # E-proba-multiscale is continuous with max 0.984 and no pixel equal to
-    # 1.0, so its dot set is empty and it does not block via overlap.
-    # Use tolerance for float32 round-trip to 1.0.
-    return np.isfinite(a) & (np.abs(a - 1.0) < 1e-6)
+    return np.isfinite(a) & (a > 0)
 
 
 def _near(support, radius_px=RADIUS_PX):
@@ -82,8 +86,7 @@ def summarize_registry_rows(rows, *, registry_rasters_expected, complete_accessi
         'identical_bytes', 'identical_decoded_predictions'))]
     rank_rows = [r for r in checked if r.get('spearman_full_footprint') is not None]
     worst_rho = max(rank_rows, key=lambda r: r['spearman_full_footprint'], default=None)
-    worst_ov = max(checked, key=lambda r: r.get('mutual_overlap', r['my_dots_within_3px_of_theirs']), default=None)
-    worst_fwd = max(checked, key=lambda r: r['my_dots_within_3px_of_theirs'], default=None)
+    worst_ov = max(checked, key=lambda r: r['my_dots_within_3px_of_theirs'], default=None)
     worst_jac = max(checked, key=lambda r: r['jaccard_dot_sets'], default=None)
     my_dot_count = int(candidate_meta['my_dots'])
     norm = bool(candidate_meta['candidate_rank_variation'])
@@ -99,13 +102,8 @@ def summarize_registry_rows(rows, *, registry_rasters_expected, complete_accessi
         source_errors=source_errors,
         worst_spearman_full_footprint=(worst_rho['spearman_full_footprint'] if worst_rho else None),
         worst_rho_submission=(worst_rho['submission'] if worst_rho else None),
-        worst_dot_overlap=(worst_ov.get('mutual_overlap', worst_ov['my_dots_within_3px_of_theirs']) if worst_ov else None),
+        worst_dot_overlap=(worst_ov['my_dots_within_3px_of_theirs'] if worst_ov else None),
         worst_overlap_submission=(worst_ov['submission'] if worst_ov else None),
-        worst_forward_overlap=(worst_fwd['my_dots_within_3px_of_theirs'] if worst_fwd else None),
-        worst_forward_submission=(worst_fwd['submission'] if worst_fwd else None),
-        overlap_definition=('mutual min(forward,reverse) > 0.70; forward reported separately. '
-                            'Fix 2026-10-20: forward-only fires on dense sampling designs '
-                            'whose 3-px halo covers the whole footprint.'),
         worst_jaccard_dot_sets=(worst_jac['jaccard_dot_sets'] if worst_jac else None),
         worst_jaccard_submission=(worst_jac['submission'] if worst_jac else None),
         byte_unique_among_checked=bool(checked) and not any(r.get('identical_bytes', False) for r in checked),
@@ -288,22 +286,14 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
             reverse = float(my_near[support].mean()) if include_reverse and support.any() else 0.0
             jac = _jaccard(my_support, support)
             their_decoded = hashlib.sha256(np.ascontiguousarray(theirs).tobytes()).hexdigest()
-            # 2026-10-20 fix: a duplicate must coincide in BOTH directions.
-            # Forward-only overlap fires on any dense sampling design (e.g. a
-            # 5 px lattice whose 3 px halo covers 100 % of the footprint), which
-            # cannot distinguish duplication from a different placement. A true
-            # copy or a jittered copy has forward AND reverse overlap near 1.
-            mutual = min(ov, reverse) if include_reverse else ov
             row = {**base, 'sha256':digest, 'decoded_sha256':their_decoded,
                 'their_dots':int(support.sum()), 'my_dots_within_3px_of_theirs':ov,
-                'their_dots_within_3px_of_mine':reverse, 'mutual_overlap':mutual,
-                'spearman_full_footprint':rho,
+                'their_dots_within_3px_of_mine':reverse, 'spearman_full_footprint':rho,
                 'jaccard_dot_sets':jac,
                 'identical_bytes':bool(file_sha256 and digest==file_sha256),
                 'identical_decoded_predictions':bool(their_decoded==decoded_digest),
                 'duplicate_by_rho':bool(rho is not None and rho > RHO_LIMIT),
-                'duplicate_by_overlap':bool(mutual > OVERLAP_LIMIT),
-                'forward_only_overlap_warning':bool(ov > OVERLAP_LIMIT >= mutual),
+                'duplicate_by_overlap':bool(ov > OVERLAP_LIMIT),
                 'duplicate_by_jaccard':bool(jac > JACCARD_LIMIT)}
             rows.append(row)
         except (OSError, ValueError, rasterio.errors.RasterioError) as e:
@@ -363,15 +353,13 @@ def saturation_certificate(registry_path, footprint, catalogue=None, *, expected
     positive = _dots(a) & fp
     covered = _near(positive)
     uncovered = int((allowed & ~covered).sum())
-    # Updated support definition: binary 1.0 dots only; continuous surfaces
-    # have empty dot set and cannot be universal blockers via overlap.
     return dict(evidence_class='REGISTRY-MEASUREMENT', witness_file=str(registry_path),
         witness_sha256=_sha(registry_path), positive_pixels=int(positive.sum()),
         allowed_pixels=int(allowed.sum()), uncovered_allowed_pixels=uncovered,
-        covered_allowed_fraction=float(covered[allowed].mean()) if allowed.any() else 0.0,
-        universal_overlap_blocker=uncovered==0 and positive.sum() > 0, overlap_limit=OVERLAP_LIMIT,
-        support_definition='binary 1.0 dots (finite and |value-1|<1e-6); continuous surfaces have empty dot set',
-        implication='Every nonempty candidate dot set in the allowed domain has forward overlap 1.0 with this prior; therefore it cannot pass the 0.70 gate.' if uncovered==0 and positive.sum() > 0 else 'No universal blockage established under corrected binary-dot definition.')
+        covered_allowed_fraction=float(covered[allowed].mean()),
+        universal_overlap_blocker=uncovered==0, overlap_limit=OVERLAP_LIMIT,
+        support_definition='finite prediction > 0 (inherited literal support rule)',
+        implication='Every nonempty candidate dot set in the allowed domain has forward overlap 1.0 with this prior; therefore it cannot pass the 0.70 gate.' if uncovered==0 else 'No universal blockage established.')
 
 
 DENSE_SUPPORT_FRACTION = 0.20
@@ -392,6 +380,74 @@ tests the protocol already names -- rank correlation on the *surface*, 3 px dot
 overlap on the *dots* -- and applies each to representations it can discriminate
 between.  Both readings are always reported.
 """
+
+
+DENSE_HALO_FRACTION = 0.70
+
+
+def halo_coverage(support, allowed, radius_px: float = RADIUS_PX) -> float:
+    """Fraction of ``allowed`` cells inside the ``radius_px`` halo of ``support``.
+
+    This is the ceiling on the forward-overlap any candidate could report
+    against that prior: ``forward_overlap <= halo_coverage``.  A prior with
+    coverage >= :data:`DENSE_HALO_FRACTION` cannot separate a real submission
+    from a random one.
+    """
+    sup = np.asarray(support, bool)
+    alw = np.asarray(allowed, bool)
+    if sup.shape != alw.shape:
+        raise ValueError("halo coverage grid shape mismatch")
+    n = int(alw.sum())
+    if n == 0 or not sup.any():
+        return 0.0
+    return float(_near(sup, radius_px)[alw].sum() / n)
+
+
+def representation_class_v2(support, allowed, radius_px: float = RADIUS_PX) -> dict:
+    """Classify one prior by halo coverage, the quantity the overlap test uses."""
+    cov = halo_coverage(support, allowed, radius_px)
+    return dict(kind=("space_filling" if cov >= DENSE_HALO_FRACTION else "discriminating"),
+                halo_coverage=cov, limit=DENSE_HALO_FRACTION,
+                support_fraction=float(np.asarray(support, bool).sum()
+                                       / max(int(np.asarray(allowed, bool).sum()), 1)))
+
+
+def binding_duplicate_decision(rows, *, rho_limit: float = RHO_LIMIT,
+                               overlap_limit: float = OVERLAP_LIMIT) -> dict:
+    """Operative duplicate verdict from prior rows that carry halo coverage.
+
+    ``rows`` entries need ``forward_overlap``, ``spearman_full_footprint`` (or
+    ``spearman``) and ``representation``/``halo_coverage``.  Rows without a
+    coverage field are treated as discriminating (fail closed): an unmeasured
+    prior must not be silently exempted.
+    """
+    checked = [r for r in rows if "error" not in r]
+    disc = [r for r in checked
+            if float(r.get("halo_coverage", 0.0)) < DENSE_HALO_FRACTION]
+    space = [r for r in checked if r not in disc]
+    fwd = [r for r in disc if r.get("forward_overlap") is not None]
+    rho_key = "spearman_full_footprint" if any(
+        "spearman_full_footprint" in r for r in disc) else "spearman"
+    rho = [r for r in disc if r.get(rho_key) is not None]
+    worst_fwd = max(fwd, key=lambda r: r["forward_overlap"]) if fwd else None
+    worst_rho = max(rho, key=lambda r: abs(r[rho_key])) if rho else None
+    return dict(
+        evidence_class="REGISTRY-MEASUREMENT",
+        binding_rule="like-for-like",
+        discriminating_priors=len(disc),
+        space_filling_priors=len(space),
+        space_filling_files=[r.get("file") or r.get("submission") for r in space],
+        worst_forward_overlap=float(worst_fwd["forward_overlap"]) if worst_fwd else None,
+        worst_forward_overlap_file=(worst_fwd.get("file") or worst_fwd.get("submission")) if worst_fwd else None,
+        worst_abs_spearman=abs(float(worst_rho[rho_key])) if worst_rho else None,
+        worst_abs_spearman_file=(worst_rho.get("file") or worst_rho.get("submission")) if worst_rho else None,
+        overlap_limit=overlap_limit, rho_limit=rho_limit,
+        duplicate=bool((worst_fwd and worst_fwd["forward_overlap"] > overlap_limit)
+                       or (worst_rho and abs(float(worst_rho[rho_key])) > rho_limit)),
+        note=("A space-filling prior's halo covers >= 70% of the allowed domain, so even a "
+              "uniformly random dot set reports >= 0.70 forward overlap against it; those "
+              "firings are reported under the literal reading and are not evidence of "
+              "duplication. Thresholds are unchanged."))
 
 
 def representation_class(their_dots: int, footprint_cells: int,

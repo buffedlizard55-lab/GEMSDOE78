@@ -1,0 +1,126 @@
+{
+  "grid": {
+    "footprint_px": 5167373,
+    "catalogue_px": 60988,
+    "catalogue_components_8conn": 3199
+  },
+  "d28": {
+    "meta": {
+      "crs": "EPSG:32611",
+      "nodata": NaN,
+      "dtype": "float32",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "shape": [
+        3730,
+        3292
+      ]
+    },
+    "finite_px": 5167373,
+    "positive_px": 44090,
+    "distinct_positive_values": 1,
+    "min_pos": 1.0,
+    "max_pos": 1.0,
+    "positives_on_catalogue": 0,
+    "positives_outside_footprint": 0
+  },
+  "h33": {
+    "meta": {
+      "crs": "EPSG:32611",
+      "nodata": null,
+      "dtype": "float32",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "shape": [
+        3730,
+        3292
+      ]
+    },
+    "finite_px": 12279160,
+    "positive_px": 37654,
+    "distinct_positive_values": 1,
+    "min_pos": 1.0,
+    "max_pos": 1.0,
+    "positives_on_catalogue": 0,
+    "positives_outside_footprint": 0
+  },
+  "h19_5_solid": {
+    "meta": {
+      "crs": "EPSG:32611",
+      "nodata": NaN,
+      "dtype": "float32",
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "shape": [
+        3730,
+        3292
+      ]
+    },
+    "finite_px": 5167373,
+    "positive_px": 121131,
+    "distinct_positive_values": 1,
+    "min_pos": 1.0,
+    "max_pos": 1.0,
+    "positives_on_catalogue": 0,
+    "positives_outside_footprint": 0
+  },
+  "h33_subset_of_d28": true,
+  "removed_dots": {
+    "n": 6436,
+    "dist_to_catalogue_px": {
+      "min": 1.0,
+      "max": 2.0
+    }
+  },
+  "h33_dist_to_catalogue_px_percentiles": {
+    "10": 4.0,
+    "25": 8.06225774829855,
+    "50": 19.6468827043885,
+    "75": 42.44997055358225,
+    "90": 68.00735254367721
+  },
+  "h33_min_dist_to_catalogue_px": 2.23606797749979,
+  "d28_dist_to_catalogue_px_percentiles": {
+    "10": 1.4142135623730951,
+    "25": 4.47213595499958,
+    "50": 15.0,
+    "75": 37.05401462729781,
+    "90": 64.47480127925948
+  },
+  "d28_nn_spacing_px": {
+    "min": 2.8284271247461903,
+    "median": 3.0,
+    "mean": 3.579145441517588
+  },
+  "h33_nn_spacing_px": {
+    "min": 2.8284271247461903,
+    "median": 3.0,
+    "mean": 3.7350977393055036
+  },
+  "d28_dots_on_h19_5_solid": 44090,
+  "h33_dots_on_h19_5_solid": 37654,
+  "catalogue_component_px": {
+    "n": 3199,
+    "p50": 12.0,
+    "p90": 39.0,
+    "max": 360
+  }
+}

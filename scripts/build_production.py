@@ -173,12 +173,12 @@ audit = {"registry_count": len(registry), "informative_count": len(informative),
          "worst_forward_informative": worst_fwd_inf, "unique_vs_informative_registry": unique,
          "surface_rows": sorted(surf_rows, key=lambda r: -abs(r["sampled_spearman_rho"])),
          "dot_rows": sorted([r for r in dot_rows if "mutual" in r], key=lambda r: -r["mutual"])}
-(EV / "uniqueness_production.json").write_text(json.dumps(audit, indent=1))
+(EV / "h78mpc_uniqueness.json").write_text(json.dumps(audit, indent=1))
 log("uniqueness:", {k: audit[k] for k in ["registry_count", "informative_count",
     "preplacement_max_abs_sampled_rho", "worst_mutual_informative", "worst_forward_informative", "unique_vs_informative_registry"]})
 
 # ---- package ----
-exp = json.loads((EV / "experiments.json").read_text())
+exp = json.loads((EV / "h78mpc_experiments.json").read_text())
 e2 = exp["summaries"]["E2_MPC"]["scores"]["E2_MPC"]["dti"]
 name = "gems78-h78mpc-monogenic-pc-37654-20261021"
 note = f"H78-MPC monogenic phase-congruency LOQO HGB + 300m submod emit; holdout-DTI {e2:.3f} (seed20 n=11321); 37654 dots"
@@ -200,5 +200,5 @@ for suf in [".tif", ".zip", ".json"]:
 log("FINAL", final_stem, receipt["sha256"])
 (prod := {"final_stem": final_stem, "sha256": receipt["sha256"], "note": note, "name": name,
           "validator_all_passed": receipt["validator"]["all_checks_passed"], "unique": unique})
-(EV / "production.json").write_text(json.dumps(prod, indent=1))
+(EV / "h78mpc_production.json").write_text(json.dumps(prod, indent=1))
 print(json.dumps(prod, indent=1))

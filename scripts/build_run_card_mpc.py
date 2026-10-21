@@ -8,11 +8,11 @@ import json, shutil
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EV = ROOT / "evidence"
-exp = json.loads((EV / "experiments.json").read_text())
-exp2 = json.loads((EV / "experiments_pass2_spaced.json").read_text())
-prod = json.loads((EV / "production.json").read_text())
-uq = json.loads((EV / "uniqueness_production.json").read_text())
-can = json.loads((EV / "canaries.json").read_text())
+exp = json.loads((EV / "h78mpc_experiments.json").read_text())
+exp2 = json.loads((EV / "h78mpc_experiments_pass2_spaced.json").read_text())
+prod = json.loads((EV / "h78mpc_production.json").read_text())
+uq = json.loads((EV / "h78mpc_uniqueness.json").read_text())
+can = json.loads((EV / "h78mpc_canaries.json").read_text())
 receipt = json.loads((ROOT / "docs/downloads" / f"{prod['final_stem']}.json").read_text())
 sc = exp2["summaries"]["E2_MPC_SPACED"]["scores"]
 pd_ = exp2["summaries"]["E2_MPC_SPACED"]["paired_differences"]
@@ -48,7 +48,7 @@ card = {
     "surface_auc_vs_withheld": {"E1_BASE": 0.6738, "E2_MPC": 0.6964, "E3_MPC_ONLY": 0.5092},
     "per_fold_spaced": exp2["per_fold"],
     "pass1_preregistered_emitter_reading_IR-78-EMIT-01": {
-      "note": "As preregistered, vendor greedy_allocate+top-up produced contiguous dot runs (98.9% of dots with neighbour <=1.5 px, median NN 1.0 px), a defective geometry under the 300 m kernel. Those scores are retained here, not deleted: E2 0.0471 / E1 0.0366 / E3 0.0128 / control 0.0939 / random 0.0484 (evidence/experiments.json). Pass-2 re-emitted the FROZEN surfaces with the control's spaced emitter; no retraining. The MPC-vs-base paired effect is significant under BOTH emitters (+0.0105 clustered, +0.0121 spaced).",
+      "note": "As preregistered, vendor greedy_allocate+top-up produced contiguous dot runs (98.9% of dots with neighbour <=1.5 px, median NN 1.0 px), a defective geometry under the 300 m kernel. Those scores are retained here, not deleted: E2 0.0471 / E1 0.0366 / E3 0.0128 / control 0.0939 / random 0.0484 (evidence/h78mpc_experiments.json). Pass-2 re-emitted the FROZEN surfaces with the control's spaced emitter; no retraining. The MPC-vs-base paired effect is significant under BOTH emitters (+0.0105 clustered, +0.0121 spaced).",
       "scores_clustered": {k: {"dti": v["dti"], "ci95": v["ci95"]} for k, v in sc0.items()},
     },
     "caveat": "Candidate-vs-control paired delta is +0.0038 with 95% CI [-0.012, +0.020]: the point estimate beats the fold-fair H33 control but the advantage is NOT statistically significant. Holdout truth is the visible catalogue, so this instrument cannot reward genuinely new-fault geometry beyond catalogue-like structure (proxy limitation).",
@@ -68,7 +68,7 @@ card = {
     "overlap_limit_preregistered_mutual": 0.70,
     "worst_mutual_raster": worst_mut,
     "unique_preregistered_gate": bool(gate["surface_rho_le_0.90"] and gate["mutual_3px_overlap_le_0.70"]),
-    "disclosure": "Forward-only readings exceed 0.70 only against (a) the 206,895-dot r13 lattice witness whose 3-px halo covers 99.9% of the footprint (vacuous test, disclosed) and (b) one 54,000-dot raster (forward 0.73, mutual 0.42). The preregistered criterion is mutual overlap, following GEMSDOE70/73 precedent; all per-raster rows are in evidence/uniqueness_production.json.",
+    "disclosure": "Forward-only readings exceed 0.70 only against (a) the 206,895-dot r13 lattice witness whose 3-px halo covers 99.9% of the footprint (vacuous test, disclosed) and (b) one 54,000-dot raster (forward 0.73, mutual 0.42). The preregistered criterion is mutual overlap, following GEMSDOE70/73 precedent; all per-raster rows are in evidence/h78mpc_uniqueness.json.",
     "dot_spacing": prod["spacing"],
   },
   "raster_sha256": prod["sha256"],
@@ -102,8 +102,8 @@ card = {
   "verdict": "promote" if promote else "negative",
 }
 assert len(prod["note"]) <= 140
-(EV / "run_card.json").write_text(json.dumps(card, indent=1))
-shutil.copy(EV / "run_card.json", ROOT / "docs/downloads/run_card.json")
-shutil.copy(EV / "run_card.json", ROOT / "run_card.json")
+(EV / "h78mpc_run_card.json").write_text(json.dumps(card, indent=1))
+shutil.copy(EV / "h78mpc_run_card.json", ROOT / "docs/downloads/run_card_h78mpc.json")
+shutil.copy(EV / "h78mpc_run_card.json", ROOT / "run_card_h78mpc.json")
 print(json.dumps({"verdict": card["verdict"], "gate": gate, "sha256": card["raster_sha256"][:16],
                   "note_chars": card["submission_note_chars"]}, indent=1))

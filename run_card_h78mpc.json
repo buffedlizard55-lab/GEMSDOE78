@@ -218,7 +218,7 @@
    ]
   },
   "pass1_preregistered_emitter_reading_IR-78-EMIT-01": {
-   "note": "As preregistered, vendor greedy_allocate+top-up produced contiguous dot runs (98.9% of dots with neighbour <=1.5 px, median NN 1.0 px), a defective geometry under the 300 m kernel. Those scores are retained here, not deleted: E2 0.0471 / E1 0.0366 / E3 0.0128 / control 0.0939 / random 0.0484 (evidence/experiments.json). Pass-2 re-emitted the FROZEN surfaces with the control's spaced emitter; no retraining. The MPC-vs-base paired effect is significant under BOTH emitters (+0.0105 clustered, +0.0121 spaced).",
+   "note": "As preregistered, vendor greedy_allocate+top-up produced contiguous dot runs (98.9% of dots with neighbour <=1.5 px, median NN 1.0 px), a defective geometry under the 300 m kernel. Those scores are retained here, not deleted: E2 0.0471 / E1 0.0366 / E3 0.0128 / control 0.0939 / random 0.0484 (evidence/h78mpc_experiments.json). Pass-2 re-emitted the FROZEN surfaces with the control's spaced emitter; no retraining. The MPC-vs-base paired effect is significant under BOTH emitters (+0.0105 clustered, +0.0121 spaced).",
    "scores_clustered": {
     "E1_BASE": {
      "dti": 0.03663803470970382,
@@ -286,7 +286,7 @@
    "their_3px_halo_fp_fraction": 0.1378
   },
   "unique_preregistered_gate": true,
-  "disclosure": "Forward-only readings exceed 0.70 only against (a) the 206,895-dot r13 lattice witness whose 3-px halo covers 99.9% of the footprint (vacuous test, disclosed) and (b) one 54,000-dot raster (forward 0.73, mutual 0.42). The preregistered criterion is mutual overlap, following GEMSDOE70/73 precedent; all per-raster rows are in evidence/uniqueness_production.json.",
+  "disclosure": "Forward-only readings exceed 0.70 only against (a) the 206,895-dot r13 lattice witness whose 3-px halo covers 99.9% of the footprint (vacuous test, disclosed) and (b) one 54,000-dot raster (forward 0.73, mutual 0.42). The preregistered criterion is mutual overlap, following GEMSDOE70/73 precedent; all per-raster rows are in evidence/h78mpc_uniqueness.json.",
   "dot_spacing": {
    "frac_nn_le_1p5": 0.0,
    "median_nn": 3.0

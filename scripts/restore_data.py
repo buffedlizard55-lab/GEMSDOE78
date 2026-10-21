@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Restore and SHA-256 verify all competition, external, and historical scored files in registry/data_manifest.json.
+"""Restore and SHA-256 verify all competition, external, and historical scored files in registry/data_manifest_gems73.json.
 
 Uses zero-rate-limit streaming tarballs from codeload.github.com grouped by (repo, ref) first,
 falling back to gh api / raw.githubusercontent.com only if needed.
@@ -120,7 +120,7 @@ def fetch_single_fallback(repo: str, ref: str, path: str, dest: Path) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--group", default="all", choices=["core", "external", "scored", "all"])
-    ap.add_argument("--manifest", default=str(ROOT / "registry" / "data_manifest.json"))
+    ap.add_argument("--manifest", default=str(ROOT / "registry" / "data_manifest_gems73.json"))
     ap.add_argument("--target-dir", default=None, help="Override destination directory")
     ap.add_argument("--link-data", action="store_true", help="Also symlink restored tree into data/")
     args = ap.parse_args()

@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT / "vendor"))
 from gems57 import metric  # noqa
 
 DL = ROOT / "docs" / "downloads"
-PROD = json.loads((ROOT / "evidence" / "production.json").read_text())
+PROD = json.loads((ROOT / "evidence" / "h78mpc_production.json").read_text())
 TIF = DL / f"{PROD['final_stem']}.tif"
 ZIP = DL / f"{PROD['final_stem']}.zip"
 
@@ -54,7 +54,7 @@ def test_zero_dots_on_catalogue():
     assert int(((a > 0) & cat).sum()) == 0
 
 def test_run_card_promote_and_labeled():
-    rc = json.loads((ROOT / "evidence" / "run_card.json").read_text())
+    rc = json.loads((ROOT / "evidence" / "h78mpc_run_card.json").read_text())
     assert rc["verdict"] == "promote"
     assert rc["ok_to_download"] is True and rc["ok_to_submit"] is True
     assert all(rc["preregistered_gate_evaluation"].values())
@@ -77,7 +77,7 @@ def test_dot_spacing_kernel_packed():
     assert float((d[:, 1] <= 1.5).mean()) == 0.0  # no contiguous runs (IR-78-EMIT-01)
 
 def test_site_says_ok_and_discloses_caveats():
-    html = (ROOT / "docs" / "index.html").read_text()
+    html = (ROOT / "docs" / "h78mpc.html").read_text()
     assert "OK TO DOWNLOAD &amp; SUBMIT" in html and "OK to download: YES" in html
     assert "IR-78-EMIT-01" in html and "not statistically significant" in html
     assert PROD["final_stem"] in html and PROD["note"] in html

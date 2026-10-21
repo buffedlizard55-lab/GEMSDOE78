@@ -120,9 +120,8 @@ def write_submission(path, prediction, sample, footprint, *, note, name,
         )
         tmp_receipt.write_text(json.dumps(receipt, indent=2, allow_nan=False) + '\n', encoding='utf-8')
 
-        # Stage auxiliary files first and commit the TIFF last as the primary artifact (0644 world-readable for Pages).
+        # Stage auxiliary files first and commit the TIFF last as the primary artifact.
         for source, destination in ((tmp_zip, zip_path), (tmp_receipt, receipt_path), (tmp_tif, path)):
-            os.chmod(source, 0o644)
             os.replace(source, destination)
             committed.append(destination)
         return receipt

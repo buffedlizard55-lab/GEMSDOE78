@@ -1,0 +1,154 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Holdout evidence (HOLDOUT-DTI)</title><style>
+:root{--bg:#0f172a;--card:#111c33;--ink:#e5e7eb;--mut:#9ca3af;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;--acc:#38bdf8;--line:#1f2a44}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:28px 20px 10px;max-width:1100px;margin:auto}h1{margin:0 0 6px;font-size:28px}h2{font-size:20px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+main{max-width:1100px;margin:auto;padding:0 20px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+.banner{font-size:22px;font-weight:700;padding:16px 20px;border-radius:12px;margin:12px 0}.ok{background:#052e16;border:2px solid var(--ok)}.bad{background:#450a0a;border:2px solid var(--bad)}
+.btn{display:inline-block;background:var(--acc);color:#04141f;font-weight:700;padding:12px 18px;border-radius:10px;text-decoration:none;margin:6px 8px 6px 0}
+.btn.sec{background:#1e293b;color:var(--ink);border:1px solid var(--line)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:600}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;word-break:break-all}.mut{color:var(--mut)}
+nav a{color:var(--acc);margin-right:14px;text-decoration:none}.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.tag.h{background:#1e3a8a}.tag.o{background:#14532d}.tag.n{background:#7f1d1d}.small{font-size:13px}ul{margin:6px 0}
+</style></head><body><header><h1>Holdout evidence (HOLDOUT-DTI)</h1><nav><a href="index.html">Home</a><a href="executive-summary.html">Executive summary: how to submit</a>
+<a href="hypotheses.html">Hypotheses & why H33 scored 0.2778</a><a href="holdout.html">Holdout evidence</a>
+<a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a> <a href="h78mpc.html">H78-MPC lane (2nd candidate)</a>
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav></header><main><div class="card"><h2 style="margin-top:0">Design</h2><p>Evaluator <code>gems57-pooled-hide-v2</code> (unmodified shared template; sha256 of evaluate_holdout.py <code>ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a</code>).
+Seed 20, hide fraction 0.2, feature collar 3 px, visible catalogue 48,340 px, withheld 11,321 px (11,321 scored inside the label-blind regions).</p>
+<table><tr><th>Fold</th><th>Withheld components</th><th>Withheld px</th><th>Eligible components</th></tr><tr><td>NW</td><td>96</td><td>1,923</td><td>598</td></tr><tr><td>NE</td><td>145</td><td>2,367</td><td>628</td></tr><tr><td>SW</td><td>223</td><td>3,781</td><td>983</td></tr><tr><td>SE</td><td>142</td><td>3,250</td><td>648</td></tr></table></div>
+<div class="card"><h2 style="margin-top:0">Leakage canary (single-feature AUC on withheld truth vs background; flag &gt; 0.90)</h2>
+<p>Max AUC 0.5859; flagged: none (11,321 positives vs 300,000 background cells).</p><table><tr><th>Feature</th><th>AUC</th></tr><tr><td class='mono'>det_elev_s1.5_Hnn</td><td>0.5859</td></tr><tr><td class='mono'>det_elev_s3.0_Hnn</td><td>0.5856</td></tr><tr><td class='mono'>det_elev_s3.0_l1</td><td>0.5832</td></tr><tr><td class='mono'>det_elev_s3.0_gm</td><td>0.5816</td></tr><tr><td class='mono'>det_elev_s1.5_l1</td><td>0.5814</td></tr><tr><td class='mono'>det_elev_s1.5_gm</td><td>0.5779</td></tr><tr><td class='mono'>geod_2ndinv</td><td>0.5666</td></tr><tr><td class='mono'>geod_shearrate</td><td>0.5660</td></tr><tr><td class='mono'>det_elev_slope</td><td>0.5636</td></tr><tr><td class='mono'>tc_totalcount_s3.0_Hnn</td><td>0.5452</td></tr></table></div>
+<div class="card"><h2 style="margin-top:0">Emission sweep — pooled HOLDOUT-DTI (all arms, same folds, same emitter)</h2>
+<table><tr><th>Arm</th><th>Variant (nms, flank px)</th><th>Dots (global budget)</th><th>Pooled HOLDOUT-DTI</th><th>Dots on visible catalogue</th></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B3</td><td>50,000</td><td><b>0.1843</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B3</td><td>44,090</td><td><b>0.1826</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B3</td><td>40,000</td><td><b>0.1799</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B3</td><td>37,654</td><td><b>0.1778</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B3</td><td>35,000</td><td><b>0.1757</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B3</td><td>30,000</td><td><b>0.1687</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B2</td><td>50,000</td><td><b>0.1625</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B2</td><td>44,090</td><td><b>0.1586</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B3</td><td>25,000</td><td><b>0.1581</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms1_B2</td><td>37,654</td><td><b>0.1577</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms1_B2</td><td>40,000</td><td><b>0.1565</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms1_B2</td><td>35,000</td><td><b>0.1564</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms1_B2</td><td>44,090</td><td><b>0.1547</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms1_B2</td><td>30,000</td><td><b>0.1546</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B2</td><td>40,000</td><td><b>0.1543</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms1_B2</td><td>50,000</td><td><b>0.1530</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B2</td><td>37,654</td><td><b>0.1519</b></td><td>0</td></tr><tr><td class='mono'>A1_iso</td><td class='mono'>nms0_B2</td><td>50,000</td><td><b>0.1514</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms1_B2</td><td>25,000</td><td><b>0.1487</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms1_B2</td><td>60,000</td><td><b>0.1480</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B2</td><td>35,000</td><td><b>0.1475</b></td><td>0</td></tr><tr><td class='mono'>A1_iso</td><td class='mono'>nms0_B2</td><td>44,090</td><td><b>0.1461</b></td><td>0</td></tr><tr><td class='mono'>A0_std19</td><td class='mono'>nms0_B2</td><td>50,000</td><td><b>0.1426</b></td><td>0</td></tr><tr><td class='mono'>A1_iso</td><td class='mono'>nms0_B2</td><td>40,000</td><td><b>0.1412</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B2</td><td>30,000</td><td><b>0.1380</b></td><td>0</td></tr><tr><td class='mono'>A0_std19</td><td class='mono'>nms0_B2</td><td>44,090</td><td><b>0.1376</b></td><td>0</td></tr><tr><td class='mono'>A1_iso</td><td class='mono'>nms0_B2</td><td>37,654</td><td><b>0.1376</b></td><td>0</td></tr><tr><td class='mono'>A1_iso</td><td class='mono'>nms0_B2</td><td>35,000</td><td><b>0.1326</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B0</td><td>50,000</td><td><b>0.1322</b></td><td>0</td></tr><tr><td class='mono'>A0_std19</td><td class='mono'>nms0_B2</td><td>40,000</td><td><b>0.1305</b></td><td>0</td></tr><tr><td class='mono'>A0_std19</td><td class='mono'>nms0_B2</td><td>37,654</td><td><b>0.1265</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B2</td><td>25,000</td><td><b>0.1259</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B0</td><td>44,090</td><td><b>0.1225</b></td><td>0</td></tr><tr><td class='mono'>A0_std19</td><td class='mono'>nms0_B2</td><td>35,000</td><td><b>0.1223</b></td><td>0</td></tr><tr><td class='mono'>A1_iso</td><td class='mono'>nms0_B2</td><td>30,000</td><td><b>0.1209</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B0</td><td>40,000</td><td><b>0.1158</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B0</td><td>37,654</td><td><b>0.1118</b></td><td>0</td></tr><tr><td class='mono'>A0_std19</td><td class='mono'>nms0_B2</td><td>30,000</td><td><b>0.1109</b></td><td>0</td></tr><tr><td class='mono'>A1_iso</td><td class='mono'>nms0_B2</td><td>25,000</td><td><b>0.1082</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B0</td><td>35,000</td><td><b>0.1050</b></td><td>0</td></tr><tr><td class='mono'>A0_std19</td><td class='mono'>nms0_B2</td><td>25,000</td><td><b>0.0993</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B0</td><td>30,000</td><td><b>0.0937</b></td><td>0</td></tr><tr><td class='mono'>A2_h78_steered</td><td class='mono'>nms0_B0</td><td>25,000</td><td><b>0.0801</b></td><td>0</td></tr></table></div>
+<div class="card"><h2 style="margin-top:0">Pooled summary with CIs</h2><pre class="small">{
+ &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+ &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+ &quot;alpha&quot;: 0.2,
+ &quot;beta&quot;: 0.8,
+ &quot;triangular_radius_m&quot;: 300.0,
+ &quot;pooled&quot;: true,
+ &quot;scores&quot;: {
+  &quot;A2_h78_steered|nms0_B3|50000&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;dti&quot;: 0.18431154590898757,
+   &quot;ci95&quot;: [
+    0.16578477300738595,
+    0.20145090715451924
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321,
+   &quot;tpw&quot;: 3439.8448192212086,
+   &quot;fpw&quot;: 44592.197923966254,
+   &quot;fnw&quot;: 7881.155180778787
+  },
+  &quot;A0_std19|nms0_B2|50000&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;dti&quot;: 0.14256265191696707,
+   &quot;ci95&quot;: [
+    0.12484464740968271,
+    0.1613344010172037
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321,
+   &quot;tpw&quot;: 2639.170259187079,
+   &quot;fpw&quot;: 44638.599029595985,
+   &quot;fnw&quot;: 8681.82974081292
+  },
+  &quot;A1_iso|nms0_B2|50000&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;dti&quot;: 0.15142852812956312,
+   &quot;ci95&quot;: [
+    0.13424218949343666,
+    0.1695159078376109
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321,
+   &quot;tpw&quot;: 2806.5986840631326,
+   &quot;fpw&quot;: 44580.13908015097,
+   &quot;fnw&quot;: 8514.401315936864
+  },
+  &quot;registry_D2.8_44090&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;dti&quot;: 0.09188832467218272,
+   &quot;ci95&quot;: [
+    0.07900315412770842,
+    0.10346716075529336
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321,
+   &quot;tpw&quot;: 1605.884660575932,
+   &quot;fpw&quot;: 40492.525798262286,
+   &quot;fnw&quot;: 9715.115339424063
+  },
+  &quot;registry_H33_37654&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;dti&quot;: 0.003698680598708719,
+   &quot;ci95&quot;: [
+    0.00300004854981789,
+    0.004416381276698413
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321,
+   &quot;tpw&quot;: 59.65441084410811,
+   &quot;fpw&quot;: 35299.171121231586,
+   &quot;fnw&quot;: 11261.345589155892
+  }
+ },
+ &quot;best_comparable_control&quot;: &quot;A1_iso|nms0_B2|50000&quot;,
+ &quot;paired_differences&quot;: {
+  &quot;A0_std19|nms0_B2|50000&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;delta&quot;: 0.0417488939920205,
+   &quot;ci95&quot;: [
+    0.030387101913856653,
+    0.05315116964777417
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321
+  },
+  &quot;A1_iso|nms0_B2|50000&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;delta&quot;: 0.032883017779424456,
+   &quot;ci95&quot;: [
+    0.023975317072642492,
+    0.042174533338797573
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321
+  },
+  &quot;registry_D2.8_44090&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;delta&quot;: 0.09242322123680485,
+   &quot;ci95&quot;: [
+    0.07738022171739042,
+    0.107443731374419
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321
+  },
+  &quot;registry_H33_37654&quot;: {
+   &quot;evidence_class&quot;: &quot;HOLDOUT-DTI&quot;,
+   &quot;evaluator_version&quot;: &quot;gems57-pooled-hide-v2&quot;,
+   &quot;delta&quot;: 0.18061286531027884,
+   &quot;ci95&quot;: [
+    0.1623225564971325,
+    0.19777758319320057
+   ],
+   &quot;withheld_positive_pixels&quot;: 11321
+  }
+ },
+ &quot;bootstrap&quot;: {
+  &quot;method&quot;: &quot;paired physical spatial-cluster percentile&quot;,
+  &quot;clusters&quot;: 157,
+  &quot;draws&quot;: 1000,
+  &quot;seed&quot;: 520810,
+  &quot;confidence&quot;: 0.95,
+  &quot;caveat&quot;: &quot;Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval.&quot;
+ },
+ &quot;implementation_sha256&quot;: {
+  &quot;evaluate_holdout.py&quot;: &quot;ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a&quot;,
+  &quot;holdout.py&quot;: &quot;7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1&quot;,
+  &quot;metric.py&quot;: &quot;4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f&quot;,
+  &quot;spatial.py&quot;: &quot;fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8&quot;
+ }
+}</pre></div></main></body></html>

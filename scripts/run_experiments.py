@@ -5,7 +5,7 @@ E1_BASE vs E2_MPC vs E3_MPC_ONLY + controls (h33_analogue_foldfair reproduced
 per GEMSDOE73, random). LOQO HGB, visible-only positives, leakage canaries
 first, vendor greedy_allocate emission (+ exact marginal-gain top-up to
 37,654), vendor evaluate_holdout scoring with paired block bootstrap.
-Outputs: evidence/experiments.json, .cache/work/{oof surfaces, dots}.npz
+Outputs: evidence/h78mpc_experiments.json, .cache/work/{oof surfaces, dots}.npz
 """
 from __future__ import annotations
 import gc, json, sys, time
@@ -80,7 +80,7 @@ for i, nm in enumerate(names):
                      "symmetric_auc": round(sym, 4), "passed": bool(sym <= 0.90)})
 max_sym = max(c["symmetric_auc"] for c in canaries)
 log("canary max symmetric AUC", max_sym, "worst:", max(canaries, key=lambda c: c["symmetric_auc"])["feature"])
-(EV / "canaries.json").write_text(json.dumps({"max_symmetric_auc": max_sym, "features": canaries}, indent=1))
+(EV / "h78mpc_canaries.json").write_text(json.dumps({"max_symmetric_auc": max_sym, "features": canaries}, indent=1))
 assert max_sym <= 0.90, "LEAKAGE CANARY STOP"
 
 # ---------------- LOQO training ----------------
@@ -242,5 +242,5 @@ for cand in ["E2_MPC", "E1_BASE", "E3_MPC_ONLY"]:
     s = evaluate_holdout.pooled_summary(terms, draws=1000, seed=78078, candidate=cand)
     out["summaries"][cand] = s
     log(cand, {k: round(v["dti"], 4) for k, v in s["scores"].items()})
-(EV / "experiments.json").write_text(json.dumps(out, indent=1, default=float))
+(EV / "h78mpc_experiments.json").write_text(json.dumps(out, indent=1, default=float))
 log("DONE")
