@@ -1,19 +1,19 @@
 {
-  "hypothesis": "Cross-physics radiometric alteration edges co-located with supplied magnetic boundaries may identify unmapped fault-related fluid pathways.",
-  "mechanism": "Hydrothermal alteration can change radiometric response; a coincident magnetic boundary supplies independent structural context. This is an indirect association and remains untested.",
-  "named_non_fault_mimic": "Lithologic contact or airborne radiometric acquisition/flight-line artifact.",
+  "hypothesis": "Time-series Sentinel-1 InSAR displacement discontinuities may reveal active or fluid-pressure-related concealed faults absent from the surface-fault catalogue.",
+  "mechanism": "A repeatable narrow line-of-sight deformation gradient across coherent interferometric pairs can mark localized slip or fluid-driven deformation along a structure. Opposing orbit geometries may help distinguish vertical from east-west displacement; this is not a direct fault observation.",
+  "named_non_fault_mimic": "Groundwater-withdrawal compaction or atmospheric delay; decorrelation and orbital ramps are additional measurement artifacts.",
   "holdout_dti": {
     "evidence_class": "HOLDOUT-DTI",
     "evaluator_version": null,
     "withheld_positives": null,
     "dti": null,
     "ci95": null,
-    "status": "NOT RUN: no feature stack, catalogue labels, evaluator, or holdout splits in this checkout."
+    "status": "NOT RUN: no Sentinel-1 scenes, competition feature stack, catalogue labels, shared evaluator, or holdout splits in this checkout."
   },
   "registry_comparison": {
     "rank_correlation": null,
     "fraction_within_3px": null,
-    "status": "NOT RUN: registry rasters and an unambiguous named lane are absent."
+    "status": "NOT RUN: registry rasters and an unambiguous assigned lane are absent."
   },
   "raster_sha256": null,
   "validator": {
