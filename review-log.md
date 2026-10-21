@@ -9,7 +9,7 @@
 - Read the official DrivenData problem page and submission-format section, September 2026 DOE/NLR rules, USGS GeoDAWN record, GBCGE INGENIOUS page, GDR 1391 data catalog, EPSG:32611 record, and official public leaderboard. The official format requires a single float32 band, values from 0 to 1, matching projected CRS, resolution and bounds, and null/NaN outside bounds.
 - Inspected prior-method descriptions on GEMSDOE32 H33 and GEMSDOE71, 73, 74, and 75. The GEMSDOE71 page already describes GDR 1391 two-metre probes, paleogeothermal deposits and spring/geothermometer data, so our initial radiometric/geothermal ideas would not have been sufficiently novel. They were replaced by provisional Sentinel-1 InSAR, Landsat surface-temperature, and ASTER surface-reflectance hypotheses. All overlap/novelty claims remain provisional because the full fleet registry is absent.
 - Checked official Copernicus S1 archive documentation, USGS Landsat Collection 2 surface-temperature availability, and NASA ASTER V004 product status. Public data pathways are listed, but no exact study-footprint scenes were queried or downloaded. NASA's ASTER record warns SWIR detectors stopped functioning in 2009; this limits the ASTER proposal to historical SWIR data.
-- The current official DrivenData public leaderboard was read on 2026-10-21 UTC: rank 1 `xiaofanhu`, 0.4413, and rank 2 `cfld__`, 0.3904 (**ORGANIZER-CONFIRMED**, copied from official page).
+- The official DrivenData public leaderboard was read on 2026-10-21 UTC: rank 1 `xiaofanhu`, 0.4413, and rank 2 `cfld__`, 0.3904 (**official public-leaderboard snapshot; not a submission-page receipt, therefore not classified ORGANIZER-CONFIRMED under the strict run-card rule**).
 - Rejected generation of an arbitrary or copied TIFF because no inputs, shared evaluation tools, duplicate-reference raster, or validation capability exist.
 
 ## Pass 2 — implementation and scientific-risk review
@@ -30,6 +30,6 @@
 
 ## Values that are scores
 
-- **ORGANIZER-CONFIRMED**: official public leaderboard snapshot read 2026-10-21 UTC lists rank 1 `xiaofanhu` at 0.4413 and rank 2 `cfld__` at 0.3904. The dynamic leaderboard should be checked again before operational decisions.
+- **Official leaderboard snapshot (not receipt-backed)**: page read 2026-10-21 UTC listed rank 1 `xiaofanhu` at 0.4413 and rank 2 `cfld__` at 0.3904. These figures are not classified ORGANIZER-CONFIRMED for run-card reporting because no submission-page receipt was copied. Recheck the dynamic leaderboard before operational decisions.
 - The requested 0.2778 is an **unverified owner-page claim in this review**: GEMSDOE32 says no organizer score exists for its artifact; GEMSDOE71 later calls it ORGANIZER-CONFIRMED, but no actual DrivenData receipt was present in reviewed sources. It is not a HOLDOUT-DTI result from this checkout.
 - No **HOLDOUT-DTI** measurement was performed in this checkout. No DTI value or CI is reported for the hypotheses.
