@@ -2,6 +2,8 @@
 
 > **Submission status: NOT READY. Do not download or submit a TIFF from this repository.**
 > This checkout contains no competition rasters, cached feature stack, evaluator, writer, validator, or previous experiment code. No candidate TIFF was created. The project intentionally fails closed instead of inventing a raster or copying a sibling submission.
+>
+> **[Open the executive submission guide](executive-summary.html) · [Review hypotheses and evidence](research.html)**
 
 ## Mission and operating brief
 

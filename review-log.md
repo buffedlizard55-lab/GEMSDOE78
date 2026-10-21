@@ -25,6 +25,7 @@
 - Confirmed the project explicitly flags missing lane paragraph/registry rasters, so no correlation/overlap assertion is invented.
 - Confirmed the result and TIF validator remain negative because the sample grid/footprint/data are absent; JSON uses `null` for unavailable measurements.
 - Confirmed the site link to a submission file is intentionally absent and the prominent status says not to submit.
+- GitHub Pages API reports the latest legacy build as `built`, and the executive-summary URL serves the new guide. However, a fetch of the public root still returned the prior README-rendered homepage rather than the new `index.html`; this deployment/routing irregularity is flagged. Added prominent executive-summary and research links near the top of README as a fallback; recheck the live root after the next Pages build.
 - Pending: authorized competition data placement; shared tools/template availability; a named single-method lane; registry-raster surface/final duplicate checks; leakage canaries; preregistered holdout; resulting byte-level validator; official receipt if an authorized competitor submits.
 
 ## Values that are scores
