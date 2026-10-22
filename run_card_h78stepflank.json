@@ -1,5 +1,5 @@
 {
-  "lane": "H78-STEP paired cross-strike flank step",
+  "lane": "H78-STEP-FLANK paired cross-strike flank step (parallel session arena/2a6915e5; renamed at merge)",
   "repository": "buffedlizard55-lab/GEMSDOE78",
   "branch": "arena/2a6915e5-gemsdoe78",
   "built_utc": "20261022T013740Z",
@@ -182,8 +182,8 @@
       "evidence_class": "HOLDOUT-DTI"
     },
     "source_files": [
-      "evidence/h78step_holdout_seed20.json",
-      "evidence/h78step_append_diag_seed20.json"
+      "evidence/h78stepflank_holdout_seed20.json",
+      "evidence/h78stepflank_append_diag_seed20.json"
     ]
   },
   "experiment2_append_diagnostic": {
@@ -567,5 +567,6 @@
   "experiments_charged": 3,
   "submission_slots_used": 0,
   "organizer_confirmed_score": null,
-  "seconds_total": 459.1
+  "seconds_total": 459.1,
+  "merge_rename_note": "Lane renamed H78-STEP -> H78-STEP-FLANK at merge with origin/main PR #19 (independent parallel H78-STEP/xstep implementation merged first under identical file names). See evidence/h78stepflank_merge_dedupe.json. Scientific numbers unchanged from this session's pre-merge card."
 }

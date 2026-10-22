@@ -8,7 +8,7 @@ import numpy as np
 import rasterio
 
 ROOT = Path(__file__).resolve().parents[1]
-CARD = json.loads((ROOT / "evidence" / "h78step_run_card.json").read_text())
+CARD = json.loads((ROOT / "evidence" / "h78stepflank_run_card.json").read_text())
 TIF = ROOT / "docs" / "downloads" / CARD["raster"]["file"]
 
 
@@ -44,10 +44,10 @@ def test_step_tif_is_portal_safe():
 
 
 def test_step_pages_banner_no():
-    for name in ("h78step.html", "h78step-executive-summary.html"):
+    for name in ("h78stepflank.html", "h78stepflank-executive-summary.html"):
         text = (ROOT / "docs" / name).read_text()
         assert "OK TO SUBMIT: NO" in text
     release = json.loads((ROOT / "evidence" / "release_audit.json").read_text())
-    row = next(c for c in release["candidates"] if c["lane"] == "H78-STEP")
+    row = next(c for c in release["candidates"] if c["lane"] == "H78-STEP-FLANK")
     assert row["ok_to_submit"] is False and row["verdict"] == "negative"
     assert row["sha256"] == CARD["raster_sha256"]

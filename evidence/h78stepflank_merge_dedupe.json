@@ -20,5 +20,13 @@
   },
   "experiments_charged_by_h78step": 3,
   "additional_experiments_in_merge": 0,
-  "ok_to_submit": false
+  "ok_to_submit": false,
+  "rename_disclosure": "At the second merge (origin/main PR #19), a second parallel session (arena/faf23883-gemsdoe78) was found to have independently implemented the same top-ranked deferred hypothesis under the identical lane name H78-STEP with identical file names (their operator: src/gems78/xstep.py, offsets +-3/6/10 px, 5 bands, throw-concordance, 54 features; HOLDOUT-DTI 0.1730 vs CTRL 0.1826, paired -0.0096). Their files merged first and keep the canonical h78step paths. This session's artifacts were renamed h78step -> h78stepflank at merge (evidence/scripts/docs pages/registry/research), with internal references updated; scientific contents are otherwise byte-identical to this session's pre-merge commit 00d3a08. Independent replication: two different implementations of cross-strike step operators both lose significantly to the H78-A control.",
+  "stepflank_vs_xstep_dots": {
+    "mine_flank": "docs/downloads/gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
+    "theirs_xstrike": "docs/downloads/gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+    "forward_flank_dots_within_3px_of_xstrike": 0.7933771830347017,
+    "forward_xstrike_dots_within_3px_of_flank": 0.7839192560671354,
+    "reading": "The two independent STEP implementations duplicate each other's dots under the literal 0.70 rule (same lineaments), while both differ geometrically from H78-CROSSLAYER (0.17). Six HGB/score lanes in this repo now converge on the H78-A dot geography."
+  }
 }

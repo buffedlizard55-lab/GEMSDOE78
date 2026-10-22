@@ -1,174 +1,181 @@
-# Session 2026-10-22 (branch arena/2a6915e5-gemsdoe78) — why 0.2778, and five ranked hypotheses
+# Session 2026-10-22 (branch arena/faf23883-gemsdoe78) — why 0.2778, and five ranked hypotheses
 
-Provenance tags: **[measured-here]** computed in a GEMSDOE78 checkout from SHA-256-pinned
-files, **[official]** organizer/agency text (URL for manual review; this sandbox reaches
-only github.com / pypi hosts, so non-GitHub pages were not re-fetched this session),
-**[owner-report]** a score from the family ledger in the prompt (never an organizer
-receipt), **[inference]** judgement. No number in this repository is ORGANIZER-CONFIRMED:
-nothing built here has a submission-page receipt in evidence.
+Provenance tags: **[measured-here]** computed in this checkout from SHA-256-pinned files
+on 2026-10-22, **[official]** organizer/agency text (URL for manual review; this sandbox
+reaches github.com / pypi hosts and github.io via the page fetcher only),
+**[owner-report]** a score from the family's own ledger in the prompt (never an organizer
+receipt), **[inference]** judgement. No number below is ORGANIZER-CONFIRMED for this repo:
+nothing built here has been uploaded by this session, and no DrivenData receipt is on file.
 
-## 0. Why `h33-h33-2-b2 … -zeros` (0.2778 [owner-report]) is the family's best file — and what beating it requires
+## 0. Why `h33-h33-2-b2 … -zeros` is the family's best-listed file (0.2778 [owner-report])
 
-1. **The metric rewards sparse binary geometry, not coverage.** [official formula as
-   implemented in `vendor/gems57/metric.py`] Pooled DTI = TPw / (TPw + 0.2·FPw + 0.8·FNw),
-   triangular kernel max(1 − d/300 m, 0), *max* credit per truth pixel. DTI is a ratio of
-   functions linear in each pixel value, so at fixed geometry the optimum is binary
-   (0 or 1); a non-redundant dot helps only if its realised kernel credit exceeds
-   ≈ 0.2·DTI (0.056 at DTI 0.2778); a second dot inside the same truth pixel's kernel
-   earns nothing and still costs 0.2. Sparse dots ≥ 2.83 px apart therefore dominate
-   solid lines and soft fields. H33 is exactly that [measured-here:
-   `evidence/forensics_h33_vs_d28.json`, 37,654 dots, values {0,1}].
-2. **The 0.19 → 0.28 family climb is emission on one unchanged detector.**
-   [measured-here] H19-5 solid 121,131 line px (0.1922 [owner-report]) → D2.8: 44,090
-   dots *on those same lines*, NN spacing min √8 px (0.2600) → H33: the exact subset
-   deleting all 6,436 dots within ≤ 2 px of the catalogue (0.2778). No new geology
-   entered at either step; each step removed prediction mass the formula charges for.
-3. **The flank prune is the chain's only live-tested geological statement.** Catalogue
-   pixels are masked from scoring [official, staff posts quoted in
-   `research/knowledge.md`], so a dot 1–2 px from a mapped trace can only earn from an
-   *unmapped* fault within 300 m of a mapped one. Deleting those dots gained live
-   [owner-report], which says that population is thin relative to its cost. In this
-   repo's hide-and-recover instrument the same effect is measurable directly
-   [measured-here, `evidence/h78_distance_diagnostic.json`]: candidate dots 2–3 px from
-   a *visible* fault earn mean kernel credit 0.014, 3–5 px earn 0.032, 5–20 px earn
-   0.045–0.047, against a break-even of 0.2·DTI ≈ 0.032–0.037 at this repo's holdout
-   operating point. H33's shipped dots sit at median 19.6 px from the catalogue;
-   this repo's H78-A at median 6 px — H78-A's field crowds the catalogue far more
-   (open risk IR-78-09, still unresolved because H78-A was never uploaded).
-4. **Thinning is exhausted; beating 0.2778 is a detector problem.** At 37,654 dots and
-   DTI 0.2778 the mean dot credit is ≈ 0.13 [inference on the official formula];
-   reaching ≈ 0.32 at the same budget needs ≈ 25 % more kernel credit per dot — i.e. a
-   better *ranking* of candidate pixels by true-fault probability, not a better
-   emitter. The family ledger supports this [owner-report]: every file ≥ 0.23 is an
-   out-of-fold learner trained on the catalogue emitted as sparse dots; every
-   no-learner physics field scored ≤ 0.16. The learnable target is
-   P(mappable fault | features), with catalogue *location* kept out of the features
-   (the H78-TOOTH collapse, `evidence/h78tooth_negative.json`, shows what happens
-   otherwise: location proxies let the learner memorise the positives exactly).
-5. **Where this repo stands, in HOLDOUT-DTI only** (evaluator
-   `gems57-pooled-hide-v2`, seed 20, 11,321 withheld positives): H78-A strike-steered
-   0.1826 [0.1628, 0.2004] at B3/44,090 (0.1843 at 50,000); its steering gain over the
-   isotropic control is real on this instrument (+0.0124 [+0.0032, +0.0223] at matched
-   B2). Three later attempts to improve it *by appending features or refitting the same
-   stack* all failed and, critically, all produced dots duplicating H78-A
-   (H78-CS surface ρ 0.952 / forward overlap 0.8908; H78-SPY forward 0.9245).
-   **Lesson: any variant that keeps the 103-feature pointwise stack and adds a few
-   columns is the H78-A lane, whatever it is named.** A promotable new lane must
-   therefore *replace* the pointwise derivative operator with a different physical
-   operator, not augment it. The prompt's leaderboard figures (0.4413 current #1,
-   0.3195 in an older paragraph) conflict with each other and are **[owner-report]**;
-   the leaderboard requires login
-   (https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/)
-   and was not fetched.
+**Irregularity flagged first (IR-78STEP-01).** The source site itself contradicts the
+prompt's attribution. The GEMSDOE32 page
+(https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html, re-fetched 2026-10-22)
+says, verbatim in substance: H33-2-B2 is "projected live DTI 0.2747 (a MODEL, not a
+score)" and "NO ORGANISER SCORE EXISTS for this or any artifact in this repository";
+its own submission note ends "UNSCORED". Therefore 0.2778 is an **owner-report in the
+prompt that is not backed by an organizer receipt on the source site.** It may be a
+later upload recorded only in the owner's ledger; from this sandbox it cannot be
+verified. All reasoning below is about the *structure* that makes a high score
+plausible if the owner-report is real — not proof that it scored 0.2778. The prompt
+also lists two different leaderboard highs (0.4413 and 0.3195); neither was fetched
+from the login-walled leaderboard here, so neither is ORGANIZER-CONFIRMED in this repo.
 
-**Can a new file beat 0.2778 live?** Only an organizer receipt can say. The honest,
-testable objective for this session is narrower: beat this repo's holdout best
-(0.1826 at the preregistered primary configuration) with a *different operator* whose
-dots are measurably not H78-A's, under the proven sparse-dot emission grammar, and ship
-exactly one file whose OK-to-submit status is computed by the gates below.
+**Structure, re-measured here 2026-10-22 [measured-here]** (pinned rasters:
+H19-5 `ec1f9b56…`, D2.8 `91eae1ca…`, H33 `c55bafc4…`, catalogue `7ba308cc…`):
+
+* H19-5 = 121,131 line pixels; D2.8 = 44,090 binary dots, **every one on the H19-5
+  lines**; H33 = 37,654 dots and an **exact subset of D2.8**. The 6,436 removed dots
+  all lie 1.0–2.0 px from the catalogue (median 1.0 px). H33 dots: NN spacing min
+  √8 = 2.83 px, median 3.0 px; median distance to catalogue 19.6 px, p10 = 4 px;
+  0 dots on the catalogue; values exactly {0, 1}, all finite.
+
+**Why that wins under the official metric [official formula + inference].**
+DTI = TPw / (TPw + 0.2·FPw + 0.8·FNw), α = 0.2, β = 0.8, 300 m triangular kernel,
+max credit per truth pixel (implemented and tested in `vendor/gems57/metric.py`;
+formula source: https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/
+— not re-fetched here, host outside sandbox allowlist).
+
+1. A second dot inside a truth pixel's 300 m kernel adds ~0 credit but still pays the
+   0.2 false-positive charge. Dense lines are therefore wasteful; ≥2.83 px spaced
+   binary dots are (near-)optimal emission for any fixed ranking — the DTI of a soft
+   field is a ratio of functions linear in each pixel value, so the optimum is at a
+   vertex (0 or 1).
+2. Catalogue pixels are masked from scoring [official forum, family-fetched], so a dot
+   1–2 px from a mapped trace can only earn from an *unmapped* fault within 300 m of a
+   mapped one. Deleting exactly those 6,436 dots tests that population; the
+   owner-reported chain 0.1922 → 0.2600 → 0.2778 along H19-5 → D2.8 → H33 says that
+   population's mean credit was below break-even (≈ 0.2·DTI) — i.e. near-catalogue
+   dots were cost without credit.
+3. **Nothing about the detector changed along the chain.** All three files are one
+   field (H19-5) emitted three ways. The climb is emission geometry, not new
+   geological detection.
+
+**Can we beat 0.2778? [inference]** Not by thinning H19-5 further — it is already
+near the metric's break-even per dot. Beating it requires a *ranking* whose top
+~35–45 k dots put more kernel credit on unmapped faults. In this repo the only legal
+pre-slot test of that is the buffered hide-and-recover holdout, and the bar there is
+the repo best already measured on the same instrument: CTRL_A2 (H78-A steered)
+HOLDOUT-DTI 0.1826 [0.1628, 0.2004] at B3/44,090 (evaluator `gems57-pooled-hide-v2`,
+seed 20, 11,321 withheld positives; 0.1843 at 50,000 dots), reproduced exactly by a
+later session on two seeds (0.1826 / 0.1834). A holdout win is **not** a leaderboard
+projection; only an organizer receipt can say whether 0.2778 was beaten.
 
 ## 1. Five candidate hypotheses not yet run in this repo, ranked
 
-Ranking = expected HOLDOUT-DTI gain ÷ implementation cost on this 2-CPU / 3.8 GB
-sandbox, penalised for lane-duplication risk (surface ρ ≤ 0.90 and forward 3-px dot
-overlap ≤ 0.70 vs registry/shipped rasters). All reuse the pinned 19-band stack
-(`data/raw/training_features.tif` sha256 `4371c82e…`, restored and verified this
-session), `vendor/gems57/evaluate_holdout.py` and `submission_writer.py` unmodified.
-No candidate below requires new external data except #5, which is therefore not viable.
+Ranking = expected HOLDOUT-DTI gain ÷ implementation cost on this 2-CPU / ~4 GB
+sandbox, penalised for lane-duplication risk (protocol: rank-ρ ≤ 0.90 and forward
+3-px dot overlap ≤ 0.70 vs registry rasters; session-3 measurement showed any
+small feature-append *on top of the 103 H78-A features* lands at surface ρ ≈ 0.95 vs
+H78-A and dot overlap ≈ 0.89 — the same lane — so candidates below are specified as
+**standalone model classes that do not append to A2**). All reuse the pinned 19-band
+stack (`data/raw/training_features.tif` sha256 `4371c82e…`, restored and hash-verified
+2026-10-22), `vendor/gems57/evaluate_holdout.py` and `submission_writer.py` unmodified.
+No candidate needs new external data except #5, which is therefore not viable here.
 
-| # | ID | Layers | Signature / transform | Why it catches *missing* faults | Non-fault mimic | Differs from H78-A / H78-MPC / H78-CS | Cost |
+| # | ID | Layers | Signature / transform | Why it catches *missing* faults | Non-fault mimic | Differs from prior lanes in this repo | Cost |
 |---|---|---|---|---|---|---|---|
-| **1 (RUN)** | **H78-STEP paired cross-strike flank step** | det_elev (12), rtp (2), iso_grav_anom (13), depth_to_base_surf (15), cond_surf (17), band 6 `tc` (see IR-78STEP-01); visible catalogue for strike angle only | For each band, strike-elongated patch means on the two flanks at ±4 px and ±9 px across strike (along-strike half-lengths 6/12 px): signed step, \|step\|, within-patch-noise-normalised step (t-like), centre-line deviation from the flank midpoint (step vs ridge discriminator), cross-scale step sharpness ratio. 54 features + raw 19, **replacing** all pointwise iso/steered derivatives | A normal fault is a *step* — basement depth, gravity and elevation change level across it and stay changed. Under basin fill the surface scarp (what Hnn detects) disappears, but the basement/gravity step persists and is broad: pointwise derivatives at σ ≤ 3 px see only a weak diffuse gradient, while flank means separated by 0.8–1.8 km measure the actual throw with patch averaging. Covered intrabasin strands are exactly what 1:250k surface compilations miss | Lithologic / intrusive contacts and basin-margin facies changes are also cross-strike level changes with no fault; the learner must separate them using the six-band joint pattern (a fault steps basement+gravity+elevation coherently) | H78-A measures curvature/gradient *at* the pixel; H78-CS integrated the *on-line* response along strike (negative); STEP contrasts the two *sides* — the response need not peak on the line at all. Feature family shares zero columns with the 84 derivative columns of H78-A | low–med |
-| 2 | H78-CTX km-scale geomorphic context | all 19 bands + steered responses | Gaussian context means σ = 10/25/50 px (1/2.5/5 km): range-front / basin-margin / array-corridor position | Expert mappers use setting — a lineament at a range front is a fault candidate, the same lineament mid-playa is a shoreline; σ ≤ 300 m features cannot express setting | Basin-margin facies and shoreline benches share the setting | No > 400 m context in any shipped lane here. **Not run:** as an append to A2 it inherits the CS/SPY duplication failure (ρ ≈ 0.95); as a standalone it discards the only validated detector gain (steering). Revisit only as raw+CTX replacement lane | medium |
-| 3 | H78-DIST distance-stratified emission prior | visible catalogue + any score field | Multiply scores by a preregistered weight w(d) of distance-to-visible-catalogue peaking at 5–20 px, or equivalently extend the flank cut from 3 px to 5 px | [measured-here] dots at 3–5 px earn 0.032 ≈ break-even while 5–20 px earn 0.045–0.047; a mapper who mapped one strand would usually have mapped a second strand 300–500 m away in the same exposure, so very-near-catalogue evidence is more likely halo/shoulder than a missed fault | Genuine close splays and damage-zone strands do exist near main faults (withheld truth median is 9 px from visible) — over-pruning throws these away | Emission-side, not a detector: **cannot be a lane by itself** (its dots are a reweighting of an existing field → duplicate). Tested this session only as a matched secondary flank sweep (B3 vs B5 on *both* arms), never as the claimed mechanism | low |
-| 4 | Cover-regime residualised ranking | det_elev + depth_to_base_surf as regime switch; all bands | Separate learners (or local-percentile re-ranking) for exposed (< 100 m cover) vs buried (> 300 m) regimes | Global ranking is calibrated on high-relief exposed faults and systematically suppresses weak buried anomalies | Basin facies changes; inversion smoothing in the depth surface itself | Partially tried family-wide (ovtr-ml-cover 0.1426, GEMSDOE74 tri-regime unscored [owner-report]); halves training data per regime; distinctness from A2 weak if the same features are kept. Deferred | medium |
-| 5 | H78-G 2020 Mw 6.5 Monte Cristo Range coseismic rupture traces | external only | Mapped surface-rupture traces as positive evidence inside the footprint | A ruptured-but-uncatalogued fault is hidden truth by definition | none | Never fetched by any lane. **NOT VIABLE FROM THIS SANDBOX:** needs the USGS ScienceBase data release for the 2020 Monte Cristo Range earthquake surface rupture (https://www.sciencebase.gov/catalog/ — item not asserted here because it could not be fetched or verified; outbound hosts here are github.com/pypi only). Do not propose as viable until downloaded, hashed and licence-checked on an unrestricted machine | high / blocked |
+| **1 (RUN)** | **H78-STEP cross-strike step-offset concordance** | rtp (2), iso_grav_anom (13), depth_to_base_surf (15), det_elev (12), cond_surf (17); visible catalogue for strike angle only | Paired signed cross-strike profiles at ±3/±6/±10 px (300/600/1000 m), tangent-averaged (±3 px), normalised by local (σ=10 px) variability; per-band signed + \|step\|, centre-deviation; explicit cross-layer **concordance**: throw indicator (depth −elev −grav +cond)/4, pairwise signed products, weakest-concordant-component (54 features) + raw 19 bands, HGB learner | A buried/blind normal fault with no scarp still *offsets* basement: basement deepens, gravity and elevation drop, conductive fill thickens on the downthrown side — a broad **step**, not a narrow ridge. Lid­ar/scarp mapping and σ≤300 m ridge filters miss exactly this; a flank-to-flank step at 600–1000 m with multi-physics sign agreement is the buried-fault signature. Catalogue faults used for training also offset basement, so the signature is learnable from visible faults but does not require the fault to be near the catalogue (no location feature) | Intrusive/lithologic contact (magnetic+gravity step, no fault); basin-margin facies change; buried paleochannel (conductivity step) | H78-A: pointwise steered *derivatives* σ=1.5/3 px at the centre pixel (ridge/step at ≤300 m, unnormalised, no flank windows, no concordance). H78-CS: *along*-strike integrals of those derivatives (negative). H78-MPC: contrast-invariant phase edges (no offset amount, no throw direction). No lane here has computed paired flank means or required cross-layer sign compatibility. This is also deferred hypothesis #1 in `docs/review-release.md` — the repo's own stated next experiment | medium (new feature module + unit tests) |
+| 2 | H78-RELIEF relief-conditioned residual scarp | det_elev (12), depth_to_base_surf (15) | Within local-relief strata (σ=25 px detrended-elevation range quantiles, strata fit on visible folds only), z-score the steered scarp evidence; learner sees the residual, not the raw amplitude | Global ranking spends the whole dot budget in high-relief range fronts; a weak scarp in a quiet basin is locally anomalous but globally invisible | Alluvial-fan incision in low-relief strata | No conditioning/residualisation anywhere in this repo; HGB could in principle learn the interaction, so expected marginal gain is uncertain — ranked below STEP | medium |
+| 3 | H78-CTX km-scale geomorphic setting | all 19 bands | Gaussian context means σ=10/25/50 px (1/2.5/5 km) as setting features (range-front / basin-margin position) with raw19, no steered derivatives | Expert mappers promote a lineament *at* a range front and discount the same lineament mid-playa; per-pixel σ≤300 m features cannot express setting | Basin-margin shoreline benches share the setting | Family ctx lanes (h25-ctx 0.1280 [owner-report]) were standalone fields; not run in this repo. Ranked lower: context is smooth, so it modulates but cannot *localise* a dot to within the 300 m credit kernel | medium |
+| 4 | H78-ASYM asymmetric flank persistence | cond_surf (17), tc_totalcount (6), rtp (2) | Signed flank-asymmetry ratio across the strike-normal at 3 scales, required to persist (same sign) across scales | A permeability/alteration boundary juxtaposes conductive or radiometrically distinct material with no topographic break | Clay-rich sediment boundary, saline groundwater front | Partially subsumed by STEP's cond_surf step + concordance — running both would not be independent lanes; kept as the fallback if STEP's concordance block (not its per-band steps) is what fails | medium |
+| 5 | H78-G Monte Cristo coseismic rupture | external only | Mapped 2020 Mw 6.5 Monte Cristo Range surface-rupture traces as positive evidence | Ruptured-but-uncatalogued faults are hidden truth by definition | none | Never fetched by any lane | **NOT VIABLE FROM THIS SANDBOX**: needs the USGS ScienceBase data release for the 2020 Monte Cristo Range rupture (https://www.sciencebase.gov/catalog/ — host unreachable here, item ID therefore *not asserted*). Must be downloaded, hashed and licence-checked on an unrestricted machine before being proposed as viable |
 
-Considered and rejected before ranking: catalogue-location features of any kind
-(distance, density, spacing, coherence as learner inputs) — falsified by H78-TOOTH's
-exact-memorisation collapse; PU/"spy" negative cleaning — run as H78-SPY, negative and
-duplicated H78-A; along-strike path integrals — run as H78-CS, negative on two seeds;
-U-Net à la the organizer reference solution
-(https://github.com/drivendataorg/gems-prize-reference-solution) — strongest known model
-class, but cannot be trained and validated on CPU inside the 3-experiment budget;
-recorded again as the top recommendation for a GPU session.
+Considered and rejected before ranking: any "A2 + extra features" variant (measured
+duplicate lane, session 3); PU/"spy" negative cleaning (run: HOLDOUT-DTI 0.1808 vs
+0.1826 control, duplicate 0.9245 — negative); across-strike "missing tooth" spacing
+(run as H78-TOOTH: mechanism falsified, withheld faults at 0.39 spacings);
+cover-regime split learners (family ovtr-ml-cover 0.1426 [owner-report], partially
+tried); U-Net à la the organizer reference solution
+(https://github.com/drivendataorg/gems-prize-reference-solution) — strongest known
+model class but still not trainable + holdout-validatable on 2 CPUs inside the
+3-experiment / 2-hour budget; remains the top recommendation for a GPU session.
 
 ## 2. Validation plan for H78-STEP (preregistered: `registry/preregistration_h78step.json`)
 
-Seed-20 buffered whole-component hide-and-recover, evaluator `gems57-pooled-hide-v2`
-unmodified (sha256 `ad86640b…` re-verified this session), strike field and all
-catalogue-derived quantities from *visible* faults only, visible faults masked
-pixel-exactly. Arms share folds, training rows, HGB hyperparameters and emitter:
-CTRL_A2 (103 H78-A features, rerun control), A1_ISO (19 raw + 36 isotropic),
-CAND_STEP (19 raw + 54 STEP), ABL_STEPONLY (54 STEP only, mechanism attribution).
-Primary configuration: flank B3, 44,090 dots. Secondary: budgets 37,654 / 50,000,
-flank B5 on both CTRL_A2 and CAND_STEP, far-truth (> 10 px) stratum. Leakage canary:
-single-feature symmetric AUC ≤ 0.90 for all 157 features. Lane-distinctness: score-surface
-Spearman ρ of CAND_STEP vs CTRL_A2 on the full footprint must be ≤ 0.90 (the CS lesson),
-in addition to the registry surface/dot checks at production.
+Seed-20 buffered-component holdout (assert 11,321 withheld), evaluator
+`gems57-pooled-hide-v2` unmodified (sha256 `ad86640b…` verified 2026-10-22), arms
+CTRL_A2 (103, exact reproduction control) vs CAND_STEP (19 raw + 54 STEP) vs
+ABL_A0 (19) vs ABL_STEPO (54); identical training rows / HGB params / B3 greedy
+emitter (pool 1.5 M) / budgets (37,654 · 44,090 · 50,000; primary 44,090);
+157-feature leakage canary (symmetric AUC ≤ 0.90 blocks); far-truth (>10 px)
+secondary stratum; uniqueness vs the frozen 9-raster indexed registry on the score
+surface before placement *and* on final dots (literal forward overlap, no
+exceptions); surface ρ(CAND, CTRL) on holdout score grids also reported and gated
+≤ 0.90. **Promote iff** CAND > CTRL and > 0.1826 with paired 95% CI lower bound > 0
+(and, if run, seed-30 replication delta point > 0), canary clean, uniqueness pass,
+validator pass. Otherwise verdict **negative**: the new TIF is still written,
+downloadable for inspection, bannered OK TO SUBMIT: NO, and no slot may be spent on
+it. No number produced is a leaderboard projection.
 
-**Promote iff** CAND_STEP at B3/44,090 beats CTRL_A2 with paired 95 % CI lower bound
-> 0 **and** exceeds 0.1826, canary clean, surface ρ vs CTRL ≤ 0.90 — then replicate on
-seed 30 (CAND must again exceed CTRL point-estimate). Otherwise the verdict is
-**negative**, the file is published for inspection with OK TO SUBMIT: NO, and no seed
-shopping is permitted. Full rules in the preregistration JSON.
+## 3. Outcome (filled in after the runs, quoted from `evidence/h78step_*.json`)
 
-## 3. Irregularities flagged this session
+**Verdict: negative** (run card `evidence/h78step_run_card.json`). Two experiments, as
+budgeted/preregistered; all performance numbers HOLDOUT-DTI, evaluator
+`gems57-pooled-hide-v2`, seed 20, 11,321 withheld positives, B3/44,090 primary:
 
-* **IR-78STEP-01 (band-6 identity).** `src/gems78/data.py` names band 6
-  `tc_totalcount`, and earlier repo documents call it "radiometric total count". The
-  GeoTIFF's own band description, read this session, says: *"tc - Tilt angle or total
-  curvature - magnetic field derivative for edge detection"*. The computation is
-  unaffected (the label is only a name), but any geological interpretation of band 6
-  as radiometrics in earlier documents is unsupported by the file itself. This lane
-  treats band 6 as a magnetic-derivative edge band per the file description. The code
-  label is deliberately not renamed mid-family, to keep historical feature names
-  byte-stable; the discrepancy is flagged here for the template owner.
-* **IR-78STEP-02 (no assigned method paragraph).** As in the CS session, the prompt
-  says "your lane is the single method paragraph below" but contains no such
-  paragraph. The lane was self-assigned as the top-ranked hypothesis above, written
-  before any STEP result. If a parallel session was assigned paired-flank/step
-  operators, dedupe against this lane's `evidence/h78step_*` files.
-* **IR-78STEP-03 (leaderboard claims conflict).** The prompt states both 0.4413 and
-  0.3195 as the current top score. Neither was fetched (login-gated, host outside the
-  sandbox allowlist). Both are treated as unverified owner reports; no target in this
-  repo depends on either number.
+* **Exp 1 — holdout:** CAND_STEP **0.1730** [0.1559, 0.1903] vs CTRL_A2 **0.1826**
+  [0.1633, 0.2000] vs ABL_A0 (raw19) 0.1586 [0.1396, 0.1777] vs ABL_STEPO (STEP only)
+  0.1199 [0.1048, 0.1356]. Paired Δ(CAND−CTRL) = **−0.0096 [−0.0176, −0.0025]** —
+  significantly worse than the repo best. Far-truth (>10 px, 5,150 positives): CAND
+  0.0696 vs CTRL 0.0778, Δ −0.0082 [−0.0152, −0.0013]. CTRL_A2 reproduced the shipped
+  instrument a third time exactly (0.1778 / 0.1826 / 0.1843 / 0.1586 across configs).
+* The STEP block is nevertheless real signal, not noise: CAND − ABL_A0 =
+  **+0.0144 [+0.0031, +0.0257]** (far-truth +0.0214 [+0.0096, +0.0328]); the strongest
+  single feature in the clean 157-feature canary is `xs_det_elev_step3_absz`
+  (symmetric AUC 0.6150; canary max overall 0.6150, nothing > 0.90); STEP-only alone
+  reaches far-truth 0.0753, close to CTRL's 0.0778 there despite 0.1199 overall.
+  Cross-strike steps exist at withheld faults — they are just a *weaker* detector of
+  catalogue-like (scarp-bearing) withheld faults than pointwise steered derivatives.
+* **Duplicate:** holdout score-surface ρ(CAND, CTRL) = **0.9013** (> 0.90), and
+  production dots fall within 3 px of H78-A primary for **0.8167** of dots (altB2
+  0.7598, H78-SPY 0.8049, H78-CS 0.8026; ≤ 0.4527 vs H19-5/D2.8/H33/GEMS70/H78-MPC;
+  pre-placement surface |ρ| ≤ 0.1310 vs all nine binary registry rasters). CAND_STEP
+  shares **zero** feature columns with A2, yet converges to its ranking/dots
+  (IR-78STEP-04/05).
+* Seed 30 **not run**: the preregistration allows it only after an Exp-1 pass
+  (no seed-shopping). **Exp 2 — production:**
+  `gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif`
+  (sha256 `f76ad302…`, 44,090 binary dots, B3; writer + re-read + independent
+  `verify_tif.py` 12/12 pass, so the "[0, 1]" portal error cannot fire on its
+  values). Gate 3/8. **OK TO DOWNLOAD: YES · OK TO SUBMIT: NO.** 0 slots used;
+  ORGANIZER-CONFIRMED: none.
 
-## 4. Outcome (quoted from `evidence/h78step_*.json`; all HOLDOUT-DTI, evaluator gems57-pooled-hide-v2, 11,321 withheld)
+**Interpretation [inference].** (i) The holdout's truth is withheld *mapped* faults,
+which are biased toward scarp-expressing strands; a buried-step detector is tested
+here mostly on faults that had a scarp to map, so this instrument structurally
+favours the scarp/ridge model class (the known holdout-blindness caveat; far-truth
+does not rescue CAND either, though STEP-only is competitive there). This caveat
+explains part of the gap but does **not** overturn the gate — no live claim can be
+made for step-only faults without evidence this instrument cannot supply.
+(ii) The catalogue-trained HGB on this 19-band stack is an attractor: append (CS),
+reweight negatives (SPY) and full feature replacement (STEP) all return to the A2
+ranking. The remaining ways to be both *better* and *genuinely distinct* are new
+data (1 m lidar derivatives as primary signal), a spatial model class (U-Net), or a
+different emission stratum — ranked in the README's next-work list. H78-RELIEF,
+H78-CTX, H78-ASYM and H78-G were **not run** (budget; ASYM is partly subsumed by
+STEP's cond step + concordance, which did not rescue the lane).
 
-**Verdict: negative.** CAND_STEP **0.1662 [0.1483, 0.1852]** vs CTRL_A2 0.1826
-[0.1628, 0.2004] at B3/44,090; paired Δ **−0.0164 [−0.0235, −0.0090]** — significantly
-worse, not a near miss. Vs A1_ISO Δ −0.0038 [−0.0132, +0.0059] (tie): flank contrast
-carries about as much usable signal as isotropic derivatives, less than strike-steered
-pointwise derivatives. ABL_STEPONLY 0.1294 [0.1143, 0.1443] overall but second-best on
-far truth (0.0726 vs CTRL 0.0778, CAND 0.0620). Canary clean; the single strongest
-feature in the whole stack is `step_det_elev_d4_abs` (AUC 0.6027, above H78-A's best
-0.5859) — flank steps *detect* well and *localise* poorly: patches ±4–9 px across
-strike cannot place a line inside the 3-px credit kernel as precisely as on-line
-curvature. Secondary flank B5 hurt both arms (CTRL 0.1779, CAND 0.1600): the 3→5 px
-extension suggested by the earlier credit-by-distance diagnostic is falsified.
-
-Experiment 2 (amendment IR-78STEP-A1, diagnostic only): CTRL+STEP (157 features)
-= 0.1790, Δ vs CTRL −0.0036 [−0.0104, +0.0031], surface ρ vs CTRL 0.929 — appending
-adds nothing and is inside the H78-A lane. STEP signal is largely redundant with
-steered derivatives at this localisation precision.
-
-Production file (`gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif`,
-sha256 `5ce829b0…`) is format-valid (verify_tif 12/12) but **also fails the literal
-uniqueness rule**: forward 3-px dot overlap 0.79 vs H78-A primary / H78-CS / H78-SPY
-(0.33–0.44 vs H19-5 / D2.8 / H33 / GEMS70-P5; surface ρ ≤ 0.13 everywhere). Four
-different operators in this repo now converge on essentially the same dot set,
-because they find the same lineaments. OK TO SUBMIT: NO. No seed-30 run (preregistered
-gate); 3 experiments charged; no slot touched.
-
-**Transferable lessons for the next lane:** (1) detection is not the bottleneck —
-sub-kernel localisation is; an operator whose response is not maximised *on* the line
-pays for it at 300 m tolerance; (2) the dot-overlap rule, not surface correlation, is
-the binding uniqueness constraint (surface ρ 0.88 / dot overlap 0.79 here) — a
-promotable lane needs dots that are geometrically elsewhere, which in practice means
-finding lineaments the H78-A lineage does *not* rank in its top 44k, or placing dots
-with a different spatial grammar; (3) flank B3 > B5 and CTRL is stable
-(0.1826/0.1778/0.1843 reproduced exactly a third time) — the instrument is solid;
-(4) the strongest untried direction remains a learned segmentation model
-(U-Net class, organizer reference) on GPU, preregistered fresh — every HGB variant on
-hand-crafted per-pixel features in this repo now saturates at the same dot set.
+**Post-merge corrigendum (2026-10-22, at PR merge).** While this session ran, parallel
+sessions merged (a) an independent implementation of the same deferred cross-strike-step
+hypothesis family — H78-CROSSLAYER, an *unsigned physics-field* concordance with no
+learner and no catalogue features, HOLDOUT-DTI 0.0478 [0.0366, 0.0589] per
+`evidence/crosslayer_run_card.json` — and (b) a consolidated release audit proving a
+stronger form of IR-78STEP-05: a SHA-pinned GEMSDOE17 probability raster is positive
+across the *entire* footprint, so **every** nonempty candidate has literal forward
+overlap 1.0 > 0.70 (`evidence/protocol_preflight.json`, `docs/review-2026-10-22.md`).
+Consequences, none of which change this lane's measurements or verdict: the
+consolidated audit (not this lane's site builder) now owns the homepage / executive
+summary / status feed, and H78-STEP is integrated into it as a seventh blocked
+candidate; the IR-78STEP-03 builder-chain fix is superseded by main's
+"audit is the final publication step" design (`scripts/build_site_step.py` now writes
+only the lane pages); `vendor/gems57/uniqueness.py` and `scripts/verify_tif.py` were
+extended by the parallel sessions *after* this lane's evidence was generated with the
+branch-point versions (thresholds 0.90 / 0.70 unchanged; hashes pinned in the
+preregistration remain the provenance of `evidence/h78step_*.json`). Dedupe diagnostic
+(REGISTRY-MEASUREMENT, `evidence/h78step_vs_crosslayer_overlap.json`): the two step
+implementations are not duplicates of each other — forward dot overlap 0.1699 (STEP in
+CROSSLAYER) / 0.2116 (reverse), binary surface ρ 0.0148 — but both are blocked
+independently and by the universal witness. Selector: dedupe any future "cross-strike
+step" assignment against both `evidence/h78step_*` and `evidence/crosslayer_*`.

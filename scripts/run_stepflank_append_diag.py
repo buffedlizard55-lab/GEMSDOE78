@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Experiment 2 of lane H78-STEP — COMPLEMENTARITY DIAGNOSTIC ONLY.
 
-Declared in registry/preregistration_h78step.json amendment IR-78STEP-A1
+Declared in registry/preregistration_h78stepflank.json amendment IR-78STEP-A1
 *before* this run, after experiment 1 returned a significant negative for the
 preregistered candidate. One extra arm DIAG_A2STEP (103 H78-A features + 54
 STEP features) on the identical seed-20 folds/rows/emitter, reusing the cached
@@ -11,7 +11,7 @@ append to the H78-A stack is inside the H78-A lane); it exists to tell future
 sessions whether STEP signal is redundant with steered derivatives or
 complementary but imprecisely localised.
 
-Output: evidence/h78step_append_diag_seed20.json
+Output: evidence/h78stepflank_append_diag_seed20.json
 """
 from __future__ import annotations
 
@@ -35,7 +35,7 @@ from gems57 import uniqueness as U  # noqa: E402
 from gems78 import data as D  # noqa: E402
 from gems78 import emit as E  # noqa: E402
 from gems78 import pipeline as P  # noqa: E402
-from run_holdout_step import HGB, evaluate_dots, log  # noqa: E402  (scripts dir on path below)
+from run_holdout_stepflank import HGB, evaluate_dots, log  # noqa: E402  (scripts dir on path below)
 
 PRIMARY = 44_090
 BUDGETS = [37_654, 44_090, 50_000]
@@ -144,7 +144,7 @@ def main():
                                  note="holdout-fold dot sets at B3/44090; diagnostic of lane duplication, not the production registry audit"),
         seconds_total=round(time.time() - t_start, 1),
     )
-    outp = ROOT / "evidence" / "h78step_append_diag_seed20.json"
+    outp = ROOT / "evidence" / "h78stepflank_append_diag_seed20.json"
     outp.write_text(json.dumps(out, indent=2, default=float))
     log("wrote", outp, "in", out["seconds_total"], "s")
     print(json.dumps({k: (round(v["dti"], 4), [round(x, 4) for x in v["ci95"]])

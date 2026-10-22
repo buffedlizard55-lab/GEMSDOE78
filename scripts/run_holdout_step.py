@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
-"""Experiment 1 (and conditional experiment 2) of lane H78-STEP.
+"""Experiment 1 of lane H78-STEP (preregistration registry/preregistration_h78step.json).
 
-Preregistration: registry/preregistration_h78step.json. Hide-and-recover
-holdout scored by the UNMODIFIED shared evaluator
+Hide-and-recover holdout scored by the UNMODIFIED shared evaluator
 (vendor/gems57/evaluate_holdout.py, gems57-pooled-hide-v2). Arms share folds,
 training rows, HGB hyperparameters and the greedy >=2.8 px emitter; only the
 feature columns differ:
 
-  CTRL_A2      = 103 H78-A features (raw19+iso36+steered48), rerun control
-  A1_ISO       = raw19+iso36 (55)
-  CAND_STEP    = raw19+STEP54 (73) -- candidate; zero derivative columns shared with CTRL
-  ABL_STEPONLY = STEP54 only -- mechanism attribution
+  CTRL_A2   = 103 H78-A features (exact rerun control, current repo best)
+  CAND_STEP = 19 raw bands + 54 cross-strike STEP features (candidate, NO
+              steered/iso derivative columns: distinct model class)
+  ABL_A0    = 19 raw bands (lineage base class)
+  ABL_STEPO = 54 STEP features only
 
-Primary: flank B3, 44,090 dots. Secondary: 37,654/50,000 at B3; flank B5 at
-44,090 for CTRL_A2 and CAND_STEP; far-truth (>10 px from visible) stratum.
-157-feature leakage canary (symmetric AUC; >0.90 aborts). Full-footprint
-surface Spearman rho CAND_STEP vs CTRL_A2 (lane-distinctness gate <=0.90).
-Output: evidence/h78step_holdout_seed<seed>.json.
+Also: 157-feature leakage canary (symmetric AUC, stop > 0.90), far-truth
+stratum (withheld truth > 10 px from any visible fault) at B3/44090, and the
+score-surface Spearman rho of CAND_STEP vs CTRL_A2 (duplicate-lane diagnostic).
+Output: evidence/h78step_holdout_seed<seed>.json (+ score grids in data/processed/).
 """
 from __future__ import annotations
 
@@ -43,30 +42,16 @@ from gems78 import data as D  # noqa: E402
 from gems78 import emit as E  # noqa: E402
 from gems78 import features as F  # noqa: E402
 from gems78 import pipeline as P  # noqa: E402
-from gems78 import step as S  # noqa: E402
+from gems78 import xstep as X  # noqa: E402
 
 HGB = dict(max_iter=300, learning_rate=0.06, max_leaf_nodes=63, min_samples_leaf=200,
            l2_regularization=1.0, max_bins=255, early_stopping=False, random_state=0)
 BUDGETS_B3 = [37_654, 44_090, 50_000]
 PRIMARY = 44_090
-ARMS_ALL = ("CTRL_A2", "A1_ISO", "CAND_STEP", "ABL_STEPONLY")
 
 
 def log(*a):
     print(time.strftime("%H:%M:%S"), *a, flush=True)
-
-
-def arm_spec(arm):
-    """(base column indices or None, use_step) for an arm name."""
-    if arm == "CTRL_A2":
-        return P.arm_columns("A2_h78_steered"), False
-    if arm == "A1_ISO":
-        return P.arm_columns("A1_iso"), False
-    if arm == "CAND_STEP":
-        return P.arm_columns("A0_std19"), True
-    if arm == "ABL_STEPONLY":
-        return None, True
-    raise KeyError(arm)
 
 
 def assemble(base_mm, step_mm, rows, base_cols, use_step):
@@ -75,37 +60,33 @@ def assemble(base_mm, step_mm, rows, base_cols, use_step):
         parts.append(np.asarray(base_mm[rows][:, base_cols], np.float32))
     if use_step:
         parts.append(np.asarray(step_mm[rows], np.float32))
-    return parts[0] if len(parts) == 1 else np.concatenate(parts, axis=1)
+    return np.concatenate(parts, axis=1)
 
 
-def fit(base_mm, step_mm, rows_pos, rows_neg, arm):
-    base_cols, use_step = arm_spec(arm)
+def fit(base_mm, step_mm, rows_pos, rows_neg, base_cols, use_step, label):
     rows = np.concatenate([rows_pos, rows_neg])
     order = np.argsort(rows)
-    X = assemble(base_mm, step_mm, rows[order], base_cols, use_step)
+    Xm = assemble(base_mm, step_mm, rows[order], base_cols, use_step)
     y = np.concatenate([np.ones(rows_pos.size, np.int8), np.zeros(rows_neg.size, np.int8)])[order]
-    assert np.isfinite(X).all(), f"{arm}: non-finite training features"
     clf = HistGradientBoostingClassifier(**HGB)
     t0 = time.time()
-    clf.fit(X, y)
-    info = dict(arm=arm, n_pos=int(rows_pos.size), n_neg=int(rows_neg.size),
-                n_features=int(X.shape[1]), params=HGB, fit_seconds=round(time.time() - t0, 1))
-    del X, y
+    clf.fit(Xm, y)
+    info = dict(arm=label, n_pos=int(rows_pos.size), n_neg=int(rows_neg.size),
+                n_features=int(Xm.shape[1]), params=HGB, fit_seconds=round(time.time() - t0, 1))
+    del Xm, y
     gc.collect()
     log("fit", info)
     return clf, info
 
 
-def score(clf, base_mm, step_mm, arm, footprint, chunk=600_000):
-    base_cols, use_step = arm_spec(arm)
+def score(clf, base_mm, step_mm, base_cols, use_step, footprint, chunk=600_000):
     n = base_mm.shape[0]
     out = np.zeros(n, np.float32)
     for lo in range(0, n, chunk):
         hi = min(n, lo + chunk)
-        X = assemble(base_mm, step_mm, np.arange(lo, hi), base_cols, use_step)
-        out[lo:hi] = clf.predict_proba(X)[:, 1].astype(np.float32)
-        del X
-    assert np.isfinite(out).all() and out.min() >= 0.0 and out.max() <= 1.0
+        Xm = assemble(base_mm, step_mm, np.arange(lo, hi), base_cols, use_step)
+        out[lo:hi] = clf.predict_proba(Xm)[:, 1].astype(np.float32)
+        del Xm
     grid = np.zeros(footprint.shape, np.float32)
     grid[footprint] = out
     return grid
@@ -127,10 +108,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seed", type=int, default=20)
     ap.add_argument("--n-neg", type=int, default=450_000)
-    ap.add_argument("--arms", default=",".join(ARMS_ALL))
     args = ap.parse_args()
-    arms = [a.strip() for a in args.arms.split(",") if a.strip()]
-    assert "CAND_STEP" in arms and "CTRL_A2" in arms
     t_start = time.time()
 
     inputs = D.verify_inputs()
@@ -144,19 +122,19 @@ def main():
     n_hidden = int(hidden.sum())
     n_scored = int(sum(int(f["truth"].sum()) for f in folds))
     log("visible", int(visible.sum()), "hidden", n_hidden, "scored", n_scored)
-    if args.seed == 20:
+    if args.seed == 20:  # primary draw must reproduce the shipped instrument exactly
         assert n_hidden == 11_321 and n_scored == 11_321, "instrument precondition failed"
 
     tag = f"seed{args.seed}"
     feats_path, fmeta = P.build_feature_matrix(tag, fp, visible)
     phi = np.load(D.PROC / f"phi_{tag}.npy")
-    step_path, stepmeta = S.build_step_matrix(tag, fp, phi)
+    step_path, stepmeta = X.build_step_matrix(tag, fp, phi)
     del phi
     gc.collect()
     log("features ready base", fmeta["seconds"], "s step", stepmeta["seconds"], "s")
 
     base_names = F.feature_names(iso=True, steered=True)
-    step_names = S.step_feature_names()
+    step_names = X.step_feature_names()
     all_names = base_names + step_names
     base_mm = np.load(feats_path, mmap_mode="r")
     step_mm = np.load(step_path, mmap_mode="r")
@@ -205,27 +183,30 @@ def main():
     log("far-truth positives", n_far)
     del d_vis
 
-    terms_all, terms_far, terms_b5 = {}, {}, {}
+    arms = {
+        "CTRL_A2": (P.arm_columns("A2_h78_steered"), False),
+        "CAND_STEP": (P.arm_columns("A0_std19"), True),
+        "ABL_A0": (P.arm_columns("A0_std19"), False),
+        "ABL_STEPO": (None, True),
+    }
+    terms_all, terms_far = {}, {}
     results = {}
-    keep_scores = {}
-    allowed = {3.0: fp & ~E.flank_mask(visible, 3.0), 5.0: fp & ~E.flank_mask(visible, 5.0)}
-    for arm in arms:
-        clf, info = fit(base_mm, step_mm, rows_pos, rows_neg, arm)
-        s = score(clf, base_mm, step_mm, arm, fp)
+    scores = {}
+    allowed = {3.0: fp & ~E.flank_mask(visible, 3.0), 2.0: fp & ~E.flank_mask(visible, 2.0)}
+    for arm, (cols, use_step) in arms.items():
+        clf, info = fit(base_mm, step_mm, rows_pos, rows_neg, cols, use_step, arm)
+        s = score(clf, base_mm, step_mm, cols, use_step, fp)
         del clf
         gc.collect()
         np.save(D.PROC / f"score_{tag}_{arm}.npy", s)
-        if arm in ("CTRL_A2", "CAND_STEP"):
-            keep_scores[arm] = s
+        scores[arm] = s
         results[arm] = dict(fit=info, configs={})
-        flank_plan = [(3.0, BUDGETS_B3)] + ([(5.0, [PRIMARY])] if arm in ("CTRL_A2", "CAND_STEP") else [])
-        for bpx, budgets in flank_plan:
+        for bpx, budgets in ((3.0, BUDGETS_B3), (2.0, [PRIMARY])):
             t0 = time.time()
             rank = E.greedy_dots(s, allowed[bpx], min_dist=2.8, max_dots=60_000, pool=1_500_000)
             log(arm, f"B{int(bpx)}", "greedy", round(time.time() - t0, 1), "s avail", int(rank.max()))
             for n in budgets:
                 dots = E.prefix(rank, n)
-                assert int(dots.sum()) == n, (arm, bpx, n, int(dots.sum()))
                 t, pf = evaluate_dots(dots, folds, fp)
                 key = f"{arm}|B{int(bpx)}|{n}"
                 pooled = float(EH.from_terms(t.sum(axis=0)))
@@ -237,27 +218,20 @@ def main():
                     terms_far[key] = tf
                     results[arm]["far_B3_primary"] = dict(
                         pooled_dti=float(EH.from_terms(tf.sum(axis=0))), n_truth_far=n_far)
-                    log(" ", key, "far-truth HOLDOUT-DTI", round(results[arm]["far_B3_primary"]["pooled_dti"], 4))
-                if bpx == 5.0 and n == PRIMARY:
-                    terms_b5[key] = t
+                    log(" ", key, "far-truth HOLDOUT-DTI", results[arm]["far_B3_primary"]["pooled_dti"])
             del rank
-        if arm not in keep_scores:
-            del s
-        gc.collect()
 
-    rho_cand_ctrl = U.surface_rho(keep_scores["CAND_STEP"], keep_scores["CTRL_A2"], fp)
+    rho_cand_ctrl = U.surface_rho(scores["CAND_STEP"], scores["CTRL_A2"], fp)
     log("surface rho CAND vs CTRL", rho_cand_ctrl)
-    del keep_scores
+    del scores["ABL_A0"], scores["ABL_STEPO"]
     gc.collect()
 
     cand_key = f"CAND_STEP|B3|{PRIMARY}"
     summary = EH.pooled_summary(terms_all, draws=1000, seed=520810, candidate=cand_key)
     far_summary = EH.pooled_summary(terms_far, draws=1000, seed=520810, candidate=cand_key)
-    b5_summary = EH.pooled_summary(terms_b5, draws=1000, seed=520810,
-                                    candidate=f"CAND_STEP|B5|{PRIMARY}") if len(terms_b5) >= 2 else None
 
     out = dict(
-        lane="H78-STEP paired cross-strike flank step", evidence_class="HOLDOUT-DTI",
+        lane="H78-STEP cross-strike step-offset concordance", evidence_class="HOLDOUT-DTI",
         evaluator_version=EH.VERSION, evaluator_sha256=EH.implementation_hashes(),
         seed=args.seed, hide_frac=0.20, buffer_px=3,
         visible_px=int(visible.sum()), hidden_px=n_hidden,
@@ -268,15 +242,15 @@ def main():
         step_feature_names=step_names,
         canary=dict(n_pos=int(pos_flat.size), n_neg=int(neg_flat.size), threshold=0.90,
                     flagged_over_0p90=flagged, max_auc=max(canary.values()),
-                    step_features=canary_step, step_max_auc=max(canary_step.values()),
+                    step_features=canary_step,
                     top10=sorted(canary.items(), key=lambda kv: -kv[1])[:10], all=canary),
         results=results,
         pooled_summary_B3_primary=summary,
         pooled_summary_far_truth_gt10px_B3_primary=far_summary,
-        pooled_summary_B5_primary=b5_summary,
         surface_rho_candidate_vs_ctrl=rho_cand_ctrl,
         repo_holdout_best_before=dict(value=0.1826, config="A2_h78_steered|nms0_B3|44090",
-                                      source="evidence/h78_pooled_ci_seed20.json alternative_B3_summary",
+                                      value_50000=0.18431154590898757,
+                                      source="evidence/h78_pooled_ci_seed20.json / h78cs CTRL rerun",
                                       evidence_class="HOLDOUT-DTI"),
         seconds_total=round(time.time() - t_start, 1),
     )

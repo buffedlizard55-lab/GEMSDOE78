@@ -1,11 +1,11 @@
 {
-  "lane": "H78-STEP paired cross-strike flank step",
+  "lane": "H78-STEP cross-strike step-offset concordance",
   "repository": "buffedlizard55-lab/GEMSDOE78",
-  "branch": "arena/2a6915e5-gemsdoe78",
-  "built_utc": "20261022T013740Z",
-  "hypothesis": "A normal fault is a step, not only a ridge: basement depth, isostatic gravity and detrended elevation change level across the fault and stay changed. Strike-elongated flank-patch contrasts at +-4 px and +-9 px across the visible-catalogue strike on six bands (signed step, |step|, noise-normalised step, centre-line deviation, cross-scale sharpness) measure that throw where pointwise derivatives at sigma<=3 px see only a weak diffuse gradient, in particular for covered intrabasin strands absent from the surface catalogue. An HGB learner on raw19 + 54 STEP features (replacing all pointwise iso/steered derivatives) therefore ranks withheld fault pixels higher per emitted dot than the H78-A pointwise learner.",
-  "mechanism": "Strike-elongated flank patches at +-4/+-9 px across the visible-catalogue strike on det_elev/rtp/iso_grav_anom/depth_to_base_surf/cond_surf/band6: signed step, |step|, noise-normalised step, centre-line deviation, cross-scale sharpness (54 features) + raw 19 bands, HGB; greedy dots >=2.8 px apart, <=3 px catalogue flank removed, 44,090 dots.",
-  "non_fault_mimic": "Lithologic/intrusive contacts and basin-margin facies changes are also cross-strike level changes without a fault.",
+  "branch": "arena/faf23883-gemsdoe78",
+  "built_utc": "20261022T011826Z",
+  "hypothesis": "Buried or blind normal faults that lack a mappable scarp still offset the subsurface across strike: on the downthrown side basement deepens, isostatic gravity and surface elevation fall, and conductive basin fill thickens. Paired flank-mean steps at +/-300, +/-600 and +/-1000 m across the regional strike, normalised by local variability, on magnetics, gravity, basement depth, topography and conductivity, together with explicit cross-layer sign-concordance features (shared throw direction), therefore recover withheld fault segments better than the pointwise steered-derivative learner (H78-A) under an identical emitter.",
+  "mechanism": "For each footprint pixel, with the strike-normal n and tangent t from the visible-catalogue strike field phi (orientation only, never location), sample Gaussian(sigma=1 px)-smoothed bands along the normal at offsets -10,-6,-3,0,3,6,10 px, each point averaged over tangent offsets -3,0,+3 px. Per band (det_elev, rtp, iso_grav_anom, depth_to_base_surf, cond_surf): signed step (v(+k)-v(-k))/(local sigma-10px std at centre + 0.05*global std) for k=3,6,10, its absolute value, and centre deviation (v(0)-(v(+6)+v(-6))/2)/denom signed + abs = 8 features x 5 bands = 40. Concordance from signed steps at k=6 and k=10 (magnetic step excluded from sign logic: anomaly sign depends on magnetisation, not throw): throw_z=(depth -elev -grav +cond)/4, abs, products -depth*elev, -depth*grav, elev*grav, depth*cond, and weakest-concordant min_i(o_i * sign(throw_z)) with o=(depth,-elev,-grav,cond) = 7 x 2 scales = 14. Total 54 STEP features. depth_to_base_surf enters via the stack's pinned log1p transform (data.py LOG_BANDS), disclosed.",
+  "non_fault_mimic": "Intrusive or lithologic contacts (magnetic + gravity step with no fault); basin-margin facies changes and buried paleochannels (conductivity / basement-depth step). The concordance block exists so no single band's step suffices: a contact usually lacks the elevation+gravity+depth throw-consistent combination, a paleochannel lacks the magnetic/gravity basement step.",
   "holdout": {
     "evidence_class": "HOLDOUT-DTI",
     "evaluator_version": "gems57-pooled-hide-v2",
@@ -21,465 +21,317 @@
     "withheld_positive_pixels": 11321,
     "candidate": {
       "config": "CAND_STEP|B3|44090",
-      "dti": 0.16621108404336643,
+      "dti": 0.1729996841092334,
       "ci95": [
-        0.14825848790645388,
-        0.18522966186922332
+        0.15588761919299393,
+        0.19027510115782803
       ]
     },
-    "control": {
+    "ctrl": {
       "config": "CTRL_A2|B3|44090",
       "dti": 0.18258300140522551,
       "ci95": [
-        0.1636441528925453,
-        0.19993724012325367
-      ]
+        0.1633144660630638,
+        0.20001121108516814
+      ],
+      "note": "exact rerun control (H78-A model class)"
     },
-    "a1_iso": {
-      "config": "A1_ISO|B3|44090",
-      "dti": 0.17003323044108273,
-      "ci95": [
-        0.14979035373037033,
-        0.18827839262914317
-      ]
-    },
-    "abl_steponly": {
-      "config": "ABL_STEPONLY|B3|44090",
-      "dti": 0.12938173354658886,
-      "ci95": [
-        0.11431257819983154,
-        0.14430379232043997
-      ]
+    "ablations": {
+      "ABL_A0|B3|44090": {
+        "dti": 0.15857349021019398,
+        "ci95": [
+          0.13955276197229002,
+          0.17771983011338963
+        ]
+      },
+      "ABL_STEPO|B3|44090": {
+        "dti": 0.1198728809687998,
+        "ci95": [
+          0.10477058526612014,
+          0.13564657264309324
+        ]
+      }
     },
     "paired_delta_cand_minus_ctrl": {
       "evidence_class": "HOLDOUT-DTI",
       "evaluator_version": "gems57-pooled-hide-v2",
-      "delta": -0.016371917361859084,
+      "delta": -0.009583317295992128,
       "ci95": [
-        -0.023539108079345932,
-        -0.009025834083171732
+        -0.017629674583754498,
+        -0.002462783370834324
       ],
       "withheld_positive_pixels": 11321
     },
-    "paired_delta_cand_minus_a1": {
-      "evidence_class": "HOLDOUT-DTI",
-      "evaluator_version": "gems57-pooled-hide-v2",
-      "delta": -0.003822146397716303,
-      "ci95": [
-        -0.013206638925709925,
-        0.0058764744782151745
-      ],
-      "withheld_positive_pixels": 11321
+    "far_truth_gt10px": {
+      "n_positives": 5150,
+      "scores": {
+        "CTRL_A2|B3|44090": {
+          "dti": 0.07778640614588897,
+          "ci95": [
+            0.06276818856854018,
+            0.09289243519205768
+          ]
+        },
+        "CAND_STEP|B3|44090": {
+          "dti": 0.06961141536955584,
+          "ci95": [
+            0.05649423133872266,
+            0.08311490509974397
+          ]
+        },
+        "ABL_A0|B3|44090": {
+          "dti": 0.048239735477577976,
+          "ci95": [
+            0.03512092959740805,
+            0.06285811483393007
+          ]
+        },
+        "ABL_STEPO|B3|44090": {
+          "dti": 0.07533787261101445,
+          "ci95": [
+            0.0607222186657555,
+            0.09071934308058877
+          ]
+        }
+      },
+      "paired_delta_cand_minus_ctrl": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": -0.00817499077633313,
+        "ci95": [
+          -0.015205592767757382,
+          -0.0013405675851507323
+        ],
+        "withheld_positive_pixels": 5150
+      }
     },
-    "all_budgets_B3": {
+    "surface_rho_candidate_vs_ctrl_seed20": {
+      "spearman_on_dot_union": NaN,
+      "n_dot_union": 5167373,
+      "jaccard_dot_sets": 1.0,
+      "spearman_full_footprint": 0.9013193107092258
+    },
+    "budgets_B3": {
       "CTRL_A2": {
         "CTRL_A2|B3|37654": 0.1778428424929495,
         "CTRL_A2|B3|44090": 0.18258300140522551,
         "CTRL_A2|B3|50000": 0.18431154590898757,
-        "CTRL_A2|B5|44090": 0.17793440305164626
-      },
-      "A1_ISO": {
-        "A1_ISO|B3|37654": 0.16494744779307463,
-        "A1_ISO|B3|44090": 0.17003323044108273,
-        "A1_ISO|B3|50000": 0.1726661289716875
+        "CTRL_A2|B2|44090": 0.1585854369059286
       },
       "CAND_STEP": {
-        "CAND_STEP|B3|37654": 0.1599994247281971,
-        "CAND_STEP|B3|44090": 0.16621108404336643,
-        "CAND_STEP|B3|50000": 0.16799200718997587,
-        "CAND_STEP|B5|44090": 0.16004145188472407
+        "CAND_STEP|B3|37654": 0.16848398619468885,
+        "CAND_STEP|B3|44090": 0.1729996841092334,
+        "CAND_STEP|B3|50000": 0.17507821341675536,
+        "CAND_STEP|B2|44090": 0.14924550267219241
       },
-      "ABL_STEPONLY": {
-        "ABL_STEPONLY|B3|37654": 0.1250687105534507,
-        "ABL_STEPONLY|B3|44090": 0.12938173354658886,
-        "ABL_STEPONLY|B3|50000": 0.13091815766162626
+      "ABL_A0": {
+        "ABL_A0|B3|37654": 0.1529280275170692,
+        "ABL_A0|B3|44090": 0.15857349021019398,
+        "ABL_A0|B3|50000": 0.161118919754397,
+        "ABL_A0|B2|44090": 0.13763017909021377
+      },
+      "ABL_STEPO": {
+        "ABL_STEPO|B3|37654": 0.11753037147988508,
+        "ABL_STEPO|B3|44090": 0.1198728809687998,
+        "ABL_STEPO|B3|50000": 0.11962988860948533,
+        "ABL_STEPO|B2|44090": 0.11394262437220867
       }
-    },
-    "flank_B5_secondary": {
-      "candidate": {
-        "evidence_class": "HOLDOUT-DTI",
-        "evaluator_version": "gems57-pooled-hide-v2",
-        "dti": 0.16004145188472407,
-        "ci95": [
-          0.14310869630025796,
-          0.17604785519147997
-        ],
-        "withheld_positive_pixels": 11321,
-        "tpw": 2808.9615650325945,
-        "fpw": 39664.35167953406,
-        "fnw": 8512.0384349674
-      },
-      "control": {
-        "evidence_class": "HOLDOUT-DTI",
-        "evaluator_version": "gems57-pooled-hide-v2",
-        "dti": 0.17793440305164626,
-        "ci95": [
-          0.15940903806299625,
-          0.19381569807588594
-        ],
-        "withheld_positive_pixels": 11321,
-        "tpw": 3133.587539651661,
-        "fpw": 39636.98442365,
-        "fnw": 8187.412460348333
-      },
-      "paired": {
-        "evidence_class": "HOLDOUT-DTI",
-        "evaluator_version": "gems57-pooled-hide-v2",
-        "delta": -0.01789295116692219,
-        "ci95": [
-          -0.025625689654844498,
-          -0.009501792786890199
-        ],
-        "withheld_positive_pixels": 11321
-      },
-      "conclusion": "B5 hurts both arms; production uses preregistered B3"
-    },
-    "far_truth_gt10px": {
-      "n_truth": 5150,
-      "scores": {
-        "CTRL_A2|B3|44090": 0.07778640614588897,
-        "A1_ISO|B3|44090": 0.062486750688845016,
-        "CAND_STEP|B3|44090": 0.062036544317508935,
-        "ABL_STEPONLY|B3|44090": 0.07264513662764759
-      },
-      "paired_vs_candidate": {
-        "CTRL_A2|B3|44090": {
-          "evidence_class": "HOLDOUT-DTI",
-          "evaluator_version": "gems57-pooled-hide-v2",
-          "delta": -0.015749861828380035,
-          "ci95": [
-            -0.02261888568898741,
-            -0.008200525734332147
-          ],
-          "withheld_positive_pixels": 5150
-        },
-        "A1_ISO|B3|44090": {
-          "evidence_class": "HOLDOUT-DTI",
-          "evaluator_version": "gems57-pooled-hide-v2",
-          "delta": -0.00045020637133608155,
-          "ci95": [
-            -0.008884953033469154,
-            0.00678637334219231
-          ],
-          "withheld_positive_pixels": 5150
-        },
-        "ABL_STEPONLY|B3|44090": {
-          "evidence_class": "HOLDOUT-DTI",
-          "evaluator_version": "gems57-pooled-hide-v2",
-          "delta": -0.010608592310138651,
-          "ci95": [
-            -0.021719873545434105,
-            -0.0002177474470618265
-          ],
-          "withheld_positive_pixels": 5150
-        }
-      }
-    },
-    "repo_best_before": {
-      "value": 0.1826,
-      "config": "A2_h78_steered|nms0_B3|44090",
-      "source": "evidence/h78_pooled_ci_seed20.json alternative_B3_summary",
-      "evidence_class": "HOLDOUT-DTI"
-    },
-    "source_files": [
-      "evidence/h78step_holdout_seed20.json",
-      "evidence/h78step_append_diag_seed20.json"
-    ]
+    }
   },
-  "experiment2_append_diagnostic": {
-    "note": "IR-78STEP-A1: diagnostic only, cannot promote. DIAG_A2STEP = CTRL 103 + STEP 54.",
-    "diag_dti": {
-      "evidence_class": "HOLDOUT-DTI",
-      "evaluator_version": "gems57-pooled-hide-v2",
-      "dti": 0.17897614946977888,
-      "ci95": [
-        0.16178743244933438,
-        0.19410934751969713
-      ],
-      "withheld_positive_pixels": 11321,
-      "tpw": 3136.71976607129,
-      "fpw": 39208.82683452041,
-      "fnw": 8184.280233928704
-    },
-    "paired_delta_diag_minus_ctrl": {
-      "evidence_class": "HOLDOUT-DTI",
-      "evaluator_version": "gems57-pooled-hide-v2",
-      "delta": -0.0035989344828223913,
-      "ci95": [
-        -0.010373739930678891,
-        0.003122311457277748
-      ],
-      "withheld_positive_pixels": 11321
-    },
-    "surface_rho_diag_vs_ctrl": {
-      "spearman_on_dot_union": null,
-      "n_dot_union": 5167373,
-      "jaccard_dot_sets": 0.9999278163198205,
-      "spearman_full_footprint": 0.9291830333557451
-    },
-    "forward_3px_overlap_holdout_dots": {
-      "diag_dots_within_3px_of_ctrl_dots": 0.8418462236334769,
-      "cand_dots_within_3px_of_ctrl_dots": 0.7847357677477886,
-      "note": "holdout-fold dot sets at B3/44090; diagnostic of lane duplication, not the production registry audit"
-    },
-    "conclusion": "Append adds nothing (delta CI includes 0, point negative) and duplicates the H78-A lane (rho 0.929, forward overlap 0.842): STEP signal is largely redundant with steered derivatives at holdout localisation precision."
-  },
+  "replication_seed30": null,
   "canary": {
     "threshold": 0.9,
-    "max_single_feature_auc": 0.6027,
-    "step_max_auc": 0.6027,
+    "max_single_feature_auc": 0.615,
     "step_features": {
-      "step_det_elev_d4_signed": 0.5434,
-      "step_det_elev_d4_abs": 0.6027,
-      "step_det_elev_d4_t": 0.5884,
-      "step_det_elev_d4_cdev": 0.567,
-      "step_det_elev_d9_signed": 0.54,
-      "step_det_elev_d9_abs": 0.5985,
-      "step_det_elev_d9_t": 0.5798,
-      "step_det_elev_d9_cdev": 0.558,
-      "step_det_elev_sharp": 0.5356,
-      "step_rtp_d4_signed": 0.5084,
-      "step_rtp_d4_abs": 0.5334,
-      "step_rtp_d4_t": 0.5127,
-      "step_rtp_d4_cdev": 0.5237,
-      "step_rtp_d9_signed": 0.5093,
-      "step_rtp_d9_abs": 0.537,
-      "step_rtp_d9_t": 0.5092,
-      "step_rtp_d9_cdev": 0.5227,
-      "step_rtp_sharp": 0.5043,
-      "step_iso_grav_anom_d4_signed": 0.5103,
-      "step_iso_grav_anom_d4_abs": 0.5319,
-      "step_iso_grav_anom_d4_t": 0.5249,
-      "step_iso_grav_anom_d4_cdev": 0.5042,
-      "step_iso_grav_anom_d9_signed": 0.5085,
-      "step_iso_grav_anom_d9_abs": 0.5295,
-      "step_iso_grav_anom_d9_t": 0.5234,
-      "step_iso_grav_anom_d9_cdev": 0.5053,
-      "step_iso_grav_anom_sharp": 0.5125,
-      "step_depth_to_base_surf_d4_signed": 0.5169,
-      "step_depth_to_base_surf_d4_abs": 0.5208,
-      "step_depth_to_base_surf_d4_t": 0.5188,
-      "step_depth_to_base_surf_d4_cdev": 0.5019,
-      "step_depth_to_base_surf_d9_signed": 0.5153,
-      "step_depth_to_base_surf_d9_abs": 0.5236,
-      "step_depth_to_base_surf_d9_t": 0.5213,
-      "step_depth_to_base_surf_d9_cdev": 0.5042,
-      "step_depth_to_base_surf_sharp": 0.5138,
-      "step_cond_surf_d4_signed": 0.5071,
-      "step_cond_surf_d4_abs": 0.525,
-      "step_cond_surf_d4_t": 0.5233,
-      "step_cond_surf_d4_cdev": 0.5189,
-      "step_cond_surf_d9_signed": 0.5081,
-      "step_cond_surf_d9_abs": 0.5172,
-      "step_cond_surf_d9_t": 0.5136,
-      "step_cond_surf_d9_cdev": 0.5094,
-      "step_cond_surf_sharp": 0.5288,
-      "step_tc_totalcount_d4_signed": 0.5079,
-      "step_tc_totalcount_d4_abs": 0.5023,
-      "step_tc_totalcount_d4_t": 0.5037,
-      "step_tc_totalcount_d4_cdev": 0.5041,
-      "step_tc_totalcount_d9_signed": 0.5138,
-      "step_tc_totalcount_d9_abs": 0.5016,
-      "step_tc_totalcount_d9_t": 0.5062,
-      "step_tc_totalcount_d9_cdev": 0.5001,
-      "step_tc_totalcount_sharp": 0.5033
+      "xs_det_elev_step3_z": 0.5438,
+      "xs_det_elev_step3_absz": 0.615,
+      "xs_det_elev_step6_z": 0.5432,
+      "xs_det_elev_step6_absz": 0.6124,
+      "xs_det_elev_step10_z": 0.5399,
+      "xs_det_elev_step10_absz": 0.6046,
+      "xs_det_elev_dev6_z": 0.572,
+      "xs_det_elev_dev6_absz": 0.5449,
+      "xs_rtp_step3_z": 0.5098,
+      "xs_rtp_step3_absz": 0.528,
+      "xs_rtp_step6_z": 0.508,
+      "xs_rtp_step6_absz": 0.5279,
+      "xs_rtp_step10_z": 0.5049,
+      "xs_rtp_step10_absz": 0.517,
+      "xs_rtp_dev6_z": 0.5032,
+      "xs_rtp_dev6_absz": 0.5096,
+      "xs_iso_grav_anom_step3_z": 0.5133,
+      "xs_iso_grav_anom_step3_absz": 0.5337,
+      "xs_iso_grav_anom_step6_z": 0.5125,
+      "xs_iso_grav_anom_step6_absz": 0.5334,
+      "xs_iso_grav_anom_step10_z": 0.5109,
+      "xs_iso_grav_anom_step10_absz": 0.531,
+      "xs_iso_grav_anom_dev6_z": 0.533,
+      "xs_iso_grav_anom_dev6_absz": 0.5071,
+      "xs_depth_to_base_surf_step3_z": 0.5108,
+      "xs_depth_to_base_surf_step3_absz": 0.5178,
+      "xs_depth_to_base_surf_step6_z": 0.5106,
+      "xs_depth_to_base_surf_step6_absz": 0.5206,
+      "xs_depth_to_base_surf_step10_z": 0.5097,
+      "xs_depth_to_base_surf_step10_absz": 0.5241,
+      "xs_depth_to_base_surf_dev6_z": 0.5112,
+      "xs_depth_to_base_surf_dev6_absz": 0.5157,
+      "xs_cond_surf_step3_z": 0.5053,
+      "xs_cond_surf_step3_absz": 0.5252,
+      "xs_cond_surf_step6_z": 0.5053,
+      "xs_cond_surf_step6_absz": 0.5261,
+      "xs_cond_surf_step10_z": 0.5034,
+      "xs_cond_surf_step10_absz": 0.5242,
+      "xs_cond_surf_dev6_z": 0.5205,
+      "xs_cond_surf_dev6_absz": 0.5201,
+      "xs_conc6_throw_z": 0.519,
+      "xs_conc6_throw_absz": 0.5625,
+      "xs_conc6_prod_depth_elev": 0.5665,
+      "xs_conc6_prod_depth_grav": 0.5448,
+      "xs_conc6_prod_elev_grav": 0.556,
+      "xs_conc6_prod_depth_cond": 0.5014,
+      "xs_conc6_weakest": 0.5147,
+      "xs_conc10_throw_z": 0.516,
+      "xs_conc10_throw_absz": 0.5563,
+      "xs_conc10_prod_depth_elev": 0.566,
+      "xs_conc10_prod_depth_grav": 0.5443,
+      "xs_conc10_prod_elev_grav": 0.5537,
+      "xs_conc10_prod_depth_cond": 0.5007,
+      "xs_conc10_weakest": 0.5135
     },
     "flagged": {},
-    "clean": true,
-    "note": "strongest single feature overall is step_det_elev_d4_abs (0.6027) - detection without localisation"
+    "clean": true
   },
   "correlation_overlap_vs_registry": {
     "rho_limit": 0.9,
     "overlap_limit": 0.7,
-    "comparators": [
-      "data/registry/h19_5_solid_nan.tif",
-      "data/registry/d28_44090_nan.tif",
-      "data/registry/h33_2_b2_37654_zeros.tif",
-      "data/registry/gems70_p5_54000.tif",
-      "docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif",
-      "docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif",
-      "docs/downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif",
-      "docs/downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif",
-      "docs/downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif"
-    ],
-    "n_comparators": 9,
+    "registry_scope": "Frozen indexed registry of 9 rasters listed in registry/preregistration_h78step.json; NOT the organizer's complete submission history. Space-filling lattice rasters make the literal rule unsatisfiable by any dot set (standing irregularity, see preregistration).",
     "surface_before_placement": {
       "H19-5 solid (121131 px; owner-report 0.1922)": {
-        "spearman_on_dot_union": null,
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.023441504996833014,
-        "spearman_full_footprint": 0.11372515991548361
+        "spearman_full_footprint": 0.12212030324147548
       },
       "D2.8 dots (44090; owner-report 0.2600)": {
-        "spearman_on_dot_union": null,
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.00853238192791579,
-        "spearman_full_footprint": 0.06388729926651791
+        "spearman_full_footprint": 0.06875997036552774
       },
-      "H33-2-B2 dots (37654; owner-report 0.2778)": {
-        "spearman_on_dot_union": null,
+      "H33-2-B2 dots (37654; owner-report 0.2778, source site says UNSCORED)": {
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.007286874781441169,
-        "spearman_full_footprint": 0.04607194628993633
+        "spearman_full_footprint": 0.051243392661629555
       },
-      "GEMS70-P5-54000 (owner-report 0.2478 family; blocked H78-MPC)": {
-        "spearman_on_dot_union": null,
+      "GEMS70 p5 submodular 54k (sha256 00e8e1cb...)": {
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.010450184261906388,
-        "spearman_full_footprint": 0.04000201582901984
+        "spearman_full_footprint": 0.04336028356196229
       },
-      "H78-A primary shipped (44090)": {
-        "spearman_on_dot_union": null,
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)": {
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.00853238192791579,
-        "spearman_full_footprint": 0.11988306849400562
+        "spearman_full_footprint": 0.12318256067228436
       },
-      "H78-A altB2 shipped (44090)": {
-        "spearman_on_dot_union": null,
+      "H78-A altB2 shipped (44090; inspection only)": {
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.00853238192791579,
-        "spearman_full_footprint": 0.128508209568184
+        "spearman_full_footprint": 0.13099103706732979
       },
-      "H78-MPC shipped (37654)": {
-        "spearman_on_dot_union": null,
+      "H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)": {
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.007286874781441169,
-        "spearman_full_footprint": 0.06342093952613567
+        "spearman_full_footprint": 0.06668576958423605
       },
-      "H78-CS shipped (44090)": {
-        "spearman_on_dot_union": null,
+      "H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)": {
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.00853238192791579,
-        "spearman_full_footprint": 0.12088998365586315
+        "spearman_full_footprint": 0.12378149662773047
       },
-      "H78-SPY shipped (44090)": {
-        "spearman_on_dot_union": null,
+      "H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)": {
+        "spearman_on_dot_union": NaN,
         "n_dot_union": 5167373,
         "jaccard_dot_sets": 0.00853238192791579,
-        "spearman_full_footprint": 0.12062255757148725
+        "spearman_full_footprint": 0.12257010199489418
       }
-    },
-    "surface_max_abs_rho": 0.128508209568184,
-    "surface_rho_candidate_vs_ctrl_holdout": {
-      "spearman_on_dot_union": null,
-      "n_dot_union": 5167373,
-      "jaccard_dot_sets": 1.0,
-      "spearman_full_footprint": 0.8822353289180489
     },
     "final_dots": {
       "H19-5 solid (121131 px; owner-report 0.1922)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.41326831481061466,
-        "fraction_of_their_dots_within_3px_of_mine": 0.36259916949418397,
-        "spearman_full_footprint": 0.02694309935400557
+        "fraction_of_my_dots_within_3px_of_theirs": 0.4326377863461102,
+        "fraction_of_their_dots_within_3px_of_mine": 0.38502943094666103,
+        "spearman_full_footprint": 0.03082297766213272
       },
       "D2.8 dots (44090; owner-report 0.2600)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.3701519618961216,
-        "fraction_of_their_dots_within_3px_of_mine": 0.3349058743479247,
-        "spearman_full_footprint": 0.015757201754895724
+        "fraction_of_my_dots_within_3px_of_theirs": 0.392628713994103,
+        "fraction_of_their_dots_within_3px_of_mine": 0.3591063733272851,
+        "spearman_full_footprint": 0.01770166748065579
       },
-      "H33-2-B2 dots (37654; owner-report 0.2778)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.3308913585847131,
-        "fraction_of_their_dots_within_3px_of_mine": 0.3143623519413608,
-        "spearman_full_footprint": 0.018398553935017575
+      "H33-2-B2 dots (37654; owner-report 0.2778, source site says UNSCORED)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.3561578589249263,
+        "fraction_of_their_dots_within_3px_of_mine": 0.34519572953736655,
+        "spearman_full_footprint": 0.020501325850427087
       },
-      "GEMS70-P5-54000 (owner-report 0.2478 family; blocked H78-MPC)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.43701519618961215,
-        "fraction_of_their_dots_within_3px_of_mine": 0.2608333333333333,
-        "spearman_full_footprint": 0.01051607162218539
+      "GEMS70 p5 submodular 54k (sha256 00e8e1cb...)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.4527103651621683,
+        "fraction_of_their_dots_within_3px_of_mine": 0.2805925925925926,
+        "spearman_full_footprint": 0.011902347847112709
       },
-      "H78-A primary shipped (44090)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.7928782036743026,
-        "fraction_of_their_dots_within_3px_of_mine": 0.7742798820594239,
-        "spearman_full_footprint": 0.13350032046651733
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.8166704468133363,
+        "fraction_of_their_dots_within_3px_of_mine": 0.8029258335223407,
+        "spearman_full_footprint": 0.1424906149397369
       },
-      "H78-A altB2 shipped (44090)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.7428668632342935,
-        "fraction_of_their_dots_within_3px_of_mine": 0.7962122930369698,
-        "spearman_full_footprint": 0.04842422594766741
+      "H78-A altB2 shipped (44090; inspection only)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.7598321614878657,
+        "fraction_of_their_dots_within_3px_of_mine": 0.8130415060104332,
+        "spearman_full_footprint": 0.05439487952911926
       },
-      "H78-MPC shipped (37654)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.3314130188251304,
-        "fraction_of_their_dots_within_3px_of_mine": 0.3632814574812769,
-        "spearman_full_footprint": 0.02025394091920286
+      "H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.34395554547516444,
+        "fraction_of_their_dots_within_3px_of_mine": 0.39021086737132843,
+        "spearman_full_footprint": 0.02290095968330661
       },
-      "H78-CS shipped (44090)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.7936493535949195,
-        "fraction_of_their_dots_within_3px_of_mine": 0.7819006577455205,
-        "spearman_full_footprint": 0.13340881619706896
+      "H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.8048763892039011,
+        "fraction_of_their_dots_within_3px_of_mine": 0.8193014288954411,
+        "spearman_full_footprint": 0.14088929022440477
       },
-      "H78-SPY shipped (44090)": {
-        "fraction_of_my_dots_within_3px_of_theirs": 0.7820594239056475,
-        "fraction_of_their_dots_within_3px_of_mine": 0.7903379451122704,
-        "spearman_full_footprint": 0.1335003204665162
+      "H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.8025629394420504,
+        "fraction_of_their_dots_within_3px_of_mine": 0.7960308459968247,
+        "spearman_full_footprint": 0.13818991427570254
       }
     },
-    "dots_max_forward_overlap": 0.7936493535949195,
-    "worst_forward_overlap_comparator": "H78-CS shipped (44090)",
-    "forward_overlap_vs_h78a_primary": 0.7928782036743026,
-    "dots_max_abs_rho": 0.13350032046651733,
-    "passed_scoped": false,
-    "complete_registry_verified": false,
-    "scope_note": "9 comparators: 3 restored registry rasters + GEMS70-P5 fetched this session + all 5 previously shipped rasters of this repo. Not the organizer's complete registry."
-  },
-  "production_fit": {
-    "arm": "CAND_STEP (full catalogue)",
-    "n_pos": 60988,
-    "n_neg": 450000,
-    "n_features": 73,
-    "params": {
-      "max_iter": 300,
-      "learning_rate": 0.06,
-      "max_leaf_nodes": 63,
-      "min_samples_leaf": 200,
-      "l2_regularization": 1.0,
-      "max_bins": 255,
-      "early_stopping": false,
-      "random_state": 0
-    },
-    "fit_seconds": 60.0
-  },
-  "dot_distance_to_catalogue_px": {
-    "n": 44090,
-    "min": 3.1622776601683795,
-    "p10": 3.1622776601683795,
-    "p25": 3.605551275463989,
-    "p50": 5.830951894845301,
-    "p75": 9.486832980505138,
-    "p90": 16.410339770417984,
-    "frac_le_5px": 0.46287139941029715,
-    "frac_le_10px": 0.7701292810161035,
-    "frac_gt_30px": 0.03247902018598322,
-    "note": "diagnostic only; H33 shipped median is 19.6 px (evidence/h78_dot_distance_to_catalogue.json)"
+    "surface_max_abs_rho": 0.13099103706732979,
+    "dots_max_abs_rho": 0.1424906149397369,
+    "dots_max_overlap": 0.8166704468133363,
+    "passed": false,
+    "duplicate_lane_vs": [
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)",
+      "H78-A altB2 shipped (44090; inspection only)",
+      "H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)",
+      "H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)"
+    ]
   },
   "raster": {
-    "file": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
-    "sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
-    "bytes": 153051,
-    "zip": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.zip",
-    "zip_sha256": "eaee3824e37c6f9d3137d849de4f908463746a7ce2b023b1c0771054864f3582",
+    "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+    "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+    "bytes": 153846,
+    "zip": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.zip",
+    "zip_sha256": "cd27d00313594b48a2ef1c436d01bfb7cd62f00e8096773a3d4335bc85534808",
     "dots": 44090,
     "flank_px": 3.0,
-    "budget": 44090
+    "budget": 44090,
+    "min_separation_px": 2.8
   },
-  "raster_sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
+  "raster_sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
   "validator_output": {
-    "writer_receipt_checks": {
-      "single_band": true,
-      "dtype_float32": true,
-      "dimensions_3730x3292": true,
-      "crs_epsg_32611": true,
-      "transform_matches_sample_submission": true,
-      "no_nan_anywhere": true,
-      "no_inf_anywhere": true,
-      "no_sentinel_values": true,
-      "range_0_1_guaranteed": true,
-      "min_ge_0": true,
-      "max_le_1": true,
-      "in_footprint_all_finite": true,
-      "in_footprint_range_0_1": true,
-      "outside_footprint_zero": true,
-      "zero_dots_on_mapped_catalogue": true
-    },
     "independent_reread": {
       "count": 1,
       "dtype": "float32",
@@ -514,58 +366,105 @@
         0.0,
         1.0
       ],
-      "sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
-      "bytes": 153051
+      "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+      "bytes": 153846
     },
-    "verify_tif": {
-      "file": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
-      "bytes": 153051,
-      "sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
-      "positive_pixels": 44090,
-      "footprint_fraction": 0.00853238192791579,
-      "checks": {
-        "single_band": true,
-        "float32": true,
-        "crs_EPSG:32611": true,
-        "shape_3730x3292": true,
-        "transform_(100,0,243350,0,-100,4508550)": true,
-        "no_nodata_tag": true,
-        "all_finite": true,
-        "no_nan_inside_footprint": true,
-        "values_in_[0,1]": true,
-        "binary_values_only": true,
-        "zero_outside_footprint": true,
-        "zero_on_catalogue": true
-      },
-      "all_passed": true,
-      "zip": {
-        "file": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.zip",
-        "single_tif_byte_identical": true,
-        "sha256": "eaee3824e37c6f9d3137d849de4f908463746a7ce2b023b1c0771054864f3582"
-      }
+    "passed": true,
+    "writer_receipt_checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
     },
-    "validator_ok": true,
-    "verify_tif_ok": true
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match_sample": true
   },
   "preregistered_gate_evaluation": {
     "cand_beats_ctrl_point": false,
     "cand_beats_repo_best_0p1826": false,
     "paired_delta_ci_lower_gt_0": false,
     "canary_clean": true,
-    "surface_rho_vs_ctrl_le_0p90": true,
-    "uniqueness_pass_scoped_9_comparators": false,
-    "validator_pass": true,
-    "seed30_replication": "not run (preregistration: only if seed-20 gates pass)"
+    "surface_rho_vs_ctrl_le_0p90": false,
+    "seed30_delta_point_gt_0": true,
+    "uniqueness_pass": false,
+    "validator_pass": true
   },
-  "submission_name": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT",
-  "submission_note": "NOT OK TO SUBMIT negative: H78-STEP flank-step HOLDOUT-DTI 0.1662 vs CTRL 0.1826 s20; inspection only",
-  "note_chars": 101,
-  "verdict": "negative",
+  "submission_name": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT",
+  "submission_note": "GEMSDOE78 H78-STEP xstrike-step HGB 44090 dots B3; HOLDOUT-DTI 0.1730 s20 vs CTRL 0.1826; NEGATIVE-DUPLICATE-do-not-submit; not a projection",
+  "note_chars": 140,
   "ok_to_download": true,
   "ok_to_submit": false,
-  "ok_to_submit_reason": "HOLDOUT-DTI gate failed: CAND_STEP 0.1662 vs CTRL_A2 0.1826, paired delta -0.0164 [-0.0235,-0.0090] (gems57-pooled-hide-v2, seed 20, 11,321 withheld). See preregistered_gate_evaluation for every gate item.",
-  "experiments_charged": 3,
-  "submission_slots_used": 0,
+  "verdict": "negative",
   "organizer_confirmed_score": null,
-  "seconds_total": 459.1
+  "organizer_confirmed_note": "none: this file has not been uploaded by this session; 0 weekly slots used",
+  "selector_guidance": "Do NOT spend a weekly slot on this file: it failed the preregistered gate (cand_beats_ctrl_point, cand_beats_repo_best_0p1826, paired_delta_ci_lower_gt_0, surface_rho_vs_ctrl_le_0p90, uniqueness_pass). It is published for inspection/reproducibility only. No file in this repo is currently cleared; see evidence/release_audit.json for prior lanes.",
+  "fit": {
+    "n_pos": 60988,
+    "n_neg": 450000,
+    "n_features": 73,
+    "params": {
+      "max_iter": 300,
+      "learning_rate": 0.06,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 200,
+      "l2_regularization": 1.0,
+      "max_bins": 255,
+      "early_stopping": false,
+      "random_state": 0
+    },
+    "fit_seconds": 44.4
+  },
+  "features_base": {
+    "tag": "full",
+    "n_footprint": 5167373,
+    "n_features": 103,
+    "strike_sigma_region_px": 40.0,
+    "strike_sigma_line_px": 1.5,
+    "visible_catalogue_px": 60988,
+    "coherence_median": 0.5577561259269714,
+    "seconds": 89.8
+  },
+  "features_step": {
+    "tag": "full",
+    "n_footprint": 5167373,
+    "n_features": 54,
+    "bands": [
+      "det_elev",
+      "rtp",
+      "iso_grav_anom",
+      "depth_to_base_surf",
+      "cond_surf"
+    ],
+    "smooth_sigma_px": 1.0,
+    "std_sigma_px": 10.0,
+    "normal_offsets_px": [
+      -10,
+      -6,
+      -3,
+      0,
+      3,
+      6,
+      10
+    ],
+    "tangent_offsets_px": [
+      -3,
+      0,
+      3
+    ],
+    "profile": "straight centre-pixel strike-normal, bilinear, tangent-averaged",
+    "seconds": 61.4
+  },
+  "seconds": 352.3
 }

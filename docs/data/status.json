@@ -581,6 +581,97 @@
     },
     {
       "lane": "H78-STEP",
+      "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+      "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+      "validator": {
+        "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG_32611": true,
+          "shape_3730x3292": true,
+          "transform_matches_sample": true,
+          "no_nodata_tag": true,
+          "reference_hashes_verified": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "bytes": 153846,
+        "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+        "positive_pixels": 44090,
+        "footprint_fraction": 0.00853238192791579,
+        "zip": {
+          "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "cd27d00313594b48a2ef1c436d01bfb7cd62f00e8096773a3d4335bc85534808"
+        }
+      },
+      "integrity_passed": true,
+      "final_dots_vs_saturation_witness": {
+        "my_file": "docs/downloads/gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+        "evidence_class": "REGISTRY-MEASUREMENT",
+        "my_dots": 44090,
+        "candidate_decoded_sha256": "356a2078322c246a78deb1596660f1728cf1cc732f1dd5c492038d80804f4080",
+        "candidate_file_sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+        "rho_limit": 0.9,
+        "overlap_limit": 0.7,
+        "jaccard_limit": 0.5,
+        "registry_rasters_expected": 1,
+        "registry_rasters_checked": 1,
+        "complete_accessible_scan": false,
+        "missing_or_invalid": 0,
+        "source_errors": [
+          "Legacy list has no complete-inventory certificate; diagnostic only"
+        ],
+        "worst_spearman_full_footprint": 0.1154174478988655,
+        "worst_rho_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_dot_overlap": 1.0,
+        "worst_overlap_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_jaccard_dot_sets": 0.00853238192791579,
+        "worst_jaccard_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "byte_unique_among_checked": true,
+        "pixel_unique_among_checked": true,
+        "duplicate_count": 1,
+        "unique": false,
+        "rows": [
+          {
+            "repo": "buffedlizard55-lab/17GEMSDOE",
+            "submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+            "file": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+            "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+            "decoded_sha256": "11cb7dffcc88926fee8260f61df01d7712d3a7bb34fcc1bb333fb6b47f77ec05",
+            "their_dots": 5167373,
+            "my_dots_within_3px_of_theirs": 1.0,
+            "their_dots_within_3px_of_mine": 0.15210223841011672,
+            "spearman_full_footprint": 0.1154174478988655,
+            "jaccard_dot_sets": 0.00853238192791579,
+            "identical_bytes": false,
+            "identical_decoded_predictions": false,
+            "duplicate_by_rho": false,
+            "duplicate_by_overlap": true,
+            "duplicate_by_jaccard": false
+          }
+        ],
+        "jaccard_diagnostic_only": true,
+        "verdict": "negative",
+        "stop_required": true,
+        "candidate_rank_variation": true,
+        "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only."
+      },
+      "surface_before_placement": null,
+      "ok_to_download": true,
+      "ok_to_submit": false,
+      "verdict": "negative",
+      "reason": "DUPLICATE + NEGATIVE: parallel session 2026-10-22 (lane H78-STEP) generated this file; HOLDOUT-DTI 0.1730 vs matched control 0.1826 (paired delta -0.0096), score-surface rho vs control 0.9013, forward 3px overlap vs H78-A 0.8167. Full labelled results: evidence/h78step_run_card.json. Not generated in this review.",
+      "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
+    },
+    {
+      "lane": "H78-STEP-FLANK",
       "file": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
       "sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
       "validator": {
@@ -667,13 +758,13 @@
       "ok_to_download": true,
       "ok_to_submit": false,
       "verdict": "negative",
-      "reason": "DUPLICATE + NEGATIVE: parallel session generated this file; HOLDOUT-DTI 0.1662 vs control 0.1826 (paired -0.0164, CI excludes 0), forward 3px overlap 0.79 vs shipped H78-A lineage. Full labelled results: evidence/h78step_run_card.json.",
+      "reason": "DUPLICATE + NEGATIVE: second parallel session 2026-10-22 independently implemented the same step hypothesis (renamed STEP-FLANK at merge); HOLDOUT-DTI 0.1662 vs control 0.1826 (paired -0.0164), forward 3px overlap 0.79 vs H78-A lineage and 0.79 vs H78-STEP. Full labelled results: evidence/h78stepflank_run_card.json.",
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     }
   ],
   "current_review_new_tif_generated": false,
   "live_feed": false,
-  "current_review_utc": "2026-10-22T01:52:51.438116+00:00",
+  "current_review_utc": "2026-10-22T02:00:27.399670+00:00",
   "authoritative_release": "release_audit.json",
   "authoritative_card": "release_audit.json",
   "protocol_preflight": "protocol_preflight.json",
@@ -1227,6 +1318,97 @@
     },
     {
       "lane": "H78-STEP",
+      "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+      "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+      "validator": {
+        "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG_32611": true,
+          "shape_3730x3292": true,
+          "transform_matches_sample": true,
+          "no_nodata_tag": true,
+          "reference_hashes_verified": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "bytes": 153846,
+        "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+        "positive_pixels": 44090,
+        "footprint_fraction": 0.00853238192791579,
+        "zip": {
+          "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "cd27d00313594b48a2ef1c436d01bfb7cd62f00e8096773a3d4335bc85534808"
+        }
+      },
+      "integrity_passed": true,
+      "final_dots_vs_saturation_witness": {
+        "my_file": "docs/downloads/gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+        "evidence_class": "REGISTRY-MEASUREMENT",
+        "my_dots": 44090,
+        "candidate_decoded_sha256": "356a2078322c246a78deb1596660f1728cf1cc732f1dd5c492038d80804f4080",
+        "candidate_file_sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+        "rho_limit": 0.9,
+        "overlap_limit": 0.7,
+        "jaccard_limit": 0.5,
+        "registry_rasters_expected": 1,
+        "registry_rasters_checked": 1,
+        "complete_accessible_scan": false,
+        "missing_or_invalid": 0,
+        "source_errors": [
+          "Legacy list has no complete-inventory certificate; diagnostic only"
+        ],
+        "worst_spearman_full_footprint": 0.1154174478988655,
+        "worst_rho_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_dot_overlap": 1.0,
+        "worst_overlap_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_jaccard_dot_sets": 0.00853238192791579,
+        "worst_jaccard_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "byte_unique_among_checked": true,
+        "pixel_unique_among_checked": true,
+        "duplicate_count": 1,
+        "unique": false,
+        "rows": [
+          {
+            "repo": "buffedlizard55-lab/17GEMSDOE",
+            "submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+            "file": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+            "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+            "decoded_sha256": "11cb7dffcc88926fee8260f61df01d7712d3a7bb34fcc1bb333fb6b47f77ec05",
+            "their_dots": 5167373,
+            "my_dots_within_3px_of_theirs": 1.0,
+            "their_dots_within_3px_of_mine": 0.15210223841011672,
+            "spearman_full_footprint": 0.1154174478988655,
+            "jaccard_dot_sets": 0.00853238192791579,
+            "identical_bytes": false,
+            "identical_decoded_predictions": false,
+            "duplicate_by_rho": false,
+            "duplicate_by_overlap": true,
+            "duplicate_by_jaccard": false
+          }
+        ],
+        "jaccard_diagnostic_only": true,
+        "verdict": "negative",
+        "stop_required": true,
+        "candidate_rank_variation": true,
+        "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only."
+      },
+      "surface_before_placement": null,
+      "ok_to_download": true,
+      "ok_to_submit": false,
+      "verdict": "negative",
+      "reason": "DUPLICATE + NEGATIVE: parallel session 2026-10-22 (lane H78-STEP) generated this file; HOLDOUT-DTI 0.1730 vs matched control 0.1826 (paired delta -0.0096), score-surface rho vs control 0.9013, forward 3px overlap vs H78-A 0.8167. Full labelled results: evidence/h78step_run_card.json. Not generated in this review.",
+      "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
+    },
+    {
+      "lane": "H78-STEP-FLANK",
       "file": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
       "sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
       "validator": {
@@ -1313,7 +1495,7 @@
       "ok_to_download": true,
       "ok_to_submit": false,
       "verdict": "negative",
-      "reason": "DUPLICATE + NEGATIVE: parallel session generated this file; HOLDOUT-DTI 0.1662 vs control 0.1826 (paired -0.0164, CI excludes 0), forward 3px overlap 0.79 vs shipped H78-A lineage. Full labelled results: evidence/h78step_run_card.json.",
+      "reason": "DUPLICATE + NEGATIVE: second parallel session 2026-10-22 independently implemented the same step hypothesis (renamed STEP-FLANK at merge); HOLDOUT-DTI 0.1662 vs control 0.1826 (paired -0.0164), forward 3px overlap 0.79 vs H78-A lineage and 0.79 vs H78-STEP. Full labelled results: evidence/h78stepflank_run_card.json.",
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     }
   ],

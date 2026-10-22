@@ -1,0 +1,19 @@
+{
+  "evidence_class": "REGISTRY-MEASUREMENT (diagnostic; not a score, not a new experiment)",
+  "date_utc": "2026-10-22",
+  "comparison": "H78-STEP production dots vs parallel-session H78-CROSSLAYER production dots (both generated independently on 2026-10-22 from the same deferred cross-strike-step hypothesis family)",
+  "tool": "vendor/gems57/uniqueness.dot_overlap / surface_rho (post-merge main version)",
+  "step_file": "docs/downloads/gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+  "step_sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+  "crosslayer_file": "docs/downloads/gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif",
+  "crosslayer_sha256": "0b9cbb580dd8f94474744bf87a72abb602403cdccf8c6289bbe9625f4ffe75c3",
+  "dots": {
+    "step": 44090,
+    "crosslayer": 44090
+  },
+  "forward_step_dots_within_3px_of_crosslayer": 0.16990247221592197,
+  "forward_crosslayer_dots_within_3px_of_step": 0.2115672488092538,
+  "binary_surface_spearman_full_footprint": 0.014773530858334931,
+  "jaccard_dot_sets": 0.011725831248996076,
+  "interpretation": "Not duplicates of each other under either literal statistic (limits 0.70 / 0.90): the unsigned physics-field implementation (crosslayer, HOLDOUT-DTI 0.0478 per its card) and the catalogue-trained signed-step learner (H78-STEP, HOLDOUT-DTI 0.1730) place largely disjoint dots. Both remain verdict negative / not OK to submit under their own cards and the consolidated release audit (universal full-support witness)."
+}

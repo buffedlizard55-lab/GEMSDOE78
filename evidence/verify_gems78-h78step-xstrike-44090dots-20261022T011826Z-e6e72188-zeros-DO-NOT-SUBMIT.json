@@ -1,0 +1,27 @@
+{
+ "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+ "bytes": 153846,
+ "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+ "positive_pixels": 44090,
+ "footprint_fraction": 0.00853238192791579,
+ "checks": {
+  "single_band": true,
+  "float32": true,
+  "crs_EPSG:32611": true,
+  "shape_3730x3292": true,
+  "transform_(100,0,243350,0,-100,4508550)": true,
+  "no_nodata_tag": true,
+  "all_finite": true,
+  "no_nan_inside_footprint": true,
+  "values_in_[0,1]": true,
+  "binary_values_only": true,
+  "zero_outside_footprint": true,
+  "zero_on_catalogue": true
+ },
+ "all_passed": true,
+ "zip": {
+  "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.zip",
+  "single_tif_byte_identical": true,
+  "sha256": "cd27d00313594b48a2ef1c436d01bfb7cd62f00e8096773a3d4335bc85534808"
+ }
+}
