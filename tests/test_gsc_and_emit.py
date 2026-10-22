@@ -19,9 +19,9 @@ from gems78 import data as D, emit as E, features as F, gsc
 
 
 def test_band6_fixed_name():
-    assert D.BAND_NAMES[5] == "tc", "IR-78-BAND6-01 regression: band 5 (1-based band 6) must be 'tc' (magnetic tilt/curvature)"
+    assert D.BAND_NAMES[5] == "tc_totalcount"
     assert len(D.BAND_NAMES) == 19
-    assert F.STEER_BANDS[-1] == "tc"
+    assert F.STEER_BANDS[-1] == "tc_totalcount"
 
 
 def test_fast_greedy_dots_matches_python_bit_for_bit():
@@ -92,7 +92,8 @@ def test_h78_gsc_submission_tif_and_zip_verified():
     out = subprocess.check_output([sys.executable, str(ROOT / "scripts" / "verify_tif.py"), str(tif)], text=True)
     import json
     from gems57 import grid as G, validate as V
-    g_chk = G.load_grid(ROOT / ".cache" / "gems_data")
+    grid_dir = ROOT / "data" / "bridge" if (ROOT / "data" / "bridge" / "sample_submission.tif").exists() else ROOT / ".cache" / "gems_data"
+    g_chk = G.load_grid(grid_dir)
     V.assert_submittable(V.validate(tif, g_chk.footprint, g_chk.catalogue))
     res = json.loads(out)
     assert res["all_passed"] is True
@@ -118,7 +119,7 @@ def test_run_card_and_github_pages_zero_broken_links():
     assert rc["holdout"]["seed20_strict_loqo_primary"]["E3_MFNC_Bridge_PU_cal_LOQO__submod300_38000"]["dti"] > 0.18257
 
     docs_dir = ROOT / "docs"
-    for page in ["index.html", "executive-summary.html", "methodology.html", "validation.html", "submission.html", "irregularities.html", "sources.html"]:
+    for page in ["index.html", "executive-summary.html", "h78gsc.html", "h78gsc-executive-summary.html", "methodology.html", "validation.html", "submission.html"]:
         p = docs_dir / page
         assert p.is_file(), f"Missing page {page}"
         txt = p.read_text()

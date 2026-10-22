@@ -1,0 +1,44 @@
+00:15:39 Exp1 gate (uniqueness/validator pending): {'cand_beats_ctrl_point': False, 'cand_beats_repo_best_0p1826': False, 'paired_delta_ci_lower_gt_0': False, 'canary_clean': True} cand 0.17911435661791875 ctrl 0.18258300140522551
+00:15:39 seed30 replication loaded: 0.18383744780232142 vs ctrl 0.18344239770674675
+cs det_elev Hnn done 10s
+cs det_elev gn done 17s
+cs rtp Hnn done 28s
+cs rtp gn done 35s
+cs depth_to_base_surf Hnn done 46s
+cs depth_to_base_surf gn done 54s
+00:20:03 fit {'n_pos': 60988, 'n_neg': 450000, 'n_features': 118, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 96.0}
+00:23:02 scored
+00:23:11 surface rho max 0.13759220599990138 {'H19-5 solid (121131 px; owner-report 0.1922)': 0.127, 'D2.8 dots (44090; owner-report 0.2600)': 0.0714, 'H33-2-B2 dots (37654; owner-report 0.2778)': 0.0541, 'H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)': 0.1313, 'H78-A altB2 shipped (44090; inspection only)': 0.1376, 'H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)': 0.07}
+00:23:21 dot overlap {'H19-5 solid (121131 px; owner-report 0.1922)': 0.4382, 'D2.8 dots (44090; owner-report 0.2600)': 0.3982, 'H33-2-B2 dots (37654; owner-report 0.2778)': 0.3607, 'H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)': 0.8908, 'H78-A altB2 shipped (44090; inspection only)': 0.8311, 'H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)': 0.3581} unique_ok False
+Traceback (most recent call last):
+  File "/home/user/GEMSDOE78/scripts/build_submission_cs.py", line 283, in <module>
+    main()
+  File "/home/user/GEMSDOE78/scripts/build_submission_cs.py", line 200, in main
+    assert bool(validator_ok) == gate["validator_pass"], "pre-write vs re-read validator mismatch"
+                                 ~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'validator_pass'
+5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43  docs/downloads/gems78-h78cs-collinear-44090dots-20261022T002321Z-0ca477e0-zeros.tif
+ORPHAN trio from crashed run (writer committed, run card not written) removed before deterministic rerun; tif sha256 above
+00:24:42 Exp1 gate (uniqueness/validator pending): {'cand_beats_ctrl_point': False, 'cand_beats_repo_best_0p1826': False, 'paired_delta_ci_lower_gt_0': False, 'canary_clean': True} cand 0.17911435661791875 ctrl 0.18258300140522551
+00:24:42 seed30 replication loaded: 0.18383744780232142 vs ctrl 0.18344239770674675
+00:26:18 fit {'n_pos': 60988, 'n_neg': 450000, 'n_features': 118, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 93.8}
+00:29:07 scored
+00:29:16 surface rho max 0.13759220599990138 {'H19-5 solid (121131 px; owner-report 0.1922)': 0.127, 'D2.8 dots (44090; owner-report 0.2600)': 0.0714, 'H33-2-B2 dots (37654; owner-report 0.2778)': 0.0541, 'H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)': 0.1313, 'H78-A altB2 shipped (44090; inspection only)': 0.1376, 'H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)': 0.07}
+00:29:27 dot overlap {'H19-5 solid (121131 px; owner-report 0.1922)': 0.4382, 'D2.8 dots (44090; owner-report 0.2600)': 0.3982, 'H33-2-B2 dots (37654; owner-report 0.2778)': 0.3607, 'H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)': 0.8908, 'H78-A altB2 shipped (44090; inspection only)': 0.8311, 'H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)': 0.3581} unique_ok False
+00:29:27 duplicate-lane vs: ['H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)', 'H78-A altB2 shipped (44090; inspection only)']
+00:29:28 {
+ "verdict": "negative",
+ "ok_to_submit": false,
+ "file": "gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif",
+ "sha256": "5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43",
+ "dots": 44090,
+ "gate": {
+  "cand_beats_ctrl_point": false,
+  "cand_beats_repo_best_0p1826": false,
+  "paired_delta_ci_lower_gt_0": false,
+  "canary_clean": true,
+  "uniqueness_pass": false,
+  "validator_pass": true
+ }
+}
+WROTE /home/user/GEMSDOE78/evidence/h78cs_run_card.json

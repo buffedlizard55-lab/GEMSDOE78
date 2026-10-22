@@ -1,0 +1,76 @@
+23:41:34 inputs verified {'training_features.tif': True, 'existing_faults.tif': True, 'sample_submission.tif': True}
+23:41:37 visible 48340 hidden 11321 scored 11321
+cs det_elev Hnn done 10s
+cs det_elev gn done 17s
+cs rtp Hnn done 28s
+cs rtp gn done 36s
+cs depth_to_base_surf Hnn done 46s
+cs depth_to_base_surf gn done 53s
+23:45:11 features ready base 160.9 s cs 53.6 s
+23:45:24 canary max 0.6022 CS max 0.6022 flagged {}
+23:45:26 far-truth positives 5150
+23:46:47 fit {'arm': 'CTRL_A2', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 103, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 78.2}
+23:48:00 CTRL_A2 B3 greedy 1.4 s avail 60000
+23:48:07   CTRL_A2|B3|37654 HOLDOUT-DTI 0.1778
+23:48:15   CTRL_A2|B3|44090 HOLDOUT-DTI 0.1826
+23:48:22   CTRL_A2|B3|44090 far-truth HOLDOUT-DTI 0.07778640614588897
+23:48:29   CTRL_A2|B3|50000 HOLDOUT-DTI 0.1843
+23:48:31 CTRL_A2 B2 greedy 1.3 s avail 60000
+23:48:38   CTRL_A2|B2|44090 HOLDOUT-DTI 0.1586
+23:50:06 fit {'arm': 'CAND_CS', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 118, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 87.0}
+23:52:42 CAND_CS B3 greedy 1.3 s avail 60000
+23:52:50   CAND_CS|B3|37654 HOLDOUT-DTI 0.1764
+23:52:57   CAND_CS|B3|44090 HOLDOUT-DTI 0.1791
+23:53:04   CAND_CS|B3|44090 far-truth HOLDOUT-DTI 0.07246999070338682
+23:53:12   CAND_CS|B3|50000 HOLDOUT-DTI 0.1813
+23:53:13 CAND_CS B2 greedy 1.3 s avail 60000
+23:53:21   CAND_CS|B2|44090 HOLDOUT-DTI 0.1565
+23:53:46 fit {'arm': 'ABL_A0CS', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 34, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 24.2}
+23:55:13 ABL_A0CS B3 greedy 1.3 s avail 60000
+23:55:21   ABL_A0CS|B3|37654 HOLDOUT-DTI 0.1562
+23:55:29   ABL_A0CS|B3|44090 HOLDOUT-DTI 0.1634
+23:55:36   ABL_A0CS|B3|44090 far-truth HOLDOUT-DTI 0.05110226144776541
+23:55:43   ABL_A0CS|B3|50000 HOLDOUT-DTI 0.1658
+23:55:45 ABL_A0CS B2 greedy 1.4 s avail 60000
+23:55:52   ABL_A0CS|B2|44090 HOLDOUT-DTI 0.1365
+23:55:54 surface rho CAND vs CTRL {'spearman_on_dot_union': nan, 'n_dot_union': 5167373, 'jaccard_dot_sets': 1.0, 'spearman_full_footprint': 0.9519609933745677}
+23:55:54 wrote /home/user/GEMSDOE78/evidence/h78cs_holdout_seed20.json in 860.6 s
+{
+ "CTRL_A2|B3|44090": [
+  0.1826,
+  [
+   0.1628,
+   0.2004
+  ]
+ ],
+ "CAND_CS|B3|44090": [
+  0.1791,
+  [
+   0.1609,
+   0.1961
+  ]
+ ],
+ "ABL_A0CS|B3|44090": [
+  0.1634,
+  [
+   0.1453,
+   0.1816
+  ]
+ ]
+}
+{
+ "CTRL_A2|B3|44090": [
+  -0.0035,
+  [
+   -0.0086,
+   0.0017
+  ]
+ ],
+ "ABL_A0CS|B3|44090": [
+  0.0157,
+  [
+   0.0072,
+   0.0247
+  ]
+ ]
+}

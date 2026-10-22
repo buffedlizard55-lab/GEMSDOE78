@@ -1,59 +1,81 @@
-# Why h33-h33-2-b2 scored 0.2778, and what beating it requires
+# Why H33-2-B2 appears first in the family ledger — evidence vs inference
 
-All live scores below are **ORGANIZER-CONFIRMED as user-reported receipts** (copied from the
-user's ledger of submission-page results, 2026-10-21). All holdout numbers are **HOLDOUT-DTI**
-on `gems57-pooled-hide-v2` (seed 20, 11,321 withheld positives) measured in this repo unless
-marked sibling-published. Projections are labelled MODEL and never written as scores.
+Short answer: H33 is D2.8 with the 6,436 near-catalogue dots deleted — an
+emission-pruning change on an unchanged detector, not a new geothermal or
+structural discovery. The plausible metric mechanism is removed false-positive
+mass; no causal organizer-score improvement is established because no
+submission-page receipt exists.
 
-## The scoring law (verified)
+## 1. Measured structure (RASTER-GEOMETRY-DIAGNOSTIC, not a score)
 
-DTI(α=0.2, β=0.8, R=300 m triangular) per the organiser problem description
-(DrivenData #306, page 967). Binary-dot algebra (`vendor/gems57/metric.py`, tested vs brute force):
+Reproduced in this checkout (`evidence/h33_geometry_review_2026-10-22.json`,
+`evidence/forensics_h33_vs_d28.json`; inputs SHA-pinned in
+`registry/data_manifest.json`):
 
-`DTI = T / (0.2·(T + n − M) + 0.8·|G|)`, and one more non-redundant dot helps iff `k > 0.2·DTI`.
+- H19-5 solid = 121,131 binary line pixels (owner-report 0.1922).
+- D2.8 = 44,090 binary dots, all on the H19-5 lines, nearest-neighbour spacing
+  min √8 ≈ 2.83 px / median 3.0 px (owner-report 0.2600).
+- H33 = 37,654 binary dots and is **exactly** D2.8 minus every dot within 2 px
+  (200 m at the 100 m grid) of the catalogue: 6,436 removed dots, all 1–2 px
+  from mapped traces. Verified by `python scripts/review_h33.py`.
+- All three are binary {0, 1}, zero on the catalogue, zero outside the
+  5,167,373-cell footprint; grid EPSG:32611, 3730×3292, sample transform.
 
-At 0.2778 the bar is **0.0556 expected kernel credit per dot**. DTI is therefore a *budget-allocation*
-problem first and a *detection* problem second: ranking quality at the emitted mass is everything.
+## 2. Score provenance (what the numbers actually are)
 
-## The live-score ladder that explains H33 (user-reported)
+- The pinned GEMSDOE32 owner page (commit `f62038b…`, `docs/index.html`) calls
+  H33-2-B2 `projected 0.2747; UNSCORED` on a `0.2708 base`. It is a projection
+  on an owner page, not a submission-page receipt.
+- The `0.2778` figure in the prompt is a user-supplied owner report with no
+  receipt exposed in any repo (IR-78-13 / IR-78FW-01). Likewise the prompt's
+  `0.3195` and `0.4413` leaderboard figures conflict with each other and with
+  the sibling-observed 2026-10-21 snapshot (#1 xiaofanhu 0.4413); none was
+  re-fetched here because DrivenData is outside the sandbox network allowlist.
+- **No number in this repo is ORGANIZER-CONFIRMED.** `registry/live_scores.csv`
+  is empty by design until a receipt exists.
 
-| Step | Submission | Live | Lesson |
-|---|---|---|---|
-| continuous parent | h19-5 powerlaw-budget multiline-corroborated | 0.1922 | best continuous parent surface of the era |
-| dot it, d=1.5 | h25-1-dotted-h19-5-d1-5 | 0.2477 | thinning alone: +0.0555 |
-| dot it, d=2.8 | dotted-h19-5-d2-8 | 0.2600 | spacing ≈ kernel packing: +0.0123 |
-| solo d2.8 re-emit | h27-4-r1-solo-d2-8 | 0.2708 | cleaner emission of same geometry |
-| **+ B=2 flank prune** | **h33-h33-2-b2 (37,654 dots)** | **0.2778** | deleting zero-credit on/near-catalogue mass: +0.0070 |
-| near-clone variant | anderson-geothermal-pinn-38854 | 0.2750 | confirms the basin: H33-neighbourhood ≈ 0.27–0.28 |
-| divergent lanes (lidar, Euler, radon, SGMC-pure, hydro, ensembles…) | ~40 submissions | 0.001–0.16 | new *detectors* so far have all had lower credit density than h19-5 |
+## 3. Metric mechanism (PhD-level inference from the official DTI form)
 
-Three multiplicative ingredients: **(1) parent credit density** (multi-physics lineament *corroboration*,
-not any single transform), **(2) kernel-matched dotted emission** at the empirically optimal mass
-≈37–39k dots, **(3) catalogue-flank exclusion** (organiser masks mapped faults pixel-exactly, so
-on/near-catalogue dots pay 0.2 and earn 0).
+Competition DTI = TPw / (TPw + 0.2·FPw + 0.8·FNw) with a 300 m triangular
+kernel, max credit per truth pixel, and mapped-catalogue pixels masked
+(problem page §967; staff forum 11516; implemented in
+`vendor/gems57/metric.py`). Consequences:
 
-## What beating 0.2778 (and the user-reported 0.4413 leaderboard top) requires
+1. **Binary sparse dots are optimal for a fixed ranking.** DTI is a ratio of
+   functions linear in each pixel value, so the optimum over values is a
+   vertex: every emitted pixel should be 0 or 1. All top family files are
+   binary.
+2. **A dot helps only if its kernel credit exceeds ≈0.2·DTI** (≈0.056 at
+   DTI 0.28). A second dot within 300 m of already-credited truth earns
+   nothing (max-credit) but still pays 0.2 — hence sparse ≥2.83 px emission
+   beats dense lines (H19-5 solid 121k px → D2.8 44k dots).
+3. **The ≤2 px flank prune plausibly removed below-break-even mass.** A dot
+   1–2 px from a mapped trace can only earn credit from an *unmapped* fault
+   within 300 m of a mapped one; the family chain's reported gains say that
+   population is thin — hidden test faults lie mostly >200 m from the
+   catalogue (H33 dots sit at median 19.6 px ≈ 2 km; p10 = 4 px).
+4. **Direction is not guaranteed.** Removing dots can also remove recall; the
+   DTI denominator moves with both coverage and prediction mass, so a
+   leaderboard value cannot be linearly converted into mean per-dot credit,
+   and no new-detector conclusion follows from pruning alone.
 
-At fixed mass 37,654, score ≈ mean realised credit per dot. Leaderboard 0.4413 ⇒ ≈59% higher mean
-credit/dot than H33. No emission trick supplies that; only a ranking whose top 37k cells are
-genuinely closer to the hidden faults. The sibling holdout tournament (GEMSDOE73: 0.1599 vs 0.0939
-control; GEMSDOE77: up to 0.1900 single-seed — all HOLDOUT-DTI, none organizer-scored) shows the
-ingredients that raise holdout credit density: supervised LOQO models **with visible-fault-network
-context features** + exact 300 m submodular allocation. Whether holdout gains transfer to live is
-unproven until a selector spends slots on them.
+## 4. Can we score higher than 0.2778?
 
-## This lane's measured contribution (HOLDOUT-DTI, this repo)
+Only with a *field* whose top ~35–45k dots carry more kernel credit on
+unmapped faults than H19-5's — a detector problem, since the emission grammar
+is near its break-even. The family pattern (owner reports) is that every file
+≥0.23 is an out-of-fold learner trained on the catalogue and emitted as sparse
+dots, while every physics-first field without catalogue learning scored
+0.00–0.16: hidden test faults appear drawn from the same mapping process as
+the catalogue, so P(fault|features) learned from the catalogue — with
+catalogue *location* excluded — is the Bayes-relevant target. This repo's
+hide-and-recover instrument tests exactly that (H78-A 0.1826 vs unsupervised
+≈0.05), but the holdout rewards near-catalogue placement (withheld truth
+median 9 px from visible faults) while H33-style live strength sits far from
+the catalogue — so holdout numbers must not be read as live mirrors. The only
+way to know a live score is an organizer receipt.
 
-- MPC features add real signal: E2−E1 paired Δ = **+0.0121 [0.0027, 0.0217]** (spaced emission;
-  +0.0105 [0.0029, 0.0187] under the original emitter — emitter-independent), surface AUC vs withheld
-  0.696 vs 0.674 without them.
-- **IR-78-EMIT-01:** Pass 1's preregistered allocator emitted contiguous dot runs (98.9% of dots with a
-  neighbour ≤1.5 px; control median spacing 3.16 px), scoring E2 = 0.0471 ≈ random. Re-emitting the
-  frozen surfaces with the control's spaced emitter (Pass-2 defect correction, no retraining) gives
-  E2 = **0.0977 [0.078, 0.116]** vs control 0.0939 [0.080, 0.107] — paired Δ +0.0038 [−0.012, +0.020],
-  a point-estimate win that is **not statistically significant**. Emission geometry was worth ~2× the
-  detector effect — the sharpest confirmation yet of the H33 ladder's lesson (2).
-- Verdict: **promote** under the preregistered gate with the corrected emission, caveats disclosed in
-  the run card. Rational next test (new preregistration required): MPC features *added to* a
-  visible-network-context LOQO model (the sibling 0.16–0.19 holdout recipe) with per-quadrant mass
-  quotas — E2 still allocates 13,325 dots to SW vs 4,543 to NE (control: 10,596/10,203).
+Earlier narrative versions of this page are superseded by
+[the scientific release review](review-release.md) and, for the current
+protocol status, [the 2026-10-22 review](review-2026-10-22.md). No new external
+literature was verified from this sandbox; links above are for manual review.

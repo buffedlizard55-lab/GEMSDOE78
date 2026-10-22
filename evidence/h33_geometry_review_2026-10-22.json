@@ -1,0 +1,40 @@
+{
+  "evidence_class": "RASTER-GEOMETRY-DIAGNOSTIC, not a score",
+  "inputs": {
+    "existing_faults": {
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "data/bridge/existing_faults.tif"
+    },
+    "sample_submission": {
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "data/bridge/sample_submission.tif"
+    },
+    "registry_d28": {
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "docs/downloads/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif"
+    },
+    "registry_h33": {
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "repo": "buffedlizard55-lab/GEMSDOE32",
+      "ref": "f62038b54dcb7767d4d997f80b033cdc3d42bef9",
+      "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif"
+    }
+  },
+  "d28_dots": 44090,
+  "h33_dots": 37654,
+  "h33_subset_of_d28": true,
+  "exact_h33_equals_d28_pruned_within_2px": true,
+  "removed_dots": 6436,
+  "removed_distance_to_catalogue_px": [
+    1.0,
+    2.0
+  ],
+  "organizer_confirmed_score": null,
+  "conclusion": "H33 is exactly the D2.8 support minus dots within 2 pixels of the catalogue. This is a representation/pruning change, not evidence of new geological discovery. Causal score gain is not established without organizer receipts and a controlled comparison."
+}

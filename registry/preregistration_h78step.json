@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "lane": "H78-STEP cross-strike step-offset concordance (GEMSDOE78 session 2026-10-22)",
+  "session": {
+    "repo": "buffedlizard55-lab/GEMSDOE78",
+    "branch": "arena/faf23883-gemsdoe78",
+    "base_commit": "45cd56e715b1aa762f898e44441e3207880b13c0",
+    "date_utc": "2026-10-22",
+    "budget": "3 experiments or 2 hours of compute, then stop and write the run card",
+    "lane_assignment_note": "The session prompt names no session-specific method paragraph ('your lane is the single method paragraph below' but no such paragraph is present in the prompt as received; same irregularity flagged as IR-78CS-02 by session 3). The lane was therefore self-assigned as the top-ranked hypothesis of research/h78step_hypotheses.md, written before any result, which is also deferred hypothesis #1 in docs/review-release.md. If a parallel session was assigned cross-strike profile/step features, dedupe against evidence/h78step_*."
+  },
+  "hypothesis": "Buried or blind normal faults that lack a mappable scarp still offset the subsurface across strike: on the downthrown side basement deepens, isostatic gravity and surface elevation fall, and conductive basin fill thickens. Paired flank-mean steps at +/-300, +/-600 and +/-1000 m across the regional strike, normalised by local variability, on magnetics, gravity, basement depth, topography and conductivity, together with explicit cross-layer sign-concordance features (shared throw direction), therefore recover withheld fault segments better than the pointwise steered-derivative learner (H78-A) under an identical emitter.",
+  "mechanism": "For each footprint pixel, with the strike-normal n and tangent t from the visible-catalogue strike field phi (orientation only, never location), sample Gaussian(sigma=1 px)-smoothed bands along the normal at offsets -10,-6,-3,0,3,6,10 px, each point averaged over tangent offsets -3,0,+3 px. Per band (det_elev, rtp, iso_grav_anom, depth_to_base_surf, cond_surf): signed step (v(+k)-v(-k))/(local sigma-10px std at centre + 0.05*global std) for k=3,6,10, its absolute value, and centre deviation (v(0)-(v(+6)+v(-6))/2)/denom signed + abs = 8 features x 5 bands = 40. Concordance from signed steps at k=6 and k=10 (magnetic step excluded from sign logic: anomaly sign depends on magnetisation, not throw): throw_z=(depth -elev -grav +cond)/4, abs, products -depth*elev, -depth*grav, elev*grav, depth*cond, and weakest-concordant min_i(o_i * sign(throw_z)) with o=(depth,-elev,-grav,cond) = 7 x 2 scales = 14. Total 54 STEP features. depth_to_base_surf enters via the stack's pinned log1p transform (data.py LOG_BANDS), disclosed.",
+  "named_non_fault_mimic": "Intrusive or lithologic contacts (magnetic + gravity step with no fault); basin-margin facies changes and buried paleochannels (conductivity / basement-depth step). The concordance block exists so no single band's step suffices: a contact usually lacks the elevation+gravity+depth throw-consistent combination, a paleochannel lacks the magnetic/gravity basement step.",
+  "why_missing_not_catalogued": "The USGS/INGENIOUS catalogue is a mapping compilation; the strands most likely missing are buried piedmont/intrabasin faults whose surface expression is below a mapper's threshold but whose basement offset persists in potential fields and depth-to-basement. The step signature is learned from visible faults (which also offset basement) but the catalogue's location is never a feature, so the model is not paid to re-find mapped traces.",
+  "differs_from_repo_prior": "H78-A: pointwise steered derivatives at sigma 1.5/3 px centred on the pixel (ridge/step at <=300 m, unnormalised, no flank windows, no cross-layer concordance). H78-CS: along-strike integrals of those same derivatives (negative, duplicate). H78-MPC: contrast-invariant phase-congruency edges with no offset amount or throw direction. H78-SPY: same A2 model with PU-cleaned negatives (negative, duplicate). CAND_STEP contains NO steered-derivative (iso or steered) columns at all: raw19 + 54 cross-strike flank-profile features, so it is a distinct model class, not an append to A2 (session-3 measurement: appends to A2 land at surface rho ~0.95 / dot overlap ~0.89 vs H78-A).",
+  "shared_tools_unmodified_sha256_2026_10_22": {
+    "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "submission_writer.py": "41220185ac2823fe5358603d38f2a915ea3e5f1ab1f94f0b237295b38b4a2565",
+    "grid.py": "b96df7ec0f33658a61b0baa5db85fcd19be2cd8b1873f99699bd26bddae8cd8d",
+    "validate.py": "e7849554b47f6a2b66aeb2f7cfd5db06267412f049f52a73f1c41f934a2c34dd",
+    "uniqueness.py": "5882fe69e6a84e553725cc01092c5e3c88b2e838430cc12865f053cc8debac86",
+    "note": "uniqueness.py hash differs from the session-3 preregistration (d60cd8db...) because a later session extended that shared module; the literal thresholds (rho 0.90, forward overlap 0.70) are unchanged constants in the file, verified by reading it 2026-10-22. vendor/ must show no diff at the end of this session (git diff vendor/ empty)."
+  },
+  "inputs_pinned": {
+    "training_features.tif": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "existing_faults.tif": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "sample_submission.tif": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+    "restore": "bash scripts/restore_data.sh run 2026-10-22, all entries OK / RESTORE_VERIFIED"
+  },
+  "holdout": {
+    "draw": "gems57.holdout.buffered_component_draw(seed=20, hide_frac=0.20, buffer_px=3) exactly as lanes H78-A/H78-MPC/H78-CS (11,321 withheld positives expected; asserted)",
+    "evaluator": "gems57-pooled-hide-v2 (vendor/gems57/evaluate_holdout.py unmodified)",
+    "scoring": "pooled DTI alpha=0.2 beta=0.8 triangular 300 m kernel; visible faults masked pixel-exactly; 95% CI paired 20 km block bootstrap (1000 draws, seed 520810) via pooled_summary",
+    "training": "one model per arm on ALL visible catalogue cells (deployment-faithful, as H78-A); negatives pipeline.training_sample(fp, visible, 450000, seed=20), flank 2 px, withheld cells not excluded; identical rows for every arm; HGB max_iter=300 lr=0.06 max_leaf_nodes=63 min_samples_leaf=200 l2=1.0 max_bins=255 early_stopping=False random_state=0 (session-identical to H78-CS run_holdout_cs.py)",
+    "catalogue_derived_inputs": "strike field phi only, from visible cells (pipeline.build_feature_matrix tag seed20); STEP profiles use that same visible-only phi; no distance/density/location features",
+    "secondary_stratum": "far-truth: withheld truth >10 px from any visible fault, same dots, reported separately; not part of the promote gate"
+  },
+  "arms": {
+    "CTRL_A2": "103 H78-A features (raw19 + iso + steered) = exact rerun control and current repo best; expected pooled HOLDOUT-DTI 0.1826 at B3/44090 (reproduction check)",
+    "CAND_STEP": "19 raw bands + 54 STEP cross-strike profile features = 73 (candidate)",
+    "ABL_A0": "19 raw bands only (lineage base class)",
+    "ABL_STEPO": "54 STEP features only (does the step signature alone carry fault signal?)"
+  },
+  "emitter": "gems78.emit.greedy_dots(score, allowed, min_dist=2.8, pool=1500000); allowed = footprint & ~flank_mask(visible, 3.0) (B3 primary); budgets 37654, 44090, 50000, primary comparison at 44090; B2 at 44090 also reported for continuity",
+  "canary": "single-feature symmetric AUC (max(AUC,1-AUC)) on withheld truth vs active background for all 157 distinct features (103 base + 54 STEP), same sampling as scripts/run_holdout_cs.py; any feature >0.90 = leakage stop before any arm is trusted",
+  "uniqueness_rule": "Frozen indexed registry = 9 rasters: H19-5 solid, D2.8, H33-2-B2 (data/registry, pinned in registry/data_manifest.json), GEMS70 p5-submodular-multiphysics-hydro 54k (data/registry/gems70_p5_submod_54000.tif, sha256 00e8e1cb6ea34dbe2f6dc0ba3b7cc0d8d18ae2b0aaec11552bfa3ef11f1ea9f2 fetched 2026-10-22 from buffedlizard55-lab/GEMSDOE70 blob cd915f3f..., the comparator that failed H78-MPC at 0.730), and shipped-in-this-repo H78-A primary, H78-A altB2, H78-MPC, H78-SPY, H78-CS (docs/downloads). Gate: |Spearman rho| of candidate score surface vs each <=0.90 BEFORE placement; fraction of final dots within 3 px of each (literal FORWARD overlap) <=0.70; final-dot surface |rho| <=0.90; holdout score-surface rho(CAND_STEP, CTRL_A2) <=0.90. SCOPE DISCLOSURE: this is an indexed, locally-verified registry, not the organizer's complete submission history; space-filling lattice rasters known in the family (3-px halo covers 99.87% of the footprint, evidence/h78mpc_uniqueness.json) make the literal rule unsatisfiable by ANY dot set and are therefore reported as a standing irregularity of the rule, not silently included or excluded: no claim of global uniqueness is made.",
+  "decision_rules": {
+    "promote_all_required": [
+      "CAND_STEP pooled HOLDOUT-DTI at B3/44090 strictly greater than CTRL_A2 same config AND strictly greater than 0.1826",
+      "paired CAND_STEP - CTRL_A2 delta 95% CI lower bound > 0",
+      "if seed-30 replication (Exp 2) is run, its paired delta point estimate > 0",
+      "canary clean (no feature symmetric AUC > 0.90)",
+      "uniqueness passes on the surface before placement and on final dots vs the frozen 9-raster indexed registry, and holdout surface rho vs CTRL_A2 <= 0.90",
+      "submission_writer + independent scripts/verify_tif.py all checks pass (single-band float32 EPSG:32611 3730x3292 sample transform, no nodata tag, all finite, values exactly {0,1} hence in [0,1], zeros outside footprint, zero on catalogue)"
+    ],
+    "otherwise": "verdict negative; the new unique-bytes TIF is still written and published for inspection with banner OK TO SUBMIT: NO (a negative result is a deliverable; no submission slot may be spent on it; filename carries DO-NOT-SUBMIT)",
+    "selector_note": "Even a 'promote' verdict means promote-to-selector-only: this session uses 0 weekly slots and uploads nothing. A separate selector must verify the weekly cap on the DrivenData submission page (not reachable from this sandbox) and the wider family registry before any upload.",
+    "no_projection": "no number in any output is a leaderboard projection; ORGANIZER-CONFIRMED remains null until a DrivenData receipt exists"
+  },
+  "experiment_budget": "Exp 1: seed-20 holdout (4 arms + canary + far stratum). Exp 2 (ONLY if Exp 1 passes its DTI gates): seed-30 replication CTRL vs CAND at B3/44090. Exp 3 (or Exp 2 if Exp 1 fails): production build on full catalogue + uniqueness + validator + run card. If Exp 1 fails, seed 30 is NOT run (no seed-shopping). Hard stop after 3 experiments or 2 hours.",
+  "production": "retrain CAND_STEP arm on full catalogue (strike/phi from full catalogue), emit 44,090 dots B3 min_dist 2.8 pool 1.5M, write via unmodified submission_writer, name gems78-h78step-xstrike-44090dots-<UTC>-<digest8>-zeros (plus -DO-NOT-SUBMIT wording in the note/banner if negative), note <=140 chars containing the HOLDOUT-DTI label and 'not a projection'",
+  "amendments": []
+}

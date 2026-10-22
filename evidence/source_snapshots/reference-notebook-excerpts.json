@@ -1,0 +1,22 @@
+{
+  "commit": "aebe92f7c8a990f0e3443451b7a825d9afd6336b",
+  "notebook_sha256": "1a7622732ba00f67237058bc0efe79b45ba4e87c449fc9c1e5d6ea659de92ca0",
+  "note": "Selected cells only. Tversky TRAINING LOSS weights do not independently verify the competition DTI kernel.",
+  "cells": [
+    {
+      "cell_index": 0,
+      "cell_type": "markdown",
+      "source": "# GEMS Prize Reference Solution\n\n_author_: John Lipor, Associate Professor at Portland State University\n\n# Fault Detection Using U-Net with Monte Carlo Cross-Validation\n\nThis benchmark notebook implements a deep learning approach to geological fault detection. \nThe solution uses an ensemble of U-Net models trained across multiple train/test splits to \nproduce predictions.\n\n### Approach Overview:\n\n1. Load and pre-process multi-channel geospatial features (elevation, gradients, etc.) and fault labels\n\n1. Split feature and fault label rasters into patches\n\n1. Train U-Net models on patches with data augmentation, applying random train/test splits for cross-validation, and using a Tversky loss function weighted to penalize false negatives more than false positives\n\n1. Average predictions from best model across each iteration for final output\n\n### Steps to run this notebook\n\n1. Create a python environment and install the required dependencies using your chosen package manager.\n1. Download the feature data and fault label GeoTIFFs from the [data download page](https://www.drivendata.org/competitions/306/competition-doe-gems/data/) into the `data/` directory.\n1. Run the notebook!"
+    },
+    {
+      "cell_index": 7,
+      "cell_type": "code",
+      "source": "# show example features\ncmaps = [\"viridis\", \"inferno\", \"cividis\", \"magma\"]\nfeature_inds = [0, 1, 2, 3]  # indices of features to display\nfig, ax = plt.subplots(1, len(feature_inds), figsize=(15, 5))\nfor i, feature_idx in enumerate(feature_inds):\n    ax[i].imshow(X_orig[:, :, feature_idx], cmap=cmaps[i])\n    ax[i].set_title(\"\\n\".join(wrap(bands[i][\"description\"].split(\" - \")[0], 30)))\nplt.suptitle(\"Various numeric features (EPSG:32611, 100m resolution)\", fontsize=16)"
+    },
+    {
+      "cell_index": 16,
+      "cell_type": "code",
+      "source": "# set up parameters for training model\nMC = 5  # number of Monte Carlo iterations (train/test splits)\npatch_size = 128  # size of patches (inputs to model)\ntest_proportion = 0.5  # proportion of data to use for testing in each split\nbatch_size = 32\nepochs = 5\ninit_lr = 1e-4\nalpha = 0.2  # weight for false positives in Tversky loss\nbeta = 0.8  # weight for false negatives in Tversky loss\n\n"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GEMSDOE78 H78-SIGX — Executive summary</title><style>body{font:16px/1.6 system-ui;margin:2.5rem auto;padding:0 1rem;max-width:980px;color:#172438;background:#f5f7fb}h1{line-height:1.25}.ok{padding:1.2rem;background:#e3f4e1;border:2px solid #1e7a1e;border-radius:12px}.warn{padding:1rem;background:#fff1df;border:2px solid #a64c00;border-radius:12px}table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:.55rem .7rem;border-bottom:1px solid #bbc5d1;vertical-align:top}.btn{display:inline-block;background:#1355a0;color:#fff;padding:.75rem 1.2rem;border-radius:10px;text-decoration:none;font-weight:700;margin:.3rem .3rem .3rem 0}.btn.alt{background:#444}code{overflow-wrap:anywhere;background:#eef;padding:.1rem .3rem;border-radius:5px}img{max-width:100%}a{color:#1355a0}</style>
+<h1>Executive summary: make the H78-SIGX submission</h1><div class="ok"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: YES — this one file only</strong><br>
+<strong>gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif</strong> passes every automated project gate (G1–G5 below), recomputed from the
+written bytes by <code>scripts/gate_check.py</code> with no human inspection step. Every other TIFF on
+this site remains <strong>DO NOT SUBMIT</strong>. Passing the gates is not an organizer score; no
+competition slot has been used — spending one is the owner's selector decision after checking the
+weekly cap on the submission page.</div><p><a class="btn" download href="downloads/gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif">⬇ Download the submission GeoTIFF</a>
+<a class="btn alt" download href="downloads/gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.zip">.zip (single GeoTIFF inside)</a></p>
+<p><b>Unique submission name:</b> <code>gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros</code><br>
+<b>Note to paste into the DrivenData <em>Note (optional)</em> field (125/140 chars):</b><br>
+<code>GEMSDOE78 H78-SIGX rank-fusion A2+signature(lidar10m), flank&gt;500m, 44090 spaced dots; HOLDOUT-DTI far0.1053/overall0.1771 s20</code><br>
+<small>SHA-256 <code>8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786</code> · single band · float32 · EPSG:32611 · 100 m ·
+3730×3292 · 44,090 binary dots · every cell finite in [0,1] · no nodata tag ·
+<a href="data/h78sig_gate_report.json">independent gate report</a> ·
+<a href="data/h78sig_run_card.json">run card</a></small></p><h2>Exactly how to submit (executive summary)</h2><ol>
+<li>Confirm the homepage banner still says OK TO SUBMIT: YES for this filename and SHA-256.</li>
+<li>Download the .tif above (or the .zip — it contains only that TIFF).</li>
+<li>Optionally re-verify locally: <code>python scripts/verify_tif.py &lt;file&gt;</code> and
+<code>python scripts/gate_check.py &lt;file&gt;</code> must both pass.</li>
+<li>Check the weekly submission cap on the DrivenData submission page (project has used 0 slots).</li>
+<li>DrivenData → competition 306 → <em>New submission</em>: choose the downloaded file, paste the Note
+text above, submit.</li>
+<li>Save the organizer receipt/score against the SHA-256 above. Until that receipt exists the score is
+unknown — every number on this page is HOLDOUT-DTI or OWNER-REPORTED, never an organizer score.</li></ol>
+<p>Format required by the organizers: single-band float32 GeoTIFF, EPSG:32611, 100 m, same bounds as the
+sample, values in [0,1] — see the
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">official problem description</a>
+and the <a href="https://community.drivendata.org/t/11516">staff clarification that known-fault pixels are masked in both rounds</a>.</p><div class="warn"><strong>Literal-reading warning (read before submitting).</strong>
+Under the original uncorrected uniqueness wording, <em>every</em> nonempty file — including this one — has
+100% forward overlap with a hash-pinned full-footprint probability raster, so nothing can ever pass
+(<a href="data/protocol_preflight.json">automatic certificate</a>). The YES above uses the corrected,
+template-based gate documented in the run card (IR-78-22-03). If you do not accept that correction, treat
+this file as DO NOT SUBMIT. That is the only judgement call left to a human; every measurement behind it is
+automated and published.</div>
+<p><a href="h78sig.html">Full lane page with gates, holdout tables and figure</a> · <a href="index.html">Homepage</a></p></html>

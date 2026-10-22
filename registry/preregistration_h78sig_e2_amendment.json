@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "amends": "registry/preregistration_h78sig.json",
+  "experiment": "E2 (2 of max 3)",
+  "registered_before_running_E2": true,
+  "E1_outcome_summary_HOLDOUT_DTI": {
+    "note": "All values HOLDOUT-DTI, gems57-pooled-hide-v2, seed 20, 11321 withheld positives; evidence/h78sig_holdout_seed20.json",
+    "CTRL_A2_B3_44090_overall": 0.1826,
+    "SIGX_B5_44090_overall": 0.1458,
+    "SIGX_B5_far_gt10px": 0.0946,
+    "CTRL_B5_far_gt10px": 0.0987,
+    "SIGX_minus_CTRL_B3_far10_delta_ci95": [0.0082, 0.0256],
+    "SIGX_minus_CTRL_B5_far10_delta_ci95": [-0.0117, 0.0039],
+    "surface_spearman_SIGX_vs_CTRL": 0.6979,
+    "canary_max_auc": 0.6022
+  },
+  "E2_method_paragraph": "Rank fusion: production-ranking surface = mean of within-footprint percentile ranks of the CTRL_A2 (habitat+signature) and SIGX (signature-only, cross-resolution) surfaces fitted in E1 on identical folds/sample; identical greedy emitter; flank B in {3,5}; budgets {37654,44090}. No new learner is fitted in E2.",
+  "mechanism": "The two detectors' errors are partially independent (surface rho 0.698): habitat bands localise strain-controlled fault corridors, signature-only bands localise sub-100 m scarps irrespective of corridor. Rank fusion hedges the unknown distance distribution of the expert new-fault labels (organizers declined to describe coverage: community thread 11527, fetched 2026-10-22).",
+  "endpoints": "Identical to E1: overall + far>10px + far>20px pooled HOLDOUT-DTI with paired CIs vs CTRL_A2|B3, CTRL_A2|B5, SIGX|B5 (E1 terms recomputed from saved surfaces for exact pairing), D2.8, random.",
+  "uniqueness_precheck": "Forward 3 px dot overlap of every FUSE config vs the shipped H78-A production raster and vs H33/D2.8, computed on holdout dots before any production build; >0.70 vs H78-A = duplicate stop for E2 (fall back to E1 SIGX selection).",
+  "promotion_rule": "Production uses FUSE only if (a) uniqueness precheck passes, (b) FUSE far>10px >= max(CTRL_B5, SIGX_B5) point estimate OR its paired delta vs both has CI including positive values with overall >= SIGX overall; otherwise production uses the E1 selection SIGX|B5|44090. Whichever surface is chosen, gates G1-G5 in research/h78sig_hypotheses.md are re-run on the production file."
+}

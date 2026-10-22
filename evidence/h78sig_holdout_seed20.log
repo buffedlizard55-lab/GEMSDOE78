@@ -1,0 +1,86 @@
+{
+ "lane": "H78-SIGX",
+ "experiment": "E1",
+ "evidence_class": "HOLDOUT-DTI",
+ "evaluator_version": "gems57-pooled-hide-v2",
+ "seed": 20,
+ "hide_frac": 0.2,
+ "buffer_px": 3,
+ "fold_receipts": [
+  {
+   "fold": "NW",
+   "seed": 20,
+   "held_components": 96,
+   "withheld_positive_pixels": 1923,
+   "eligible_components": 598,
+   "boundary_buffer_px": 12,
+   "feature_buffer_px": 3,
+   "nearest_visible_to_truth_px": 3.1622776601683795,
+   "split_version": "buffered-whole-components-loqo-v2",
+   "evaluation_region_label_blind": true
+  },
+  {
+   "fold": "NE",
+   "seed": 20,
+   "held_components": 145,
+   "withheld_positive_pixels": 2367,
+   "eligible_components": 628,
+   "boundary_buffer_px": 12,
+   "feature_buffer_px": 3,
+   "nearest_visible_to_truth_px": 3.1622776601683795,
+   "split_version": "buffered-whole-components-loqo-v2",
+   "evaluation_region_label_blind": true
+  },
+  {
+   "fold": "SW",
+   "seed": 20,
+   "held_components": 223,
+   "withheld_positive_pixels": 3781,
+   "eligible_components": 983,
+   "boundary_buffer_px": 12,
+   "feature_buffer_px": 3,
+   "nearest_visible_to_truth_px": 3.1622776601683795,
+   "split_version": "buffered-whole-components-loqo-v2",
+   "evaluation_region_label_blind": true
+  },
+  {
+   "fold": "SE",
+   "seed": 20,
+   "held_components": 142,
+   "withheld_positive_pixels": 3250,
+   "eligible_components": 648,
+   "boundary_buffer_px": 12,
+   "feature_buffer_px": 3,
+   "nearest_visible_to_truth_px": 3.1622776601683795,
+   "split_version": "buffered-whole-components-loqo-v2",
+   "evaluation_region_label_blind": true
+  }
+ ],
+ "visible_px": 48340,
+ "hidden_px": 11321,
+ "withheld_positive_pixels_scored": 11321
+}
+[features] sigx matrix ready in 210.1 s
+[canary] max AUC 0.6022 (ext max 0.6022) flagged: {}
+[fit] CTRL_A2 {'arm': 'CTRL_A2', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 103, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 56.2}
+  CTRL_A2|B3|37654: pooled HOLDOUT-DTI 0.1778
+  CTRL_A2|B3|44090: pooled HOLDOUT-DTI 0.1826
+  CTRL_A2|B5|37654: pooled HOLDOUT-DTI 0.1787
+  CTRL_A2|B5|44090: pooled HOLDOUT-DTI 0.1778
+[fit] SIG100 {'arm': 'SIG100', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 84, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 45.9}
+  SIG100|B3|37654: pooled HOLDOUT-DTI 0.1414
+  SIG100|B3|44090: pooled HOLDOUT-DTI 0.1436
+  SIG100|B5|37654: pooled HOLDOUT-DTI 0.1314
+  SIG100|B5|44090: pooled HOLDOUT-DTI 0.1356
+[fit] SIGX {'arm': 'SIGX', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 102, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 58.8}
+  SIGX|B3|37654: pooled HOLDOUT-DTI 0.1519
+  SIGX|B3|44090: pooled HOLDOUT-DTI 0.1541
+  SIGX|B5|37654: pooled HOLDOUT-DTI 0.1448
+  SIGX|B5|44090: pooled HOLDOUT-DTI 0.1458
+[surface] Spearman vs CTRL_A2: {'SIG100': 0.7209264035348794, 'SIGX': 0.6979027009991496}
+  registry_D2.8_44090: pooled HOLDOUT-DTI 0.0919
+  registry_H33_37654: pooled HOLDOUT-DTI 0.0037
+  random_B3_44090: pooled HOLDOUT-DTI 0.0528
+[far_gt10px] {"CTRL_A2|B3|44090": 0.0778, "CTRL_A2|B5|44090": 0.0987, "SIG100|B3|44090": 0.0756, "SIG100|B5|44090": 0.0867, "SIGX|B3|44090": 0.0838, "SIGX|B5|44090": 0.0946, "registry_D2.8_44090": 0.0611, "random_B3_44090": 0.0346}
+[far_gt20px] {"CTRL_A2|B3|44090": 0.023, "CTRL_A2|B5|44090": 0.0296, "SIG100|B3|44090": 0.0283, "SIG100|B5|44090": 0.032, "SIGX|B3|44090": 0.0284, "SIGX|B5|44090": 0.0331, "registry_D2.8_44090": 0.0269, "random_B3_44090": 0.0161}
+DONE /home/user/GEMSDOE78/evidence/h78sig_holdout_seed20.json in 764.7 s

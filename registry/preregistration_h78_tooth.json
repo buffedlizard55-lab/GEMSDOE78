@@ -1,0 +1,49 @@
+{
+  "lane": "H78-TOOTH across-strike missing-tooth spacing prior",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "branch": "arena/92fb5263-gemsdoe78",
+  "written_utc": "2026-10-21T23:30:00Z",
+  "written_before_results": true,
+  "hypothesis": "Unmapped strands in domino-style Basin-and-Range arrays occupy double-width gaps: where the distance to the nearest visible fault is about one local array spacing, not half a spacing. Adding that gap phase, computed only from the visible catalogue, to the strike-steered learner raises pooled hide-and-recover DTI on withheld whole components relative to the same learner without it.",
+  "mechanism": "8-connected components of the visible catalogue; pairwise separation = sum of Euclidean distances across a Voronoi boundary between two different components; each component's spacing is the 25th percentile of its separations in [8, 100] px (drops relay/damage-zone contacts below 800 m and refuses separations above 10 km); that value is painted on the component and diffused with a 40 px Gaussian so a complete portion of an array informs an adjacent gap. Learner features, zero where spacing is undefined: gap kernel peaking at d=lambda, gap kernel peaking at d=1.5*lambda, width ratio 2d/lambda, lambda itself, diffusion support, spacing coefficient of variation. HistGradientBoosting on the existing H78-A strike-steered columns plus these six. Catalogue location (raw distance, density) is not a feature.",
+  "why_missing_not_mapped": "By construction the kernels are near zero on mapped traces (d=0) and in ordinary inter-fault troughs (d≈lambda/2). They peak only where a strand is absent. Withheld whole components are removed before the spacing field is built, so a hidden parallel strand sits near d=lambda of the remaining array.",
+  "differs_from_this_repo": "H78-A steers derivative filters by catalogue orientation and never sees spacing or gaps. H78-MPC is monogenic phase congruency with no catalogue geometry. GEMSDOE27 gap-closure and h33d tip/step-over act along strike on an existing lineament field; this acts across strike as a learner feature, not a post-hoc gate.",
+  "mimic_nonfault_process": "Regularly spaced incised drainages, dune ridges, and alluvial-fan spacing produce double-width topographic gaps with no fault.",
+  "literature_for_manual_review": [
+    "Ackermann, Schlische, Withjack 2001, Journal of Structural Geology 23:1803-1819, DOI 10.1016/S0191-8141(01)00028-1, https://www.sciencedirect.com/science/article/abs/pii/S0191814101000281 — fault spacing increases with brittle-layer thickness (search snippet; full text not fetched; host not on the sandbox allowlist).",
+    "Soliva and Benedicto 2006, JGR Solid Earth, DOI 10.1029/2004JB003507, https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2004JB003507 — layer-bound normal faults have a near-regular spacing, minimum about 0.25 of layer thickness (search snippet; full text not fetched).",
+    "Faulds et al., structural settings of Great Basin geothermal systems, https://www.osti.gov/servlets/purl/1110517 — cited in research/knowledge.md; not re-fetched this session."
+  ],
+  "shared_tools_unmodified": {
+    "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "submission_writer.py": "41220185ac2823fe5358603d38f2a915ea3e5f1ab1f94f0b237295b38b4a2565"
+  },
+  "holdout": {
+    "draw": "gems57.holdout.buffered_component_draw(seed=20, hide_frac=0.20, buffer_px=3)",
+    "evaluator": "gems57-pooled-hide-v2",
+    "scoring": "pooled DTI alpha=0.2 beta=0.8 triangular 300 m; 95% CI paired 20 km block bootstrap (1000 draws, seed 520810)"
+  },
+  "arms": {
+    "A2_control": "existing strike-steered columns only (pipeline.ARMS A2_h78_steered); must reproduce the published B3@44090 HOLDOUT-DTI near 0.1826",
+    "T_tooth": "A2 columns plus the six missing-tooth features (CANDIDATE)"
+  },
+  "emitter_matched": "greedy max-score packing, min separation 2.8 px, visible-catalogue flank <= 3 px, budget 44090. Also recorded, not used for the gate: 37654 and 50000.",
+  "canary": "single-feature symmetric AUC of every tooth feature and a sample of A2 features on withheld truth vs active background. AUC > 0.90 is leakage until a 90-degree rotation of the spacing field drops that feature's AUC below 0.70. If the rotated field also exceeds 0.90, stop and do not use the feature.",
+  "experiments_max": 3,
+  "experiments": {
+    "E1": "canary + A2_control vs T_tooth at the matched emitter. This is the hypothesis test.",
+    "E2_if_E1_supported": "flank sweep B4/B5/B6/B8 at 44090 on the frozen T_tooth surface (no refit). Keep the highest HOLDOUT-DTI flank whose preliminary 3 px overlap with the local H78-A raster is <= 0.70.",
+    "E2_if_E1_not_supported": "one sensitivity only: component-spacing diffusion sigma 20 px instead of 40, same emitter, no other change. No further tuning.",
+    "E3": "if a config passes the gate, retrain on the full catalogue and write the submission; otherwise write the best measured surface as an inspection file marked NOT OK TO SUBMIT"
+  },
+  "gates": {
+    "hypothesis_supported": "T_tooth matched-emitter HOLDOUT-DTI > A2_control AND paired-bootstrap 95% CI of the difference has lower bound > 0",
+    "beats_holdout_best": "point estimate > 0.1826, the published H78-A nms0_B3|44090 HOLDOUT-DTI on this evaluator, seed and withheld count. If the reproduced A2_control differs from 0.1826 by more than 0.005, flag irregularity IR-78-TOOTH-REPRO and do not treat 0.1826 as beaten.",
+    "uniqueness": "abs Spearman rho <= 0.90 on the footprint AND fraction of final dots within 3 px of any checked registry raster <= 0.70. Checked on the score surface before placement and on the final dots. Registry at minimum: H19-5, D2.8, H33, this repo's H78-A primary, H78-A alt B2, H78-MPC. Additional hashed rasters fetched before the check are included. Failure is a duplicate: log and stop, verdict negative.",
+    "validator": "single band float32, 3730x3292, EPSG:32611, transform (100,0,243350,0,-100,4508550), all finite, values in [0,1], no NaN inside the footprint, zero outside the footprint, zero positives on the catalogue, nodata tag unset",
+    "ok_to_submit": "hypothesis_supported AND beats_holdout_best AND canary clean AND uniqueness pass AND validator pass. Agent spends 0 weekly slots either way."
+  },
+  "what_this_cannot_show": "A catalogue hide-and-recover holdout is not an organizer score and is never a leaderboard projection. It cannot prove a live score above the owner-reported 0.2778."
+}

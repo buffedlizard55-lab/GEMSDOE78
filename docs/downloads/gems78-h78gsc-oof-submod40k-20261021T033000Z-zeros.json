@@ -553,5 +553,16 @@
   "ok_to_download": true,
   "ok_to_submit": true,
   "weekly_slots_used_by_agent": 0,
-  "verdict": "promote"
+  "verdict": "promote",
+  "historical_release_flags": {
+    "approved_for_weekly_slot": null,
+    "promoted": null,
+    "status": null
+  },
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "status": "gates-passed-ok-to-submit-pending-selector",
+  "current_release_audit": "../data/release_audit.json",
+  "publication_note": "Independent gates G1-G5 passed (evidence/h78gsc_gate_report.json). Selector still owns weekly-cap choice; no organizer score exists.",
+  "sha256": "e2f21d496925fb1bd2f36c5b28a0e2356286eca719132545474456f81bc5a8eb"
 }

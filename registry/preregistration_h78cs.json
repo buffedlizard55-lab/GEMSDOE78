@@ -1,0 +1,68 @@
+{
+  "lane": "H78-CS strike-following collinear support",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "branch": "arena/431f4c40-gemsdoe78",
+  "written_utc": "2026-10-21T23:25:32Z",
+  "written_before_results": true,
+  "session_context": "Parallel session on the same prompt as lanes H78-A (shipped primary, HOLDOUT-DTI 0.1826 seed 20) and H78-MPC (second candidate, HOLDOUT-DTI 0.0977 seed 20). This lane must stay inside its single method paragraph below, must not copy either shipped raster, and must beat the repo holdout best (0.1826) to earn verdict promote.",
+  "method_paragraph_lane": "H78-CS adds strike-following collinear-support features to the exact H78-A feature set and nothing else: for three independent-physics bands (det_elev topography, rtp magnetics, depth_to_base_surf basement depth), take the sigma=3 px strike-steered responses |Hnn| (across-strike curvature, line centre) and |gn| (across-strike step) already defined by lane H78-A, and integrate each along the local catalogue-strike tangent over straight segments of half-length 5 px (1.1 km) and 15 px (3.1 km), recording the path mean, plus for |Hnn| at 15 px the weaker-side half-mean min(mean_left, mean_right) which requires continuation on both sides of the pixel. The strike angle at the centre pixel only defines each segment (curvature ignored, disclosed). Same HistGradientBoosting learner, same training sample, same greedy >=2.8 px emitter with the <=3 px catalogue flank removed (B3), same budgets. The only difference between candidate and control is these 15 path-integral features, so the paired holdout difference isolates collinear support.",
+  "hypothesis": "Faults are continuous strands kilometres long, so a true but faint unmapped strand accumulates steered ridge/step evidence coherently along its strike while the isolated texture that dominates per-pixel false positives (fan channels oblique to strike, short contacts, noise) does not; adding 1.1 km and 3.1 km along-strike path integrals of |Hnn| and |gn| on topography, magnetics and basement depth to the H78-A learner therefore raises kernel credit per emitted dot on withheld fault segments relative to the identical learner without them.",
+  "mechanism": "Per-pixel detectors (H78-A sigma<=300 m, H78-MPC phase congruency) have no notion of line continuity. Integrating a non-negative line/step response along the regional strike direction is a matched filter for a straight strand: signal grows ~linearly with segment length, incoherent noise ~sqrt(length). The weaker-side statistic additionally requires the strand to continue through the pixel on both sides, suppressing strand endpoints, crossings and blobs.",
+  "named_non_fault_mimic": "Pleistocene Lake Lahontan shorelines and beach ridges (long, straight-to-gently-curved, often range-front-parallel topographic lines with no basement/magnetic step); secondarily roads/rail alignments and bedrock strike ridges. The three-physics design (topography + magnetics + basement depth path integrals as separate features) exists so the learner can discount a purely topographic line.",
+  "why_missing_not_catalogued": "The USGS/INGENIOUS catalogue is a compilation; the strands most likely missing are faint piedmont/intrabasin strands whose per-pixel scarp or potential-field step sits below a mapper's (or a per-pixel model's) local threshold but whose along-strike integrated evidence over 1-3 km is still coherent. Catalogue location is never a feature (strike orientation only, from visible faults in holdout), so the model is not paid to re-find mapped traces.",
+  "differs_from_repo_prior": "H78-A: pointwise steered derivatives only (sigma 1.5/3 px), no integration along strike. H78-MPC: pointwise monogenic phase congruency + Frangi (sigma<=4 px), LOQO protocol, external bands; no strike-following path integrals. Family worm/radon lanes used continuity as standalone detectors or re-rankers of a fixed field (wormrank-d28 owner-report 0.2560 vs its D2.8 input 0.2600); none ablated path integrals as learner features against an identical control on this evaluator.",
+  "shared_tools_unmodified_expected_sha256": {
+    "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "submission_writer.py": "41220185ac2823fe5358603d38f2a915ea3e5f1ab1f94f0b237295b38b4a2565",
+    "grid.py": "b96df7ec0f33658a61b0baa5db85fcd19be2cd8b1873f99699bd26bddae8cd8d",
+    "validate.py": "e7849554b47f6a2b66aeb2f7cfd5db06267412f049f52a73f1c41f934a2c34dd",
+    "uniqueness.py": "d60cd8db338e8dcbb1f14168f7579f5b8c6212a79fe5087545a9156cf27392b9",
+    "note": "verified by sha256sum in this checkout 2026-10-21 before any run; vendor/ must show no diff at the end (git diff vendor/ empty)"
+  },
+  "holdout": {
+    "draw": "gems57.holdout.buffered_component_draw(seed=20, hide_frac=0.20, buffer_px=3) exactly as lanes H78-A/H78-MPC (11,321 withheld positives expected; asserted)",
+    "evaluator": "gems57-pooled-hide-v2 (vendor/gems57/evaluate_holdout.py unmodified)",
+    "scoring": "pooled DTI alpha=0.2 beta=0.8 triangular 300 m; 95% CI paired 20 km block bootstrap (1000 draws, seed 520810) via pooled_summary",
+    "training": "one model per arm on ALL visible catalogue cells (deployment-faithful, as H78-A); negatives: pipeline.training_sample(fp, visible, 450000, seed=20), flank 2 px, withheld cells not excluded; identical sample rows for every arm",
+    "catalogue_derived_inputs": "strike field only, computed from visible cells (pipeline.build_feature_matrix tag seed20); path tangents use that same visible-only phi; no distance/density/location features",
+    "secondary_stratum": "far-truth: withheld truth >10 px from any visible fault, same arms/dots, reported separately (guards the IR-78-09 near-halo concern); not part of the promote gate"
+  },
+  "arms": {
+    "CTRL_A2": "103 H78-A features (raw19 + iso + steered) = exact rerun control; expected pooled HOLDOUT-DTI ~0.1826 at B3/44090 (reproduction check, greedy pool 1.5M as in pooled_ci.py/build_submission.py)",
+    "CAND_CS": "CTRL_A2 + 15 collinear-support features (candidate)",
+    "ABL_A0CS": "19 raw bands + 15 collinear-support features (ablation: do path integrals alone beat the raw-19 lineage class?)"
+  },
+  "emitter": "gems78.emit.greedy_dots(score, allowed, min_dist=2.8, pool=1500000); allowed = footprint & ~flank_mask(visible, 3.0) (B3 primary); budgets 37654, 44090, 50000 reported, primary comparison at 44090; B2 also reported for continuity with prior evidence",
+  "canary": "single-feature symmetric AUC (max(AUC,1-AUC)) on withheld truth vs active background for all 118 features, same sampling as scripts/run_holdout.py; any feature >0.90 = leakage stop",
+  "uniqueness_rule": "Spearman rho of candidate score surface vs each registry raster <=0.90 (checked before placement) AND fraction of final dots within 3 px of any registry dot set <=0.70 AND final-dot surface rho <=0.90. Registry = H19-5 solid, D2.8, H33-2-B2 (data/registry) + shipped H78-A primary, H78-A altB2, H78-MPC (docs/downloads). Breach = duplicate lane: log and verdict negative regardless of DTI.",
+  "decision_rules": {
+    "promote_all_required": [
+      "CAND_CS pooled HOLDOUT-DTI at B3/44090 strictly greater than CTRL_A2 same config AND strictly greater than 0.1826 (repo holdout best)",
+      "paired CAND_CS - CTRL_A2 delta 95% CI lower bound > 0",
+      "canary clean (no feature symmetric AUC > 0.90)",
+      "uniqueness passes on surface before placement and on final dots",
+      "submission_writer + independent scripts/verify_tif.py all checks pass (single-band float32 EPSG:32611 3730x3292 sample transform, all finite, values in [0,1] exactly {0,1}, zeros outside footprint, zero dots on catalogue)"
+    ],
+    "otherwise": "verdict negative; the unique TIF is still written and published for inspection with banner OK TO SUBMIT: NO (a negative result is a deliverable; no submission slot may be spent on it)",
+    "no_projection": "no number in any output is a leaderboard projection; ORGANIZER-CONFIRMED remains null until a DrivenData receipt exists"
+  },
+  "experiment_budget": "Exp 1: seed-20 holdout (3 arms + canary + far stratum). Exp 2 (only if Exp 1 promotes and time remains): seed-30 replicate CTRL vs CAND at B3/44090. Exp 3: production build on full catalogue + uniqueness + validator + run card. Hard stop after 3 experiments or 2 hours from session start.",
+  "production_if_run": "retrain CAND_CS arm definition on full catalogue (strike/phi from full catalogue, deployment-faithful), emit 44,090 dots B3 min_dist 2.8 pool 1.5M, write via unmodified submission_writer (zeros mode semantics: all-finite binary), name gems78-h78cs-collinear-44090dots-<UTC>-<digest8>-zeros, note <=140 chars containing the HOLDOUT-DTI label and 'not a projection'",
+  "amendments": [
+    {
+      "id": "IR-78CS-01",
+      "declared_utc": "2026-10-21T23:57:00Z",
+      "declared_before_exp2": true,
+      "trigger": "Exp 1 (seed 20) finished NEGATIVE: CAND_CS HOLDOUT-DTI 0.1791 [0.1609,0.1961] vs CTRL_A2 0.1826 [0.1628,0.2004], paired delta -0.0035 [-0.0086,+0.0017] (gems57-pooled-hide-v2, 11,321 withheld); far-truth 0.0725 vs 0.0778; CTRL reproduced the shipped H78-A evidence exactly (0.1826/0.1586/0.1843). Preregistered Exp 2 (seed-30 replicate only if Exp 1 promotes) therefore does not apply as written.",
+      "amendment": "Exp 2 is repurposed as a REPLICATION OF THE NEGATIVE on seed 30 (same script, same arms/configs), answering (a) does the CS deficit replicate across draws and (b) what is CTRL_A2's across-seed spread (repo limitation 'one seed' in README). The promote gate is UNCHANGED and seed 30 cannot promote this lane under any outcome: verdict for H78-CS production file is negative regardless of Exp 2. This is declared before Exp 2 to prevent seed-shopping.",
+      "also_flagged": "Surface Spearman rho CAND_CS vs CTRL_A2 score surfaces (seed 20, full footprint) = 0.9520 > 0.90 duplicate threshold vs the H78-A model class: any A2-plus-small-feature-addition lane is effectively inside H78-A's lane. Recorded so future sessions do not re-propose feature-append variants of A2 as distinct lanes."
+    },
+    {
+      "id": "IR-78CS-02",
+      "declared_utc": "2026-10-21T23:57:00Z",
+      "note": "The session prompt names no session-specific method paragraph ('your lane is the single method paragraph below' but no such paragraph is present in the prompt as received). The lane was therefore self-assigned as the top-ranked hypothesis of research/h78cs_hypotheses.md, written before any result. Flagged for the selector: if another parallel session was assigned collinear/along-strike integration, dedupe against this lane's evidence/h78cs_* files."
+    }
+  ]
+}

@@ -1,62 +1,82 @@
-{
-  "lane": "GEMSDOE78",
-  "updated_utc": "2026-10-21T01:25:00Z",
-  "sources": [
-    {
-      "id": "SRC-DRIVENDATA-306",
-      "title": "DOE Geothermal Exploration with Machine Learning (GEMS) Prize Challenge — Official Problem & Metric Specification",
-      "organization": "U.S. Department of Energy Geothermal Technologies Office / DrivenData",
-      "url": "https://www.drivendata.org/competitions/306/doe-gems/",
-      "verification": "Core competition rasters (test_features.tif, sgmc_faults_template.tif, submission_format.tif) locally SHA-256 verified via scripts/restore_data.py; proxy allowlist status recorded in evidence/url_reachability_audit.json."
-    },
-    {
-      "id": "SRC-USGS-3DEP",
-      "title": "USGS 3D Elevation Program (3DEP) 1 m LiDAR & 1/3 Arc-Second (10 m) Seamless Digital Elevation Models",
-      "organization": "U.S. Geological Survey",
-      "url": "https://www.usgs.gov/3d-elevation-program",
-      "verification": "Aggregated 100 m scarp statistics (1m_dem_roughness_100m.tif, 1m_dem_slope_max_100m.tif, 1m_dem_slope_std_100m.tif, 1m_lidar_coverage_mask_100m.tif, 3dep_dem_100m.tif, 3dep_roughness_10m_agg_100m.tif, 3dep_slope_max_10m_agg_100m.tif, 3dep_slope_std_10m_agg_100m.tif) locally SHA-256 verified."
-    },
-    {
-      "id": "SRC-DOE-GDR-1391",
-      "title": "Great Basin INGENIOUS Geothermal Play Fairway Dataset (Heatflow, Temperature-at-Depth, Geothermometry, 2D Strain Rate, 20 km MT, Gravity & Magnetic Tilt)",
-      "organization": "U.S. DOE Geothermal Data Repository (Submission #1391) — Faulds et al., Nevada Bureau of Mines and Geology / University of Nevada, Reno",
-      "url": "https://gdr.openei.org/submissions/1391",
-      "verification": "7 co-registered EPSG:32611 3292x3730 float32 GeoTIFFs locally SHA-256 verified in .cache/gems_data/external/."
-    },
-    {
-      "id": "SRC-USGS-SGMC",
-      "title": "State Geologic Map Compilation (SGMC) Geodatabase of the Conterminous United States (USGS Data Series 1052)",
-      "organization": "U.S. Geological Survey (Horton et al., 2017)",
-      "url": "https://doi.org/10.3133/ds1052",
-      "verification": "Rasterized fault template sgmc_faults_template.tif locally SHA-256 verified."
-    },
-    {
-      "id": "SRC-FAULDS-HINZ-2015",
-      "title": "Structural Settings of Geothermal Systems in the Great Basin Region, Western USA: Implications for Geothermal Exploration",
-      "organization": "World Geothermal Congress 2015 / Nevada Bureau of Mines & Geology (Faulds & Hinz, 2015)",
-      "url": "https://pangea.stanford.edu/ERE/db/WGC/papers/WGC/2015/11075.pdf",
-      "verification": "Foundational physical mechanism motivating fault-tip Coulomb extension, relay ramps, and range-front step-overs in H78-GSC."
-    },
-    {
-      "id": "SRC-ELKAN-NOTO-2008",
-      "title": "Learning Classifiers from Only Positive and Unlabeled Data (KDD 2008)",
-      "organization": "ACM SIGKDD (Elkan & Noto, 2008)",
-      "url": "https://doi.org/10.1145/1401890.1401920",
-      "verification": "Theoretical basis for strict out-of-fold Positive-Unlabeled (PU) spy false-negative de-biasing in H78-PU-SPY."
-    },
-    {
-      "id": "SRC-MINOUX-1978",
-      "title": "Accelerated Greedy Algorithms for Maximizing Submodular Set Functions",
-      "organization": "Optimization Techniques, Springer Lecture Notes in Control and Information Sciences (Minoux, 1978)",
-      "url": "https://doi.org/10.1007/BFb0006528",
-      "verification": "Exact lazy-greedy algorithm implemented in src/gems78/_fast_emit.c :: fast_submodular_dti_dots and verified exact against brute-force kernel evaluation."
-    },
-    {
-      "id": "SRC-GITHUB-REPO-FAMILY",
-      "title": "Shared Competition Evaluator & Full 83-Repo Registry Archive (buffedlizard55-lab/GEMSDOE*)",
-      "organization": "GitHub (buffedlizard55-lab)",
-      "url": "https://github.com/buffedlizard55-lab/GEMSDOE78",
-      "verification": "Verified HTTP 200 live in sandbox (evidence/url_reachability_audit.json); 1,089 unique .tif rasters across 83 sibling repos indexed by SHA-256."
-    }
-  ]
-}
+[
+  {
+    "what": "Competition home / rules summary",
+    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/",
+    "verified": "Not reachable from this sandbox (host not allowed); content taken from the family's verified register (GEMSDOE32 docs/sources.md) and the official rules PDF citation."
+  },
+  {
+    "what": "Problem description incl. DTI metric (alpha 0.2, beta 0.8, 300 m)",
+    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+    "verified": "Metric transcription cross-checked against vendor/gems57/metric.py (brute-force oracle tests in the shared template); this sandbox could not fetch the page."
+  },
+  {
+    "what": "Official rules PDF (NLR 96647): one-layer 100 m GeoTIFF, weekly submission cap, single final selection",
+    "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+    "verified": "Cited via GEMSDOE32 research/official-rules-review-2026-10-03.md; not re-fetched here."
+  },
+  {
+    "what": "Staff clarification: known USGS/INGENIOUS fault pixels are masked from scoring",
+    "url": "https://community.drivendata.org/t/11516",
+    "verified": "Quoted in GEMSDOE32 knowledge base (fetched there 2026-10-03); not re-fetched here."
+  },
+  {
+    "what": "Staff clarification: 'new fault' = any fault pixel not already captured by USGS/INGENIOUS",
+    "url": "https://community.drivendata.org/t/11536",
+    "verified": "Quoted in GEMSDOE32 knowledge base; not re-fetched here."
+  },
+  {
+    "what": "Organizer reference solution (U-Net Monte-Carlo CV, CPU or GPU)",
+    "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+    "verified": "README fetched in this session 2026-10-21 (commit aebe92f)."
+  },
+  {
+    "what": "USGS GeoDAWN airborne magnetic & radiometric survey (source of the geophysical bands)",
+    "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+    "verified": "Named in the prompt; USGS host not reachable from this sandbox."
+  },
+  {
+    "what": "INGENIOUS project (GBCGE) and GDR submission 1391",
+    "url": "https://gdr.openei.org/submissions/1391",
+    "verified": "Named in the prompt; not reachable from this sandbox."
+  },
+  {
+    "what": "EPSG:32611 (WGS 84 / UTM 11N) -- the competition grid CRS",
+    "url": "https://epsg.io/32611",
+    "verified": "CRS read from the pinned sample_submission.tif = EPSG:32611."
+  },
+  {
+    "what": "Tversky index (metric family)",
+    "url": "https://en.wikipedia.org/wiki/Tversky_index",
+    "verified": "Background only."
+  },
+  {
+    "what": "Faulds et al., structural settings of Great Basin geothermal systems (step-overs, relay ramps, sub-parallel arrays)",
+    "url": "https://www.osti.gov/servlets/purl/1110517",
+    "verified": "Cited via GEMSDOE32 knowledge base; motivates the sub-parallel-array hypothesis."
+  },
+  {
+    "what": "Family's best file and its site (H33-2-B2, owner-report 0.2778)",
+    "url": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html",
+    "verified": "Raster fetched via GitHub API at commit f62038b, sha256 c55bafc4...; the site itself states no organizer score exists in that repo."
+  },
+  {
+    "what": "Shared template (vendor/gems57) origin",
+    "url": "https://github.com/buffedlizard55-lab/GEMSDOE77",
+    "verified": "Files copied unmodified; sha256 match GEMSDOE77 registry/template_pin.json."
+  },
+  {
+    "what": "Ackermann, Schlische, Withjack 2001 — normal-fault spacing scales with brittle-layer thickness",
+    "url": "https://www.sciencedirect.com/science/article/abs/pii/S0191814101000281",
+    "verified": "DOI 10.1016/S0191-8141(01)00028-1 confirmed by search snippet 2026-10-21. Full text not fetched (host not on the sandbox allowlist)."
+  },
+  {
+    "what": "Soliva and Benedicto 2006 — near-regular spacing of layer-bound normal faults",
+    "url": "https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2004JB003507",
+    "verified": "DOI 10.1029/2004JB003507 confirmed by search snippet 2026-10-21. Full text not fetched."
+  },
+  {
+    "what": "GEMSDOE32 page re-fetch: H33-2-B2 has no organiser score on that site",
+    "url": "https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html",
+    "verified": "Fetched 2026-10-21. Page states no organiser score exists; note text says projected 0.2747 UNSCORED. IR-78-20."
+  }
+]

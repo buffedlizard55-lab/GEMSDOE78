@@ -1,0 +1,30 @@
+01:12:34 Exp1 gate (seed30/uniqueness/validator pending): {'cand_beats_ctrl_point': False, 'cand_beats_repo_best_0p1826': False, 'paired_delta_ci_lower_gt_0': False, 'canary_clean': True, 'surface_rho_vs_ctrl_le_0p90': False} cand 0.1729996841092334 ctrl 0.18258300140522551 rho_ctrl 0.9013193107092258
+01:12:34 no seed30 replication file (conditional gate item passes vacuously; see prereg)
+step det_elev done 11s
+step rtp done 22s
+step iso_grav_anom done 34s
+step depth_to_base_surf done 45s
+step cond_surf done 56s
+01:15:55 fit {'n_pos': 60988, 'n_neg': 450000, 'n_features': 73, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 44.4}
+01:18:01 scored
+01:18:13 surface rho max 0.13099103706732979 {'H19-5 solid (121131 px; owner-report 0.1922)': 0.1221, 'D2.8 dots (44090; owner-report 0.2600)': 0.0688, 'H33-2-B2 dots (37654; owner-report 0.2778, source site says UNSCORED)': 0.0512, 'GEMS70 p5 submodular 54k (sha256 00e8e1cb...)': 0.0434, 'H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)': 0.1232, 'H78-A altB2 shipped (44090; inspection only)': 0.131, 'H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)': 0.0667, 'H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)': 0.1238, 'H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)': 0.1226}
+01:18:25 dot overlap {'H19-5 solid (121131 px; owner-report 0.1922)': 0.4326, 'D2.8 dots (44090; owner-report 0.2600)': 0.3926, 'H33-2-B2 dots (37654; owner-report 0.2778, source site says UNSCORED)': 0.3562, 'GEMS70 p5 submodular 54k (sha256 00e8e1cb...)': 0.4527, 'H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)': 0.8167, 'H78-A altB2 shipped (44090; inspection only)': 0.7598, 'H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)': 0.344, 'H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)': 0.8049, 'H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)': 0.8026} unique_ok False
+01:18:25 duplicate-lane vs: ['H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)', 'H78-A altB2 shipped (44090; inspection only)', 'H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)', 'H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)']
+01:18:26 {
+ "verdict": "negative",
+ "ok_to_submit": false,
+ "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+ "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+ "dots": 44090,
+ "gate": {
+  "cand_beats_ctrl_point": false,
+  "cand_beats_repo_best_0p1826": false,
+  "paired_delta_ci_lower_gt_0": false,
+  "canary_clean": true,
+  "surface_rho_vs_ctrl_le_0p90": false,
+  "seed30_delta_point_gt_0": true,
+  "uniqueness_pass": false,
+  "validator_pass": true
+ }
+}
+WROTE /home/user/GEMSDOE78/evidence/h78step_run_card.json

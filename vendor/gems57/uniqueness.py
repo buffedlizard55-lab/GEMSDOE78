@@ -1,25 +1,10 @@
-"""Parallel-run gates, with an information-carrying duplicate test.
+"""Shared literal parallel-run gates.
 
-Two readings are always produced and both are reported:
-
-``literal``
-    positive finite pixels are the inherited support definition.  A
-    whole-footprint (or whole-footprint *halo*, e.g. a 5 px lattice) registry
-    raster is then a universal blocker: **every** nonempty candidate exceeds
-    the 0.70 forward-overlap limit against it, including a uniformly random dot
-    set.  That reading is kept for completeness and for the record.
-
-``like-for-like`` (binding from 2026-10-21, irregularity IR-H85-01)
-    the inherited 0.70 / 0.90 thresholds applied only to priors whose 3 px halo
-    does **not** already cover the allowed domain.  A prior that any random dot
-    set "overlaps" cannot discriminate dot placement, so its firing is not
-    evidence of duplication; counting it as one makes the gate unsatisfiable by
-    construction rather than strict.  The surface rank-correlation test is
-    unaffected and still applies to every prior.
-
-Thresholds are unchanged.  :func:`representation_class` now classifies by the
-quantity the overlap test actually interrogates -- halo coverage of the allowed
-domain -- instead of by raw support fraction, which mislabels a regular lattice.
+Forward overlap above 0.70 or rank correlation above 0.90 blocks against ANY
+registry raster. Dense/lattice priors are not exempt; reverse overlap and
+Jaccard are diagnostic only. Incomplete inventories fail closed. Earlier
+module documentation described an informative-only exception, but the actual
+comparison and summary functions already implement the literal user rule.
 """
 from __future__ import annotations
 import hashlib
@@ -388,10 +373,10 @@ DENSE_HALO_FRACTION = 0.70
 def halo_coverage(support, allowed, radius_px: float = RADIUS_PX) -> float:
     """Fraction of ``allowed`` cells inside the ``radius_px`` halo of ``support``.
 
-    This is the ceiling on the forward-overlap any candidate could report
-    against that prior: ``forward_overlap <= halo_coverage``.  A prior with
-    coverage >= :data:`DENSE_HALO_FRACTION` cannot separate a real submission
-    from a random one.
+    This is the expected overlap for uniformly sampled allowed cells, NOT
+    an upper bound for an arbitrary candidate. A candidate concentrated on
+    the support can have overlap 1 even when halo coverage is much smaller.
+    Only complete allowed-domain coverage proves universal overlap 1.
     """
     sup = np.asarray(support, bool)
     alw = np.asarray(allowed, bool)
@@ -425,15 +410,18 @@ def binding_duplicate_decision(rows, *, rho_limit: float = RHO_LIMIT,
     disc = [r for r in checked
             if float(r.get("halo_coverage", 0.0)) < DENSE_HALO_FRACTION]
     space = [r for r in checked if r not in disc]
-    fwd = [r for r in disc if r.get("forward_overlap") is not None]
+    # Diagnostic representation groups do NOT exempt any prior from the user's
+    # literal >0.70 forward-overlap stop rule. Earlier code silently dropped
+    # space-filling rasters here and could falsely approve a duplicate.
+    fwd = [r for r in checked if r.get("forward_overlap") is not None]
     rho_key = "spearman_full_footprint" if any(
-        "spearman_full_footprint" in r for r in disc) else "spearman"
-    rho = [r for r in disc if r.get(rho_key) is not None]
+        "spearman_full_footprint" in r for r in checked) else "spearman"
+    rho = [r for r in checked if r.get(rho_key) is not None]
     worst_fwd = max(fwd, key=lambda r: r["forward_overlap"]) if fwd else None
     worst_rho = max(rho, key=lambda r: abs(r[rho_key])) if rho else None
     return dict(
         evidence_class="REGISTRY-MEASUREMENT",
-        binding_rule="like-for-like",
+        binding_rule="literal-all-rasters",
         discriminating_priors=len(disc),
         space_filling_priors=len(space),
         space_filling_files=[r.get("file") or r.get("submission") for r in space],
@@ -444,10 +432,9 @@ def binding_duplicate_decision(rows, *, rho_limit: float = RHO_LIMIT,
         overlap_limit=overlap_limit, rho_limit=rho_limit,
         duplicate=bool((worst_fwd and worst_fwd["forward_overlap"] > overlap_limit)
                        or (worst_rho and abs(float(worst_rho[rho_key])) > rho_limit)),
-        note=("A space-filling prior's halo covers >= 70% of the allowed domain, so even a "
-              "uniformly random dot set reports >= 0.70 forward overlap against it; those "
-              "firings are reported under the literal reading and are not evidence of "
-              "duplication. Thresholds are unchanged."))
+        note=("Space-filling priors may make the literal gate impossible for many "
+              "candidate dot sets; they are nevertheless binding under the requested "
+              "rule and must not be silently exempted."))
 
 
 def representation_class(their_dots: int, footprint_cells: int,
