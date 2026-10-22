@@ -267,13 +267,9 @@ def main():
     (DOCS / "sources.html").write_text(sources_page())
     (DOCS / "irregularities.html").write_text(irregularities_page())
     (ROOT / "index.html").write_text('<!doctype html><meta http-equiv="refresh" content="0; url=docs/index.html">')
-    # Historical pages are fail-closed first. The session homepage then
-    # replaces index and the executive summary so the new inspection file
-    # is visible, still with OK TO SUBMIT: NO.
+    # The current common release audit MUST be the final publication step.
     from audit_release import main as audit_release
     audit_release()
-    import runpy
-    runpy.run_path(str(Path(__file__).with_name("build_session_site.py")), run_name="__main__")
     print("site built with fail-closed release audit and session negative")
 
 

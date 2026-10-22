@@ -64,6 +64,10 @@ def test_builders_finish_with_release_audit():
             text = (ROOT / 'docs' / page).read_text()
             assert 'OK TO SUBMIT: NO' in text
             assert 'OK TO SUBMIT: YES' not in text
+            assert 'data/protocol_preflight.json' in text
+            assert '100% forward overlap' in text
+            assert 'h78cs-collinear' in text
+            assert 'h78spy-inspection' in text
 
 
 def test_inventory_covers_every_published_tif():

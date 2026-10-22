@@ -32,7 +32,7 @@ def test_homepage_banner_is_no_and_comes_first():
     html = (ROOT / "docs" / "index.html").read_text()
     assert "OK TO SUBMIT: NO" in html
     assert "OK TO SUBMIT: YES" not in html
-    assert html.find("OK TO SUBMIT: NO") < html.find("Download the NEW TIFF")
+    assert html.find("OK TO SUBMIT: NO") < html.find("Downloads and automatic checks")
     assert "DO-NOT-SUBMIT" in html
     exec_html = (ROOT / "docs" / "executive-summary.html").read_text()
     assert "OK TO SUBMIT: NO" in exec_html

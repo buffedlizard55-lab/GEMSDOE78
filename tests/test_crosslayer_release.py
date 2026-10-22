@@ -28,6 +28,12 @@ def test_publication_hash_bound_and_fails_closed(monkeypatch, tmp_path):
     card = json.loads((ROOT/'evidence/crosslayer_run_card.json').read_text())
     assert card['verdict'] == 'negative' and not card['ok_to_submit']
     assert publisher.publish()['sha256'] == card['raster_sha256']
+    homepage = (ROOT/'docs/index.html').read_text()
+    assert 'data/protocol_preflight.json' in homepage
+    assert '100% forward overlap' in homepage
+    status = json.loads((ROOT/'docs/data/status.json').read_text())
+    assert status['authoritative_card'] == 'release_audit.json'
+    assert not status['current_review_new_tif_generated']
     monkeypatch.setattr(publisher, 'ROOT', tmp_path)
     (tmp_path/'evidence').mkdir()
     (tmp_path/'docs/downloads').mkdir(parents=True)

@@ -115,9 +115,16 @@
   "approved_for_weekly_slot": false,
   "promoted": false,
   "submission_slots_used": 0,
-  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "status": "blocked-do-not-submit",
   "metadata": {
     "lane": "cross-layer step",
     "holdout_only": true
-  }
+  },
+  "historical_release_flags": {
+    "approved_for_weekly_slot": false,
+    "promoted": false,
+    "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval"
+  },
+  "current_release_audit": "../data/release_audit.json",
+  "publication_note": "Historical approval flags are superseded. Download for education only; no upload authorization."
 }

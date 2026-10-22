@@ -373,10 +373,10 @@ DENSE_HALO_FRACTION = 0.70
 def halo_coverage(support, allowed, radius_px: float = RADIUS_PX) -> float:
     """Fraction of ``allowed`` cells inside the ``radius_px`` halo of ``support``.
 
-    This is the ceiling on the forward-overlap any candidate could report
-    against that prior: ``forward_overlap <= halo_coverage``.  A prior with
-    coverage >= :data:`DENSE_HALO_FRACTION` cannot separate a real submission
-    from a random one.
+    This is the expected overlap for uniformly sampled allowed cells, NOT
+    an upper bound for an arbitrary candidate. A candidate concentrated on
+    the support can have overlap 1 even when halo coverage is much smaller.
+    Only complete allowed-domain coverage proves universal overlap 1.
     """
     sup = np.asarray(support, bool)
     alw = np.asarray(allowed, bool)
