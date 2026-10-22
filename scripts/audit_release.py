@@ -63,6 +63,10 @@ def main():
     if cross_path.exists():
         cross = load('evidence/crosslayer_run_card.json')
         specs.append(('H78-CROSSLAYER', cross['submission_name'] + '.tif', 'DUPLICATE + NEGATIVE: separate parallel session generated this file; it failed its holdout control and registry gates. Not generated in this review.'))
+    step_path = ROOT / 'evidence/h78step_run_card.json'
+    if step_path.exists():
+        step = load('evidence/h78step_run_card.json')
+        specs.append(('H78-STEP', step['raster']['file'], 'DUPLICATE + NEGATIVE: parallel session 2026-10-22 (lane H78-STEP) generated this file; HOLDOUT-DTI 0.1730 vs matched control 0.1826 (paired delta -0.0096), score-surface rho vs control 0.9013, forward 3px overlap vs H78-A 0.8167. Full labelled results: evidence/h78step_run_card.json. Not generated in this review.'))
     fw_path = ROOT / 'evidence/h78fw_run_card.json'
     if fw_path.exists():
         fw = load('evidence/h78fw_run_card.json')
@@ -142,7 +146,9 @@ def main():
 <h1>GEMS78 · Submission readiness</h1><div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocks every published candidate, including historical inspection files. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.<p><b>Protocol blocker verified 2026-10-22:</b> a hash-pinned GEMSDOE17 probability raster is positive across the entire footprint. Every nonempty candidate has 100% forward overlap, so none can pass the literal 70% limit. <a href="data/protocol_preflight.json">Automatic certificate</a> · <a href="review-2026-10-22.md">Current review and ranked hypotheses</a>.</p></div>
 <h2>Downloads and automatic checks</h2><div class="table-wrap"><table><tr><th>Candidate</th><th>Local format</th><th>Submission gate</th><th>File</th></tr>''' + rows + '''</table></div>
 <p><a href="downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif">Download inspection GeoTIFF</a> — DO-NOT-SUBMIT. Later H78-SPY file, format-valid and not cleared. <a href="index.html">Homepage</a> states the same gate.</p>
-<p><a href="h78cs.html">H78-CS lane page</a> - session-3 collinear-support file, format-valid, HOLDOUT-DTI negative on two seeds and a duplicate of H78-A (forward overlap 0.8908). Do not submit.</p>\n<p><a href="h78fw.html">H78-FW lane page</a> - 2026-10-22 catalogue-blind flank-warp file, format-valid, HOLDOUT-DTI 0.0482 negative vs the 0.1843 repo best and a literal duplicate of the dense saturation witness (forward overlap 1.0). Do not submit.</p>
+<p><a href="h78cs.html">H78-CS lane page</a> - session-3 collinear-support file, format-valid, HOLDOUT-DTI negative on two seeds and a duplicate of H78-A (forward overlap 0.8908). Do not submit.</p>
+<p><a href="h78step.html">H78-STEP lane page</a> - parallel-session 2026-10-22 cross-strike step-offset file, format-valid, HOLDOUT-DTI 0.1730 vs control 0.1826 and a duplicate of the H78-A dot set (forward overlap 0.8167). Do not submit.</p>
+<p><a href="h78fw.html">H78-FW lane page</a> - 2026-10-22 catalogue-blind flank-warp file, format-valid, HOLDOUT-DTI 0.0482 negative vs the 0.1843 repo best and a literal duplicate of the dense saturation witness (forward overlap 1.0). Do not submit.</p>
 <p><a href="data/release_audit.json">Machine-readable run card and validator output</a> · <a href="review-release.md">Scientific review, hypotheses and next steps</a></p>
 <h2>Executive summary: how a future submission proceeds</h2><ol><li>Generate a genuinely new candidate in the assigned lane. Never rename an old prediction as new.</li><li>Run buffered whole-segment hide-and-recover validation, per-feature canaries and a matched current-best control.</li><li>Check the complete indexed registry before placement and on final dots. Stop for rank correlation above 0.90 or forward overlap above 70%; no mutual-overlap substitution.</li><li>Reopen the TIFF and verify one band, finite values in [0,1], footprint, CRS, shape and transform against the pinned template.</li><li>Only a separate selector may authorize upload after the gates pass and the submission-page weekly cap is checked. The cap is currently unverified.</li><li>Then download the approved TIFF, upload at DrivenData New submission, paste its short note, and preserve the organizer receipt bound to its SHA-256.</li></ol>
 <h2>Why H33 might have performed better</h2><p>The repository's raster forensics support a sparse-emission and catalogue-flank-pruning explanation, not proof of a superior geothermal detector. Near-catalogue pixels are not automatically zero-credit; only exact masked catalogue pixels are excluded. Historical owner-reported leaderboard results do not establish causality or predict a new score.</p>
@@ -171,8 +177,8 @@ def main():
                   current_reason='Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.')
     (ROOT / 'docs/data/status.json').write_text(json.dumps(status, indent=2, allow_nan=False) + '\n')
     notice = '<aside id="release-audit-warning" style="padding:20px;background:#fff1df;color:#172438"><strong>Historical analysis — promotion claims superseded.</strong> Current status: OK TO SUBMIT: NO. <a href="index.html">Read the automatic release audit and current protocol saturation certificate.</a></aside>'
-    for name in ('holdout.html', 'hypotheses.html', 'sources.html', 'irregularities.html', 'h78a.html', 'h78a-executive-summary.html', 'h78cs.html', 'h78cs-executive-summary.html', 'crosslayer.html', 'crosslayer-executive-summary.html'):
-        # NOTE: h78fw.html + h78fw-executive-summary.html are current-session pages whose own
+    for name in ('holdout.html', 'hypotheses.html', 'sources.html', 'irregularities.html', 'h78a.html', 'h78a-executive-summary.html', 'h78cs.html', 'h78cs-executive-summary.html', 'crosslayer.html', 'crosslayer-executive-summary.html', 'h78step.html', 'h78step-executive-summary.html'):
+        # NOTE: h78fw.html + h78fw-executive-summary.html are session pages whose own
         # verdict banner is authoritative; they must NOT receive the historical-analysis notice.
         # A future consolidated review may add them once this session is historical.
         p = ROOT / 'docs' / name

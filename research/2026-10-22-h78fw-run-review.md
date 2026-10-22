@@ -142,3 +142,16 @@ slots used. No organizer receipt exists for any file in this repo.
 5. No DrivenData/USGS/NLR/GDR access from this sandbox (allowlist); weekly cap
    unverified; zero slots used. Any future upload needs a login-bearing machine
    and a receipt bound to the file SHA-256 in `registry/live_scores.csv`.
+
+## Addendum — post-PR merges (2026-10-22 ~01:50 UTC)
+
+While PR #21 was open, main advanced twice: PRs #17–#18 (timestamp refresh +
+independent verification notes, no new science) and PR #19 (parallel lane
+H78-STEP: catalogue-trained cross-strike step learner, HOLDOUT-DTI 0.1730 vs
+control 0.1826, likewise negative + duplicate). Both were merged into this
+branch with additive conflict resolution (both lane specs kept in
+`audit_release.py`, STEP ordered before FW chronologically; both README rows;
+knowledge §9 STEP / §10 FW; 37 unique irregularity entries; a literal `\n`
+defect in the FW lane-link patch fixed to a real newline). Consolidated audit
+now covers **8/8 TIFFs, all format-pass, all blocked**; full suite **71
+passed**; preflight exit 2. FW science, verdict, and numbers are unchanged.

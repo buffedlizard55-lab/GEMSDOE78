@@ -178,5 +178,48 @@
     "severity": "info",
     "what": "GitHub REST API rate-limited (403) during data restore (part-004 of the training stack) and reference fetches; recovered via zero-rate-limit codeload tarball streaming with SHA-256 verification of every byte.",
     "action": "Reassembled training_features.tif matches pinned sha256 4371c82e exactly. Future restores should prefer codeload streaming (scripts/restore_data.py pattern) over gh api for large blobs."
-  }
+  },
+{
+        "id": "IR-78STEP-01",
+        "severity": "medium",
+        "what": "Re-fetched https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html on 2026-10-22: that page again states H33-2-B2 is 'projected live DTI 0.2747 (a MODEL, not a score)', 'NO ORGANISER SCORE EXISTS for this or any artifact in this repository', and its submission note ends 'UNSCORED'. The prompt's 0.2778 (and its two leaderboard highs 0.4413 / 0.3195) therefore remain owner-reports with no organizer receipt available here; the source site contradicts treating 0.2778 as a confirmed score for that file (cf. IR-78-13, IR-78-20).",
+        "action": "H33 structure re-measured from the SHA-256-pinned raster 2026-10-22 (37,654 dots, exact subset of D2.8, 6,436 removed dots at 1.0-2.0 px from the catalogue, NN min 2.83 / median 3.0 px). All scores in this session labelled HOLDOUT-DTI or owner-report; ORGANIZER-CONFIRMED remains null."
+    },
+    {
+        "id": "IR-78STEP-02",
+        "severity": "medium",
+        "what": "The session prompt states 'your lane is the single method paragraph below' but no session-specific method paragraph is present in the prompt as received (same defect as IR-78CS-02). Lane H78-STEP was self-assigned as the top-ranked of five hypotheses written before results (research/h78step_hypotheses.md), which is also deferred hypothesis #1 of docs/review-release.md.",
+        "action": "Flagged for the selector to dedupe if a parallel session was assigned cross-strike profile/step features (evidence/h78step_*)."
+    },
+    {
+        "id": "IR-78STEP-03",
+        "severity": "medium",
+        "what": "Shared site builders scripts/build_site.py and scripts/build_site_mpc.py ended by running scripts/build_session_site.py (the 2026-10-21 H78-SPY session homepage), so any historical rebuild would erase the current session's homepage/status and resurrect the spy session as 'current'.",
+        "action": "Fixed once in the shared builders (2026-10-22): both now end with scripts/build_site_step.py after the fail-closed release audit. build_session_site.py is preserved but no longer chained. tests/test_release_audit.py rebuild path verified to keep the current homepage and OK TO SUBMIT: NO."
+    },
+    {
+        "id": "IR-78STEP-04",
+        "severity": "high",
+        "what": "H78-STEP production dots duplicate the A2-family shipped dot sets despite CAND_STEP sharing ZERO feature columns with A2: forward 3-px overlap 0.8167 vs H78-A primary (0.7598 altB2, 0.8049 H78-SPY, 0.8026 H78-CS; <=0.4527 vs H19-5/D2.8/H33/GEMS70/H78-MPC), and holdout continuous score-surface Spearman rho vs CTRL_A2 = 0.9013 (>0.90 limit). Generalises the session-3 append-lane finding: an HGB trained on the catalogue over this 19-band stack converges to essentially the A2 ranking regardless of per-pixel feature family.",
+        "action": "File labelled NEGATIVE-DUPLICATE-do-not-submit, OK TO SUBMIT: NO on docs/index.html, docs/h78step.html and in its portal note; filename carries DO-NOT-SUBMIT. 0 weekly slots used. Future distinct lanes need different data (1 m lidar/external), a spatial model class (U-Net), or a different target stratum -- not another per-pixel feature family on the same stack/learner."
+    },
+    {
+        "id": "IR-78STEP-05",
+        "severity": "medium",
+        "what": "The literal lane-identity rule (rank rho >0.90 OR forward 3-px dot overlap >0.70 vs ANY registry raster) is unsatisfiable in two edge cases: (a) space-filling family lattice rasters whose 3-px halo covers 99.87% of the footprint make every possible dot set a 'duplicate'; (b) continuous score surfaces of any two competent fault detectors on this stack are naturally rho ~0.90 because faults are where they are (this session: 0.9013 with zero shared columns). The rule therefore measures geological agreement as much as lane identity.",
+        "action": "Applied exactly as written anyway (verdict negative); scope disclosed on the site and in the run card (frozen 9-raster indexed registry, lattice problem named). Recommend the selector define lane identity on method+data provenance, keeping rho/overlap as diagnostics, before any future promote decision."
+    },
+    {
+        "id": "IR-78STEP-06",
+        "severity": "info",
+        "what": "evidence/h78step_holdout_seed20.json and evidence/h78step_run_card.json contain a JSON NaN literal (vendor surface_rho spearman_on_dot_union between two continuous surfaces). Python json parses it; strict JSON parsers may not (same as IR-78CS-05).",
+        "action": "Left verbatim as vendor output for parity with prior evidence; read spearman_full_footprint only, or use a permissive parser."
+    },
+    {
+        "id": "IR-78STEP-07",
+        "severity": "medium",
+        "what": "Post-merge collision discovered at PR time (2026-10-22): parallel sessions merged to main (PRs #16-#18) while H78-STEP ran, including (a) H78-CROSSLAYER, an independent unsigned-physics implementation of the same deferred cross-strike-step hypothesis family, and (b) a consolidated release audit with a universal full-support registry witness (forward overlap 1.0 for every nonempty candidate). At branch point neither existed, so H78-STEP's frozen 9-raster registry could not include them; also the IR-78STEP-03 builder-chain fix is superseded by main's design where audit_release.py is the final publication step, and vendor/gems57/uniqueness.py + scripts/verify_tif.py were extended after this lane's evidence was generated (thresholds unchanged).",
+        "action": "Merged main preserving all parallel evidence; H78-STEP added as a seventh blocked candidate in scripts/audit_release.py (homepage/status owned by the consolidated audit; build_site_step.py curtailed to lane pages only). Dedupe diagnostic in evidence/h78step_vs_crosslayer_overlap.json: forward overlap 0.1699/0.2116, binary surface rho 0.0148 -- the two step implementations are not duplicates of each other, but both stay negative/blocked. Verdict unchanged; 0 slots used."
+    }
 ]
+

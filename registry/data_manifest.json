@@ -87,6 +87,16 @@
       "sha256": "c22420f75999030d7cc65c9e31e50d232ea6158423bca051613a18a8b20ba682",
       "bytes": 26612970,
       "provenance": "owner-derived GeoDAWN K/Th/U/TC; restored but NOT used by lane H78"
+    },
+    {
+      "id": "registry_gems70_p5_submod",
+      "repo": "buffedlizard55-lab/GEMSDOE70",
+      "ref": "158aec19800d4c7b8ca9fb94b06567e2b7d61e8d",
+      "path": "docs/downloads/gems70-p5-submodular-multiphysics-hydro-54000-20261020.tif",
+      "dest": "registry/gems70_p5_submod_54000.tif",
+      "sha256": "00e8e1cb6ea34dbe2f6dc0ba3b7cc0d8d18ae2b0aaec11552bfa3ef11f1ea9f2",
+      "bytes": 173097,
+      "provenance": "family raster (54,000 dots; git blob cd915f3f67ba82aa7f99412fc10f1586b49bfab1), added 2026-10-22 for lane H78-STEP uniqueness registry; the comparator that failed H78-MPC forward overlap at 0.730 (evidence/rechecked_overlap.json)"
     }
   ]
 }
