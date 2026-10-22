@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>GEMSDOE78 — H78-CS collinear support (negative)</title><style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.55;color:#1a1a1a;background:#fafafa}
+.banner{border-radius:12px;padding:22px;margin:18px 0;color:#fff}.ok{background:linear-gradient(135deg,#14663a,#1e9e57)}
+.bad{background:linear-gradient(135deg,#8f1d1d,#c0392b)}.banner h1{margin:0 0 8px;font-size:1.6rem}.big{font-size:1.12rem;font-weight:600}
+.dl{display:inline-block;background:#fff;color:#7a1a1a;font-weight:700;padding:12px 20px;border-radius:8px;text-decoration:none;margin:8px 8px 0 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}td,th{border:1px solid #ddd;padding:7px 9px;text-align:left;font-size:.92rem}
+code{background:#eee;padding:2px 5px;border-radius:4px;word-break:break-all}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px 20px;margin:16px 0}
+.copy{background:#f4f4f4;border:1px dashed #999;border-radius:8px;padding:12px;margin:8px 0}
+img{max-width:100%}.small{font-size:.85rem;color:#555}.warn{background:#fff8e6;border:1px solid #e0b400;border-radius:8px;padding:10px 14px}
+.pass{color:#14663a;font-weight:700}.fail{color:#b3261e;font-weight:700}
+</style></head><body>
+<p><a href="index.html">← Home (H78-A primary)</a> · <a href="h78mpc.html">H78-MPC second candidate</a> ·
+This page is <b>lane H78-CS</b> (session 3, 2026-10-21): strike-following collinear support.</p>
+<p><b>Core Values.</b> <b>Maximize P(Win)</b> — a weekly slot is spent only on a preregistered holdout win;
+a measured negative that saves a slot is a win for the campaign. <b>Own the Outcome</b> — the gate,
+the replication and the duplicate-lane measurement below are all computed and published, not asserted.</p>
+<div class="banner bad"><h1>⛔ OK TO SUBMIT: NO — verdict: negative (inspection only)</h1>
+<p class="big">This lane <b>failed its preregistered gate</b>: CAND_CS pooled HOLDOUT-DTI &gt; CTRL_A2 (same folds/emitter, B3/44090); CAND_CS &gt; 0.1826 (H78-A shipped config B3/44090; repo best incl. @50k dots = 0.1843); paired Δ (CAND − CTRL) 95% CI lower bound &gt; 0; uniqueness pass (surface ρ ≤ 0.90 and 3-px dot overlap ≤ 0.70 vs registry). Do NOT spend a weekly submission slot on this file. The file below is published for inspection and reproducibility — a negative result is a deliverable. Every file in this repo is currently blocked by the release audit - see the <a style="color:#fff;text-decoration:underline" href="index.html">home page</a> for current status.</p>
+<p>Format facts (independent re-read of the written file): single-band float32, 3730×3292,
+EPSG:32611, transform matches sample = True, all finite = True,
+NaN inside footprint = 0, values exactly [0.0, 1.0] ⊂ [0, 1] —
+the <i>"Predicted values must be in range [0, 1]"</i> portal error cannot occur with this file.
+Dots: 44,090; on catalogue: 0; outside footprint: 0.</p>
+<a class="dl" href="downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif">⬇ Download .tif (INSPECTION ONLY)</a>
+<a class="dl" href="downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.zip">⬇ Download .zip (single TIFF inside)</a>
+<a class="dl" href="downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.json">Writer receipt (JSON)</a>
+<a class="dl" href="h78cs-executive-summary.html">Executive summary — exactly how submission works →</a>
+<div class="copy" style="color:#1a1a1a"><b>Unique submission name:</b> <code>gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros</code><br>
+<b>Note (135/140 chars):</b> <code>GEMSDOE78 H78-CS collinear HGB 44090 dots B3; HOLDOUT-DTI 0.1791 s20 vs CTRL 0.1826; NEGATIVE-DUPLICATE-do-not-submit; not a projection</code><br>
+<b>SHA-256:</b> <code>5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43</code> · <b>Verdict:</b> <code>negative</code> ·
+<b>ORGANIZER-CONFIRMED score: none</b> (never uploaded; must not be). A holdout number is never a leaderboard projection.</div></div>
+<div class="card"><h2>The lane in one paragraph</h2>
+<img src="assets/fig_h78cs_surface_and_dots.png" alt="H78-CS production score surface and emitted dots (downsampled x4, display only)">
+<p>Faults are continuous strands: integrating |Hnn|/|gn| (sigma=3 px, det_elev/rtp/depth_to_base_surf) along the visible-catalogue strike tangent over 1.1/3.1 km is a matched filter that should raise faint-strand SNR vs isolated texture; HGB on 103 H78-A + 15 path-integral features; greedy dots &gt;=2.8 px, &lt;=3 px flank removed.</p>
+<p><b>Named non-fault mimic:</b> Pleistocene Lake Lahontan shorelines/beach ridges (long range-front-parallel topographic lines without a magnetic/basement step); roads; bedrock strike ridges.</p>
+<p class="small">Preregistration (written before results): <code>registry/preregistration_h78cs.json</code> ·
+Hypotheses ranked: <code>research/h78cs_hypotheses.md</code> · Code: <code>src/gems78/collinear.py</code>,
+<code>scripts/run_holdout_cs.py</code>, <code>scripts/build_submission_cs.py</code> · Shared evaluator/writer
+unmodified (<code>vendor/gems57</code>, sha256-pinned).</p></div>
+
+<div class="card"><h2>Why the family's best file scored 0.2778 <span class="small">(owner-report; structure measured here)</span></h2>
+<p>DTI = TP<sub>w</sub>/(TP<sub>w</sub>+0.2·FP<sub>w</sub>+0.8·FN<sub>w</sub>) with a 300 m max-credit kernel charges
+0.2 per emitted pixel, so the optimum is binary sparse dots and a dot helps only if its credit exceeds ≈0.2·DTI
+(0.0556 at 0.2778). The chain H19-5 solid (121,131 px, 0.1922) → D2.8 (44,090 dots on the same lines, 0.2600) →
+H33 (exact 37,654-dot subset deleting every dot ≤2 px from the catalogue, 0.2778) changed <i>no detector at all</i> —
+it removed redundant and near-catalogue mass. Beating 0.2778 therefore needs a better <i>ranking</i> of pixels by
+true-fault probability (credit per dot ≈0.13 → ≈0.16 for ~0.32), validated on hide-and-recover holdout — which is
+what this lane attempted and, measured below, did not achieve. Full argument: <a href="hypotheses.html">hypotheses page</a>
+and <code>research/h78cs_hypotheses.md</code> §0. Leaderboard figures in the prompt (0.4413 / 0.3195) are prompt claims,
+not receipts re-verified here (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard, login</a>).</p></div>
+
+<div class="card"><h2>HOLDOUT-DTI — evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives</h2>
+<table><tr><th>Config (B3 flank, 44,090 dots)</th><th>HOLDOUT-DTI</th><th>95% CI</th><th>Withheld</th></tr>
+<tr><td><code>CAND_CS|B3|44090</code> (103 + 15 collinear)</td><td><b>0.1791</b></td><td>[0.1609, 0.1961]</td><td>11,321</td></tr>
+<tr><td><code>CTRL_A2|B3|44090</code> (103, exact H78-A rerun)</td><td>0.1826</td><td>[0.1628, 0.2004]</td><td>11,321</td></tr>
+<tr><td><code>ABL_A0CS|B3|44090</code> (19 raw + 15 collinear)</td><td>0.1634</td><td>[0.1453, 0.1816]</td><td>11,321</td></tr>
+<tr><td>paired Δ CAND − CTRL</td><td colspan="3">-0.0035 [-0.0086, +0.0017]</td></tr>
+<tr><td>far-truth stratum (&gt;10 px from visible faults, 5,150 positives): CAND / CTRL / Δ</td>
+<td colspan="3">0.0725 / 0.0778 / -0.0053 [-0.0102, -0.0005]</td></tr>
+<tr><td>CAND_CS seed-30 replication (IR-78CS-01; cannot promote)</td><td><b>0.1838</b></td><td>[0.1628, 0.2048]</td><td>11,342</td></tr><tr><td>CTRL_A2 seed-30 replication</td><td>0.1834</td><td>[0.1622, 0.2049]</td><td>11,342</td></tr><tr><td>paired Δ seed 30 (CAND − CTRL)</td><td colspan="3">+0.0004 [-0.0053, +0.0058]</td></tr></table>
+<p>The control reproduces the shipped H78-A evidence to four decimals (B3 0.1826, B2 0.1586, B3@50k 0.1843), so the
+instrument is not the explanation: adding along-strike path integrals <b>does not help</b> this model — point-negative
+overall and significantly negative on far-from-catalogue truth, the stratum that most resembles live hidden faults.
+Score-surface Spearman ρ(CAND, CTRL) = 0.9520 on the
+seed-20 surfaces: as a model class this lane sits inside H78-A's lane (amendment IR-78CS-01) and must not be re-proposed
+as a distinct lane.</p>
+<h3>Preregistered gate</h3><table><tr><th>Condition (all required to promote)</th><th>Result</th></tr><tr><td>CAND_CS pooled HOLDOUT-DTI &gt; CTRL_A2 (same folds/emitter, B3/44090)</td><td class="fail">FAIL</td></tr><tr><td>CAND_CS &gt; 0.1826 (H78-A shipped config B3/44090; repo best incl. @50k dots = 0.1843)</td><td class="fail">FAIL</td></tr><tr><td>paired Δ (CAND − CTRL) 95% CI lower bound &gt; 0</td><td class="fail">FAIL</td></tr><tr><td>leakage canary clean (no single-feature symmetric AUC &gt; 0.90)</td><td class="pass">PASS</td></tr><tr><td>uniqueness pass (surface ρ ≤ 0.90 and 3-px dot overlap ≤ 0.70 vs registry)</td><td class="fail">FAIL</td></tr><tr><td>format validator pass (writer + independent re-read)</td><td class="pass">PASS</td></tr></table></div>
+
+<div class="card"><h2>Leakage canary — collinear features (symmetric AUC, threshold 0.90)</h2>
+<p>Max over all 118 features: 0.6022 (a collinear feature,
+<code>cs_det_elev_gn_L5_mean</code> — the features carry univariate signal; they are simply redundant multivariately).
+Flagged: none.</p>
+<table><tr><th>Feature</th><th>Symmetric AUC</th><th>≤0.90</th></tr><tr><td><code>cs_det_elev_gn_L5_mean</code></td><td>0.6022</td><td>PASS</td></tr><tr><td><code>cs_det_elev_gn_L15_mean</code></td><td>0.5977</td><td>PASS</td></tr><tr><td><code>cs_det_elev_Hnn_L5_mean</code></td><td>0.5617</td><td>PASS</td></tr><tr><td><code>cs_det_elev_Hnn_L15_mean</code></td><td>0.5613</td><td>PASS</td></tr><tr><td><code>cs_det_elev_Hnn_L15_min</code></td><td>0.5589</td><td>PASS</td></tr><tr><td><code>cs_rtp_gn_L5_mean</code></td><td>0.5371</td><td>PASS</td></tr><tr><td><code>cs_rtp_gn_L15_mean</code></td><td>0.5367</td><td>PASS</td></tr><tr><td><code>cs_rtp_Hnn_L15_min</code></td><td>0.5348</td><td>PASS</td></tr><tr><td><code>cs_rtp_Hnn_L15_mean</code></td><td>0.5304</td><td>PASS</td></tr><tr><td><code>cs_rtp_Hnn_L5_mean</code></td><td>0.5255</td><td>PASS</td></tr><tr><td><code>cs_depth_to_base_surf_gn_L5_mean</code></td><td>0.5207</td><td>PASS</td></tr><tr><td><code>cs_depth_to_base_surf_gn_L15_mean</code></td><td>0.5207</td><td>PASS</td></tr><tr><td><code>cs_depth_to_base_surf_Hnn_L15_min</code></td><td>0.5016</td><td>PASS</td></tr><tr><td><code>cs_depth_to_base_surf_Hnn_L5_mean</code></td><td>0.5015</td><td>PASS</td></tr><tr><td><code>cs_depth_to_base_surf_Hnn_L15_mean</code></td><td>0.5006</td><td>PASS</td></tr></table></div>
+
+<div class="card"><h2>Uniqueness vs registry (limits: ρ ≤ 0.90, dot overlap ≤ 0.70)</h2>
+<table><tr><th>Registry / shipped raster</th><th>Surface ρ (before placement)</th><th>My dots ≤3 px of theirs</th><th>Their dots ≤3 px of mine</th><th>Final-dot ρ</th></tr><tr><td>H19-5 solid (121131 px; owner-report 0.1922)</td><td>0.1270</td><td>0.4382</td><td>0.3971</td><td>0.0331</td></tr><tr><td>D2.8 dots (44090; owner-report 0.2600)</td><td>0.0714</td><td>0.3982</td><td>0.3678</td><td>0.0174</td></tr><tr><td>H33-2-B2 dots (37654; owner-report 0.2778)</td><td>0.0541</td><td>0.3607</td><td>0.3548</td><td>0.0202</td></tr><tr><td>H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)</td><td>0.1313</td><td>0.8908</td><td>0.8850</td><td>0.2341</td></tr><tr><td>H78-A altB2 shipped (44090; inspection only)</td><td>0.1376</td><td>0.8311</td><td>0.8773</td><td>0.1104</td></tr><tr><td>H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)</td><td>0.0700</td><td>0.3581</td><td>0.4074</td><td>0.0247</td></tr></table>
+<p>Max surface |ρ| 0.1376; max dot overlap 0.8908; passed = False.
+Registry = H19-5, D2.8, H33 + this repo&#x27;s shipped H78-A primary/altB2 and H78-MPC. Duplicate-lane breach (&gt;0.70 dot overlap or &gt;0.90 rho) vs: [&#x27;H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)&#x27;, &#x27;H78-A altB2 shipped (44090; inspection only)&#x27;]. Separately, seed-20 score-surface rho vs the CTRL_A2 surface was 0.9520: as a model class this lane sits inside H78-A (amendment IR-78CS-01).</p></div>
+
+<div class="card"><h2>Format validator (writer receipt checks on the written file)</h2>
+<table><tr><th>Check</th><th>Result</th></tr><tr><td><code>single_band</code></td><td class="pass">PASS</td></tr><tr><td><code>dtype_float32</code></td><td class="pass">PASS</td></tr><tr><td><code>dimensions_3730x3292</code></td><td class="pass">PASS</td></tr><tr><td><code>crs_epsg_32611</code></td><td class="pass">PASS</td></tr><tr><td><code>transform_matches_sample_submission</code></td><td class="pass">PASS</td></tr><tr><td><code>no_nan_anywhere</code></td><td class="pass">PASS</td></tr><tr><td><code>no_inf_anywhere</code></td><td class="pass">PASS</td></tr><tr><td><code>no_sentinel_values</code></td><td class="pass">PASS</td></tr><tr><td><code>range_0_1_guaranteed</code></td><td class="pass">PASS</td></tr><tr><td><code>min_ge_0</code></td><td class="pass">PASS</td></tr><tr><td><code>max_le_1</code></td><td class="pass">PASS</td></tr><tr><td><code>in_footprint_all_finite</code></td><td class="pass">PASS</td></tr><tr><td><code>in_footprint_range_0_1</code></td><td class="pass">PASS</td></tr><tr><td><code>outside_footprint_zero</code></td><td class="pass">PASS</td></tr><tr><td><code>zero_dots_on_mapped_catalogue</code></td><td class="pass">PASS</td></tr></table>
+<p class="small">Independent verifier: <code>python scripts/verify_tif.py docs/downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif</code> (12 checks, does not import lane code).</p></div>
+
+<div class="card"><h2>What this session adds &amp; what next</h2>
+<ul>
+<li><b>Killed hypothesis (measured):</b> straight along-strike integration of steered responses adds nothing to a pointwise steered HGB — do not spend more lanes on feature-append variants of A2 (ρ≈0.95 = same lane).</li>
+<li><b>First across-seed numbers for the repo's best model class</b> (CTRL_A2 seeds 20/30 above) — use the spread, not a single draw, when judging future deltas.</li>
+<li><b>Highest-P(Win) next steps:</b> (1) GPU session: U-Net (organizer reference class) over 19 bands + steered features with the same buffered folds — the only model class with headroom toward 0.32+; (2) km-scale geomorphic-setting context features (hypothesis H78-CTX, ranked #3 in <code>research/h78cs_hypotheses.md</code>) as a genuinely distinct CPU lane; (3) complete the full-registry uniqueness audit for H78-A (release-audit blocker IR-78-16) before any selector considers a slot for any file.</li>
+<li><b>Limitations:</b> holdout truth is catalogue-like and near-halo-biased (IR-78-09 stands); two seeds only; no organizer score exists for any file in this repo; external pages beyond github.com could not be re-fetched from this sandbox (links listed for manual review).</li>
+</ul></div>
+</body></html>

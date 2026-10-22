@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>Executive summary — exactly how to submit · H78-CS (negative)</title><style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:960px;margin:0 auto;padding:24px;line-height:1.55;color:#1a1a1a;background:#fafafa}
+.banner{border-radius:12px;padding:22px;margin:18px 0;color:#fff}.ok{background:linear-gradient(135deg,#14663a,#1e9e57)}
+.bad{background:linear-gradient(135deg,#8f1d1d,#c0392b)}.banner h1{margin:0 0 8px;font-size:1.6rem}.big{font-size:1.12rem;font-weight:600}
+.dl{display:inline-block;background:#fff;color:#7a1a1a;font-weight:700;padding:12px 20px;border-radius:8px;text-decoration:none;margin:8px 8px 0 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:#fff}td,th{border:1px solid #ddd;padding:7px 9px;text-align:left;font-size:.92rem}
+code{background:#eee;padding:2px 5px;border-radius:4px;word-break:break-all}
+.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px 20px;margin:16px 0}
+.copy{background:#f4f4f4;border:1px dashed #999;border-radius:8px;padding:12px;margin:8px 0}
+img{max-width:100%}.small{font-size:.85rem;color:#555}.warn{background:#fff8e6;border:1px solid #e0b400;border-radius:8px;padding:10px 14px}
+.pass{color:#14663a;font-weight:700}.fail{color:#b3261e;font-weight:700}
+</style></head><body>
+<p><a href="h78cs.html">← H78-CS lane page</a> · <a href="index.html">Home (H78-A primary)</a></p>
+<div class="banner bad"><h1>⛔ OK TO SUBMIT: NO — verdict: negative (inspection only)</h1><p class="big">This lane <b>failed its preregistered gate</b>: CAND_CS pooled HOLDOUT-DTI &gt; CTRL_A2 (same folds/emitter, B3/44090); CAND_CS &gt; 0.1826 (H78-A shipped config B3/44090; repo best incl. @50k dots = 0.1843); paired Δ (CAND − CTRL) 95% CI lower bound &gt; 0; uniqueness pass (surface ρ ≤ 0.90 and 3-px dot overlap ≤ 0.70 vs registry). Do NOT spend a weekly submission slot on this file. The file below is published for inspection and reproducibility — a negative result is a deliverable. Every file in this repo is currently blocked by the release audit - see the <a style="color:#fff;text-decoration:underline" href="index.html">home page</a> for current status.</p></div>
+<div class="card"><h2>Exactly how a submission is made (for a file whose banner says YES)</h2>
+<ol>
+<li>Open the lane page and read the banner. A slot may be spent <b>only</b> on a file whose banner is an unqualified YES and which the current <code>evidence/release_audit.json</code> does not block. This lane's file says NO, and at merge time <b>every</b> file in this repo is blocked - stop here; check the <a href="index.html">home page</a> for current status.</li>
+<li>Download the <code>.tif</code> (or the <code>.zip</code> containing that single TIFF) and note the SHA-256 printed beside it. Optionally re-verify locally: <code>python scripts/verify_tif.py &lt;file&gt;.tif</code> must print <code>all_passed: true</code> (single band float32, EPSG:32611, 3730×3292, sample transform, all values finite and in [0, 1] — so the portal error <i>"Predicted values must be in range [0, 1]"</i> cannot occur).</li>
+<li>Go to <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition 306</a> → <i>New submission</i> → choose the <code>.tif</code> (or <code>.zip</code>) file. Confirm the weekly cap shown on that page has room — this system never auto-uploads and has spent 0 slots.</li>
+<li>Paste the lane's unique submission name and the ≤140-character note from its banner (they identify model, dot budget, flank and the labelled HOLDOUT-DTI; they are not a score projection).</li>
+<li>Submit once. Copy the returned score into <code>registry/live_scores.csv</code> labelled <b>ORGANIZER-CONFIRMED</b> (the only label allowed for a portal receipt), then rebuild the site. Until that moment every number for the file is HOLDOUT-DTI or owner-report.</li>
+</ol>
+<p class="small">Competition pages for manual review: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem description</a> ·
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/">about</a> ·
+<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">official rules (PDF)</a> ·
+<a href="https://github.com/drivendataorg/gems-prize-reference-solution">reference solution</a> ·
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a> (login required; not re-fetched from the build sandbox).</p></div>
+<div class="card"><h2>This lane's file (inspection only)</h2>
+<p><code>gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros</code> · SHA-256 <code>5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43</code> · 44,090 dots ·
+HOLDOUT-DTI 0.1791 [0.1609, 0.1961] vs CTRL 0.1826 (evaluator gems57-pooled-hide-v2, seed 20,
+11,321 withheld) · verdict <b>negative</b> · ORGANIZER-CONFIRMED: none.</p>
+<a class="dl" href="downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif">⬇ Download .tif (INSPECTION ONLY)</a>
+<a class="dl" href="downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.zip">⬇ Download .zip</a></div>
+</body></html>

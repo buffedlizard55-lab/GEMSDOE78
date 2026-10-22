@@ -50,6 +50,7 @@ NAV = """<nav>
 <a href="sources.html">Sources</a>
 <a href="irregularities.html">Irregularities</a>
 <a href="h78a.html">Previous H78-A page</a>
+<a href="h78cs.html">H78-CS lane (negative, session 3)</a>
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a>
 </nav>"""
 
@@ -107,6 +108,7 @@ def main():
 <tr><th>File</th><th>Gate</th><th></th></tr>
 <tr><td>H78-SPY, this session</td><td>NO — holdout 0.1808 vs control 0.1826, and 92.45% of dots within 3 px of H78-A</td><td><a href="downloads/{esc(file)}">Download inspection GeoTIFF</a></td></tr>
 <tr><td>H78-A, previous session</td><td>NO — INCOMPLETE uniqueness check: only three lineage rasters (release audit, IR-78-16). Not a measured duplicate, and not cleared.</td><td><a href="downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif">Research TIFF — do not submit</a></td></tr>
+<tr><td>H78-CS, session 3 (merged later)</td><td>NO - HOLDOUT-DTI 0.1791 vs control 0.1826 (seed 20; seed-30 delta +0.0004, CI includes 0), and 89.08% of dots within 3 px of H78-A (duplicate)</td><td><a href="h78cs.html">Lane page + inspection TIFF - do not submit</a></td></tr>
 <tr><td>H78-MPC, previous session</td><td>NO — forward 3 px overlap 0.730 against a non-spacefilling registry raster (IR-78-14). Stop.</td><td><a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif">Research TIFF — do not submit</a></td></tr>
 </table>
 <p>Historical audit: <a href="data/release_audit.json">release_audit.json</a> · <a href="review-release.md">review</a>. This session's card: <a href="downloads/run_card_h78spy.json">run_card_h78spy.json</a>.</p>
