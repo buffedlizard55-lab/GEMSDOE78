@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "lane": "H78-FW",
+  "title": "Multi-scale antisymmetric footwall/hangingwall flank-warp flexure + central potential-field discontinuity",
+  "preregistered_utc": "2026-10-22T01:28:00Z",
+  "hypothesis": "Blind and piedmont normal faults whose narrow (<200 m) surface scarps have been diffused by alluvial-fan deposition or lacustrine reworking retain a broad (0.8-2.8 km) antisymmetric footwall-uplift / hangingwall-subsidence flexural warp in planar-detrended elevation and basement depth, paired with an opposite-sign flank curvature inflection doublet at +/-600 m and cross-layer concordance with central magnetic and isostatic-gravity steps.",
+  "mechanism": "Subtract 1.6 km regional background plane (G_1.5 - G_16.0) on det_elev, depth_to_base_surf, rtp, iso_grav_anom, cond_surf, and tc_totalcount; sample opposing strike-normal flanks at d in {4, 8, 14} px (400 m, 800 m, 1.4 km) using the visible-catalogue regional strike angle phi (sigma=40 px, location-blind) to compute odd-parity flank warp A_d, even-parity arch/trough residual S_d, odd-to-even flexural purity A_d/(A_d+S_d), +/-600 m curvature inflection dipole on det_elev/depth_to_base_surf/rtp/iso_grav_anom, signed cross-layer footwall-basement-gravity concordance, and central vertical-gradient/geodetic strain context (67 features total); HistGradientBoostingClassifier; greedy sparse dot emission at separation >= 2.8 px, visible-catalogue flank <= 3.0 px excluded.",
+  "non_fault_mimic": "Differential sediment compaction across a buried paleotopographic basin margin or tilted volcanic mesa edge.",
+  "holdout_protocol": {
+    "evaluator": "vendor/gems57/evaluate_holdout.py",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "draw": "vendor/gems57/holdout.buffered_component_draw(seed=20, hide_frac=0.20, buffer_px=3)",
+    "withheld_positive_pixels": 11321,
+    "metric": {
+      "alpha": 0.2,
+      "beta": 0.8,
+      "triangular_radius_m": 300
+    },
+    "bootstrap_draws": 1000,
+    "bootstrap_block_side_px": 200,
+    "bootstrap_seed": 520810,
+    "arms": {
+      "CAND_FW_PURE": "67 H78-FW flank-warp + central-discontinuity + strain features (zero centred H78-A Gaussian derivatives, zero catalogue location features)",
+      "ABL_FW_PLUS_A2": "67 H78-FW features + 103 H78-A features (170 features; tests whether appending to A2 collapses back into the H78-A lane)",
+      "CTRL_A2": "103 H78-A features reproduced on the v2-verified feature stack (current repo holdout best control)",
+      "CTRL_A0": "19 raw GeoDAWN/INGENIOUS bands (base model class control)"
+    },
+    "primary_emission": {
+      "flank_px": 3.0,
+      "min_dist_px": 2.8,
+      "budget_dots": 44090,
+      "secondary_budgets": [
+        37654,
+        50000
+      ]
+    }
+  },
+  "gates": {
+    "leakage_canary_max_symmetric_auc": 0.9,
+    "surface_max_abs_spearman_rho": 0.9,
+    "final_dots_max_forward_3px_overlap_literal_all_rasters": 0.7,
+    "final_dots_max_forward_3px_overlap_discriminating_dot_fields": 0.7,
+    "must_beat_ctrl_a2_with_positive_paired_ci95_lower": true
+  },
+  "budget_limit": {
+    "max_experiments": 3,
+    "max_hours": 2,
+    "planned_experiments_this_session": 2
+  }
+}

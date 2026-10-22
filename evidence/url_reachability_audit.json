@@ -1,0 +1,98 @@
+[
+  {
+    "id": "github_reference_solution",
+    "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+    "http_status": 200,
+    "reachable_from_sandbox": true,
+    "error": null,
+    "elapsed_ms": 437.9
+  },
+  {
+    "id": "drivendata_overview",
+    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 73.4
+  },
+  {
+    "id": "drivendata_problem_967",
+    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 61.3
+  },
+  {
+    "id": "drivendata_about_968",
+    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 1089.2
+  },
+  {
+    "id": "drivendata_leaderboard",
+    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 60.0
+  },
+  {
+    "id": "nlr_rules_pdf_96647",
+    "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 57.5
+  },
+  {
+    "id": "usgs_geodawn",
+    "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 62.2
+  },
+  {
+    "id": "gbcge_ingenious",
+    "url": "https://gbcge.org/current-projects/ingenious/",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 109.3
+  },
+  {
+    "id": "openei_gdr_1391",
+    "url": "https://gdr.openei.org/submissions/1391",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 75.2
+  },
+  {
+    "id": "usgs_comcat_api",
+    "url": "https://earthquake.usgs.gov/fdsnws/event/1/version",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 70.8
+  },
+  {
+    "id": "epsg_32611",
+    "url": "https://epsg.io/32611",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 43.1
+  },
+  {
+    "id": "wikipedia_tversky",
+    "url": "https://en.wikipedia.org/wiki/Tversky_index",
+    "http_status": null,
+    "reachable_from_sandbox": false,
+    "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>",
+    "elapsed_ms": 51.9
+  }
+]

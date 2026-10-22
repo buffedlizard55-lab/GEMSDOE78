@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import time
 from pathlib import Path
 
@@ -9,9 +10,22 @@ import numpy as np
 from sklearn.ensemble import HistGradientBoostingClassifier
 
 from . import features as F
-from .data import PROC, load_stack
+from .data import PROC, STACK, load_stack
 from .emit import flank_mask
 from .strike import strike_field
+
+
+def drop_file_cache(path: Path) -> None:
+    """Release Linux kernel page cache for large memmaps inside swapless cgroups."""
+    try:
+        if path.exists() and hasattr(os, "posix_fadvise") and hasattr(os, "POSIX_FADV_DONTNEED"):
+            fd = os.open(str(path), os.O_RDONLY)
+            try:
+                os.posix_fadvise(fd, 0, 0, os.POSIX_FADV_DONTNEED)
+            finally:
+                os.close(fd)
+    except OSError:
+        pass
 
 ARMS = {
     "A0_std19": dict(iso=False, steered=False),
@@ -59,7 +73,9 @@ def build_feature_matrix(tag: str, footprint: np.ndarray, visible: np.ndarray,
         mm[lo:hi] = mats[0]
         del mats
         mm.flush()
-    del mm
+        drop_file_cache(out)
+        drop_file_cache(STACK)
+    del mm, stack
     meta = dict(tag=tag, n_footprint=int(n), n_features=len(names), names=names,
                 strike_sigma_region_px=40.0, strike_sigma_line_px=1.5,
                 visible_catalogue_px=int(np.asarray(visible, bool).sum()),
@@ -68,6 +84,7 @@ def build_feature_matrix(tag: str, footprint: np.ndarray, visible: np.ndarray,
     meta_p.write_text(json.dumps(meta, indent=2))
     np.save(PROC / f"phi_{tag}.npy", phi)
     np.save(PROC / f"coh_{tag}.npy", coh)
+    drop_file_cache(out)
     return out, meta
 
 
@@ -95,12 +112,20 @@ def flat_to_rows(flat_idx: np.ndarray, footprint: np.ndarray) -> np.ndarray:
 
 
 def fit_arm(feats_path: Path, rows_pos: np.ndarray, rows_neg: np.ndarray, arm: str,
-            seed: int = 0, params: dict | None = None):
+            seed: int = 0, params: dict | None = None, chunk: int = 50_000):
     cols = arm_columns(arm)
     mm = np.load(feats_path, mmap_mode="r")
     rows = np.concatenate([rows_pos, rows_neg])
     order = np.argsort(rows)
-    X = np.asarray(mm[rows[order]][:, cols], np.float32)
+    sorted_rows = rows[order]
+    # Read in slices so NumPy never materialises an un-sliced (N, all_cols) copy
+    # on top of mmap page cache inside 3.8 GiB containers (IR-78-OOM-01).
+    X = np.empty((sorted_rows.size, cols.size), np.float32)
+    for lo in range(0, sorted_rows.size, chunk):
+        hi = min(sorted_rows.size, lo + chunk)
+        X[lo:hi] = mm[sorted_rows[lo:hi]][:, cols]
+    del mm
+    drop_file_cache(feats_path)
     y = np.concatenate([np.ones(rows_pos.size, np.int8), np.zeros(rows_neg.size, np.int8)])[order]
     p = dict(max_iter=300, learning_rate=0.06, max_leaf_nodes=63, min_samples_leaf=200,
              l2_regularization=1.0, max_bins=255, early_stopping=False, random_state=seed)
@@ -109,6 +134,7 @@ def fit_arm(feats_path: Path, rows_pos: np.ndarray, rows_neg: np.ndarray, arm: s
     clf = HistGradientBoostingClassifier(**p)
     t0 = time.time()
     clf.fit(X, y)
+    del X, y
     info = dict(arm=arm, n_pos=int(rows_pos.size), n_neg=int(rows_neg.size), n_features=int(cols.size),
                 params=p, fit_seconds=round(time.time() - t0, 1))
     return clf, info
@@ -124,6 +150,8 @@ def score_grid(clf, feats_path: Path, arm: str, footprint: np.ndarray, chunk: in
         hi = min(n, lo + chunk)
         X = np.asarray(mm[lo:hi][:, cols], np.float32)
         out_fp[lo:hi] = clf.predict_proba(X)[:, 1].astype(np.float32)
+    del mm
+    drop_file_cache(feats_path)
     grid = np.zeros(footprint.shape, np.float32)
     grid[footprint] = out_fp
     return grid

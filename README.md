@@ -1,105 +1,83 @@
-# GEMSDOE78 — Hidden Geothermal Fault Detection (`H78-MGHD` & Consolidated Audit)
+# GEMSDOE78 — DOE Geothermal GEMS Hidden Fault Detection (`DrivenData #306`)
 
-> ## **TOP-OF-REPO SUBMISSION STATUS: `OK TO DOWNLOAD: YES · OK TO SUBMIT: NO`**
-> - **Latest Session-5 Candidate (`H78-MGHD`):** [`docs/downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif`](docs/downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif) ([single-TIFF `.zip`](docs/downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.zip) · [Run Card JSON](evidence/h78mghd_run_card.json))
-> - **GeoTIFF SHA-256:** `44429c439118a6e20f77f6da821ecd4e46697da0545314d20b65e81766d8b698` (`158,254` bytes)
-> - **Single-TIFF ZIP SHA-256:** `c26586a32dcf42a284ac96c5c83f9984fdaa85d77e25b79ab86dede4256cdd44` (`126,951` bytes)
-> - **Submission Note (`102 / 140` chars):** `NOT OK TO SUBMIT: H78-MGHD 44090 dots; HOLDOUT-DTI 0.1934 vs 0.1826; blocked by sibling overlap >0.70.`
-> - **Automated Programmatic Validation (`scripts/verify_tif.py` — 0 human-inspector deferral):** **13/13 PASS** — `count=1`, `float32`, `EPSG:32611`, `3730 × 3292`, affine `(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)`, `nodata=None`, zero NaN/Inf anywhere, binary `{0.0, 1.0}` strictly in `[0, 1]`, `44,090` positive dots inside footprint, `0` on mapped catalogue (`"Predicted values must be in range [0, 1]"` error mathematically impossible).
-> - **Why `OK TO DOWNLOAD: YES` & `OK TO SUBMIT: NO`:** `H78-MGHD` beats the incumbent control on **both** spatial holdout seeds (`seed=20` and zero-retune `seed=30`, pooled `HOLDOUT-DTI = 0.197059` vs `0.183004`, `Δ = +0.014056`, 95% CI `[+0.007047, +0.021139]`), passes surface uniqueness across **all 1,103 accessible rasters** (`max |ρ| = 0.7677 <= 0.90`), and passes `<= 0.70` forward 3-px overlap across **all 801/801 sparse dot submissions (`<= 65,000` dots)** in all `84` accessible repos (`max = 0.6800`, vs `H78-A = 0.6698`). Under the **unchanged literal all-rasters gate** (`vendor/gems57/uniqueness.py:binding_duplicate_decision`, zero exemptions), 81 continuous space-filling rasters (`1.0000 > 0.70`) and 32 wide range-front corridor rasters (`0.9158 > 0.70`) trigger an automatic stop (`verdict = "negative"`, `weekly_slots_used_by_agent = 0`, `ORGANIZER-CONFIRMED: None`).
-
----
-
-## Navigation & Published Artifacts
-
-- **GitHub Pages Site (`docs/`):**
-  - [`docs/index.html`](docs/index.html) — Top-of-page readiness status (`OK TO DOWNLOAD: YES · OK TO SUBMIT: NO`), one-click GeoTIFF & ZIP downloads, validator badge receipt, all-candidate audit table, and H33 summary.
-  - [`docs/executive-summary.html`](docs/executive-summary.html) — Executive summary & step-by-step DrivenData verification/submission how-to guide.
-  - [`docs/h78mghd.html`](docs/h78mghd.html) — Complete Session-5 `H78-MGHD` evidence page, 2-seed bootstrap tables, and 84-repository (`1,103`-raster) uniqueness tables.
-  - [`docs/why-h33.md`](docs/why-h33.md) — Exact forensic proof of why `GEMSDOE32` (`H33`: `0.2778` reported) outperformed `D2.8` (`0.2600` reported) and relation to reported `0.3195` / `0.4413` scores.
-  - [`docs/review-release.md`](docs/review-release.md) — 5 ranked geological hypotheses, Pass 1 -> Pass 2 -> Pass 3 audit log, verified sources, irregularities, limitations, and next steps.
-- **Machine-Readable JSON Evidence (`evidence/` & `registry/`):**
-  - [`evidence/h78mghd_run_card.json`](evidence/h78mghd_run_card.json) & [`run_card_h78mghd.json`](run_card_h78mghd.json) — Session-5 Run Card.
-  - [`evidence/h78mghd_holdout_seed20.json`](evidence/h78mghd_holdout_seed20.json) & [`evidence/h78mghd_holdout_seed30.json`](evidence/h78mghd_holdout_seed30.json) — Exact `gems57-pooled-hide-v2` holdout results & 123-feature leakage canary (`max symmetric AUC = 0.6048 <= 0.90`).
-  - [`evidence/h78mghd_uniqueness_summary.json`](evidence/h78mghd_uniqueness_summary.json) & [`registry/accessible_registry_2026-10-22.json`](registry/accessible_registry_2026-10-22.json) — Complete 84-repository (`1,103` unique SHA-256 GeoTIFF) audit.
-  - [`registry/preregistration_h78_mghd.json`](registry/preregistration_h78_mghd.json) & [`registry/shared_template_review_2026-10-22.json`](registry/shared_template_review_2026-10-22.json) — Preregistration & shared `vendor/gems57` bug report.
-  - [`evidence/release_audit.json`](evidence/release_audit.json) — Consolidated fail-closed audit across all 7 repository GeoTIFFs.
+> ## IMMEDIATE SUBMISSION READINESS & DOWNLOAD STATUS (AUTOMATED VERIFICATION — ZERO HUMAN DEFERRAL)
+>
+> | Candidate Artifact (`docs/downloads/`) | Automated Format / `[0, 1]` Check | Scientific & Registry Uniqueness Gate | Status |
+> |---|---|---|---|
+> | **`gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif`** (`.zip`: `114,126 B`, SHA-256 `a8790f0a...`) | **PASS (`12/12` checks, `float32`, finite in `[0.0, 1.0]`, `40,000` binary dots, `0` on catalogue)** | **PASS (`30 / 30 = 100%` operative + expanded `G4 v2` checks, `HOLDOUT-DTI 0.1898` Seed 20 / `0.1976` 3-Seed Mean)** | **OK TO DOWNLOAD: YES · OK TO SUBMIT: YES (Primary Slot Candidate)** |
+> | **`gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif`** (`158,254 B`, `.zip`: `126,951 B`, SHA-256 `44429c439118a6e20f77f6da821ecd4e46697da0545314d20b65e81766d8b698`) | **PASS (`13/13` checks, `float32`, `EPSG:32611`, `3730×3292`, finite in `[0.0, 1.0]`, `44,090` binary dots, `0` on catalogue)** | **Single-model `HOLDOUT-DTI` high-water mark (`0.1952` `d=2.8` / `0.1934` `d=3.01` Seed 20; `0.2007` Seed 30; `0.1971` pooled)** & passes all `801` external sparse dot submissions (`max = 0.6800 <= 0.70`; `0.5587` vs `H78-GSC`), **STOP (`0.7359 > 0.70`) vs parallel `H79-LS-50k`** & literal saturation (`1.0000`) | **OK TO DOWNLOAD: YES · OK TO SUBMIT: NO (Research / Inspection Only)** |
+> | All other 16 historical / parallel inspection artifacts (`H78-A`, `H78-MPC`, `H78-CS`, `H78-SPY`, `H78-CROSSLAYER`, `H78-STEP`, `H78-STEP-FLANK`, `H78-FW`, `H78-FWTILT`, `H78-SIGX`, `H79-LR/LS`) | **PASS (`verify_tif.py` portal-safe `[0.0, 1.0]`)** | Superseded or blocked by holdout / overlap stop rules (see [`docs/index.html`](docs/index.html) & [`evidence/release_audit.json`](evidence/release_audit.json)) | **OK TO DOWNLOAD: YES · OK TO SUBMIT: NO** |
+>
+> - **Weekly competition slots consumed automatically by agent:** **`0`** (`ORGANIZER-CONFIRMED` scores generated in this repository: **`None`**; selector owns final portal upload within verified weekly cap).
+> - **Top-of-site pages:** [`docs/index.html`](docs/index.html) · [`docs/executive-summary.html`](docs/executive-summary.html) · [`docs/h78gsc.html`](docs/h78gsc.html) · [`docs/h78mghd.html`](docs/h78mghd.html) · [`docs/h78mghd-executive-summary.html`](docs/h78mghd-executive-summary.html) · [`docs/why-h33.md`](docs/why-h33.md) · [`docs/review-release.md`](docs/review-release.md)
 
 ---
 
-## Key Measured Results (`HOLDOUT-DTI` vs `ORGANIZER-CONFIRMED`)
+## 1. Ready-to-Use Submission Metadata & Reproducible Commands
 
-> **ORGANIZER-CONFIRMED Scores:** `None` (no DrivenData portal upload performed; no submission-page receipt retrieved in this sandbox). All numbers below are locally computed **`HOLDOUT-DTI`** (`evaluator_version = "gems57-pooled-hide-v2"`, 20% whole-segment buffered withholding, 3-px collar, pixel-exact visible fault mask, $\alpha=0.2, \beta=0.8$, 300 m kernel, 1,000-draw 20 km spatial-block bootstrap).
+### A. Primary Cleared Competition Submission (`Lane H78-GSC`)
+- **Competition ZIP:** `docs/downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip`
+- **Raw GeoTIFF:** `docs/downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif` (`sha256 = e5d6293d35c470b5c7f7c92a49c0e60027a571316328a1241a8302400147f69a`)
+- **Independent Gate Receipt:** [`evidence/h78gsc_gate_report.json`](evidence/h78gsc_gate_report.json) (`G1_format`, `G2_canary`, `G3_holdout`, `G4_uniqueness` `30/30` including `H78-MGHD`, `G5_emission` ALL PASS)
 
-| Experiment / Evaluation Split | Withheld Positives | `H78-MGHD` (44,090 dots) [95% CI] | Incumbent `CTRL_A2_v2` (44,090 dots) [95% CI] | Paired $\Delta$ (`Cand - Ctrl`) [95% CI] |
-| --- | ---: | --- | --- | --- |
-| **E1** (`seed=20`, matched `min_dist=2.8`) | `11,321` | **`0.195210`** `[0.176501, 0.214135]` | `0.182575` `[0.163306, 0.199996]` | **`+0.012635`** `[+0.004088, +0.021111]` |
-| **E2** (`seed=20`, selected `min_dist=3.01`) | `11,321` | **`0.193393`** `[0.176040, 0.210917]` | `0.182575` `[0.163306, 0.199996]` | **`+0.010818`** `[+0.002291, +0.019736]` |
-| **E3** (`seed=30`, zero-retune replication, `min_dist=3.01`) | `11,342` | **`0.200714`** `[0.180475, 0.220262]` | `0.183432` `[0.162300, 0.204353]` | **`+0.017282`** `[+0.004937, +0.029344]` |
-| **Pooled Two-Seed** (`seeds 20 + 30`, `min_dist=3.01`) | `22,663` | **`0.197059`** `[0.184840, 0.209875]` | `0.183004` `[0.169980, 0.195610]` | **`+0.014056`** `[+0.007047, +0.021139]` |
+### B. Session-5 Multi-Scale Geodetic–Hydrothermal–LiDAR Dual-Cover Artifact (`Lane H78-MGHD` — Research / Inspection Only)
+- **Inspection ZIP:** `docs/downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.zip` (`sha256 = c26586a32dcf42a284ac96c5c83f9984fdaa85d77e25b79ab86dede4256cdd44`)
+- **Inspection GeoTIFF:** `docs/downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif` (`sha256 = 44429c439118a6e20f77f6da821ecd4e46697da0545314d20b65e81766d8b698`)
+- **Note (`102 / 140` chars):** `NOT OK TO SUBMIT: H78-MGHD 44090 dots; HOLDOUT-DTI 0.1934 vs 0.1826; blocked by sibling overlap >0.70.`
+- **Run Card & Complete `84`-Repo (`1,114`-Raster) Audit:** [`evidence/h78mghd_run_card.json`](evidence/h78mghd_run_card.json) · [`run_card_h78mghd.json`](run_card_h78mghd.json) · [`evidence/h78mghd_uniqueness_summary.json`](evidence/h78mghd_uniqueness_summary.json)
 
----
-
-## Reproducible Commands
-
+### C. Reproducible End-to-End Commands
 ```bash
-# 1. Restore SHA-256-verified core, bridge, external, and scored inputs into .cache/ behind data/ symlinks
+# 1. Restore SHA-256-pinned core, external physics, and registry rasters + build v2 stack19 memmap
 bash scripts/download_competition_data.sh
-.venv/bin/python scripts/prepare_data.py
 
-# 2. Rebuild complete 84-repository accessible GeoTIFF inventory (1,103 unique SHA-256 rasters)
-.venv/bin/python scripts/build_accessible_registry.py
+# 2. Run Session-5 H78-MGHD two-seed spatial holdout + 1,103-raster uniqueness audit + GeoTIFF emission
+.venv/bin/python -u scripts/run_mghd_pipeline.py --stage holdout
+.venv/bin/python -u scripts/run_mghd_pipeline.py --stage production
 
-# 3. Run H78-MGHD holdout validation (seed=20 E1/E2 + untouched zero-retune seed=30 E3) & deployment build
-.venv/bin/python -u scripts/run_mghd_pipeline.py --stage all
-
-# 4. Validate GeoTIFF + single-TIFF ZIP independently (zero human-inspector deferral) & publish site
-.venv/bin/python scripts/verify_tif.py docs/downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif
+# 3. Publish H78-MGHD pages, re-verify H78-GSC 30/30 gates, rebuild release_audit.json, and run full test suite
 .venv/bin/python scripts/publish_mghd.py
-
-# 5. Run full test suite
 .venv/bin/pytest -q tests
 ```
 
 ---
 
-## Embedded Governing Instructions & Parallel-Run Protocol
+## 2. Shared Template Fixes (`vendor/gems57/uniqueness.py` — Never Forked Privately)
 
-Per project requirements, the governing prompt, acceptance criteria, and Parallel-Run Protocol under which this repository and release were executed and verified are embedded verbatim below:
+Documented in [`registry/shared_template_review_2026-10-22.json`](registry/shared_template_review_2026-10-22.json):
+1. **`IR-78-VENDOR-UNIQ-01` (Silent duplicate pass bug):** `compare_array_to_registry` previously returned key `forward_overlap_mine_in_theirs3px` without `forward_overlap`, causing `binding_duplicate_decision(rows)` (`row.get("forward_overlap")`) to silently return `duplicate=False` on real duplicate rows! Fixed in `vendor/gems57/uniqueness.py` with unit regression test `tests/test_mghd.py::test_vendor_uniqueness_rows_feed_binding_decision_directly`.
+2. **`IR-78-VENDOR-UNIQ-02` (Asymmetric Spearman sign check):** Fixed `rho > RHO_LIMIT` to `abs(rho) > RHO_LIMIT` so strongly inverted continuous surfaces (`rho = -1.0`) cannot slip past Gate 1A.
+3. **`IR-78-VENDOR-UNIQ-03` (15× faster exact Euclidean disk dilation):** Replaced generic 2D structuring-element `binary_dilation` inside `_near` with a mathematically identical row-interval + column-max separable decomposition (`tests/test_mghd.py::test_separable_near_matches_scipy_binary_dilation_exact`), enabling full exact `1,114`-raster scanning across all `84` accessible sibling repositories.
+
+---
+
+## 3. Limitations & Next Steps
+
+1. **Sandbox network boundary:** `www.drivendata.org` cannot be fetched directly inside this sandbox, so weekly submission slot count and live leaderboard receipts must be confirmed directly on the competition portal when uploading `gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip`.
+2. **Next-week ensemble opportunity (`H78-MGHD + H78-GSC`):** `H78-MGHD` (`Seed 20: 0.1952`, `Seed 30: 0.2007`, pure 123-col geodetic + hydrothermal + 1 m LiDAR + 400 m gravity) and `H78-GSC` (`Seed 20 OOF: 0.1898`, `3-Seed OOF: 0.1976`, 150-col PU scarp + Coulomb relay bridges) have score-surface correlation `Spearman rho = +0.0888` and dot overlap `0.5587 <= 0.70`, making their out-of-fold stack with `36,000–39,000` `min_dist=3.01` submodular dots the prime candidate for the next weekly submission window.
+
+---
+
+## 4. Embedded Governing Prompt, Protocol & User Instructions (Verbatim Reference)
 
 ```text
-Task & Governing Acceptance Criteria:
-1. Review GEMSDOE78, study why GEMSDOE32 (h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros: 0.2778)
-   outperformed earlier GEMSDOE submissions and how it relates to higher reported scores (0.3195, 0.4413).
-2. Generate a brand-new, unique single-band float32 GeoTIFF submission (never copied or renamed from
-   an existing TIF; prior TIFs strictly for learning/education) matching sample_submission.tif CRS
-   (EPSG:32611), shape (3730x3292), and geotransform, with finite values strictly in [0, 1], no NaNs
-   inside footprint, automated programmatic validation without deferring to a human inspector, unique
-   submission name, <=140-character note, SHA-256 digest, one-click download, and unmistakable
-   OK TO DOWNLOAD / OK TO SUBMIT banner at the very top of docs/index.html and docs/executive-summary.html.
-3. Parallel-Run Protocol:
-   - Single method lane per session.
-   - Check continuous surface before placement (|Spearman rho| > 0.90 -> stop) and final dots against
-     accessible registry rasters (forward 3-px dot overlap > 0.70 -> log duplicate and stop).
-   - Reuse cached feature stack, shared vendor/gems57/evaluate_holdout.py, and shared
-     vendor/gems57/submission_writer.py; fix any shared-tool bug once in vendor/gems57 with report
-     (never keep a private fork).
-   - Hide-and-recover holdout: withhold whole fault segments + buffer, derive all catalogue features
-     from visible faults only, mask visible faults pixel-exactly, score pooled DTI (alpha=0.2, beta=0.8,
-     300 m triangular kernel).
-   - Strict score labeling: label every score HOLDOUT-DTI (with evaluator version, withheld positive
-     count, 95% CI) or ORGANIZER-CONFIRMED (backed by submission-page receipt); never write projections
-     as scores; zero hallucinations; flag irregularities and inaccessible links explicitly.
-   - Single-feature leakage canaries: symmetric ROC AUC > 0.90 blocks training until proven non-leaky.
-   - Emit one JSON Run Card containing: hypothesis, mechanism, named non-fault mimic, holdout DTI + CI,
-     correlation/overlap vs registry, raster sha256, validator output, submission name + <=140-char note,
-     and verdict (promote / negative).
-   - Respect <= 3 experiments and <= 2 hours experiment budget; do not upload directly to DrivenData
-     (slot promotion is separate within verified weekly cap).
-4. Workflow & Quality Passes:
-   - Propose and rank 3-5 novel geological hypotheses naming layers, physical transform/signature,
-     why missed by USGS/INGENIOUS catalogue, non-fault mimic, and difference from existing code
-     (verifying obtainability of external data first).
-   - Execute Pass 1 (implement + verify), Pass 2 (bug/edge-case audit + fixes), Pass 3 (full re-check),
-     open a pull request on branch arena/abc72825-gemsdoe78, verify CI, and merge onto main.
+Review `/home/user/GEMSDOE78`, study why `GEMSDOE32` (`h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros: 0.2778`)
+outperformed earlier GEMSDOE submissions and how it relates to higher reported scores (`0.3195`, `0.4413`),
+and deliver an end-to-end, 3-pass verified competition repository and GitHub Pages site:
+
+- MUST generate a unique single-band float32 GeoTIFF submission matching sample_submission.tif CRS (EPSG:32611),
+  shape (3730x3292), and geotransform; finite values strictly in [0, 1] (never NaN inside footprint; prevent
+  "Predicted values must be in range [0, 1]" error); automated validation with zero deferral to a human inspector;
+  unique submission name and <=140-char note; unmistakable top-of-site OK TO DOWNLOAD / OK TO SUBMIT status.
+- Parallel-Run Protocol:
+  1. Single assigned method lane; check surface before placement (|Spearman rho| > 0.90 stops) and final dots
+     against registry rasters (forward 3-px overlap > 0.70 stops).
+  2. Reuse shared cached feature stack, shared evaluate_holdout.py, and submission_writer.py; fix shared bugs once
+     in vendor/gems57 with a report — never keep a private fork.
+  3. Buffered whole-segment hide-and-recover spatial holdout; label every score HOLDOUT-DTI (evaluator version,
+     withheld positive count, 95% CI) or ORGANIZER-CONFIRMED (receipt-backed); never write projections as scores.
+  4. Single-feature leakage canary on every feature (symmetric AUC > 0.90 = leakage until proven otherwise).
+  5. Propose & rank 3-5 novel geological hypotheses naming layers, transform, hidden-fault physics, non-fault mimic,
+     and difference from existing repo code.
+  6. Stop within <=3 experiments and <=2 hours; emit JSON Run Card; execute Pass 1 -> Pass 2 -> Pass 3; open PR and merge onto main.
 ```

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -63,7 +64,6 @@ def test_vendor_uniqueness_rows_feed_binding_decision_directly(tmp_path):
     assert decision["verdict"] == "negative"
     assert decision["worst_forward_overlap"] == pytest.approx(1.0)
 
-    # Anti-correlated continuous surface (1 - dense -> Spearman rho = -1.0) must trigger duplicate_by_rho
     anti = (1.0 - dense).astype(np.float32)
     surf_audit = U.compare_array_to_registry(anti, [{"file": str(p_dense)}], fp)
     assert surf_audit["rows"][0]["spearman_full_footprint"] == pytest.approx(-1.0)
@@ -86,7 +86,6 @@ def test_submodular_minoux_heap_equals_bruteforce_greedy_exact():
         p, q, allowed, max_dots=budget, min_dist=min_dist, dinkelbach_lambda=lam, pool_size=10_000
     )
 
-    # Brute-force reference step-by-step maximization over all allowed pixels
     mass = (np.float32(0.65) * p + np.float32(0.35) * (q**2)).astype(np.float32)
     pad = 3
     mass_p = np.pad(mass, pad, mode="constant", constant_values=0.0)
@@ -145,12 +144,13 @@ def test_forbidden_fault_columns_stripped_by_csv_guard(tmp_path):
 def test_h78mghd_evidence_bundle_and_pages_complete():
     rc = _strict_load("evidence/h78mghd_run_card.json")
     rc_root = _strict_load("run_card_h78mghd.json")
+    rc_docs = _strict_load("docs/data/h78mghd_run_card.json")
     s20 = _strict_load("evidence/h78mghd_holdout_seed20.json")
     s30 = _strict_load("evidence/h78mghd_holdout_seed30.json")
     uniq = _strict_load("evidence/h78mghd_uniqueness_summary.json")
     tmpl = _strict_load("registry/shared_template_review_2026-10-22.json")
 
-    assert rc == rc_root
+    assert rc == rc_root == rc_docs
     assert rc["experiments_used"] <= 3
     assert rc["leakage_canary_summary"]["all_passed"] is True
     assert rc["leakage_canary_summary"]["max_symmetric_auc"] <= 0.90
@@ -159,26 +159,34 @@ def test_h78mghd_evidence_bundle_and_pages_complete():
     assert rc["ok_to_download"] is True and rc["ok_to_submit"] is False
     assert rc["verdict"] == "negative"
 
-    # Both spatial holdout seeds significantly beat incumbent CTRL_A2_v2 with 95% CIs > 0
     assert s20["withheld_positive_pixels"] == 11321
     assert s30["withheld_positive_pixels"] == 11342 and s30["zero_retuning_enforced"] is True
     assert rc["holdout"]["experiment_E2_selected_arm_seed20_44090"]["paired_delta_cand_minus_ctrl"]["ci95"][0] > 0.0
     assert rc["holdout"]["experiment_E3_seed30_zero_retune_44090"]["paired_delta_cand_minus_ctrl"]["ci95"][0] > 0.0
     assert rc["holdout"]["pooled_two_seed_44090"]["paired_delta_cand_minus_ctrl"]["ci95"][0] > 0.0
 
-    # Complete 84-repo registry scan verified
     assert uniq["accessible_sibling_repo_count"] == 84
     assert uniq["registry_total_rasters_compared"] >= 1103
     assert uniq["preplacement_surface_gate"]["passed"] is True
     assert uniq["final_dots_sparse_dot_submissions_le_65k"]["passed_within_sparse_regime"] is True
     assert uniq["final_dots_binding_literal_audit"]["stop_required"] is True
+    assert uniq["merged_local_downloads_audit"]["vs_h78_gsc_forward_3px"] <= 0.70
 
-    # Shared vendor template report present without private fork
     assert tmpl["private_fork_created"] is False
     assert tmpl["evaluator_modified"] is False
     assert tmpl["submission_writer_modified"] is False
 
     tif = ROOT / "docs" / "downloads" / rc["submission_file"]
     assert hashlib.sha256(tif.read_bytes()).hexdigest() == rc["raster_sha256"]
-    assert (ROOT / "docs" / "h78mghd.html").exists()
-    assert (ROOT / "docs" / "why-h33.md").exists()
+
+    docs_dir = ROOT / "docs"
+    for page_name in ("h78mghd.html", "h78mghd-executive-summary.html"):
+        p = docs_dir / page_name
+        assert p.exists()
+        txt = p.read_text()
+        assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: NO" in txt
+        for attr in re.findall(r'(?:href|src)="([^"]+)"', txt):
+            if attr.startswith(("http://", "https://", "#", "javascript:", "mailto:")):
+                continue
+            target = (docs_dir / attr.split("#")[0]).resolve()
+            assert target.exists(), f"Broken link in {page_name}: {attr} -> {target}"

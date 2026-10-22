@@ -226,7 +226,20 @@
     "total_rasters_exceeding_0p70": 113,
     "literal_space_filling_blocker_count": 81,
     "binding_rule": "literal-all-rasters",
-    "binding_gate_passed": false
+    "binding_gate_passed": false,
+    "merged_local_downloads_count": 17,
+    "vs_h78_gsc_forward_3px_overlap": 0.558721,
+    "vs_h78_gsc_surface_spearman": 0.088778,
+    "worst_merged_local_sibling": {
+      "file": "gems78-h79ls-lidar-50000dots-20261022T012852Z-e8b05f45-zeros.tif",
+      "sha256": "ea892313fa2cad95e7ad4deba4525c7688c7e7e913f689967149baa5d8674a44",
+      "positive_pixels": 50000,
+      "forward_overlap_mine_in_theirs3px": 0.735927,
+      "reverse_overlap_theirs_in_mine3px": 0.76662,
+      "mutual_overlap_3px": 0.735927,
+      "spearman_surface_full_footprint": 0.12264,
+      "exceeds_0p70_forward": true
+    }
   },
   "submission_name": "gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT",
   "submission_file": "gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif",

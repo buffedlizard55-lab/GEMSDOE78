@@ -1,0 +1,216 @@
+{
+  "lane": "H79-LS lidar-augmented steered",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "label": "primary_B3_50k",
+  "built_utc": "2026-10-22T01:29:48.942820+00:00",
+  "hypothesis": "Unmapped faults express as <5m scarps on piedmont fans visible in USGS 3DEP 1m lidar but not in 100m DEM; adding 12 lidar morphometrics (openness, step, Laplacian, relief, coherence, strike) to the strike-steered HGB raises holdout kernel credit on withheld faults vs same learner without lidar.",
+  "mechanism": "Sub-parallel fault arrays; lidar morphometrics capture low-relief scarp edges (step, curvature) and their coherence/strike; steered derivatives capture regional grain; HGB fuses them; sparse dots \u2265\u221a8 px with catalogue flank removed.",
+  "non_fault_mimic": "Desert pavement edges, dune crests, terrace risers (low coherence, isotropic curvature) and fluvial scarps; lithologic contacts (radiometric) with similar step but different strike coherence.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "candidate": "A3_lidar|nms0_B3|50000",
+    "dti": 0.1897796977106129,
+    "ci95": [
+      0.1723329759435967,
+      0.20691018732894512
+    ],
+    "withheld_positive_pixels": 11321,
+    "seed": 20,
+    "hide_frac": 0.2,
+    "buffer_px": 3,
+    "controls": {
+      "A3_lidar|nms0_B3|50000": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.1897796977106129,
+        "ci95": [
+          0.1723329759435967,
+          0.20691018732894512
+        ],
+        "withheld_positive_pixels": 11321,
+        "tpw": 3546.7687485533284,
+        "fpw": 44613.598360768534,
+        "fnw": 7774.231251446669
+      },
+      "A0_std19|nms0_B2|50000": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.14256265191696707,
+        "ci95": [
+          0.12484464740968271,
+          0.1613344010172037
+        ],
+        "withheld_positive_pixels": 11321,
+        "tpw": 2639.170259187079,
+        "fpw": 44638.599029595985,
+        "fnw": 8681.82974081292
+      },
+      "A1_iso|nms0_B2|50000": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.15142852812956312,
+        "ci95": [
+          0.13424218949343666,
+          0.1695159078376109
+        ],
+        "withheld_positive_pixels": 11321,
+        "tpw": 2806.5986840631326,
+        "fpw": 44580.13908015097,
+        "fnw": 8514.401315936864
+      },
+      "A2_h78_steered|nms0_B3|50000": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "dti": 0.18431154590898757,
+        "ci95": [
+          0.16578477300738595,
+          0.20145090715451924
+        ],
+        "withheld_positive_pixels": 11321,
+        "tpw": 3439.8448192212086,
+        "fpw": 44592.197923966254,
+        "fnw": 7881.155180778787
+      }
+    },
+    "paired_differences": {
+      "A0_std19|nms0_B2|50000": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.04721704579364583,
+        "ci95": [
+          0.03704886604128233,
+          0.057589550516736296
+        ],
+        "withheld_positive_pixels": 11321
+      },
+      "A1_iso|nms0_B2|50000": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.03835116958104978,
+        "ci95": [
+          0.029771044543999932,
+          0.04643509591915839
+        ],
+        "withheld_positive_pixels": 11321
+      },
+      "A2_h78_steered|nms0_B3|50000": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.005468151801625326,
+        "ci95": [
+          -0.0004528559009878986,
+          0.0116580019194464
+        ],
+        "withheld_positive_pixels": 11321
+      },
+      "registry_D2.8_44090": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.09789137303843018,
+        "ci95": [
+          0.08361511150408539,
+          0.11200322078439166
+        ],
+        "withheld_positive_pixels": 11321
+      },
+      "registry_H33_37654": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": 0.18608101711190417,
+        "ci95": [
+          0.16871293136758467,
+          0.2029574130409575
+        ],
+        "withheld_positive_pixels": 11321
+      }
+    },
+    "beats_A0_std19_ci": true,
+    "beats_A1_iso_ci": true,
+    "beats_current_repo_best_ci": false,
+    "canary_clean": true,
+    "max_single_feature_auc": 0.6022
+  },
+  "canary": {
+    "threshold": 0.9,
+    "max_single_feature_auc": 0.6022,
+    "flagged": {},
+    "clean": true
+  },
+  "uniqueness": {
+    "rho_limit": 0.9,
+    "overlap_limit": 0.7,
+    "surface_max_abs_rho": 0.2183,
+    "dots_max_abs_rho": 0.217,
+    "dots_max_overlap_informative": 0.8351,
+    "dots_max_overlap_literal_all": 0.9977,
+    "passed": false,
+    "registry_count": 20,
+    "informative_count": 19
+  },
+  "correlation_overlap_vs_registry": {
+    "strict_protocol_gate_passed": false,
+    "worst_forward_informative": 0.8351,
+    "worst_forward_literal_all": 0.9977
+  },
+  "raster": {
+    "file": "docs/downloads/gems78-h79ls-lidar-50000dots-20261022T012852Z-e8b05f45-zeros.tif",
+    "sha256": "ea892313fa2cad95e7ad4deba4525c7688c7e7e913f689967149baa5d8674a44",
+    "bytes": 165212,
+    "dots": 50000,
+    "variant": "nms0_B3",
+    "budget": 50000,
+    "flank_px": 3.0,
+    "ridge_nms": false,
+    "min_separation_px": 2.8
+  },
+  "validator": {
+    "independent_reread": {
+      "count": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null,
+      "matches_sample": {
+        "crs": true,
+        "shape": true,
+        "transform": true
+      },
+      "all_finite": true,
+      "nan_inside_footprint": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "values_in_0_1": true,
+      "positive_pixels": 50000,
+      "positives_on_catalogue": 0,
+      "positives_outside_footprint": 0,
+      "distinct_values": [
+        0.0,
+        1.0
+      ],
+      "sha256": "ea892313fa2cad95e7ad4deba4525c7688c7e7e913f689967149baa5d8674a44",
+      "bytes": 165212
+    },
+    "passed": true
+  },
+  "raster_sha256": "ea892313fa2cad95e7ad4deba4525c7688c7e7e913f689967149baa5d8674a44",
+  "submission_name": "gems78-h79ls-lidar-50000dots-20261022T012852Z-e8b05f45-zeros",
+  "submission_note": "H79-LS lidar+steered HGB B3 50000dots >=2.8px flank3px; HOLDOUT-DTI 0.1898 s20 n=11321",
+  "weekly_slots_used_by_agent": 0,
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "verdict": "negative-insufficient-gain",
+  "budget": "3 experiments: E1 lidar holdout seed20, E2 (not run: seed30), E3 lidar production + uniqueness + validator; stop",
+  "what_this_cannot_show": "Catalogue hide-and-recover measures recovery of withheld mapped faults; not an organizer score or leaderboard projection."
+}

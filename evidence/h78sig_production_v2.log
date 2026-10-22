@@ -1,0 +1,5 @@
+[surfaces] reused saved full-catalogue surfaces {'CTRL_A2': 'f7790b3cfb0e0cd9f44afe31397e1e6a58f9e88900c77a768906bdb83e64c193', 'SIGX': '91740285ea01e13f83bd927c95ce27a11e7a9c8065fbfa6617f6852ee1bcea19', 'FUSE': 'da197b6307b703a26f5fcf0557358f121f097eb72721564972f29c15813c916a'}
+[surfaces] parent Spearman {'FUSE_vs_CTRL': 0.9207590106808032, 'FUSE_vs_SIGX': 0.9207230484503419, 'SIGX_vs_CTRL': 0.7006703884732384}
+[FUSE] worst |rho| 0.7870  worst gate stat/limit 0.9983  gate PASS
+[SIGX] worst |rho| 0.5798  worst gate stat/limit 0.7649  gate PASS
+WROTE /home/user/GEMSDOE78/docs/downloads/gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif sha256=8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786 in 187.5 s

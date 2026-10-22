@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-# Reproducible competition & external geophysical dataset fetcher.
-# Streams hash-pinned tarballs from codeload.github.com (immune to gh REST API 403 rate limits)
-# into snapshot-excluded .cache/ directories behind data/ symlinks and verifies every 64-hex SHA-256.
+# Reproducible zero-credential restoration of SHA-256-pinned competition inputs,
+# external geodetic/geothermal/LiDAR physics rasters, and cached v2 stack19 memmap.
 set -euo pipefail
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-exec bash "$ROOT/scripts/restore_data.sh" "$@"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+bash "$ROOT/scripts/restore_data.sh"
+if [ -x "$ROOT/.venv/bin/python" ]; then
+  "$ROOT/.venv/bin/python" "$ROOT/scripts/prepare_data.py"
+else
+  python3 "$ROOT/scripts/prepare_data.py"
+fi

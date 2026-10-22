@@ -1,0 +1,470 @@
+{
+  "lane": "H78-STEP cross-strike step-offset concordance",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "branch": "arena/faf23883-gemsdoe78",
+  "built_utc": "20261022T011826Z",
+  "hypothesis": "Buried or blind normal faults that lack a mappable scarp still offset the subsurface across strike: on the downthrown side basement deepens, isostatic gravity and surface elevation fall, and conductive basin fill thickens. Paired flank-mean steps at +/-300, +/-600 and +/-1000 m across the regional strike, normalised by local variability, on magnetics, gravity, basement depth, topography and conductivity, together with explicit cross-layer sign-concordance features (shared throw direction), therefore recover withheld fault segments better than the pointwise steered-derivative learner (H78-A) under an identical emitter.",
+  "mechanism": "For each footprint pixel, with the strike-normal n and tangent t from the visible-catalogue strike field phi (orientation only, never location), sample Gaussian(sigma=1 px)-smoothed bands along the normal at offsets -10,-6,-3,0,3,6,10 px, each point averaged over tangent offsets -3,0,+3 px. Per band (det_elev, rtp, iso_grav_anom, depth_to_base_surf, cond_surf): signed step (v(+k)-v(-k))/(local sigma-10px std at centre + 0.05*global std) for k=3,6,10, its absolute value, and centre deviation (v(0)-(v(+6)+v(-6))/2)/denom signed + abs = 8 features x 5 bands = 40. Concordance from signed steps at k=6 and k=10 (magnetic step excluded from sign logic: anomaly sign depends on magnetisation, not throw): throw_z=(depth -elev -grav +cond)/4, abs, products -depth*elev, -depth*grav, elev*grav, depth*cond, and weakest-concordant min_i(o_i * sign(throw_z)) with o=(depth,-elev,-grav,cond) = 7 x 2 scales = 14. Total 54 STEP features. depth_to_base_surf enters via the stack's pinned log1p transform (data.py LOG_BANDS), disclosed.",
+  "non_fault_mimic": "Intrusive or lithologic contacts (magnetic + gravity step with no fault); basin-margin facies changes and buried paleochannels (conductivity / basement-depth step). The concordance block exists so no single band's step suffices: a contact usually lacks the elevation+gravity+depth throw-consistent combination, a paleochannel lacks the magnetic/gravity basement step.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "evaluator_sha256": {
+      "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+      "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+      "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+      "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+    },
+    "seed": 20,
+    "hide_frac": 0.2,
+    "buffer_px": 3,
+    "withheld_positive_pixels": 11321,
+    "candidate": {
+      "config": "CAND_STEP|B3|44090",
+      "dti": 0.1729996841092334,
+      "ci95": [
+        0.15588761919299393,
+        0.19027510115782803
+      ]
+    },
+    "ctrl": {
+      "config": "CTRL_A2|B3|44090",
+      "dti": 0.18258300140522551,
+      "ci95": [
+        0.1633144660630638,
+        0.20001121108516814
+      ],
+      "note": "exact rerun control (H78-A model class)"
+    },
+    "ablations": {
+      "ABL_A0|B3|44090": {
+        "dti": 0.15857349021019398,
+        "ci95": [
+          0.13955276197229002,
+          0.17771983011338963
+        ]
+      },
+      "ABL_STEPO|B3|44090": {
+        "dti": 0.1198728809687998,
+        "ci95": [
+          0.10477058526612014,
+          0.13564657264309324
+        ]
+      }
+    },
+    "paired_delta_cand_minus_ctrl": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": -0.009583317295992128,
+      "ci95": [
+        -0.017629674583754498,
+        -0.002462783370834324
+      ],
+      "withheld_positive_pixels": 11321
+    },
+    "far_truth_gt10px": {
+      "n_positives": 5150,
+      "scores": {
+        "CTRL_A2|B3|44090": {
+          "dti": 0.07778640614588897,
+          "ci95": [
+            0.06276818856854018,
+            0.09289243519205768
+          ]
+        },
+        "CAND_STEP|B3|44090": {
+          "dti": 0.06961141536955584,
+          "ci95": [
+            0.05649423133872266,
+            0.08311490509974397
+          ]
+        },
+        "ABL_A0|B3|44090": {
+          "dti": 0.048239735477577976,
+          "ci95": [
+            0.03512092959740805,
+            0.06285811483393007
+          ]
+        },
+        "ABL_STEPO|B3|44090": {
+          "dti": 0.07533787261101445,
+          "ci95": [
+            0.0607222186657555,
+            0.09071934308058877
+          ]
+        }
+      },
+      "paired_delta_cand_minus_ctrl": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": -0.00817499077633313,
+        "ci95": [
+          -0.015205592767757382,
+          -0.0013405675851507323
+        ],
+        "withheld_positive_pixels": 5150
+      }
+    },
+    "surface_rho_candidate_vs_ctrl_seed20": {
+      "spearman_on_dot_union": NaN,
+      "n_dot_union": 5167373,
+      "jaccard_dot_sets": 1.0,
+      "spearman_full_footprint": 0.9013193107092258
+    },
+    "budgets_B3": {
+      "CTRL_A2": {
+        "CTRL_A2|B3|37654": 0.1778428424929495,
+        "CTRL_A2|B3|44090": 0.18258300140522551,
+        "CTRL_A2|B3|50000": 0.18431154590898757,
+        "CTRL_A2|B2|44090": 0.1585854369059286
+      },
+      "CAND_STEP": {
+        "CAND_STEP|B3|37654": 0.16848398619468885,
+        "CAND_STEP|B3|44090": 0.1729996841092334,
+        "CAND_STEP|B3|50000": 0.17507821341675536,
+        "CAND_STEP|B2|44090": 0.14924550267219241
+      },
+      "ABL_A0": {
+        "ABL_A0|B3|37654": 0.1529280275170692,
+        "ABL_A0|B3|44090": 0.15857349021019398,
+        "ABL_A0|B3|50000": 0.161118919754397,
+        "ABL_A0|B2|44090": 0.13763017909021377
+      },
+      "ABL_STEPO": {
+        "ABL_STEPO|B3|37654": 0.11753037147988508,
+        "ABL_STEPO|B3|44090": 0.1198728809687998,
+        "ABL_STEPO|B3|50000": 0.11962988860948533,
+        "ABL_STEPO|B2|44090": 0.11394262437220867
+      }
+    }
+  },
+  "replication_seed30": null,
+  "canary": {
+    "threshold": 0.9,
+    "max_single_feature_auc": 0.615,
+    "step_features": {
+      "xs_det_elev_step3_z": 0.5438,
+      "xs_det_elev_step3_absz": 0.615,
+      "xs_det_elev_step6_z": 0.5432,
+      "xs_det_elev_step6_absz": 0.6124,
+      "xs_det_elev_step10_z": 0.5399,
+      "xs_det_elev_step10_absz": 0.6046,
+      "xs_det_elev_dev6_z": 0.572,
+      "xs_det_elev_dev6_absz": 0.5449,
+      "xs_rtp_step3_z": 0.5098,
+      "xs_rtp_step3_absz": 0.528,
+      "xs_rtp_step6_z": 0.508,
+      "xs_rtp_step6_absz": 0.5279,
+      "xs_rtp_step10_z": 0.5049,
+      "xs_rtp_step10_absz": 0.517,
+      "xs_rtp_dev6_z": 0.5032,
+      "xs_rtp_dev6_absz": 0.5096,
+      "xs_iso_grav_anom_step3_z": 0.5133,
+      "xs_iso_grav_anom_step3_absz": 0.5337,
+      "xs_iso_grav_anom_step6_z": 0.5125,
+      "xs_iso_grav_anom_step6_absz": 0.5334,
+      "xs_iso_grav_anom_step10_z": 0.5109,
+      "xs_iso_grav_anom_step10_absz": 0.531,
+      "xs_iso_grav_anom_dev6_z": 0.533,
+      "xs_iso_grav_anom_dev6_absz": 0.5071,
+      "xs_depth_to_base_surf_step3_z": 0.5108,
+      "xs_depth_to_base_surf_step3_absz": 0.5178,
+      "xs_depth_to_base_surf_step6_z": 0.5106,
+      "xs_depth_to_base_surf_step6_absz": 0.5206,
+      "xs_depth_to_base_surf_step10_z": 0.5097,
+      "xs_depth_to_base_surf_step10_absz": 0.5241,
+      "xs_depth_to_base_surf_dev6_z": 0.5112,
+      "xs_depth_to_base_surf_dev6_absz": 0.5157,
+      "xs_cond_surf_step3_z": 0.5053,
+      "xs_cond_surf_step3_absz": 0.5252,
+      "xs_cond_surf_step6_z": 0.5053,
+      "xs_cond_surf_step6_absz": 0.5261,
+      "xs_cond_surf_step10_z": 0.5034,
+      "xs_cond_surf_step10_absz": 0.5242,
+      "xs_cond_surf_dev6_z": 0.5205,
+      "xs_cond_surf_dev6_absz": 0.5201,
+      "xs_conc6_throw_z": 0.519,
+      "xs_conc6_throw_absz": 0.5625,
+      "xs_conc6_prod_depth_elev": 0.5665,
+      "xs_conc6_prod_depth_grav": 0.5448,
+      "xs_conc6_prod_elev_grav": 0.556,
+      "xs_conc6_prod_depth_cond": 0.5014,
+      "xs_conc6_weakest": 0.5147,
+      "xs_conc10_throw_z": 0.516,
+      "xs_conc10_throw_absz": 0.5563,
+      "xs_conc10_prod_depth_elev": 0.566,
+      "xs_conc10_prod_depth_grav": 0.5443,
+      "xs_conc10_prod_elev_grav": 0.5537,
+      "xs_conc10_prod_depth_cond": 0.5007,
+      "xs_conc10_weakest": 0.5135
+    },
+    "flagged": {},
+    "clean": true
+  },
+  "correlation_overlap_vs_registry": {
+    "rho_limit": 0.9,
+    "overlap_limit": 0.7,
+    "registry_scope": "Frozen indexed registry of 9 rasters listed in registry/preregistration_h78step.json; NOT the organizer's complete submission history. Space-filling lattice rasters make the literal rule unsatisfiable by any dot set (standing irregularity, see preregistration).",
+    "surface_before_placement": {
+      "H19-5 solid (121131 px; owner-report 0.1922)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.023441504996833014,
+        "spearman_full_footprint": 0.12212030324147548
+      },
+      "D2.8 dots (44090; owner-report 0.2600)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.00853238192791579,
+        "spearman_full_footprint": 0.06875997036552774
+      },
+      "H33-2-B2 dots (37654; owner-report 0.2778, source site says UNSCORED)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.007286874781441169,
+        "spearman_full_footprint": 0.051243392661629555
+      },
+      "GEMS70 p5 submodular 54k (sha256 00e8e1cb...)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.010450184261906388,
+        "spearman_full_footprint": 0.04336028356196229
+      },
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.00853238192791579,
+        "spearman_full_footprint": 0.12318256067228436
+      },
+      "H78-A altB2 shipped (44090; inspection only)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.00853238192791579,
+        "spearman_full_footprint": 0.13099103706732979
+      },
+      "H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.007286874781441169,
+        "spearman_full_footprint": 0.06668576958423605
+      },
+      "H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.00853238192791579,
+        "spearman_full_footprint": 0.12378149662773047
+      },
+      "H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.00853238192791579,
+        "spearman_full_footprint": 0.12257010199489418
+      }
+    },
+    "final_dots": {
+      "H19-5 solid (121131 px; owner-report 0.1922)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.4326377863461102,
+        "fraction_of_their_dots_within_3px_of_mine": 0.38502943094666103,
+        "spearman_full_footprint": 0.03082297766213272
+      },
+      "D2.8 dots (44090; owner-report 0.2600)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.392628713994103,
+        "fraction_of_their_dots_within_3px_of_mine": 0.3591063733272851,
+        "spearman_full_footprint": 0.01770166748065579
+      },
+      "H33-2-B2 dots (37654; owner-report 0.2778, source site says UNSCORED)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.3561578589249263,
+        "fraction_of_their_dots_within_3px_of_mine": 0.34519572953736655,
+        "spearman_full_footprint": 0.020501325850427087
+      },
+      "GEMS70 p5 submodular 54k (sha256 00e8e1cb...)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.4527103651621683,
+        "fraction_of_their_dots_within_3px_of_mine": 0.2805925925925926,
+        "spearman_full_footprint": 0.011902347847112709
+      },
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.8166704468133363,
+        "fraction_of_their_dots_within_3px_of_mine": 0.8029258335223407,
+        "spearman_full_footprint": 0.1424906149397369
+      },
+      "H78-A altB2 shipped (44090; inspection only)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.7598321614878657,
+        "fraction_of_their_dots_within_3px_of_mine": 0.8130415060104332,
+        "spearman_full_footprint": 0.05439487952911926
+      },
+      "H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.34395554547516444,
+        "fraction_of_their_dots_within_3px_of_mine": 0.39021086737132843,
+        "spearman_full_footprint": 0.02290095968330661
+      },
+      "H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.8048763892039011,
+        "fraction_of_their_dots_within_3px_of_mine": 0.8193014288954411,
+        "spearman_full_footprint": 0.14088929022440477
+      },
+      "H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.8025629394420504,
+        "fraction_of_their_dots_within_3px_of_mine": 0.7960308459968247,
+        "spearman_full_footprint": 0.13818991427570254
+      }
+    },
+    "surface_max_abs_rho": 0.13099103706732979,
+    "dots_max_abs_rho": 0.1424906149397369,
+    "dots_max_overlap": 0.8166704468133363,
+    "passed": false,
+    "duplicate_lane_vs": [
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)",
+      "H78-A altB2 shipped (44090; inspection only)",
+      "H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)",
+      "H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)"
+    ]
+  },
+  "raster": {
+    "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+    "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+    "bytes": 153846,
+    "zip": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.zip",
+    "zip_sha256": "cd27d00313594b48a2ef1c436d01bfb7cd62f00e8096773a3d4335bc85534808",
+    "dots": 44090,
+    "flank_px": 3.0,
+    "budget": 44090,
+    "min_separation_px": 2.8
+  },
+  "raster_sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+  "validator_output": {
+    "independent_reread": {
+      "count": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null,
+      "matches_sample": {
+        "crs": true,
+        "shape": true,
+        "transform": true
+      },
+      "all_finite": true,
+      "nan_inside_footprint": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "values_in_0_1": true,
+      "positive_pixels": 44090,
+      "positives_on_catalogue": 0,
+      "positives_outside_footprint": 0,
+      "distinct_values": [
+        0.0,
+        1.0
+      ],
+      "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+      "bytes": 153846
+    },
+    "passed": true,
+    "writer_receipt_checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match_sample": true
+  },
+  "preregistered_gate_evaluation": {
+    "cand_beats_ctrl_point": false,
+    "cand_beats_repo_best_0p1826": false,
+    "paired_delta_ci_lower_gt_0": false,
+    "canary_clean": true,
+    "surface_rho_vs_ctrl_le_0p90": false,
+    "seed30_delta_point_gt_0": true,
+    "uniqueness_pass": false,
+    "validator_pass": true
+  },
+  "submission_name": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT",
+  "submission_note": "GEMSDOE78 H78-STEP xstrike-step HGB 44090 dots B3; HOLDOUT-DTI 0.1730 s20 vs CTRL 0.1826; NEGATIVE-DUPLICATE-do-not-submit; not a projection",
+  "note_chars": 140,
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "verdict": "negative",
+  "organizer_confirmed_score": null,
+  "organizer_confirmed_note": "none: this file has not been uploaded by this session; 0 weekly slots used",
+  "selector_guidance": "Do NOT spend a weekly slot on this file: it failed the preregistered gate (cand_beats_ctrl_point, cand_beats_repo_best_0p1826, paired_delta_ci_lower_gt_0, surface_rho_vs_ctrl_le_0p90, uniqueness_pass). It is published for inspection/reproducibility only. No file in this repo is currently cleared; see evidence/release_audit.json for prior lanes.",
+  "fit": {
+    "n_pos": 60988,
+    "n_neg": 450000,
+    "n_features": 73,
+    "params": {
+      "max_iter": 300,
+      "learning_rate": 0.06,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 200,
+      "l2_regularization": 1.0,
+      "max_bins": 255,
+      "early_stopping": false,
+      "random_state": 0
+    },
+    "fit_seconds": 44.4
+  },
+  "features_base": {
+    "tag": "full",
+    "n_footprint": 5167373,
+    "n_features": 103,
+    "strike_sigma_region_px": 40.0,
+    "strike_sigma_line_px": 1.5,
+    "visible_catalogue_px": 60988,
+    "coherence_median": 0.5577561259269714,
+    "seconds": 89.8
+  },
+  "features_step": {
+    "tag": "full",
+    "n_footprint": 5167373,
+    "n_features": 54,
+    "bands": [
+      "det_elev",
+      "rtp",
+      "iso_grav_anom",
+      "depth_to_base_surf",
+      "cond_surf"
+    ],
+    "smooth_sigma_px": 1.0,
+    "std_sigma_px": 10.0,
+    "normal_offsets_px": [
+      -10,
+      -6,
+      -3,
+      0,
+      3,
+      6,
+      10
+    ],
+    "tangent_offsets_px": [
+      -3,
+      0,
+      3
+    ],
+    "profile": "straight centre-pixel strike-normal, bilinear, tangent-averaged",
+    "seconds": 61.4
+  },
+  "seconds": 352.3
+}
