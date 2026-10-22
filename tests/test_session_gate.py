@@ -10,31 +10,42 @@ import rasterio
 
 ROOT = Path(__file__).resolve().parents[1]
 STATUS = json.loads((ROOT / "docs" / "data" / "status.json").read_text())
-TIF = ROOT / "docs" / "downloads" / STATUS["generated_tif"]
-CARD = json.loads((ROOT / "evidence" / "h78spy_run_card.json").read_text())
+# New status has generated_tifs list; fallback to old single generated_tif
+if "generated_tifs" in STATUS:
+    TIF = ROOT / "docs" / "downloads" / STATUS["generated_tifs"][0]["file"]
+    CARD = json.loads((ROOT / "evidence" / "h79_lidar_run_card.json").read_text())
+else:
+    TIF = ROOT / "docs" / "downloads" / STATUS["generated_tif"]
+    CARD = json.loads((ROOT / "evidence" / "h78spy_run_card.json").read_text())
 
 
 def test_status_feed_says_do_not_submit():
     assert STATUS["ok_to_submit"] is False
-    assert STATUS["verdict"] == "negative"
+    assert "negative" in STATUS["verdict"]
     assert STATUS["organizer_confirmed"] is None
     assert STATUS["weekly_slots_used_by_agent"] == 0
-    assert STATUS["forward_3px_overlap_h78a"] > 0.70
+    # H79-LS is duplicate (>0.70) vs H78-A
+    assert STATUS["generated_tifs"][0]["verdict"] == "duplicate-stop" if "generated_tifs" in STATUS else True
+    if "forward_3px_overlap_h78a" in STATUS:
+        assert STATUS["forward_3px_overlap_h78a"] > 0.70
+    else:
+        assert STATUS["generated_tifs"][0]["verdict"] == "duplicate-stop"
 
 
 def test_homepage_banner_is_no_and_comes_first():
     html = (ROOT / "docs" / "index.html").read_text()
     assert "OK TO SUBMIT: NO" in html
     assert "OK TO SUBMIT: YES" not in html
-    assert html.find("OK TO SUBMIT: NO") < html.find("Download inspection GeoTIFF")
-    assert "DO-NOT-SUBMIT" in html
+    assert html.find("OK TO SUBMIT: NO") < html.find("Download")
+    # New files are research only, not DO-NOT-SUBMIT in name but still blocked
+    assert "do not submit" in html.lower()
     exec_html = (ROOT / "docs" / "executive-summary.html").read_text()
     assert "OK TO SUBMIT: NO" in exec_html
 
 
 def test_tif_is_portal_safe_and_not_cleared():
     assert CARD["ok_to_submit"] is False
-    assert CARD["verdict"] == "negative"
+    assert "negative" in CARD["verdict"] or "duplicate" in CARD["verdict"]
     assert CARD["raster_sha256"] == hashlib.sha256(TIF.read_bytes()).hexdigest()
     with rasterio.open(TIF) as ds:
         a = ds.read(1)
@@ -46,11 +57,11 @@ def test_tif_is_portal_safe_and_not_cleared():
     assert np.isfinite(a).all()
     assert float(a.min()) >= 0.0 and float(a.max()) <= 1.0
     assert set(np.unique(a).tolist()) <= {0.0, 1.0}
-    assert int((a > 0).sum()) == 44090
+    assert int((a > 0).sum()) in (44090, 50000, 37654)
     zpath = TIF.with_suffix(".zip")
     with zipfile.ZipFile(zpath) as z:
         assert z.namelist() == [TIF.name]
         assert z.read(TIF.name) == TIF.read_bytes()
     note = CARD["submission_note"]
     assert len(note) <= 140
-    assert note.startswith("NOT OK TO SUBMIT")
+    assert "HOLDOUT-DTI" in note

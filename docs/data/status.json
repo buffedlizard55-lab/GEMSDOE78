@@ -1,27 +1,40 @@
 {
-  "session": "2026-10-21 tooth then spy",
-  "generated_tif": "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif",
-  "ok_to_download_for_inspection": true,
+  "session": "2026-10-22 H79 lidar-augmented",
+  "generated_tifs": [
+    {
+      "file": "gems78-h79ls-lidar-50000dots-20261022T012852Z-e8b05f45-zeros.tif",
+      "sha256": "ea892313fa2cad95e7ad4deba4525c7688c7e7e913f689967149baa5d8674a44",
+      "holdout_dti": 0.1897796977106129,
+      "holdout_ci": [
+        0.1723329759435967,
+        0.20691018732894512
+      ],
+      "dots": 50000,
+      "ok_to_download_for_inspection": true,
+      "ok_to_submit": false,
+      "verdict": "duplicate-stop",
+      "reason": "HOLDOUT-DTI 0.1898 vs control 0.1843 \u0394+0.0054 [-0.0004,+0.0117] includes 0; duplicate forward 0.835>0.70 vs H78-A"
+    },
+    {
+      "file": "gems78-h79lr-lidar-raw-44090dots-20261022T014634Z-7bd9b44f-zeros.tif",
+      "sha256": "f716765eb5523f84b0147dfab4b3f46e813fdc847d13fd6ffd82addb7d661c2e",
+      "holdout_dti": 0.1696,
+      "holdout_ci": [
+        0.15,
+        0.188
+      ],
+      "dots": 44090,
+      "ok_to_download_for_inspection": true,
+      "ok_to_submit": false,
+      "verdict": "duplicate-stop",
+      "reason": "HOLDOUT-DTI 0.1696 <0.1826 and duplicate 0.789>0.70; unique but below best"
+    }
+  ],
+  "ok_to_download": true,
   "ok_to_submit": false,
-  "verdict": "negative",
-  "reason": "HOLDOUT-DTI did not beat 0.1826, and 92.45% of dots lie within 3 px of H78-A (duplicate lane).",
-  "holdout_dti": 0.18077914125502179,
-  "holdout_ci95": [
-    0.16226503151974203,
-    0.19852760694969213
-  ],
-  "control_dti": 0.1825746728455537,
-  "paired_delta": -0.001795531590531918,
-  "paired_delta_ci95": [
-    -0.0069339379661185535,
-    0.003693031687086105
-  ],
+  "verdict": "negative-duplicate-stop + negative-below-best",
   "evaluator": "gems57-pooled-hide-v2",
   "withheld_positive_pixels": 11321,
-  "organizer_confirmed": null,
   "weekly_slots_used_by_agent": 0,
-  "sha256": "0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3",
-  "duplicate_of": "H78-A",
-  "forward_3px_overlap_h78a": 0.9244726695395782,
-  "validator_independent_all_passed": true
+  "organizer_confirmed": null
 }
