@@ -196,7 +196,9 @@ def main():
     (DOCS / "executive-summary.html").write_text(
         page("Executive summary — how a submission is made, and why this one is not cleared", steps)
     )
-    print("session site written", file)
+    from audit_release import main as audit_release
+    audit_release()
+    print("session site written; current consolidated gate applied", file)
 
 
 if __name__ == "__main__":

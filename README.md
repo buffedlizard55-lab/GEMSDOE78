@@ -1,5 +1,11 @@
 # GEMSDOE78 — automated submission-readiness review
 
+## Latest review — 2026-10-22
+
+The automated release audit now revalidates **all five published TIFFs**, including SPY and the H78-A alternative. All pass local format checks; **none is cleared for submission**. No new unique TIFF or model experiment was generated in this review because the assigned method paragraph is absent and historical duplicate-stop failures remain unresolved. This is an unmet deliverable, not a claim of success.
+
+[Three-pass review and limitations](docs/review-2026-10-22.md) · [Current JSON status](docs/data/status.json). The software suite passes 40 tests. All site rebuild entry points finish with the consolidated gate; malformed TIFF/ZIP inputs fail closed.
+
 ## Download status: YES to download · NO to submit
 
 **Every TIFF in this repository is downloadable for inspection, and none is approved for a competition slot.**

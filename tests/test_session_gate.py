@@ -10,16 +10,18 @@ import rasterio
 
 ROOT = Path(__file__).resolve().parents[1]
 STATUS = json.loads((ROOT / "docs" / "data" / "status.json").read_text())
-TIF = ROOT / "docs" / "downloads" / STATUS["generated_tif"]
 CARD = json.loads((ROOT / "evidence" / "h78spy_run_card.json").read_text())
+TIF = ROOT / "docs" / "downloads" / CARD["file"]
 
 
 def test_status_feed_says_do_not_submit():
     assert STATUS["ok_to_submit"] is False
     assert STATUS["verdict"] == "negative"
-    assert STATUS["organizer_confirmed"] is None
-    assert STATUS["weekly_slots_used_by_agent"] == 0
-    assert STATUS["forward_3px_overlap_h78a"] > 0.70
+    assert STATUS["organizer_confirmed_score"] is None
+    assert STATUS["new_tif_generated"] is False
+    row = next(c for c in STATUS["candidates"] if c["file"] == CARD["file"])
+    assert row["ok_to_submit"] is False
+    assert row["validator"]["all_passed"]
 
 
 def test_homepage_banner_is_no_and_comes_first():
