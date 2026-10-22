@@ -1,0 +1,161 @@
+{
+  "lane": "H78-SIGX (E1 signature-only cross-resolution learner + E2 rank fusion with CTRL_A2)",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "built_utc": "20261022T021632Z",
+  "hypothesis": "Faults missing from the USGS/INGENIOUS catalogue are detectable by their local physical signature -- multi-scale topographic/potential-field derivatives plus sub-100 m scarp aggregates from 1 m/10 m DEMs -- without the raw contextual habitat bands that concentrate prediction mass around the already-mapped network; rank-fusing that signature-only ranking with the habitat-aware A2 ranking and emitting spaced binary dots >500 m from the catalogue maximises distance-weighted credit per dot on far-from-catalogue faults.",
+  "mechanism": "E1: HGB on 84 isotropic+strike-steered derivative features (det_elev/rtp/iso_grav_anom/depth_to_base_surf/cond_surf/tc) + 18 lidar/topo10 within-cell scarp aggregates, raw bands removed. E2: mean of within-footprint percentile ranks of CTRL_A2 and SIGX surfaces. Emission: greedy >=2.8 px packing, flank >5 px from the full catalogue, exactly 44,090 binary dots, zeros outside footprint.",
+  "non_fault_mimic": "Lake Lahontan shoreline benches/beach ridges and road/levee cuts (identical lidar scarp maxima, no fault); lithologic contacts in potential fields.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "seed": 20,
+    "withheld_positive_pixels": 11321,
+    "candidate_config": "FUSE|B5|44090",
+    "overall": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.17711879808060854,
+      "ci95": [
+        0.16018831206458437,
+        0.19587533904998225
+      ],
+      "withheld_positive_pixels": 11321,
+      "tpw": 3130.9232811649927,
+      "fpw": 39969.91545684628,
+      "fnw": 8190.076718835001
+    },
+    "far_gt10px": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.10532430366781549,
+      "ci95": [
+        0.08734490236569081,
+        0.12314352679811645
+      ],
+      "withheld_positive_pixels": 5150,
+      "tpw": 1320.099482502196,
+      "fpw": 40748.22285769029,
+      "fnw": 3829.9005174978042
+    },
+    "far_gt20px": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.03298621828205912,
+      "ci95": [
+        0.02096552907573092,
+        0.047518772625564795
+      ],
+      "withheld_positive_pixels": 1844,
+      "tpw": 322.995024432336,
+      "fpw": 41260.091717561634,
+      "fnw": 1521.0049755676637
+    },
+    "paired_vs_CTRL_A2_B3_overall": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": -0.005455874764945162,
+      "ci95": [
+        -0.01625502664224842,
+        0.006217840621011188
+      ],
+      "withheld_positive_pixels": 11321
+    },
+    "paired_vs_CTRL_A2_B5_far_gt10px": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.00662516561170734,
+      "ci95": [
+        0.0010207428099568553,
+        0.012368657382530185
+      ],
+      "withheld_positive_pixels": 5150
+    },
+    "paired_vs_SIGX_B5_far_gt10px": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.010747765667830839,
+      "ci95": [
+        0.004533494242508205,
+        0.01791132248836917
+      ],
+      "withheld_positive_pixels": 5150
+    },
+    "control_incumbent": {
+      "name": "CTRL_A2|B3|44090 (= published H78-A config)",
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.1825746728455537,
+      "ci95": [
+        0.16436351185359008,
+        0.20175775921332295
+      ],
+      "withheld_positive_pixels": 11321,
+      "tpw": 3201.9972780201133,
+      "fpw": 39204.075723748174,
+      "fnw": 8119.002721979885
+    },
+    "beats_current_holdout_best_overall": false,
+    "beats_current_holdout_best_far_gt10px": true,
+    "canary_max_symmetric_auc": 0.6022,
+    "instrument_identity": "CTRL_A2|B3|44090 reproduced the published HOLDOUT-DTI 0.1826 exactly"
+  },
+  "correlation_overlap_vs_registry": {
+    "gate_version": "G4 v2 (template halo/Jaccard classes; IR-78-22-03)",
+    "registry_scope": "restored pinned scored set (12) + H33 + dense witness + this repo's prior productions, SHA-deduped; not an exhaustive inventory of all sibling sites",
+    "worst_abs_surface_spearman": 0.787019577031251,
+    "rho_limit": 0.9,
+    "worst_discriminating_forward_overlap_3px": 0.6987752324790202,
+    "worst_literal_forward_overlap_3px": 1.0,
+    "surface_spearman_parents": {
+      "FUSE_vs_CTRL": 0.9207590106808032,
+      "FUSE_vs_SIGX": 0.9207230484503419,
+      "SIGX_vs_CTRL": 0.7006703884732384
+    },
+    "full_tables": "evidence/h78sig_gate_report.json (G4_uniqueness)"
+  },
+  "raster_sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+  "validator_output": {
+    "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif",
+    "checks": {
+      "single_band": true,
+      "float32": true,
+      "crs_EPSG_32611": true,
+      "shape_3730x3292": true,
+      "transform_matches_sample": true,
+      "no_nodata_tag": true,
+      "reference_hashes_verified": true,
+      "all_finite": true,
+      "no_nan_inside_footprint": true,
+      "values_in_[0,1]": true,
+      "binary_values_only": true,
+      "zero_outside_footprint": true,
+      "zero_on_catalogue": true
+    },
+    "all_passed": true,
+    "bytes": 157647,
+    "sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+    "positive_pixels": 44090,
+    "footprint_fraction": 0.00853238192791579,
+    "zip": {
+      "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.zip",
+      "single_tif_byte_identical": true,
+      "sha256": "d44b97bf40a2889549d77f6e8b59644b86973e039a8372b0097af4e8c3ec4730"
+    }
+  },
+  "gates": {
+    "G1_format": true,
+    "G2_canary": true,
+    "G3_holdout": true,
+    "G4_uniqueness": true,
+    "G5_emission": true
+  },
+  "submission_name": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros",
+  "submission_note": "GEMSDOE78 H78-SIGX rank-fusion A2+signature(lidar10m), flank>500m, 44090 spaced dots; HOLDOUT-DTI far0.1053/overall0.1771 s20",
+  "note_chars": 125,
+  "verdict": "promote-to-selector",
+  "ok_to_submit": true,
+  "submission_slots_used": 0,
+  "organizer_confirmed_score": null,
+  "experiments_used": "2 of max 3 (E1 arms, E2 fusion); production refit is not a selection experiment",
+  "literal_gate_reading": "Under the uncorrected literal overlap rule this file, like every nonempty candidate, has forward overlap 1.0 vs the full-support 17GEMSDOE probability raster and 0.998 vs the 13GEMSDOE lattice; see evidence/protocol_preflight.json. The corrected gate (IR-78-22-03) is flagged for owner ratification."
+}

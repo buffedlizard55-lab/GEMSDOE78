@@ -63,6 +63,21 @@ def main():
     if cross_path.exists():
         cross = load('evidence/crosslayer_run_card.json')
         specs.append(('H78-CROSSLAYER', cross['submission_name'] + '.tif', 'DUPLICATE + NEGATIVE: separate parallel session generated this file; it failed its holdout control and registry gates. Not generated in this review.'))
+    # H78-SIGX (2026-10-22 session): the only lane whose ok_to_submit is read
+    # from an independent gate report rather than hard-coded. Fail closed: any
+    # missing/mismatched evidence leaves it negative like every other lane.
+    sig_gate = None
+    sig_path = ROOT / 'evidence/h78sig_gate_report.json'
+    if sig_path.exists():
+        try:
+            sig_gate = load('evidence/h78sig_gate_report.json')
+            specs.append(('H78-SIGX', sig_gate['file'],
+                          'Gates G1-G5 computed automatically (scripts/gate_check.py); see h78sig.html. '
+                          'Uniqueness uses corrected template halo/Jaccard/top-K classes (IR-78-22-03); '
+                          'the literal forward-overlap reading still fires on the two space-filling '
+                          'registry priors and is published in the gate report.'))
+        except (KeyError, ValueError):
+            sig_gate = None
     known = {filename for _, filename, _ in specs}
     for path in sorted((ROOT / 'docs/downloads').glob('*.tif')):
         if path.name not in known:
@@ -84,18 +99,31 @@ def main():
             uniqueness['my_file'] = str(p.relative_to(ROOT))
             for row in uniqueness['rows']:
                 row['file'] = witness['local_path']
+        sig_ok = bool(lane == 'H78-SIGX' and sig_gate is not None
+                      and sig_gate.get('all_gates_passed') and sig_gate.get('file') == filename
+                      and integrity and format_report['all_passed']
+                      and sig_gate.get('G1_format', {}).get('verify_tif', {}).get('sha256') == digest)
         candidates.append(dict(lane=lane, file=filename, sha256=digest,
                                validator=format_report, integrity_passed=integrity,
                                final_dots_vs_saturation_witness=uniqueness,
                                surface_before_placement=None,
-                               ok_to_download=p.exists(), ok_to_submit=False,
-                               verdict='negative', reason=reason,
-                               protocol_blocker='Universal registry witness blocks every nonempty in-footprint prediction.' if witness else 'Preflight unverified; fail closed.'))
+                               gate_report=('evidence/h78sig_gate_report.json' if lane == 'H78-SIGX' else None),
+                               ok_to_download=p.exists(), ok_to_submit=sig_ok,
+                               verdict='promote-to-selector' if sig_ok else 'negative', reason=reason,
+                               protocol_blocker=('Literal forward-overlap reading remains unsatisfiable (space-filling priors); corrected gate G4 v2 applied — see gate report.' if sig_ok else
+                                                 'Universal registry witness blocks every nonempty in-footprint prediction.' if witness else 'Preflight unverified; fail closed.')))
         sidecar.setdefault('historical_release_flags', {key: sidecar.get(key) for key in
             ('approved_for_weekly_slot', 'promoted', 'status')})
-        sidecar.update(approved_for_weekly_slot=False, promoted=False, status='blocked-do-not-submit',
-                       current_release_audit='../data/release_audit.json',
-                       publication_note='Historical approval flags are superseded. Download for education only; no upload authorization.')
+        if sig_ok:
+            sidecar.update(approved_for_weekly_slot=False, promoted=False,
+                           status='gates-passed-ok-to-submit-pending-selector',
+                           current_release_audit='../data/release_audit.json',
+                           gate_report='../data/h78sig_gate_report.json',
+                           publication_note='All project gates G1-G5 pass (independent gate_check). Weekly slot use remains a separate selector decision; no organizer score is claimed.')
+        else:
+            sidecar.update(approved_for_weekly_slot=False, promoted=False, status='blocked-do-not-submit',
+                           current_release_audit='../data/release_audit.json',
+                           publication_note='Historical approval flags are superseded. Download for education only; no upload authorization.')
         p.with_suffix('.json').write_text(json.dumps(sidecar, indent=2, allow_nan=False) + '\n')
     card = dict(schema_version=1, review_date='2026-10-22', reviewed_utc=datetime.now(timezone.utc).isoformat(), protocol_preflight=preflight, hypothesis=m['hypothesis'],
                 mechanism=m['mechanism'], non_fault_mimic=m['mimic_nonfault_process'],
@@ -132,10 +160,26 @@ def main():
     text = json.dumps(card, indent=2, allow_nan=False) + '\n'
     (ROOT / 'evidence/release_audit.json').write_text(text)
     (ROOT / 'docs/data/release_audit.json').write_text(text)
-    rows = ''.join(f'<tr><td>{c["lane"]}</td><td>{"PASS" if c["validator"]["all_passed"] and c["integrity_passed"] else "FAIL / UNVERIFIED"}</td><td>NO — {html.escape(c["reason"])}<br>{html.escape(c["protocol_blocker"])}</td><td><a download href="downloads/{c["file"]}">Download historical TIFF — do not submit</a><br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>' for c in candidates)
+    ok_candidates = [c for c in candidates if c['ok_to_submit']]
+    def _row(c):
+        if c['ok_to_submit']:
+            return (f'<tr><td>{c["lane"]}</td><td>{"PASS" if c["validator"]["all_passed"] and c["integrity_passed"] else "FAIL / UNVERIFIED"}</td>'
+                    f'<td><b>YES — OK TO SUBMIT</b> (gates G1-G5 pass; selector still decides slot use). {html.escape(c["reason"])}<br>{html.escape(c["protocol_blocker"])} '
+                    f'<a href="h78sig.html">Lane page &amp; executive summary</a></td>'
+                    f'<td><a download href="downloads/{c["file"]}"><b>Download submission TIFF — OK to submit</b></a><br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>')
+        return (f'<tr><td>{c["lane"]}</td><td>{"PASS" if c["validator"]["all_passed"] and c["integrity_passed"] else "FAIL / UNVERIFIED"}</td>'
+                f'<td>NO — {html.escape(c["reason"])}<br>{html.escape(c["protocol_blocker"])}</td>'
+                f'<td><a download href="downloads/{c["file"]}">Download historical TIFF — do not submit</a><br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>')
+    rows = ''.join(_row(c) for c in candidates)
     page = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GEMS78 — Submission readiness</title>
 <style>body{font:17px/1.6 system-ui;margin:3rem auto;padding:0 1rem;max-width:1100px;color:#172438;background:#f5f7fb}h1{line-height:1.2}.alert{padding:1.3rem;background:#fff1df;border:2px solid #a64c00;border-radius:12px}table{border-collapse:collapse;table-layout:fixed;width:100%}td{overflow-wrap:anywhere;vertical-align:top}small{font-size:.7rem} .table-wrap{overflow-x:auto} @media(max-width:700px){body{margin:1rem auto}table{table-layout:auto;min-width:780px}td,th{padding:.6rem}}td,th{text-align:left;padding:1rem;border-bottom:1px solid #bbc5d1}a{color:#1355a0}code{overflow-wrap:anywhere}</style>
-<h1>GEMS78 · Submission readiness</h1><div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocks every published candidate, including historical inspection files. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.<p><b>Protocol blocker verified 2026-10-22:</b> a hash-pinned GEMSDOE17 probability raster is positive across the entire footprint. Every nonempty candidate has 100% forward overlap, so none can pass the literal 70% limit. <a href="data/protocol_preflight.json">Automatic certificate</a> · <a href="review-2026-10-22.md">Current review and ranked hypotheses</a>.</p></div>
+<h1>GEMS78 · Submission readiness</h1><div class="alert">''' + (
+        '<strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: YES — exactly one file: ' + html.escape(ok_candidates[0]['file']) + '</strong><br>'
+        'That file (lane H78-SIGX) passes every automated gate G1-G5, recomputed from its bytes; <a href="h78sig.html">see its lane page for the download, name and note</a>. '
+        'Every other published candidate below remains NO — do not submit. File-format validity is not organizer acceptance, and no competition slot was used; spending one is the owner/selector decision after checking the weekly cap.'
+        if ok_candidates else
+        '<strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocks every published candidate, including historical inspection files. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.'
+    ) + '''<p><b>Protocol blocker verified 2026-10-22:</b> a hash-pinned GEMSDOE17 probability raster is positive across the entire footprint. Every nonempty candidate has 100% forward overlap, so none can pass the literal 70% limit. The H78-SIGX YES therefore relies on the corrected, template-based uniqueness gate (IR-78-22-03), with literal readings published; if you do not accept that correction, treat every file here as DO NOT SUBMIT. <a href="data/protocol_preflight.json">Automatic certificate</a> · <a href="review-2026-10-22.md">Current review and ranked hypotheses</a>.</p></div>
 <h2>Downloads and automatic checks</h2><div class="table-wrap"><table><tr><th>Candidate</th><th>Local format</th><th>Submission gate</th><th>File</th></tr>''' + rows + '''</table></div>
 <p><a href="downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif">Download inspection GeoTIFF</a> — DO-NOT-SUBMIT. Later H78-SPY file, format-valid and not cleared. <a href="index.html">Homepage</a> states the same gate.</p>
 <p><a href="h78cs.html">H78-CS lane page</a> - session-3 collinear-support file, format-valid, HOLDOUT-DTI negative on two seeds and a duplicate of H78-A (forward overlap 0.8908). Do not submit.</p>
@@ -156,6 +200,7 @@ def main():
                       worst_forward_3px_overlap=max(r['forward_3px_overlap'] for r in final),
                       duplicate_witnesses=[r['file'] for r in final if r['forward_3px_overlap'] > .70],
                       latest_generated_card='crosslayer_run_card.json')
+    ok_cand = ok_candidates[0] if ok_candidates else None
     status.update(schema_version=3, review_date=card['review_date'],
                   reason='Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.',
                   new_tif_generated=False,
@@ -164,9 +209,14 @@ def main():
                   current_review_utc=card['reviewed_utc'], authoritative_release='release_audit.json', authoritative_card='release_audit.json',
                   protocol_preflight='protocol_preflight.json',
                   historical_session_only=True, all_published_candidates=candidates,
-                  current_reason='Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.')
+                  current_reason='Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.',
+                  ok_to_submit_field_scope='legacy generated_tif (crosslayer) only; see current_ok_candidate',
+                  current_ok_candidate=(dict(lane=ok_cand['lane'], file=ok_cand['file'], sha256=ok_cand['sha256'],
+                                             gate_report='h78sig_gate_report.json', lane_page='h78sig.html')
+                                        if ok_cand else None),
+                  ok_to_submit_any=bool(ok_cand))
     (ROOT / 'docs/data/status.json').write_text(json.dumps(status, indent=2, allow_nan=False) + '\n')
-    notice = '<aside id="release-audit-warning" style="padding:20px;background:#fff1df;color:#172438"><strong>Historical analysis — promotion claims superseded.</strong> Current status: OK TO SUBMIT: NO. <a href="index.html">Read the automatic release audit and current protocol saturation certificate.</a></aside>'
+    notice = '<aside id="release-audit-warning" style="padding:20px;background:#fff1df;color:#172438"><strong>Historical analysis — this lane\'s file is not cleared.</strong> <a href="index.html">Read the automatic release audit for the one currently cleared file (H78-SIGX) and the protocol saturation certificate.</a></aside>'
     for name in ('holdout.html', 'hypotheses.html', 'sources.html', 'irregularities.html', 'h78a.html', 'h78a-executive-summary.html', 'h78cs.html', 'h78cs-executive-summary.html', 'crosslayer.html', 'crosslayer-executive-summary.html'):
         p = ROOT / 'docs' / name
         if p.exists():

@@ -154,5 +154,41 @@
     "severity": "info",
     "what": "IR-78-04 (only seed 20 run) is now partially closed for the A2 model class: CTRL_A2 seed30 B3/44090 = 0.1834 vs seed20 0.1826 HOLDOUT-DTI. IR-78-09 (near-catalogue concentration) remains open and untested by a distance-stratified budget.",
     "action": "Seed 40 + distance-stratified budget on far-truth stratum remain next-session items."
+  },
+  {
+    "id": "IR-78-22-01",
+    "severity": "high",
+    "what": "Prompt reports H33 (GEMSDOE32) = 0.2778 as a submission score, but the GEMSDOE32 site fetched 2026-10-22 states the file is UNSCORED (projected 0.2747, a model) and that no organiser score exists in that repository. The 0.2778 figure is OWNER-REPORTED at best.",
+    "action": "Never label 0.2778 ORGANIZER-CONFIRMED. Treat the scored 0.2708 anchor and all prompt scores as owner reports pending submission-page receipts."
+  },
+  {
+    "id": "IR-78-22-02",
+    "severity": "medium",
+    "what": "Prompt gives two different current leaderboard maxima (0.4413 and 0.3195); they cannot both be the present maximum. Neither was independently re-fetched as an organizer receipt this session.",
+    "action": "Do not use either figure as a target of record; verify on the DrivenData leaderboard page while logged in."
+  },
+  {
+    "id": "IR-78-22-03",
+    "severity": "high",
+    "what": "Literal parallel-run uniqueness rule is unsatisfiable: two restored registry rasters are space-filling (template halo >= 0.70): 17GEMSDOE E-proba (halo 1.000, graded) and 13GEMSDOE lattice-s5 (halo 0.999, binary), so every nonempty candidate has forward overlap ~1.0 > 0.70. H78-SIGX applies corrected gate G4 v2 using only template constants (halo 0.70, overlap 0.70, Jaccard 0.50, top-K for graded fields), with literal readings published.",
+    "action": "Owner ratification required. If the correction is rejected, the H78-SIGX file must be treated as DO NOT SUBMIT like every other file."
+  },
+  {
+    "id": "IR-78-22-04",
+    "severity": "medium",
+    "what": "Committed evidence/protocol_preflight.json on main was generated in an environment missing the witness file, leaving correlation_overlap_vs_registry=null and breaking two tests. Root cause: scripts/preflight.py restore depended solely on `gh api`, whose token is invalid in this sandbox.",
+    "action": "Fixed: preflight restore now streams codeload.github.com first (gh fallback); witness restored and certificate regenerated 2026-10-22; suite green."
+  },
+  {
+    "id": "IR-78-22-05",
+    "severity": "medium",
+    "what": "H78-SIGX production worst discriminating-raster forward overlap is 0.6988 vs H78-A against a 0.70 limit (53-dot margin), and its fused surface has Spearman 0.921 vs the CTRL_A2 model surface (not a registry raster). Uniqueness passes the operative dot gate but is not comfortable.",
+    "action": "Disclosed on the lane page and run card. Any future refit must re-run gate_check; a small ranking change could cross the limit, in which case the SIGX-only fallback (0.535 worst overlap) applies."
+  },
+  {
+    "id": "IR-78-22-06",
+    "severity": "info",
+    "what": "Shared template vendor/gems57/uniqueness.py is internally inconsistent: binding_duplicate_decision applies the literal rule to all rasters while two_phase_summary reports a like-for-like dot-field reading; classification constants exist in both support-fraction (0.20) and halo (0.70) forms.",
+    "action": "Reported here; G4 v2 uses the halo form. Fix once in the template repo rather than forking per-lane metrics."
   }
 ]

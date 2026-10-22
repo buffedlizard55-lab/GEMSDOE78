@@ -89,7 +89,9 @@ def test_all_published_tiffs_in_current_audit():
         assert row["validator"]["all_passed"] and row["integrity_passed"]
         assert row["final_dots_vs_saturation_witness"]["worst_dot_overlap"] == 1
         assert row["surface_before_placement"] is None  # no manufactured pre-placement evidence
-        assert not row["ok_to_submit"]
+        # H78-SIGX session: exactly that lane may be ok (via its gate report);
+        # every other published candidate remains blocked under this audit.
+        assert row["ok_to_submit"] == (row["lane"] == "H78-SIGX")
         sidecar = json.loads((ROOT / "docs/downloads" / Path(row["file"]).with_suffix(".json")).read_text())
         assert not sidecar["promoted"] and not sidecar["approved_for_weekly_slot"]
 

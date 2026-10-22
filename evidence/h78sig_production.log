@@ -1,0 +1,7 @@
+[features] full matrices ready (156.3 s)
+[fit] CTRL_A2 58.5 s
+[fit] SIGX 62.2 s
+[surfaces] parent Spearman {'FUSE_vs_CTRL': 0.9207590106808032, 'FUSE_vs_SIGX': 0.9207230484503419, 'SIGX_vs_CTRL': 0.7006703884732384}
+[FUSE] worst |rho| 0.7870  worst overlap 0.9981  gate FAIL
+[SIGX] worst |rho| 0.5798  worst overlap 0.9989  gate FAIL
+STOP duplicate: /home/user/GEMSDOE78/evidence/h78sig_production.json

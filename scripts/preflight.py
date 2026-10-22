@@ -30,6 +30,36 @@ def sha256(path):
     return h.hexdigest()
 
 
+def _fetch_codeload(entry, tmp):
+    """Stream the pinned repo tarball from codeload.github.com (no auth needed
+    for public repos) and extract the single pinned path to ``tmp``.
+
+    Mirrors scripts/restore_data.py:fetch_stream_batch -- same transport, so a
+    broken/expired ``gh`` token (observed 2026-10-22) cannot silently block the
+    fail-closed preflight. Raises on any failure; caller verifies SHA-256.
+    """
+    import shutil
+    import tarfile
+    import urllib.request
+
+    url = f"https://codeload.github.com/{entry['repo']}/tar.gz/{entry['ref']}"
+    req = urllib.request.Request(url, headers={"User-Agent": "gems78-preflight"})
+    with urllib.request.urlopen(req, timeout=180) as resp:
+        with tarfile.open(fileobj=resp, mode="r|gz") as tf:
+            for member in tf:
+                if not member.isfile():
+                    continue
+                rel = member.name.split("/", 1)[1] if "/" in member.name else member.name
+                if rel == entry["path"]:
+                    fh = tf.extractfile(member)
+                    if fh is None:
+                        break
+                    with tmp.open("wb") as out:
+                        shutil.copyfileobj(fh, out, 1 << 20)
+                    return
+    raise ValueError(f"path not found in codeload tarball: {entry['path']}")
+
+
 def restore_entry(entry):
     path = ROOT / entry["local_path"]
     if path.exists() and sha256(path) == entry["sha256"]:
@@ -37,12 +67,16 @@ def restore_entry(entry):
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".partial")
     try:
-        with tmp.open("wb") as stream:
-            subprocess.run([
-                "gh", "api",
-                f"repos/{entry['repo']}/contents/{entry['path']}?ref={entry['ref']}",
-                "-H", "Accept: application/vnd.github.raw",
-            ], stdout=stream, check=True, timeout=180)
+        try:
+            _fetch_codeload(entry, tmp)
+        except Exception:
+            # Fall back to authenticated gh (original transport) as a last resort.
+            with tmp.open("wb") as stream:
+                subprocess.run([
+                    "gh", "api",
+                    f"repos/{entry['repo']}/contents/{entry['path']}?ref={entry['ref']}",
+                    "-H", "Accept: application/vnd.github.raw",
+                ], stdout=stream, check=True, timeout=180)
         if sha256(tmp) != entry["sha256"]:
             raise ValueError(f"SHA256 mismatch: {entry['local_path']}")
         tmp.replace(path)

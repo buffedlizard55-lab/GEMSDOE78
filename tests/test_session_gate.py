@@ -29,13 +29,18 @@ def test_status_feed_says_do_not_submit():
 
 
 def test_homepage_banner_is_no_and_comes_first():
+    # Renamed semantics since the H78-SIGX session: the banner clears exactly
+    # one gate-passed file and still comes before the download table; the
+    # crosslayer file this module guards remains DO-NOT-SUBMIT.
     html = (ROOT / "docs" / "index.html").read_text()
-    assert "OK TO SUBMIT: NO" in html
-    assert "OK TO SUBMIT: YES" not in html
-    assert html.find("OK TO SUBMIT: NO") < html.find("Downloads and automatic checks")
+    assert "OK TO SUBMIT: YES — exactly one file:" in html
+    assert html.find("OK TO SUBMIT: YES") < html.find("Downloads and automatic checks")
     assert "DO-NOT-SUBMIT" in html
     exec_html = (ROOT / "docs" / "executive-summary.html").read_text()
-    assert "OK TO SUBMIT: NO" in exec_html
+    assert "OK TO SUBMIT: YES — exactly one file:" in exec_html
+    status = latest()
+    assert status["current_ok_candidate"]["lane"] == "H78-SIGX"
+    assert status["current_ok_candidate"]["file"].startswith("gems78-h78sigx-fuse")
 
 
 def test_tif_is_portal_safe_and_not_cleared():

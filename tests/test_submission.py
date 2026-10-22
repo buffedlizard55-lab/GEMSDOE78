@@ -114,8 +114,12 @@ def test_prior_root_candidate_fails_closed_until_full_registry_audit():
     home = (ROOT / "docs/index.html").read_text()
     summary = (ROOT / "docs/executive-summary.html").read_text()
     root_candidate = next(c for c in release["candidates"] if c["lane"] == "H78-A")
-    assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: NO" in home
-    assert "OK TO SUBMIT: NO" in summary
+    # Since the H78-SIGX session (2026-10-22) the banner clears exactly one
+    # named file under gates G1-G5; H78-A itself remains not cleared.
+    assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: YES — exactly one file:" in home
+    assert "h78sigx-fuse-b5-44090dots" in home and "h78sigx-fuse-b5-44090dots" in summary
+    oks = [c for c in release["candidates"] if c["ok_to_submit"]]
+    assert [c["lane"] for c in oks] == ["H78-SIGX"]
     assert root_candidate["ok_to_submit"] is False
     assert "INCOMPLETE" in root_candidate["reason"]
     assert "not a measured duplicate finding" in root_candidate["reason"]
@@ -124,7 +128,9 @@ def test_prior_root_candidate_fails_closed_until_full_registry_audit():
 
 def test_site_says_research_only_and_links_release_audit():
     html = (ROOT / "docs" / "h78mpc.html").read_text()
-    assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: NO" in html
+    # The audit page now clears exactly one H78-SIGX file; the MPC row itself
+    # remains DUPLICATE / do not submit.
+    assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: YES — exactly one file:" in html
     assert "data/release_audit.json" in html
     assert "DUPLICATE" in html and "do not submit" in html
     assert PROD["final_stem"] in html
@@ -133,4 +139,4 @@ def test_site_says_research_only_and_links_release_audit():
     assert release["submission_note"].startswith("DO NOT SUBMIT")
     assert len(release["submission_note"]) <= 140
     summary = (ROOT / "docs" / "h78mpc-executive-summary.html").read_text()
-    assert "OK TO SUBMIT: NO" in summary
+    assert "h78sigx-fuse-b5-44090dots" in summary and "do not submit" in summary

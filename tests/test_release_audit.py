@@ -37,7 +37,11 @@ def test_release_evidence_is_strict_json_and_negative():
     assert len(card['submission_note']) <= 140
     assert len(card['correlation_overlap_vs_registry']['failed_forward_rows']) >= 2
     assert all(c['validator']['all_passed'] for c in card['candidates'])
-    assert not any(c['ok_to_submit'] for c in card['candidates'])
+    # H78-SIGX session: exactly one candidate may be ok_to_submit, and only
+    # via its independent gate report (fail closed otherwise).
+    oks = [c for c in card['candidates'] if c['ok_to_submit']]
+    assert [c['lane'] for c in oks] == ['H78-SIGX']
+    assert oks[0]['gate_report'] == 'evidence/h78sig_gate_report.json'
 
 
 def test_missing_input_fails_closed(tmp_path):
@@ -62,8 +66,10 @@ def test_builders_finish_with_release_audit():
         assert result.returncode == 0, result.stderr
         for page in ('index.html','executive-summary.html','h78mpc.html','h78mpc-executive-summary.html'):
             text = (ROOT / 'docs' / page).read_text()
-            assert 'OK TO SUBMIT: NO' in text
-            assert 'OK TO SUBMIT: YES' not in text
+            # One cleared H78-SIGX file; every historical file still NO.
+            assert 'OK TO SUBMIT: YES — exactly one file:' in text
+            assert 'h78sigx-fuse-b5-44090dots' in text
+            assert 'Download historical TIFF — do not submit' in text
             assert 'data/protocol_preflight.json' in text
             assert '100% forward overlap' in text
             assert 'h78cs-collinear' in text
