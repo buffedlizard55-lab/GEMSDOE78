@@ -1,0 +1,23 @@
+{
+  "lane": "H78-SPY Liu spy cleaning of the strike-steered learner",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "branch": "arena/92fb5263-gemsdoe78",
+  "written_utc": "2026-10-21T23:45:00Z",
+  "written_before_spy_fit": true,
+  "why_this_lane_now": "H78-TOOTH was the session's first lane and is a completed negative (evidence/h78tooth_negative.json): the gap kernel is anti-aligned with withheld faults (mean gap1 0.118 on truth vs 0.191 on background) and the location-proxy features collapsed the learner onto the mapped traces. The next-ranked unrun hypothesis in research/h78_hypotheses.md is label-noise-robust refitting. This file is the preregistration of that single follow-up, written before the spy refit.",
+  "hypothesis": "The catalogue is incomplete, so a sample of footprint cells drawn as negatives contains unmapped faults. A strike-steered model trained against those cells is penalised for exactly the signal the live metric pays for. Removing unlabeled cells whose stage-1 score exceeds a threshold set from the labeled positives, then refitting once, raises pooled hide-and-recover DTI relative to the uncleaned model under the same emitter.",
+  "mechanism": "Stage-1 is the already-fit A2_control (visible catalogue only, seed 20, 450000 negatives, flank_px 2). Let t be the 15th percentile of stage-1 scores on the training positives. Drop training negatives with score >= t, but never more than 20% of the negative sample (if more qualify, drop the highest-scoring 20%). Refit HistGradientBoosting on the same A2 columns and the same positives. No tooth features. No new catalogue-location feature.",
+  "mimic_nonfault_process": "Lithologic contacts and range-front-parallel drainages also score like faults; dropping them from the negatives makes the refit more willing to mark those non-fault lineaments.",
+  "differs_from_this_repo": "H78-A is the uncleaned stage-1. H78-MPC did not clean negatives. h20 nnPU (owner-report 0.1890) used a different estimator and a different feature family; this is one Liu-style drop-and-refit on the strike-steered columns.",
+  "holdout": "same draw and evaluator as H78-A / H78-TOOTH: buffered_component_draw seed 20, gems57-pooled-hide-v2, pooled DTI alpha 0.2 beta 0.8, 300 m, paired 20 km block bootstrap 1000 draws seed 520810, 11321 withheld positives",
+  "emitter": "greedy max-score, min separation 2.8 px, visible flank <= 3 px, pool 400000, budgets 37654 / 44090 / 50000. Gate uses 44090.",
+  "canary": "No new feature. Restate single-feature symmetric AUC of the 103 A2 columns on this draw. Any AUC > 0.90 stops the lane.",
+  "gates": {
+    "hypothesis_supported": "spy B3@44090 HOLDOUT-DTI > reproduced A2_control 0.1826 AND paired 95% CI lower bound of the difference > 0",
+    "beats_holdout_best": "point estimate > 0.1826",
+    "uniqueness": "abs Spearman <= 0.90 and forward 3 px dot overlap <= 0.70 versus H19-5, D2.8, H33, H78-A primary, H78-A alt B2, H78-MPC, anderson PINN zeros, gems70 dual-submodular, h27-4 solo D2.8, h33d tip/stepover. Surface before placement and final dots. Failure is a duplicate: verdict negative, not OK to submit.",
+    "validator": "single-band float32, 3730x3292, EPSG:32611, sample transform, all finite, values in [0,1], no NaN, zeros outside the footprint, zero positives on the catalogue, nodata unset",
+    "ok_to_submit": "all of the above. Agent spends 0 weekly slots."
+  },
+  "experiments_charged": "This refit is experiment 2 of the session. Experiment 3 is the production build if the gate passes, otherwise a locally validated inspection raster marked NOT OK TO SUBMIT. No third cleaning rate will be tried."
+}

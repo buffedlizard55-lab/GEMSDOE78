@@ -44,7 +44,7 @@ def test_run_card_and_shipped_file_are_consistent():
     card_p = ROOT / "evidence/h78_run_card.json"
     if not card_p.exists():
         pytest.skip("no run card yet")
-    card = json.loads(card_p.read_text())
+    card = json.loads(card_p.read_text())  # immutable historical H78-A run card; current clearance is tested separately
     tif = ROOT / "docs/downloads" / card["raster"]["file"]
     assert tif.exists(), "shipped file missing"
     import hashlib

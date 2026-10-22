@@ -54,7 +54,7 @@ img{max-width:100%}.small{font-size:.85rem;color:#555}.warn{background:#fff8e6;b
 
 gate_labels = {
     "cand_beats_ctrl_point": "CAND_CS pooled HOLDOUT-DTI > CTRL_A2 (same folds/emitter, B3/44090)",
-    "cand_beats_repo_best_0p1826": "CAND_CS > 0.1826 (repo holdout best, H78-A)",
+    "cand_beats_repo_best_0p1826": "CAND_CS > 0.1826 (H78-A shipped config B3/44090; repo best incl. @50k dots = 0.1843)",
     "paired_delta_ci_lower_gt_0": "paired Δ (CAND − CTRL) 95% CI lower bound > 0",
     "canary_clean": "leakage canary clean (no single-feature symmetric AUC > 0.90)",
     "uniqueness_pass": "uniqueness pass (surface ρ ≤ 0.90 and 3-px dot overlap ≤ 0.70 vs registry)",
@@ -73,7 +73,7 @@ else:
     banner_body = ("This lane <b>failed its preregistered gate</b>: " + "; ".join(esc(x) for x in failed)
                    + ". Do NOT spend a weekly submission slot on this file. The file below is published "
                      "for inspection and reproducibility — a negative result is a deliverable. "
-                     "The repo's promotable file remains the H78-A primary on the <a style=\"color:#fff;text-decoration:underline\" href=\"index.html\">home page</a>.")
+                     "Every file in this repo is currently blocked by the release audit - see the <a style=\"color:#fff;text-decoration:underline\" href=\"index.html\">home page</a> for current status.")
 
 rep = rc.get("replication_seed30")
 rep_row = ""
@@ -182,7 +182,7 @@ Flagged: none.</p>
 <ul>
 <li><b>Killed hypothesis (measured):</b> straight along-strike integration of steered responses adds nothing to a pointwise steered HGB — do not spend more lanes on feature-append variants of A2 (ρ≈0.95 = same lane).</li>
 <li><b>First across-seed numbers for the repo's best model class</b> (CTRL_A2 seeds 20/30 above) — use the spread, not a single draw, when judging future deltas.</li>
-<li><b>Highest-P(Win) next steps:</b> (1) GPU session: U-Net (organizer reference class) over 19 bands + steered features with the same buffered folds — the only model class with headroom toward 0.32+; (2) km-scale geomorphic-setting context features (hypothesis H78-CTX, ranked #3 in <code>research/h78cs_hypotheses.md</code>) as a genuinely distinct CPU lane; (3) upload H78-A primary once (selector's call, weekly cap) to replace holdout inference with an ORGANIZER-CONFIRMED anchor.</li>
+<li><b>Highest-P(Win) next steps:</b> (1) GPU session: U-Net (organizer reference class) over 19 bands + steered features with the same buffered folds — the only model class with headroom toward 0.32+; (2) km-scale geomorphic-setting context features (hypothesis H78-CTX, ranked #3 in <code>research/h78cs_hypotheses.md</code>) as a genuinely distinct CPU lane; (3) complete the full-registry uniqueness audit for H78-A (release-audit blocker IR-78-16) before any selector considers a slot for any file.</li>
 <li><b>Limitations:</b> holdout truth is catalogue-like and near-halo-biased (IR-78-09 stands); two seeds only; no organizer score exists for any file in this repo; external pages beyond github.com could not be re-fetched from this sandbox (links listed for manual review).</li>
 </ul></div>
 </body></html>"""
@@ -193,7 +193,7 @@ exec_summary = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <div class="banner {'ok' if promote else 'bad'}"><h1>{banner_head}</h1><p class="big">{banner_body}</p></div>
 <div class="card"><h2>Exactly how a submission is made (for a file whose banner says YES)</h2>
 <ol>
-<li>Open the lane page and read the banner. <b>Only</b> if it says <b>OK TO SUBMIT: YES</b> may a slot be spent. This lane's file says NO — stop here for H78-CS; use the <a href="index.html">H78-A primary</a> if the selector decides to spend a slot.</li>
+<li>Open the lane page and read the banner. A slot may be spent <b>only</b> on a file whose banner is an unqualified YES and which the current <code>evidence/release_audit.json</code> does not block. This lane's file says NO, and at merge time <b>every</b> file in this repo is blocked - stop here; check the <a href="index.html">home page</a> for current status.</li>
 <li>Download the <code>.tif</code> (or the <code>.zip</code> containing that single TIFF) and note the SHA-256 printed beside it. Optionally re-verify locally: <code>python scripts/verify_tif.py &lt;file&gt;.tif</code> must print <code>all_passed: true</code> (single band float32, EPSG:32611, 3730×3292, sample transform, all values finite and in [0, 1] — so the portal error <i>"Predicted values must be in range [0, 1]"</i> cannot occur).</li>
 <li>Go to <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition 306</a> → <i>New submission</i> → choose the <code>.tif</code> (or <code>.zip</code>) file. Confirm the weekly cap shown on that page has room — this system never auto-uploads and has spent 0 slots.</li>
 <li>Paste the lane's unique submission name and the ≤140-character note from its banner (they identify model, dot budget, flank and the labelled HOLDOUT-DTI; they are not a score projection).</li>

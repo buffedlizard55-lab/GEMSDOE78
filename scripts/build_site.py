@@ -40,8 +40,8 @@ nav a{color:var(--acc);margin-right:14px;text-decoration:none}.tag{display:inlin
 NAV = """<nav><a href="index.html">Home</a><a href="executive-summary.html">Executive summary: how to submit</a>
 <a href="hypotheses.html">Hypotheses & why H33 scored 0.2778</a><a href="holdout.html">Holdout evidence</a>
 <a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a>
-<a href="h78mpc.html">H78-MPC lane (2nd candidate)</a>
-<a href="h78cs.html">H78-CS lane (negative, session 3)</a>
+<a href="h78mpc.html">H78-MPC: negative / research only</a>
+<a href="h78cs.html">H78-CS: negative / duplicate (session 3)</a>
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav>"""
 
 
@@ -53,6 +53,13 @@ def page(title, body):
 def banner(card):
     if card is None:
         return '<div class="banner bad">NO SUBMISSION FILE HAS BEEN BUILT YET — nothing to download.</div>'
+    current_review = load("evidence/h78a_current_review.json")
+    if current_review and current_review.get("ok_to_submit") is False:
+        return (f'<div class="banner bad"><b>OK TO DOWNLOAD: YES — RESEARCH / EDUCATION ONLY · '
+                f'OK TO SUBMIT: NO / NOT CLEARED.</b> <code>{esc(card["raster"]["file"])}</code> passed local format checks, '
+                f'but the current literal all-registry uniqueness audit is incomplete for this prior lane. '
+                f'Do not upload it or spend a weekly slot. The historical run-card verdict '
+                f'<code>{esc(current_review["historical_run_card_verdict"])}</code> is not current clearance.</div>')
     if card["ok_to_submit"]:
         return (f'<div class="banner ok">OK TO SUBMIT: YES — <code>{esc(card["raster"]["file"])}</code> passed the preregistered '
                 f'holdout gate, the leakage canary, the uniqueness audit and the format validator. Verdict: {esc(card["verdict"])}.</div>')
@@ -64,14 +71,20 @@ def index(card, hold, forensic):
     dl = ""
     if card:
         r = card["raster"]
+        current_review = load("evidence/h78a_current_review.json")
+        current_cleared = bool(card.get("ok_to_submit") and not (current_review and current_review.get("ok_to_submit") is False))
+        tif_label = "Download submission GeoTIFF" if current_cleared else "Download research GeoTIFF — NOT CLEARED FOR SUBMISSION"
+        zip_label = "Same file as .zip" if current_cleared else "Research ZIP — do not submit"
+        name_label = "Submission name (paste into the portal)" if current_cleared else "Historical candidate name (do not enter in portal)"
+        note_label = "Note (≤140 chars, paste into the portal)" if current_cleared else "Historical note (metadata only; do not paste)"
         dl = f"""
 <div class="card"><h2 style="margin-top:0">Download</h2>
-<a class="btn" href="downloads/{esc(r['file'])}" download>⬇ Download submission GeoTIFF ({r['dots']:,} dots, {r['bytes']/1e6:.2f} MB)</a>
-<a class="btn sec" href="downloads/{esc(r['zip'])}" download>⬇ Same file as .zip</a>
+<a class="btn" href="downloads/{esc(r['file'])}" download>⬇ {tif_label} ({r['dots']:,} dots, {r['bytes']/1e6:.2f} MB)</a>
+<a class="btn sec" href="downloads/{esc(r['zip'])}" download>⬇ {zip_label}</a>
 <a class="btn sec" href="downloads/{esc(Path(r['file']).with_suffix('.json').name)}">Writer receipt (JSON)</a>
 <p class="small mono">sha256 {esc(r['sha256'])}</p>
-<table><tr><th>Submission name (paste into the portal)</th><td class="mono">{esc(card['submission_name'])}</td></tr>
-<tr><th>Note (≤140 chars, paste into the portal)</th><td class="mono">{esc(card['submission_note'])} <span class="mut">({card['note_chars']} chars)</span></td></tr>
+<table><tr><th>{name_label}</th><td class="mono">{esc(card['submission_name'])}</td></tr>
+<tr><th>{note_label}</th><td class="mono">{esc(card['submission_note'])} <span class="mut">({card['note_chars']} chars)</span></td></tr>
 <tr><th>Format</th><td>single band float32, {esc(card['validator']['independent_reread']['shape'])}, {esc(card['validator']['independent_reread']['crs'])}, transform {esc(card['validator']['independent_reread']['transform'])}, all finite, values {esc(card['validator']['independent_reread']['distinct_values'])}, NaN inside footprint = {card['validator']['independent_reread']['nan_inside_footprint']}, positives on catalogue = {card['validator']['independent_reread']['positives_on_catalogue']}</td></tr>
 </table></div>"""
     h = ""
@@ -88,17 +101,17 @@ def index(card, hold, forensic):
 <table><tr><th>Paired difference, candidate − control</th><th>Δ</th><th>95 % CI (paired 20 km blocks)</th></tr>{pd}</table>
 <p>Beats the lineage base model class (A0, 19 raw bands) with CI &gt; 0: <b>{ho['beats_A0_std19_ci']}</b>. Beats the rotation-invariant control (A1), i.e. the steering hypothesis itself: <b>{ho['beats_A1_iso_ci']}</b>.
 Leakage canary: max single-feature AUC {f4(card['canary']['max_single_feature_auc'])} (threshold 0.90), flagged: {esc(card['canary']['flagged'] or 'none')}.
-Uniqueness: max |ρ| vs registry {f4(card['uniqueness']['surface_max_abs_rho'])} (limit 0.90); max fraction of dots within 3 px of a registry dot set {f4(card['uniqueness']['dots_max_overlap'])} (limit 0.70) → <b>{'pass' if card['uniqueness']['passed'] else 'FAIL'}</b>.</p></div>"""
+Historical uniqueness audit: max |ρ| {f4(card['uniqueness']['surface_max_abs_rho'])} and max 3-px overlap {f4(card['uniqueness']['dots_max_overlap'])} against only the H19-5/D2.8/H33 lineage rasters. This is not the required full-registry scan; current status is <b>NOT CLEARED</b> (IR-78-16).</p></div>"""
     risk = ""
     dd = load("evidence/h78_distance_diagnostic.json"); dc = load("evidence/h78_dot_distance_to_catalogue.json")
     if card and dd and dc:
         far = dd["strata"]["far_gt10px"]; cr = dd["candidate_dot_self_credit_by_distance_to_visible"]
         alts = "".join(f"<li><code>{esc(a['raster']['file'])}</code> — {esc(a['verdict'])}; HOLDOUT-DTI {f4(a['holdout']['dti'])} [{f4(a['holdout']['ci95'][0])}, {f4(a['holdout']['ci95'][1])}]; <a href='downloads/{esc(a['raster']['file'])}'>tif</a> · <a href='downloads/{esc(a['raster']['zip'])}'>zip</a> (inspection only, <b>not</b> OK-to-submit)</li>" for a in card.get("alternatives", {}).values())
-        risk = f"""<div class="card" style="border-left:6px solid #b45309"><h2 style="margin-top:0">Known risk before you upload (IR-78-09) <span class="tag h">HOLDOUT-DTI</span></h2>
+        risk = f"""<div class="card" style="border-left:6px solid #b45309"><h2 style="margin-top:0">Known risk — research only / not cleared for upload (IR-78-09, IR-78-16) <span class="tag h">HOLDOUT-DTI</span></h2>
 <img src="assets/fig1_h78_surface_and_dots.png" alt="score surface and dots" style="width:100%;border-radius:8px;margin-bottom:10px">
 <p>The shipped dots sit closer to the mapped catalogue than the family's best live file: primary median distance <b>{dc['H78 alt (B3)']['p50']:.1f} px</b>, {dc['H78 alt (B3)']['frac_le_5px']*100:.0f} % within 5 px, {dc['H78 alt (B3)']['frac_gt_30px']*100:.0f} % beyond 30 px — versus H33 median {dc['H33']['p50']:.1f} px, {dc['H33']['frac_le_5px']*100:.0f} % within 5 px, {dc['H33']['frac_gt_30px']*100:.0f} % beyond 30 px. The holdout's withheld truth lies median {dd['withheld_truth_distance_to_visible_px']['p50']:.1f} px from a visible fault ({dd['withheld_truth_frac_within_10px_of_visible']*100:.0f} % within 10 px), so it rewards near-catalogue placement more than the live truth may.</p>
-<p><b>Mitigating evidence.</b> Restricting the withheld truth to pixels &gt; 10 px from any visible fault ({far['n_truth']:,} positives) the candidate still beats both controls: Δ vs A1 {far['paired_vs_candidate']['A1_iso|B2|44090'][0]:+.4f} [{far['paired_vs_candidate']['A1_iso|B2|44090'][1][0]:+.4f}, {far['paired_vs_candidate']['A1_iso|B2|44090'][1][1]:+.4f}], Δ vs A0 {far['paired_vs_candidate']['A0_std19|B2|44090'][0]:+.4f} [{far['paired_vs_candidate']['A0_std19|B2|44090'][1][0]:+.4f}, {far['paired_vs_candidate']['A0_std19|B2|44090'][1][1]:+.4f}] (B2 variants; paired 20 km blocks), and is on par with D2.8 there. Mean kernel credit per candidate dot by distance to the visible catalogue: 2–3 px {cr['2-3px']['mean_kernel_credit']:.3f} ({cr['2-3px']['n']:,} dots), 3–5 px {cr['3-5px']['mean_kernel_credit']:.3f}, 5–10 px {cr['5-10px']['mean_kernel_credit']:.3f}, 10–20 px {cr['10-20px']['mean_kernel_credit']:.3f}, &gt; 20 px {cr['20-1000000000.0px']['mean_kernel_credit']:.3f}; break-even is 0.2 × DTI ≈ {dd['break_even_credit_0.2xDTI']:.3f}. This is why the 3-px flank file is primary (amendment IR-78-01b, declared after results) — every piece of evidence, including the only live step D2.8 → H33, says the near flank is dead weight.</p>
-<p><b>Alternative file(s) built from the same model</b> (labelled, for the selector's inspection):</p><ul>{alts}</ul>
+<p><b>Mitigating evidence.</b> Restricting the withheld truth to pixels &gt; 10 px from any visible fault ({far['n_truth']:,} positives) the candidate still beats both controls: Δ vs A1 {far['paired_vs_candidate']['A1_iso|B2|44090'][0]:+.4f} [{far['paired_vs_candidate']['A1_iso|B2|44090'][1][0]:+.4f}, {far['paired_vs_candidate']['A1_iso|B2|44090'][1][1]:+.4f}], Δ vs A0 {far['paired_vs_candidate']['A0_std19|B2|44090'][0]:+.4f} [{far['paired_vs_candidate']['A0_std19|B2|44090'][1][0]:+.4f}, {far['paired_vs_candidate']['A0_std19|B2|44090'][1][1]:+.4f}] (B2 variants; paired 20 km blocks), and is on par with D2.8 there. Mean kernel credit per candidate dot by distance to the visible catalogue: 2–3 px {cr['2-3px']['mean_kernel_credit']:.3f} ({cr['2-3px']['n']:,} dots), 3–5 px {cr['3-5px']['mean_kernel_credit']:.3f}, 5–10 px {cr['5-10px']['mean_kernel_credit']:.3f}, 10–20 px {cr['10-20px']['mean_kernel_credit']:.3f}, &gt; 20 px {cr['20-1000000000.0px']['mean_kernel_credit']:.3f}; break-even is 0.2 × DTI ≈ {dd['break_even_credit_0.2xDTI']:.3f}. This is why the 3-px flank file was historically selected as the H78-A variant (amendment IR-78-01b, declared after results) — every piece of evidence, including the only live step D2.8 → H33, says the near flank is dead weight. This historical within-lane choice does not override the current NOT CLEARED status.</p>
+<p><b>Historical alternative file(s) built from the same model</b> (research inspection only; neither is cleared for upload):</p><ul>{alts}</ul>
 <p class="small mut">Full tables: <code>evidence/h78_distance_diagnostic.json</code>, <code>evidence/h78_dot_distance_to_catalogue.json</code>. Declared post-hoc: see <a href="irregularities.html">irregularities</a> IR-78-01b / IR-78-09 / IR-78-10.</p></div>"""
     fo = ""
     if forensic:
@@ -114,6 +127,28 @@ Uniqueness: max |ρ| vs registry {f4(card['uniqueness']['surface_max_abs_rho'])}
 
 def exec_summary(card):
     r = card["raster"] if card else None
+    current_review = load("evidence/h78a_current_review.json")
+    if card and current_review and current_review.get("ok_to_submit") is False:
+        research_steps = f"""
+<div class="card"><h2>Current disposition: do not submit this prior-lane artifact</h2>
+<p><b>OK TO DOWNLOAD: YES — research/education only. OK TO SUBMIT: NO / NOT CLEARED.</b>
+The H78-A TIFF passes local format/range checks, but its historical uniqueness evidence does not show a full comparison
+against the current local registry inventory. This review did not call it a duplicate; it is simply not cleared under the
+current strict rule. Do not upload it or spend a weekly slot.</p>
+<p><a class="btn" href="downloads/{esc(r['file'])}" download>Download research GeoTIFF — do not submit</a>
+<a class="btn sec" href="downloads/{esc(r['zip'])}" download>Research ZIP — do not submit</a></p>
+<p>Historical candidate name (not for portal use): <code>{esc(card['submission_name'])}</code> ·
+Historical note (not for portal use): <code>{esc(card['submission_note'])}</code>.</p></div>
+<div class="card"><h2>How to submit a future eligible file</h2>
+<ol><li>Proceed only when the current home page and its run card both say <code>OK TO SUBMIT: YES</code> / <code>ok_to_submit: true</code>.</li>
+<li>Download the exact TIFF (or single-TIFF ZIP) linked by that eligible run card.</li>
+<li>Open <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">Competition 306 submissions</a> → sign in → <b>New submission</b> → choose the file.</li>
+<li>Copy the exact name and note from the eligible run card only. Read the current weekly cap before submitting.</li>
+<li>After upload, record the returned submission-page receipt as <b>ORGANIZER-CONFIRMED</b>. Never substitute HOLDOUT-DTI or a projection.</li></ol>
+<p>For this research TIFF, local format checks passed: single-band float32, {esc(card['validator']['independent_reread']['crs'])},
+shape {esc(card['validator']['independent_reread']['shape'])}, transform {esc(card['validator']['independent_reread']['transform'])},
+all finite with values in [0,1]. This does not imply uniqueness or organizer acceptance.</p></div>"""
+        return page("Executive summary — current candidate is not cleared", f'{banner(card)}{research_steps}')
     steps = f"""
 <ol>
 <li>Confirm the banner on the <a href="index.html">home page</a> says <b>OK TO SUBMIT: YES</b>. If it says NO, stop — the file is for inspection only.</li>
@@ -215,14 +250,31 @@ def main():
     card = load("evidence/h78_run_card.json")
     hold = load("evidence/h78_holdout_seed20.json")
     forensic = load("evidence/forensics_h33_vs_d28.json")
-    (DOCS / "index.html").write_text(index(card, hold, forensic))
-    (DOCS / "executive-summary.html").write_text(exec_summary(card))
+    # H78-A pages are preserved, but they are not the session homepage. A later
+    # negative result must not be covered by this function's green banner.
+    h78a = index(card, hold, forensic)
+    warn = (
+        '<div class="banner" style="background:#451a03;border:2px solid #d97706">'
+        'Previous session archive. The live homepage decision is '
+        '<a href="index.html">OK TO SUBMIT: NO</a>. '
+        'This file is not cleared: the later release audit found its uniqueness check incomplete.</div>'
+    )
+    h78a = h78a.replace("<main>", "<main>" + warn, 1)
+    (DOCS / "h78a.html").write_text(h78a)
+    (DOCS / "h78a-executive-summary.html").write_text(exec_summary(card))
     (DOCS / "hypotheses.html").write_text(hypotheses_page())
     (DOCS / "holdout.html").write_text(holdout_page(hold))
     (DOCS / "sources.html").write_text(sources_page())
     (DOCS / "irregularities.html").write_text(irregularities_page())
     (ROOT / "index.html").write_text('<!doctype html><meta http-equiv="refresh" content="0; url=docs/index.html">')
-    print("site built")
+    # Historical pages are fail-closed first. The session homepage then
+    # replaces index and the executive summary so the new inspection file
+    # is visible, still with OK TO SUBMIT: NO.
+    from audit_release import main as audit_release
+    audit_release()
+    import runpy
+    runpy.run_path(str(Path(__file__).with_name("build_session_site.py")), run_name="__main__")
+    print("site built with fail-closed release audit and session negative")
 
 
 if __name__ == "__main__":

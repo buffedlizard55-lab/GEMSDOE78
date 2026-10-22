@@ -11,6 +11,10 @@ user-supplied score ledger for GEMSDOE–GEMSDOE77 and the GEMSDOE73/77 hypothes
 | 4 | H78-4 Isopach hinge / growth faulting | `depth_to_base_surf` curvature × `iso_grav_anom_vg` | Second-derivative hinge lines of basement-depth surface | Growth faults thicken basin fill across the fault without a surface scarp | Basement-*step* (first derivative) tried and failed (h61a 0.0009 live); hinge curvature is different but prior is weak | Paleochannels; basement palaeo-topography | Low / low |
 | 5 | H78-5 Cross-scale dip-offset persistence | `TMI_up150` (geodawn_extensions) vs lidar scarp stack | Lineament present at depth (upward-continued) and at surface, laterally offset along dip | Dipping blind faults project to surface away from their deep magnetic source | Dip-projection measured small-negative twice (GEMSDOE32 H32-A; GEMSDOE36 H1) | Dipping lithologic contacts | Lowest / medium |
 
-**Top candidate validated this session: H78-1 (MPC).** No new external data required —
-all layers are inside the restored, sha256-verified competition + sibling-derived stacks
-(`registry/data_manifest.json`, `scripts/restore_data.py`).
+**Top candidate evaluated on the spatially blocked holdout: H78-1 (MPC).** No new external data was required —
+all input layers came from the locally restored competition/sibling-derived feature stacks
+(`registry/data_manifest.json`, `registry/data_manifest_gems73.json`, `scripts/restore_data.py`). Evaluation found a
+positive ablation effect against the 48-band baseline, but the candidate did **not** beat the current repository best
+HOLDOUT-DTI and its final dots exceed the literal 3-px forward-overlap limit. Therefore the result is negative for
+submission promotion: the raster is retained only for research/education; do not upload it. See
+`evidence/h78mpc_run_card.json`, `evidence/h78mpc_duplicate_stop.json`, and irregularities IR-78-14 / IR-78-15.

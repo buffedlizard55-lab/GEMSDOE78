@@ -1,0 +1,27 @@
+{
+  "session": "2026-10-21 tooth then spy",
+  "generated_tif": "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif",
+  "ok_to_download_for_inspection": true,
+  "ok_to_submit": false,
+  "verdict": "negative",
+  "reason": "HOLDOUT-DTI did not beat 0.1826, and 92.45% of dots lie within 3 px of H78-A (duplicate lane).",
+  "holdout_dti": 0.18077914125502179,
+  "holdout_ci95": [
+    0.16226503151974203,
+    0.19852760694969213
+  ],
+  "control_dti": 0.1825746728455537,
+  "paired_delta": -0.001795531590531918,
+  "paired_delta_ci95": [
+    -0.0069339379661185535,
+    0.003693031687086105
+  ],
+  "evaluator": "gems57-pooled-hide-v2",
+  "withheld_positive_pixels": 11321,
+  "organizer_confirmed": null,
+  "weekly_slots_used_by_agent": 0,
+  "sha256": "0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3",
+  "duplicate_of": "H78-A",
+  "forward_3px_overlap_h78a": 0.9244726695395782,
+  "validator_independent_all_passed": true
+}

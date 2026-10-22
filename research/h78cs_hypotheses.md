@@ -129,3 +129,15 @@ Continuity may still matter, but it needs a model class that *uses* spatial stru
 nonlinearly (U-Net / path-openings with curvature), not 15 more per-pixel columns.
 H78-H (PU cleaning), H78-CTX (km-scale context), H78-B (spacing) and H78-G (Monte Cristo,
 still not obtainable here) were **not run** (budget).
+
+**Post-merge corrigendum (2026-10-22, at PR merge):** while this session ran, sibling sessions
+merged a release audit (`evidence/release_audit.json`) that supersedes all promotion claims in
+this repo: H78-A is blocked for an incomplete uniqueness audit (not a measured duplicate),
+H78-MPC is a duplicate/stop under the literal forward-overlap rule, and a sibling lane ran this
+file's ranked-#2 (H78-SPY, PU spy-cleaning: HOLDOUT-DTI 0.1808 vs 0.1826, forward overlap 0.9245)
+and ranked-#4 (H78-TOOTH, across-strike spacing: mechanism falsified, no raster) — both negative,
+independently confirming §1's duplicate-risk warning for #2. Statements above calling H78-A
+"promotable" reflect branch-point state and are superseded; the repo-best bar including the
+50k-dot config is 0.1843 (CAND_CS fails that too). This lane's evidence files are preserved
+unrewritten; current status lives in `README.md` + `evidence/release_audit.json`.
+
