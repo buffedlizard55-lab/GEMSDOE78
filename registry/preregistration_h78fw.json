@@ -1,0 +1,47 @@
+{
+  "lane": "H78-FW broad flank warp + central potential-field step",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "branch": "arena/a52ff4a8-gemsdoe78",
+  "written_utc": "2026-10-22T01:30:00Z",
+  "written_before_results": true,
+  "session_context": "Parallel session on the same prompt as H78-A (HOLDOUT-DTI 0.1826 B3/44090, 0.1843 B3/50000, seed 20), H78-MPC (0.0977), H78-CS (0.1791 seed20, duplicate), H78-SPY (0.1808, duplicate), H78-TOOTH (collapsed, negative), H78-CROSSLAYER (0.0478, duplicate). Prompt supplies no assigned method paragraph (preflight blocker); this session defines ONE new lane below and stays inside it. Must beat the repo holdout best with a paired CI and pass the literal all-rasters uniqueness gate to earn verdict promote; otherwise negative with a DO-NOT-SUBMIT inspection artifact. Zero slots.",
+  "method_paragraph_lane": "H78-FW is a catalogue-blind unsupervised surface on the pinned 19-band stack: detrend det_elev by subtracting its sigma=30 px Gaussian background; compute the rotation-invariant wide-scale curvature magnitude max(|l1|,|l2|) of the residual Hessian at sigma=8 px (~800 m) as the warp score; compute Gaussian gradient magnitudes of rtp and iso_grav_anom at sigma=3 px (300 m) as the central-step score (geometric mean); robustly normalize each component by its within-footprint 90th percentile capped to [0,1]; composite = sqrt(warp_n * central_n), zeros outside the footprint. No catalogue input, no learner, no tuning. Emission is the existing greedy >=2.8 px packing with the <=3 px visible-catalogue flank removed (B3), exactly 44,090 dots. Nothing else may change between holdout and production except the catalogue used for the flank mask (visible vs full).",
+  "hypothesis": "Buried normal-fault tips produce distributed monoclinal flank warping hundreds of metres wide with a persistent basement/magnetic step at the centre, even where no narrow surface rupture exists for 1:250k compilations or narrow (sigma<=300 m) detectors; a wide-scale detrended curvature magnitude corroborated by a central 300 m potential-field step therefore places kernel credit on withheld fault segments that narrow supervised filters miss.",
+  "mechanism": "Local planar detrending removes basin relief; the 800 m Hessian eigenvalue magnitude responds to broad antisymmetric flexure above a blind tip; the geometric mean with the 300 m RTP+gravity gradient product requires an independently observed subsurface discontinuity at the warp axis, suppressing purely topographic flexure. Catalogue-blindness guarantees the signal cannot be a catalogue-halo artefact.",
+  "named_non_fault_mimic": "Differential sediment compaction across a basin margin (broad warp plus a real density step with no fault); secondarily buried lava-flow/sill edges.",
+  "why_missing_not_catalogued": "USGS/INGENIOUS compilations require a mappable surface break; a blind tip with <5 m distributed warp and intrabasin cover falls below that threshold while retaining a basement step in magnetics/gravity. The surface uses no catalogue geometry at all, so it cannot be paid to crowd mapped traces.",
+  "differs_from_repo_prior": "H78-A: supervised HGB on pointwise sigma=1.5/3 px steered/iso derivatives (catalogue orientation). H78-MPC: supervised LOQO HGB on pointwise monogenic phase congruency sigma<=4 px + Frangi. H78-CS: H78-A plus along-strike path integrals (same lane family, duplicated). H78-SPY: spy-cleaned H78-A refit (duplicated). H78-TOOTH: catalogue spacing prior (collapsed). H78-CROSSLAYER: unsupervised sigma=3 px unsigned gradient-normal alignment of RTP/gravity/depth with no detrending and no wide scale. FW is the only wide-scale (800 m) detrended-curvature plus central-step composite, unsupervised and catalogue-blind.",
+  "shared_tools_unmodified_expected_sha256": {
+    "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "submission_writer.py": "41220185ac2823fe5358603d38f2a915ea3e5f1ab1f94f0b237295b38b4a2565",
+    "grid.py": "b96df7ec0f33658a61b0baa5db85fcd19be2cd8b1873f99699bd26bddae8cd8d",
+    "validate.py": "e7849554b47f6a2b66aeb2f7cfd5db06267412f049f52a73f1c41f934a2c34dd",
+    "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8",
+    "uniqueness.py": "15638926583106b22f381bea5b4b4ef09795640bfea6f42074f39d00d6a48aeb",
+    "note": "verified by sha256sum in this checkout 2026-10-22 before any run; vendor/ must show no diff at the end (git diff vendor/ empty). uniqueness.py hash reflects the merged shared fix (literal-all-rasters binding + halo docstring); any further shared-tool fix would be reported, not privately forked."
+  },
+  "holdout": {
+    "draw": "gems57.holdout.buffered_component_draw(seed=20, hide_frac=0.20, buffer_px=3) exactly as prior lanes (11,321 withheld positives expected; asserted)",
+    "evaluator": "gems57-pooled-hide-v2 (vendor/gems57/evaluate_holdout.py unmodified)",
+    "scoring": "pooled DTI alpha=0.2 beta=0.8 triangular 300 m; 95% CI paired 20 km block bootstrap (1000 draws, seed 520810) via pooled_summary",
+    "training": "none (unsupervised surface; no catalogue-derived inputs at all)",
+    "secondary_context": "registry D2.8 and H33 dots evaluated on identical folds/terms for context only; they were built with full-catalogue knowledge and H33 is structurally capped on withheld segments, so they are not beatable controls"
+  },
+  "emitter": "gems78.emit.greedy_dots(score, allowed, min_dist=2.8, pool=1500000); allowed = footprint & ~flank_mask(visible, 3.0) (B3); exactly 44,090 dots holdout and production; production flank uses full catalogue",
+  "canary": "single-feature symmetric AUC (max(AUC,1-AUC)) on withheld truth vs active background (300k negatives, seed 20) for warp_n, rtp_n, grav_n, central, composite; any >0.90 = leakage stop before emission",
+  "uniqueness_rule": "BEFORE placement: exact full-footprint tied-rank Spearman of composite surface vs each available hash-pinned registry raster (D2.8, H33, H19-5 solid, 17GEMSDOE saturation witness, all shipped docs/downloads/*.tif at run time); |rho|>0.90 aborts before emission. AFTER placement: forward 3-px dot overlap + full-footprint rho on final dots; breach (>0.70 forward or >0.90 rho, literal all-rasters rule, dense rasters binding) = duplicate, verdict negative, DO-NOT-SUBMIT. Informative dot-fields-only reading reported alongside but never overrides literal.",
+  "decision_rules": {
+    "promote_all_required": [
+      "FW pooled HOLDOUT-DTI at B3/44090 strictly greater than the stored repo best (0.1843 B3/50000; descriptively also 0.1826 B3/44090) with a paired within-run advantage where comparable",
+      "canary clean (no symmetric AUC > 0.90)",
+      "literal uniqueness passes on surface before placement and on final dots",
+      "submission_writer + independent scripts/verify_tif.py all checks pass"
+    ],
+    "otherwise": "verdict negative; the unique TIF is still written and published for inspection with banner OK TO SUBMIT: NO (a negative result is a deliverable; no weekly slot may be spent on it)",
+    "no_projection": "no number is a leaderboard projection; ORGANIZER-CONFIRMED remains null until a DrivenData receipt exists"
+  },
+  "experiment_budget": "Exp 1: FW surface + canary + seed-20 holdout + production + uniqueness + validator + run card (single candidate, single budget, single seed). Exp 2-3 reserved for preregistered follow-ups only if Exp 1 promotes and time remains; otherwise the lane stops. Hard stop after 3 experiments or 2 hours of model experiments.",
+  "production_if_run": "same frozen surface on full data; flank uses full catalogue; 44,090 dots B3 min_dist 2.8 pool 1.5M; unmodified submission_writer (zeros mode, all-finite binary); name gems78-h78fw-flankwarp-44090dots-<UTC>-<digest8>-zeros (or -DO-NOT-SUBMIT if gated); note <=140 chars with HOLDOUT-DTI label and NOT OK TO SUBMIT where applicable"
+}

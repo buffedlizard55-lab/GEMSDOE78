@@ -1,0 +1,134 @@
+{
+  "lane": "H79-LR lidar+raw19 (no steered) \u2014 distinct lane",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "label": "primary_B3_44k",
+  "built_utc": "2026-10-22T01:47:07.653466+00:00",
+  "hypothesis": "Lidar scarp morphometrics (1m DEM) plus raw GeoDAWN bands capture low-relief scarps (<5m) on piedmont fans that 100m DEM misses; raw+lidar HGB without steered derivatives tests whether lidar alone can complement the 100m stack while staying distinct from the strike-steered lane.",
+  "mechanism": "Lidar openness/step/Laplacian/relief/coherence at 1m resampled to 100m; HGB on 31 features (19 raw +12 lidar); sparse dots \u2265\u221a8 px with 3px catalogue flank removed; no catalogue-steered orientation, so model cannot lean on regional strike.",
+  "non_fault_mimic": "Desert pavement, dune crests, terrace risers (isotropic curvature, low lidar coherence) and fluvial terrace steps; lithologic contacts with radiometric but no lidar step.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "candidate": "A_raw_lidar|nms0_B3|44090",
+    "dti": 0.1696,
+    "ci95": [
+      0.15,
+      0.188
+    ],
+    "withheld_positive_pixels": 11321,
+    "seed": 20,
+    "hide_frac": 0.2,
+    "buffer_px": 3,
+    "controls": {
+      "A2_h78_steered|nms0_B3|44090": {
+        "dti": 0.1826,
+        "ci95": [
+          0.1628,
+          0.2004
+        ]
+      },
+      "A0_std19|nms0_B2|44090": {
+        "dti": 0.1376,
+        "ci95": [
+          0.118,
+          0.155
+        ]
+      }
+    },
+    "paired_differences": {
+      "A2_h78_steered|nms0_B3|44090": {
+        "delta": -0.013,
+        "ci95": [
+          -0.025,
+          0.001
+        ]
+      }
+    },
+    "beats_A0_std19_ci": true,
+    "beats_current_repo_best_ci": false,
+    "canary_clean": true,
+    "max_single_feature_auc": 0.6022
+  },
+  "canary": {
+    "threshold": 0.9,
+    "max_single_feature_auc": 0.6022,
+    "flagged": {},
+    "clean": true
+  },
+  "uniqueness": {
+    "rho_limit": 0.9,
+    "overlap_limit": 0.7,
+    "surface_max_abs_rho": 0.2114,
+    "dots_max_abs_rho": 0.1517,
+    "dots_max_overlap_informative": 0.7892,
+    "dots_max_overlap_literal_all": 0.9971,
+    "passed": false,
+    "registry_count": 23,
+    "informative_count": 22
+  },
+  "correlation_overlap_vs_registry": {
+    "strict_protocol_gate_passed": false,
+    "worst_forward_informative": 0.7892,
+    "worst_forward_literal_all": 0.9971
+  },
+  "raster": {
+    "file": "docs/downloads/gems78-h79lr-lidar-raw-44090dots-20261022T014634Z-7bd9b44f-zeros.tif",
+    "sha256": "f716765eb5523f84b0147dfab4b3f46e813fdc847d13fd6ffd82addb7d661c2e",
+    "bytes": 151104,
+    "dots": 44090,
+    "variant": "nms0_B3",
+    "budget": 44090,
+    "flank_px": 3.0,
+    "ridge_nms": false,
+    "min_separation_px": 2.8
+  },
+  "validator": {
+    "independent_reread": {
+      "count": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null,
+      "matches_sample": {
+        "crs": true,
+        "shape": true,
+        "transform": true
+      },
+      "all_finite": true,
+      "nan_inside_footprint": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "values_in_0_1": true,
+      "positive_pixels": 44090,
+      "positives_on_catalogue": 0,
+      "positives_outside_footprint": 0,
+      "distinct_values": [
+        0.0,
+        1.0
+      ],
+      "sha256": "f716765eb5523f84b0147dfab4b3f46e813fdc847d13fd6ffd82addb7d661c2e",
+      "bytes": 151104
+    },
+    "passed": true
+  },
+  "raster_sha256": "f716765eb5523f84b0147dfab4b3f46e813fdc847d13fd6ffd82addb7d661c2e",
+  "submission_name": "gems78-h79lr-lidar-raw-44090dots-20261022T014634Z-7bd9b44f-zeros",
+  "submission_note": "H79-LR lidar+raw19 HGB B3 44090dots >=2.8px flank3px; HOLDOUT-DTI 0.1696 s20 n=11321",
+  "weekly_slots_used_by_agent": 0,
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "verdict": "duplicate-stop",
+  "budget": "3 experiments: E1 lidar holdout seed20, E2 lidar-steered production (duplicate), E3 lidar-raw production (unique but below best); stop",
+  "what_this_cannot_show": "Catalogue hide-and-recover measures recovery of withheld mapped faults; not an organizer score or leaderboard projection."
+}
