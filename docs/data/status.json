@@ -4,7 +4,7 @@
   "ok_to_download_for_inspection": true,
   "ok_to_submit": false,
   "verdict": "negative",
-  "reason": "HOLDOUT-DTI did not beat 0.1826, and 92.45% of dots lie within 3 px of H78-A (duplicate lane).",
+  "reason": "Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.",
   "holdout_dti": 0.18077914125502179,
   "holdout_ci95": [
     0.16226503151974203,
@@ -31,6 +31,7 @@
   "latest_generated_card": "crosslayer_run_card.json",
   "schema_version": 3,
   "review_date": "2026-10-22",
+  "new_tif_generated": false,
   "candidates": [
     {
       "lane": "H78-A",
@@ -581,7 +582,7 @@
   ],
   "current_review_new_tif_generated": false,
   "live_feed": false,
-  "current_review_utc": "2026-10-22T01:06:33.693159+00:00",
+  "current_review_utc": "2026-10-22T01:10:31.531709+00:00",
   "authoritative_release": "release_audit.json",
   "authoritative_card": "release_audit.json",
   "protocol_preflight": "protocol_preflight.json",
