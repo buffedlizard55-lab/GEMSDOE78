@@ -46,7 +46,7 @@ def main():
     fresh = load('evidence/rechecked_overlap.json')
     cs = load('evidence/h78cs_run_card.json')
     spy = load('evidence/h78spy_run_card.json')
-    preflight = run_preflight()
+    preflight = run_preflight(restore=not (ROOT / 'data/registry/17GEMSDOE_E-proba-multiscale.tif').exists())
     witness = next(e for e in preflight['verified_inputs'] if e['id'] == 'saturation_witness') if preflight['correlation_overlap_vs_registry'] else None
     footprint = None
     if witness:
@@ -75,10 +75,22 @@ def main():
     if flank_path.exists():
         flank = load('evidence/h78stepflank_run_card.json')
         specs.append(('H78-STEP-FLANK', flank['raster']['file'], 'DUPLICATE + NEGATIVE: second parallel session 2026-10-22 independently implemented the same step hypothesis (renamed STEP-FLANK at merge); HOLDOUT-DTI 0.1662 vs control 0.1826 (paired -0.0164), forward 3px overlap 0.79 vs H78-A lineage and 0.79 vs H78-STEP. Full labelled results: evidence/h78stepflank_run_card.json.'))
+    fwtilt_path = ROOT / 'evidence/h78fwtilt_run_card.json'
+    if fwtilt_path.exists():
+        fwtilt = load('evidence/h78fwtilt_run_card.json')
+        specs.append(('H78-FWTILT', fwtilt['raster']['file'], 'NEGATIVE + LITERAL-BLOCKED: H78-FWTILT (67 antisymmetric flank-warp & tilt-block features) passed all 10 discriminating dot/line comparators (max 3px overlap 0.6542 <= 0.70, max |rho| 0.1188 <= 0.90), verified CTRL_A2 (0.182583) on the nearest-exact-mask-v2 stack, and beat raw-band CTRL_A0 on far-truth (>1 km, 0.0586 vs 0.0482), but trailed CTRL_A2 overall (HOLDOUT-DTI 0.1481 vs 0.1826) and is blocked by the literal space-filling witnesses (13GEMSDOE 0.9967, 17GEMSDOE 1.0000). Full card: evidence/h78fwtilt_run_card.json.'))
     known = {filename for _, filename, _ in specs}
     for path in sorted((ROOT / 'docs/downloads').glob('*.tif')):
         if path.name not in known:
             specs.append(('UNREGISTERED', path.name, 'No scientific eligibility card is indexed for this artifact; fail closed.'))
+    prev_by_sha = {}
+    if (ROOT / 'evidence/release_audit.json').exists():
+        try:
+            for pc in load('evidence/release_audit.json').get('candidates', []):
+                if pc.get('sha256') and pc.get('final_dots_vs_saturation_witness'):
+                    prev_by_sha[pc['sha256']] = pc['final_dots_vs_saturation_witness']
+        except (OSError, ValueError, KeyError):
+            prev_by_sha = {}
     for lane, filename, reason in specs:
         p = ROOT / 'docs/downloads' / filename
         digest = hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
@@ -90,8 +102,12 @@ def main():
         integrity = digest is not None and digest == sidecar.get('sha256')
         uniqueness = None
         if witness and format_report['all_passed'] and integrity:
-            uniqueness = compare_to_registry(p, [dict(file=witness['local_path'], sha256=witness['sha256'],
-                repo=witness['repo'], submission=witness['path'])], footprint)
+            cached_u = prev_by_sha.get(digest)
+            if cached_u and cached_u.get('rows') and cached_u['rows'][0].get('sha256') == witness['sha256']:
+                uniqueness = json.loads(json.dumps(cached_u))
+            else:
+                uniqueness = compare_to_registry(p, [dict(file=witness['local_path'], sha256=witness['sha256'],
+                    repo=witness['repo'], submission=witness['path'])], footprint)
             # Absolute sandbox paths must not leak into a portable public receipt.
             uniqueness['my_file'] = str(p.relative_to(ROOT))
             for row in uniqueness['rows']:
@@ -154,6 +170,7 @@ def main():
 <p><a href="h78step.html">H78-STEP lane page</a> - parallel-session 2026-10-22 cross-strike step-offset file, format-valid, HOLDOUT-DTI 0.1730 vs control 0.1826 and a duplicate of the H78-A dot set (forward overlap 0.8167). Do not submit.</p>
 <p><a href="h78fw.html">H78-FW lane page</a> - 2026-10-22 catalogue-blind flank-warp file, format-valid, HOLDOUT-DTI 0.0482 negative vs the 0.1843 repo best and a literal duplicate of the dense saturation witness (forward overlap 1.0). Do not submit.</p>
 <p><a href="h78stepflank.html">H78-STEP-FLANK lane page</a> - second parallel session independently replicated the step-hypothesis negative (HOLDOUT-DTI 0.1662 vs control 0.1826; dots duplicate H78-A lineage and H78-STEP at 0.79). Do not submit.</p>
+<p><a href="h78fwtilt.html"><b>H78-FWTILT lane page (2026-10-22)</b></a> · <a href="h78fwtilt-executive-summary.html">H78-FWTILT executive summary</a> · <a href="downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif">Download H78-FWTILT inspection GeoTIFF</a> · <a href="data/h78fwtilt_run_card.json">H78-FWTILT run card JSON</a> — 67-feature antisymmetric footwall/hangingwall flank-warp &amp; tilt-block flexure. Passed all 10 discriminating dot/line comparators (max 3-px forward overlap 0.6542 ≤ 0.70, max |ρ| 0.1188 ≤ 0.90), verified CTRL_A2 (HOLDOUT-DTI 0.182583) on the nearest-exact-mask-v2 stack, and beat raw-band CTRL_A0 on far-truth (&gt;1 km, 0.0586 vs 0.0482), but trailed CTRL_A2 overall (0.1481 vs 0.1826) and is blocked by the literal space-filling witnesses (13GEMSDOE 0.9967, 17GEMSDOE 1.0000). Do not submit.</p>
 <p><a href="data/release_audit.json">Machine-readable run card and validator output</a> · <a href="review-release.md">Scientific review, hypotheses and next steps</a></p>
 <h2>Executive summary: how a future submission proceeds</h2><ol><li>Generate a genuinely new candidate in the assigned lane. Never rename an old prediction as new.</li><li>Run buffered whole-segment hide-and-recover validation, per-feature canaries and a matched current-best control.</li><li>Check the complete indexed registry before placement and on final dots. Stop for rank correlation above 0.90 or forward overlap above 70%; no mutual-overlap substitution.</li><li>Reopen the TIFF and verify one band, finite values in [0,1], footprint, CRS, shape and transform against the pinned template.</li><li>Only a separate selector may authorize upload after the gates pass and the submission-page weekly cap is checked. The cap is currently unverified.</li><li>Then download the approved TIFF, upload at DrivenData New submission, paste its short note, and preserve the organizer receipt bound to its SHA-256.</li></ol>
 <h2>Why H33 might have performed better</h2><p>The repository's raster forensics support a sparse-emission and catalogue-flank-pruning explanation, not proof of a superior geothermal detector. Near-catalogue pixels are not automatically zero-credit; only exact masked catalogue pixels are excluded. Historical owner-reported leaderboard results do not establish causality or predict a new score.</p>
