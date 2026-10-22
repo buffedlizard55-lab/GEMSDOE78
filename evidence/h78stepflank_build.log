@@ -1,0 +1,19 @@
+step det_elev done 17s
+step rtp done 33s
+step iso_grav_anom done 50s
+step depth_to_base_surf done 67s
+step cond_surf done 83s
+step tc_totalcount done 100s
+01:33:37 full features ready 112.7 100.4
+01:34:43 fit {'arm': 'CAND_STEP (full catalogue)', 'n_pos': 60988, 'n_neg': 450000, 'n_features': 73, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 60.0}
+01:37:24 surface rho max 0.128508209568184
+01:37:39 dots max forward overlap 0.7936493535949195 vs H78-CS shipped (44090) unique_ok(scoped) False
+01:37:41 wrote gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif 5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b
+01:37:42 validator_ok True verify_tif_ok True
+01:37:42 wrote evidence/h78step_run_card.json verdict negative unique_scoped False
+{
+ "submission_name": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT",
+ "raster_sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
+ "verdict": "negative",
+ "ok_to_submit": false
+}

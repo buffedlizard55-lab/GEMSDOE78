@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "review_date": "2026-10-22",
-  "reviewed_utc": "2026-10-22T02:09:47.001921+00:00",
+  "reviewed_utc": "2026-10-22T02:15:55.460078+00:00",
   "protocol_preflight": {
     "schema_version": 1,
-    "reviewed_utc": "2026-10-22T02:09:11.872882+00:00",
+    "reviewed_utc": "2026-10-22T02:15:18.819213+00:00",
     "review_type": "protocol preflight, not a model experiment",
     "assigned_lane": null,
     "hypothesis": "A full-footprint positive registry raster makes the literal 3-pixel forward-overlap gate impossible for every nonempty in-footprint candidate.",
@@ -930,6 +930,97 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: catalogue-blind flank-warp lane failed its holdout control (HOLDOUT-DTI 0.0482 vs repo best 0.1843, same evaluator/seed/n) and the literal forward-overlap gate (1.0 vs the dense saturation witness; informative dot-field max 0.4083). Full labelled results: evidence/h78fw_run_card.json.",
+      "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
+    },
+    {
+      "lane": "H78-STEP-FLANK",
+      "file": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
+      "sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
+      "validator": {
+        "file": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG_32611": true,
+          "shape_3730x3292": true,
+          "transform_matches_sample": true,
+          "no_nodata_tag": true,
+          "reference_hashes_verified": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "bytes": 153051,
+        "sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
+        "positive_pixels": 44090,
+        "footprint_fraction": 0.00853238192791579,
+        "zip": {
+          "file": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "eaee3824e37c6f9d3137d849de4f908463746a7ce2b023b1c0771054864f3582"
+        }
+      },
+      "integrity_passed": true,
+      "final_dots_vs_saturation_witness": {
+        "my_file": "docs/downloads/gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
+        "evidence_class": "REGISTRY-MEASUREMENT",
+        "my_dots": 44090,
+        "candidate_decoded_sha256": "6c43b88ca2ea242f1c6adbbe837a5187c6782c1f92bb624efcac2f4de45f373e",
+        "candidate_file_sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
+        "rho_limit": 0.9,
+        "overlap_limit": 0.7,
+        "jaccard_limit": 0.5,
+        "registry_rasters_expected": 1,
+        "registry_rasters_checked": 1,
+        "complete_accessible_scan": false,
+        "missing_or_invalid": 0,
+        "source_errors": [
+          "Legacy list has no complete-inventory certificate; diagnostic only"
+        ],
+        "worst_spearman_full_footprint": 0.11550317663477666,
+        "worst_rho_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_dot_overlap": 1.0,
+        "worst_overlap_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_jaccard_dot_sets": 0.00853238192791579,
+        "worst_jaccard_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "byte_unique_among_checked": true,
+        "pixel_unique_among_checked": true,
+        "duplicate_count": 1,
+        "unique": false,
+        "rows": [
+          {
+            "repo": "buffedlizard55-lab/17GEMSDOE",
+            "submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+            "file": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+            "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+            "decoded_sha256": "11cb7dffcc88926fee8260f61df01d7712d3a7bb34fcc1bb333fb6b47f77ec05",
+            "their_dots": 5167373,
+            "my_dots_within_3px_of_theirs": 1.0,
+            "their_dots_within_3px_of_mine": 0.14993150291260182,
+            "spearman_full_footprint": 0.11550317663477666,
+            "jaccard_dot_sets": 0.00853238192791579,
+            "identical_bytes": false,
+            "identical_decoded_predictions": false,
+            "duplicate_by_rho": false,
+            "duplicate_by_overlap": true,
+            "duplicate_by_jaccard": false
+          }
+        ],
+        "jaccard_diagnostic_only": true,
+        "verdict": "negative",
+        "stop_required": true,
+        "candidate_rank_variation": true,
+        "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only."
+      },
+      "surface_before_placement": null,
+      "ok_to_download": true,
+      "ok_to_submit": false,
+      "verdict": "negative",
+      "reason": "DUPLICATE + NEGATIVE: second parallel session 2026-10-22 independently implemented the same step hypothesis (renamed STEP-FLANK at merge); HOLDOUT-DTI 0.1662 vs control 0.1826 (paired -0.0164), forward 3px overlap 0.79 vs H78-A lineage and 0.79 vs H78-STEP. Full labelled results: evidence/h78stepflank_run_card.json.",
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {

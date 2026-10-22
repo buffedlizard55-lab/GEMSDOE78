@@ -173,3 +173,14 @@ a scoreless stop-gate note. Fixed once in the shared test: card resolution
 follows `latest_generated_card` from `evidence/`, and the note-label rule
 applies only when the note quotes a score-like number. Full suite green.
 FW science unchanged.
+
+## Addendum 3 — PR #20 H78-STEP-FLANK merge (~02:10 UTC)
+
+Main merged PR #20: second parallel step lane H78-STEP-FLANK (renamed at
+merge; HOLDOUT-DTI 0.1662 vs control 0.1826, dots duplicate H78-A lineage and
+H78-STEP at 0.79). Additive resolution again (FW spec kept before FLANK,
+chronological; both README rows; both lane links with real newlines — the
+FLANK link patch carried the same literal-`\n` + over-escaped-quote defect
+and was fixed the same way). Consolidated audit now covers **14/14 TIFFs,
+all format-pass, all blocked** (9 indexed + 5 H79 UNREGISTERED fail-closed).
+FW science unchanged.
