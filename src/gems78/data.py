@@ -59,9 +59,20 @@ def verify_inputs() -> dict:
     return out
 
 
+def _ensure_proc_dir() -> Path:
+    if not PROC.exists() and not PROC.is_symlink():
+        cache_proc = ROOT / ".cache" / "gems78_runtime" / "processed"
+        cache_proc.mkdir(parents=True, exist_ok=True)
+        PROC.parent.mkdir(parents=True, exist_ok=True)
+        PROC.symlink_to(Path("..") / ".cache" / "gems78_runtime" / "processed")
+    else:
+        PROC.mkdir(parents=True, exist_ok=True)
+    return PROC
+
+
 def build_stack(force: bool = False) -> Path:
     """Nodata-filled float32 memmap of the 19 bands (C, H, W)."""
-    PROC.mkdir(parents=True, exist_ok=True)
+    _ensure_proc_dir()
     # A pre-v2 cache may contain incorrect fills for equal-count/different masks.
     # It must not silently survive this correctness fix.
     cache_meta = PROC / "stack19_cache.json"

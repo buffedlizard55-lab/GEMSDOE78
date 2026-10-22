@@ -1,9 +1,16 @@
 # large inputs and caches are restored by scripts/restore_data.sh (SHA-256 pinned); never committed
+data/raw
 data/raw/
+data/processed
 data/processed/
 data/bridge/*.tif
+data/registry
 data/registry/
+data/external
 data/external/
+data/scored
+data/scored/
+data/restore_receipt.json
 *.partial
 __pycache__/
 *.pyc

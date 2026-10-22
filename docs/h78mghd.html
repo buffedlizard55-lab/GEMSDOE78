@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GEMSDOE78 · Lane H78-MGHD (Session 5 Full Evidence &amp; Validator Receipt)</title>
+<style>
+:root{--bg:#0b1324;--card:#121e36;--ink:#eaf2fc;--mut:#9db0cc;--bad:#ef4444;--ok:#22c55e;--acc:#60a5fa;--line:#263959}
+*{box-sizing:border-box}body{margin:0;padding:1.8rem 1rem 4rem;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+main{max-width:1100px;margin:0 auto}h1{font-size:2rem;margin:.3rem 0 .8rem}h2{font-size:1.35rem;margin-top:0;color:#fff}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.3rem 1.5rem;margin:1.2rem 0}
+.banner{background:#3b1016;border:3px solid var(--bad);border-radius:14px;padding:1.3rem 1.5rem;margin:1rem 0}
+.btns a{display:inline-block;margin:.5rem .7rem .2rem 0;padding:.75rem 1.1rem;border-radius:9px;font-weight:700;text-decoration:none}
+.btn-main{background:#f87171;color:#1b0b0e}.btn-sec{background:#1e3152;color:var(--ink);border:1px solid #3c5887}
+table{width:100%;border-collapse:collapse;font-size:.92rem;margin:.6rem 0}
+th,td{padding:.55rem .65rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:600}code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;overflow-wrap:anywhere}
+nav a{color:var(--acc);margin-right:1rem;text-decoration:none;font-weight:600}a{color:var(--acc)}
+.pill-ok{color:#86efac;font-weight:700}.pill-no{color:#fca5a5;font-weight:700}
+</style></head><body><main>
+<nav><a href="index.html">Home &amp; Readiness Gate</a><a href="executive-summary.html">Executive Summary &amp; Submit Guide</a><a href="why-h33.md">Why H33 Outperformed</a><a href="review-release.md">Full Scientific Review</a><a href="data/h78mghd_run_card.json">H78-MGHD Run Card JSON</a><a href="data/release_audit.json">Consolidated Release Audit JSON</a></nav>
+<h1>Lane H78-MGHD · Multi-Scale Geodetic–Hydrothermal–LiDAR Dual-Cover</h1>
+
+<div class="banner">
+  <div style="font-size:1.35rem;font-weight:800">OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</div>
+  <p style="margin:.5rem 0"><strong>Scientific &amp; format gates PASSED</strong> (beats incumbent on both spatial holdout seeds with 95% CIs excluding 0; 123/123 leakage canaries &le; 0.90; 13/13 GeoTIFF checks passed; passes &le; 0.70 overlap against <strong>all 801/801 sparse dot submissions</strong> across all 84 accessible repos), <strong>AND binding literal registry gate BLOCKS upload</strong> because 113 dense corridor / continuous-surface sibling rasters exceed 70% 3-px forward overlap (100.00% on space-filling surfaces). Retained strictly for research &amp; education — <strong>DO NOT UPLOAD TO DRIVENDATA</strong>.</p>
+  <div class="btns">
+    <a class="btn-main" download href="downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif">Download New H78-MGHD GeoTIFF (158 KB · DO-NOT-SUBMIT)</a>
+    <a class="btn-sec" download href="downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.zip">Download Single-TIFF ZIP (127 KB)</a>
+    <a class="btn-sec" href="data/h78mghd_run_card.json">Machine-Readable Run Card (JSON)</a>
+  </div>
+</div>
+
+<section>
+  <h2>1. Artifact Identity &amp; Automated Programmatic Validator Receipt (Zero Human-Inspector Deferral)</h2>
+  <table>
+    <tr><th>Unique submission name</th><td><code>gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT</code></td></tr>
+    <tr><th>Note (&le;140 chars: 102 chars)</th><td><code>NOT OK TO SUBMIT: H78-MGHD 44090 dots; HOLDOUT-DTI 0.1934 vs 0.1826; blocked by sibling overlap &gt;0.70.</code></td></tr>
+    <tr><th>GeoTIFF SHA-256</th><td><code>44429c439118a6e20f77f6da821ecd4e46697da0545314d20b65e81766d8b698</code> (158,254 bytes)</td></tr>
+    <tr><th>Single-TIFF ZIP SHA-256</th><td><code>c26586a32dcf42a284ac96c5c83f9984fdaa85d77e25b79ab86dede4256cdd44</code> (byte-identical member: <span class="pill-ok">True</span>)</td></tr>
+    <tr><th>Grid, CRS &amp; Data Type</th><td><span class="pill-ok">PASS</span> — Single band (<code>count=1</code>), <code>float32</code>, <code>EPSG:32611</code>, <code>3730 &times; 3292</code>, affine <code>(100, 0, 243350, 0, -100, 4508550)</code>, <code>nodata=None</code></td></tr>
+    <tr><th>Range &amp; Footprint Safety</th><td><span class="pill-ok">PASS</span> — All 12,279,160 cells finite in <code>[0.0, 1.0]</code> (binary <code>{0.0, 1.0}</code>, zero NaN inside or outside footprint, <code>44,090</code> dots strictly inside footprint, <code>0</code> on mapped catalogue; portal <code>[0, 1]</code> error impossible)</td></tr>
+    <tr><th>ORGANIZER-CONFIRMED Score</th><td><strong>None</strong> — Zero DrivenData slots consumed (<code>weekly_slots_used_by_agent = 0</code>); no projections ever reported as scores.</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>2. Two-Seed Spatial Hide-and-Recover Validation (<code>HOLDOUT-DTI</code>, <code>gems57-pooled-hide-v2</code>)</h2>
+  <p>Whole 8-connected fault segments withheld (20% per quadrant + 3 px collar), strike field &amp; features derived strictly from visible faults only, visible faults masked pixel-exactly, scored with official <code>&alpha;=0.2, &beta;=0.8</code> 300 m triangular kernel and 1,000-draw 20 km paired spatial-block bootstrap. Single-feature canary across all 123 features: <strong>max symmetric ROC AUC = 0.6048 &le; 0.90 PASS</strong> (<code>det_elev_s1.5_aniso_gn</code>).</p>
+  <table>
+    <tr><th>Experiment / Seed Split</th><th>Withheld Positives</th><th>Candidate <code>HOLDOUT-DTI</code> [95% CI]</th><th>Matched Control <code>CTRL_A2_v2</code> [95% CI]</th><th>Paired &Delta; (Cand &minus; Ctrl) [95% CI]</th></tr>
+    <tr><td><strong>E1</strong> · Seed 20 matched emitter (<code>min_dist=2.8</code>, 44,090 dots)</td><td>11,321</td><td><strong>0.195210</strong> [0.176501, 0.214135]</td><td>0.182575 [0.163306, 0.199996]</td><td><span class="pill-ok">+0.012635 [+0.004088, +0.021111]</span></td></tr>
+    <tr><td><strong>E2</strong> · Seed 20 selected 300 m non-overlap (<code>min_dist=3.01</code>, 44,090 dots)</td><td>11,321</td><td><strong>0.193393</strong> [0.176040, 0.210917]</td><td>0.182575 [0.163306, 0.199996]</td><td><span class="pill-ok">+0.010818 [+0.002291, +0.019736]</span></td></tr>
+    <tr><td><strong>E2 vs 50k</strong> · Seed 20 44,090-dot candidate vs 50,000-dot <code>CTRL_A2_v2</code></td><td>11,321</td><td><strong>0.193393</strong> (5,910 fewer dots)</td><td>0.184310 [0.165440, 0.201558]</td><td><span class="pill-ok">+0.009083 [+0.001370, +0.017241]</span></td></tr>
+    <tr><td><strong>E3</strong> · Seed 30 zero-retune spatial replication (<code>min_dist=3.01</code>, 44,090 dots)</td><td>11,342</td><td><strong>0.200714</strong> [0.180475, 0.220262]</td><td>0.183432 [0.162300, 0.204353]</td><td><span class="pill-ok">+0.017282 [+0.004937, +0.029344]</span></td></tr>
+    <tr><td><strong>Pooled 2-Seed</strong> · Combined Seeds 20 + 30 (44,090 dots)</td><td>22,663</td><td><strong>0.197059</strong> [0.184840, 0.209875]</td><td>0.183004 [0.169980, 0.195610]</td><td><span class="pill-ok">+0.014056 [+0.007047, +0.021139]</span></td></tr>
+  </table>
+  <p><small>Pass-1 diagnostic disclosure (<code>IR-78-MGHD-01</code>): passing inverse-sampling weights (~20.5&times;) directly into <code>HistGradientBoosting</code> split Hessians starved fault leaves on seed 20 (<code>0.139381</code> greedy / <code>0.141531</code> submodular) before seed 30 was ever run; Pass-2 unweighted fitting with post-hoc Bayes prior calibration fixed the defect prior to zero-retune seed-30 replication.</small></p>
+</section>
+
+<section>
+  <h2>3. Complete 84-Repository (1,103-Raster) Uniqueness Audit — Before &amp; After Dot Placement</h2>
+  <table>
+    <tr><th>Audit Gate / Comparison Tier</th><th>Rasters Checked</th><th>Measured Worst Statistic</th><th>Threshold</th><th>Outcome</th></tr>
+    <tr><td><strong>Gate 1A</strong> · Pre-placement continuous surface (all rasters)</td><td>1,103</td><td><code>|Spearman &rho;| = 0.767669</code></td><td>&le; 0.90</td><td><span class="pill-ok">PASS</span></td></tr>
+    <tr><td><strong>Diagnostic Tier</strong> · All sparse dot submissions (&le;65,000 positive pixels)</td><td>801</td><td><code>0.679995</code> (vs H78-A: <code>0.6698</code>)</td><td>&le; 0.70</td><td><span class="pill-ok">PASS (801/801)</span></td></tr>
+    <tr><td><strong>Wide-Corridor Tier</strong> · All rasters with global halo &lt; 0.70 (incl. ~624k-px range-front corridors)</td><td>1,022</td><td><code>0.915763</code> on <code>buffedlizard55-lab/GEMSDOE3@512371de5d30:docs/downloads/coverage-v3-wide-20260925T054019Z-0ac095a7ed.tif</code></td><td>&le; 0.70</td><td><span class="pill-no">STOP (&gt; 0.70)</span></td></tr>
+    <tr><td><strong>Binding Literal Gate</strong> · All accessible sibling rasters (zero exemptions)</td><td>1,103</td><td><code>1.000000</code> on <code>buffedlizard55-lab/17GEMSDOE@6fc71d19d49d:docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif</code></td><td>&le; 0.70</td><td><span class="pill-no">BINDING STOP &rarr; NEGATIVE</span></td></tr>
+  </table>
+  <p><strong>Historical H78-A resolution:</strong> Completing the full 1,097-raster external sibling audit on historical <code>H78-A</code> confirms that <code>H78-A</code> also exceeds 0.70 both among sparse &le;65k-dot submissions (<code>0.7690</code> against <code>buffedlizard55-lab/GEMSDOE53@609cb0081db6:docs/submissions/gems53-h1-thin_bin_q0p1-20261008-aefc7582.tif</code>) and against wide corridors (<code>0.9521</code>).</p>
+  <h3>Closest Sparse Dot Submissions (&le;65,000 Positive Pixels Across All 84 Repos)</h3>
+  <table><tr><th>Sibling Artifact (Repo@Commit:Path)</th><th>Positive Pixels</th><th>Forward 3-px Overlap</th><th>Footprint &rho;</th></tr><tr><td><code>buffedlizard55-lab/GEMSDOE53@609cb0081db6:docs/submissions/gems53-h1-thin_bin_q0p1-20261008-aefc7582.tif</code></td><td>56,605</td><td>0.6800</td><td>0.0581</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE77@6c363745d864:docs/downloads/gems77-h28-dotted-pruned2px-20261021-35b64879-zeros.tif</code></td><td>55,403</td><td>0.6728</td><td>0.0399</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE78@76e00163d598:docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif</code></td><td>44,090</td><td>0.6698</td><td>0.1047</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE78@76e00163d598:docs/downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif</code></td><td>44,090</td><td>0.6655</td><td>0.1012</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE78@76e00163d598:docs/downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif</code></td><td>44,090</td><td>0.6537</td><td>0.1017</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE43@e641e0c1dd7c:docs/downloads/gems43-sup01-hgb21-sep40-n40000-20261006-bc2e4e9a8d6f-nan.tif</code></td><td>40,000</td><td>0.6420</td><td>0.0289</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE43@e641e0c1dd7c:docs/downloads/gems43-sup01-hgb21-sep40-n40000-20261006-bc2e4e9a8d6f-zeros.tif</code></td><td>40,000</td><td>0.6420</td><td>0.0289</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE28@84d99d7479bb:docs/downloads/gems28-h37-1-probe-union-pool-r1-20261003-52a13184267e-allfinite.tif</code></td><td>38,545</td><td>0.6384</td><td>0.0304</td></tr></table>
+  <h3>Wide-Corridor Rasters Explaining Non-Space-Filling &gt;0.70 Overlap</h3>
+  <table><tr><th>Sibling Artifact (Repo@Commit:Path)</th><th>Positive Pixels</th><th>Global 3-px Halo</th><th>Forward 3-px Overlap</th></tr><tr><td><code>buffedlizard55-lab/GEMSDOE3@512371de5d30:docs/downloads/coverage-v3-wide-20260925T054019Z-0ac095a7ed.tif</code></td><td>624,025</td><td>0.6137</td><td>0.9158</td></tr><tr><td><code>buffedlizard55-lab/57GEMSDOE@822a0ce5546c:docs/downloads/gems57-relative-strand-surface-20261009T195324Z-88e3bcb35a95.tif</code></td><td>2,714,823</td><td>0.5769</td><td>0.9039</td></tr><tr><td><code>buffedlizard55-lab/57GEMSDOE@822a0ce5546c:docs/downloads/gems57-twohost-relay-bend-surface-20261010T201504Z-47ccc38b6bec.tif</code></td><td>2,714,823</td><td>0.5769</td><td>0.9039</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE67@22d9034b6808:docs/downloads/gemsdoe67-ovtr-ml-cover-tau3p0-20261012-nan.tif</code></td><td>167,597</td><td>0.5481</td><td>0.8938</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE67@22d9034b6808:docs/downloads/gemsdoe67-ovtr-ml-cover-tau3p0-20261012-zero.tif</code></td><td>167,597</td><td>0.5481</td><td>0.8938</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE22@96481093a7f7:docs/downloads/gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-allfinite.tif</code></td><td>516,738</td><td>0.5343</td><td>0.8615</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE22@96481093a7f7:docs/downloads/gems22-h23-b-dti-optimal-emission-10pct-20261002-86176698-nan.tif</code></td><td>516,738</td><td>0.5343</td><td>0.8615</td></tr><tr><td><code>buffedlizard55-lab/GEMSDOE48@268ec599f51c:docs/downloads/GEMSDOE48-H53-3SRC-DS-20261007-9242c831-diag-conflict-ABL-nan.tif</code></td><td>1,488,469</td><td>0.5829</td><td>0.8329</td></tr></table>
+</section>
+</main></body></html>

@@ -37,12 +37,36 @@ def restore_entry(entry):
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".partial")
     try:
-        with tmp.open("wb") as stream:
-            subprocess.run([
-                "gh", "api",
-                f"repos/{entry['repo']}/contents/{entry['path']}?ref={entry['ref']}",
-                "-H", "Accept: application/vnd.github.raw",
-            ], stdout=stream, check=True, timeout=180)
+        fetched = False
+        try:
+            import shutil
+            import tarfile
+            import urllib.request
+
+            url = f"https://codeload.github.com/{entry['repo']}/tar.gz/{entry['ref']}"
+            req = urllib.request.Request(url, headers={"User-Agent": "gemsdoe78-preflight/1.0"})
+            with urllib.request.urlopen(req, timeout=180) as resp:
+                with tarfile.open(fileobj=resp, mode="r|gz") as tf:
+                    for member in tf:
+                        if not member.isfile():
+                            continue
+                        rel = member.name.split("/", 1)[1] if "/" in member.name else member.name
+                        if rel == entry["path"]:
+                            fh = tf.extractfile(member)
+                            if fh is not None:
+                                with tmp.open("wb") as stream:
+                                    shutil.copyfileobj(fh, stream, 1 << 20)
+                                fetched = True
+                            break
+        except Exception:
+            fetched = False
+        if not fetched:
+            with tmp.open("wb") as stream:
+                subprocess.run([
+                    "gh", "api",
+                    f"repos/{entry['repo']}/contents/{entry['path']}?ref={entry['ref']}",
+                    "-H", "Accept: application/vnd.github.raw",
+                ], stdout=stream, check=True, timeout=180)
         if sha256(tmp) != entry["sha256"]:
             raise ValueError(f"SHA256 mismatch: {entry['local_path']}")
         tmp.replace(path)
