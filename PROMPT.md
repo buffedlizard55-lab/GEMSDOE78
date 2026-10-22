@@ -1,3 +1,7 @@
+# Start here: current full task text
+
+Read the current [full request](research/USER_REQUEST_2026-10-22.md), also embedded in README.md, and the [current review](docs/review-2026-10-22.md) before work. The earlier excerpt below is retained only for history. User-supplied scores are not organizer receipts.
+
 # Original project prompt (archived verbatim excerpt — read at the start of every session)
 
 > Review the repo.

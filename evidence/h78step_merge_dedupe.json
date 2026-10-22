@@ -1,0 +1,24 @@
+{
+  "evidence_class": "REGISTRY-MEASUREMENT + merge disclosure (2026-10-22, after origin/main advanced during this session)",
+  "context": "While this H78-STEP session ran from commit 45cd56e, parallel sessions merged to main: an H78-CROSSLAYER lane (unsigned three-field gradient-alignment score, evidence/crosslayer_run_card.json) and a protocol review (docs/review-2026-10-22.md) establishing a universal registry-saturation blocker. IR-78STEP-02 had already flagged possible lane collision; this file records the dedupe measurements. It does not rewrite the frozen H78-STEP run card.",
+  "step_vs_crosslayer_dots": {
+    "mine": "docs/downloads/gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif (44,090 dots)",
+    "theirs": "docs/downloads/gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif (44,090 dots)",
+    "forward_step_dots_within_3px_of_crosslayer": 0.17037877069630303,
+    "forward_crosslayer_dots_within_3px_of_step": 0.20884554320707643,
+    "reading": "Conceptually related (cross-strike step evidence) but geometrically distinct dot sets and different operators (learner on paired flank patches vs unsigned gradient-alignment score). Both lanes are negative; neither is a copy of the other. H78-STEP remains blocked independently by its own holdout loss and by 0.79 forward overlap vs shipped H78-A-lineage dot sets."
+  },
+  "universal_saturation_blocker": {
+    "source": "scripts/preflight.py --restore run in this merged checkout (exit 2 = blocked by design)",
+    "witness": "data/registry/17GEMSDOE_E-proba-multiscale.tif sha256 ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be, positive on all 5,167,373 footprint cells",
+    "implication": "Under the literal finite>0 support rule every nonempty in-footprint candidate has forward 3-px overlap 1.0 with this raster, so no candidate can pass the 0.70 gate until a revised registry representation policy is adopted explicitly. H78-STEP's scoped 9-comparator audit (complete_registry_verified=false) is consistent with but weaker than this result; the blocker only strengthens the negative verdict. Continuous rasters must not be excluded silently (per main review)."
+  },
+  "feature_cache_bug_impact_on_h78step": {
+    "bug": "Parallel session fixed src/gems78/data.py nearest-fill index reuse keyed only on invalid-cell count.",
+    "verified_here": "Raw 19-band stack has exactly 2 unique nodata masks: 18 bands share one mask (7,113,308 bad cells); band 6 alone differs (7,113,320). The pre-fix code recomputed fill indices whenever the count changed, which happens exactly at band 6 and again at band 7, so every band of the cache used for H78-STEP was filled with its own correct mask. Equal-count/different-mask (the only failing case) does not occur in this file.",
+    "conclusion": "H78-STEP holdout numbers are unaffected by the cache bug. This was checked band by band from the SHA-pinned raw TIFF in the merged checkout."
+  },
+  "experiments_charged_by_h78step": 3,
+  "additional_experiments_in_merge": 0,
+  "ok_to_submit": false
+}

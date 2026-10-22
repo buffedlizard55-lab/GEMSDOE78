@@ -115,12 +115,19 @@
   "approved_for_weekly_slot": false,
   "promoted": false,
   "submission_slots_used": 0,
-  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "status": "blocked-do-not-submit",
   "metadata": {
     "lane": "H78-A",
     "arm": "A2_h78_steered",
     "variant": "nms0_B3",
     "budget": 44090,
     "label": "primary"
-  }
+  },
+  "historical_release_flags": {
+    "approved_for_weekly_slot": false,
+    "promoted": false,
+    "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval"
+  },
+  "current_release_audit": "../data/release_audit.json",
+  "publication_note": "Historical approval flags are superseded. Download for education only; no upload authorization."
 }
