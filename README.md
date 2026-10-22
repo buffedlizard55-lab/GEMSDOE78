@@ -86,3 +86,29 @@ H78-MPC is the diverse second file for a separate slot (mutual 3-px dot overlap 
 | Method | Riesz monogenic phase-congruency features (σ=1/2/4) + Frangi over a 48-band stack, LOQO HGB, spaced 37,654 dots; canaries 80/80 PASS; uniqueness ρmax 0.1546, mutual 0.4879 vs 74 registry rasters |
 | Disclosure | IR-78-EMIT-01: Pass-1 allocator emitted contiguous dot runs (HOLDOUT-DTI 0.0471); Pass-2 re-emitted frozen surfaces spaced (no retraining) → 0.0977. Both readings in `evidence/h78mpc_*.json`; run card `evidence/h78mpc_run_card.json`. Note: this lane's arms exclude visible-network context features, which is why its holdout trails H78-A — the significant MPC ablation is the transferable result |
 | Reproduce | `scripts/build_features.py` → `run_experiments.py` → `pass2_spaced_emission.py` → `build_production.py` → `pass2_rebuild_production.py` → `make_figures.py` / `build_run_card_mpc.py` / `build_site_mpc.py` (data: `scripts/restore_data.py`, manifest `registry/data_manifest_gems73.json`) |
+
+---
+
+## Third lane (session 3, 2026-10-21, branch `arena/431f4c40-gemsdoe78`): H78-CS collinear support — NEGATIVE
+
+A third parallel session tested whether 1.1/3.1 km **along-strike path integrals** (collinear
+support) of the steered `|Hnn|`/`|gn|` responses on `det_elev`/`rtp`/`depth_to_base_surf` improve
+the H78-A learner. Preregistered (`registry/preregistration_h78cs.json`), ranked against four
+alternatives in `research/h78cs_hypotheses.md`, 3 experiments. **Result: negative — do not submit
+this lane's file; the H78-A primary above remains the repo's promotable file.**
+
+| Item | Value |
+|---|---|
+| Page / guide | [`docs/h78cs.html`](docs/h78cs.html) · [`docs/h78cs-executive-summary.html`](docs/h78cs-executive-summary.html) |
+| File (inspection only) | `docs/downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif` (+ `.zip`, receipt) |
+| sha256 | `5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43` |
+| OK to submit | **NO** — verdict `negative` (gate 2/6) **and duplicate lane** vs H78-A (89.1 % of dots within 3 px of the primary's) |
+| Name / note (135) | `gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros` / `GEMSDOE78 H78-CS collinear HGB 44090 dots B3; HOLDOUT-DTI 0.1791 s20 vs CTRL 0.1826; NEGATIVE-DUPLICATE-do-not-submit; not a projection` |
+| HOLDOUT-DTI seed 20 | CAND_CS **0.1791** [0.1609, 0.1961] vs CTRL_A2 **0.1826** [0.1628, 0.2004], Δ −0.0035 [−0.0086, +0.0017] (evaluator gems57-pooled-hide-v2, 11,321 withheld); far-truth Δ −0.0053 [−0.0102, −0.0005]; CTRL reproduces shipped H78-A evidence exactly |
+| HOLDOUT-DTI seed 30 (replication) | CAND 0.1838 vs CTRL 0.1834, Δ +0.0004 [−0.0053, +0.0058] (11,342 withheld) → collinear effect ≈ 0 across seeds; CTRL_A2 across-seed points 0.1826 / 0.1834 (closes the seed-30 next-step above for this model class) |
+| Uniqueness | surface max \|ρ\| 0.1376 PASS; dot overlap 0.8908 vs H78-A primary **FAIL** (> 0.70); score-surface ρ vs CTRL 0.9520/0.9547 → feature-append variants of A2 are the *same lane* — do not re-propose |
+| Canary / validator | canary clean (max AUC 0.6022); writer + `scripts/verify_tif.py` 12/12 PASS (format portal-safe; negative is about evidence, not format) |
+| ORGANIZER-CONFIRMED | none — never uploaded, must not be |
+| Reproduce | `bash scripts/restore_data.sh` → `python scripts/run_holdout_cs.py --seed 20` → `--seed 30` → `python scripts/build_submission_cs.py` → `python scripts/make_figure_cs.py` → `python scripts/build_site_cs.py`; tests `python -m pytest -q tests` (22 pass). Deterministic: two production builds byte-identical (same sha256). Amendments IR-78CS-01/02 in the preregistration; run card `evidence/h78cs_run_card.json` |
+| Transferable lessons | (1) Per-pixel HGB already extracts along-strand evidence from pointwise steered derivatives; continuity needs a spatially-nonlinear model class (U-Net), not more columns. (2) Binary-registry surface ρ can look tiny (0.13) while dot overlap is 0.89 — always audit both, including vs this repo's own shipped files. (3) Judge future deltas against paired CIs, not single-seed points. |
+

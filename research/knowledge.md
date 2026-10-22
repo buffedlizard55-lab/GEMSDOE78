@@ -48,3 +48,11 @@ unless stated. `registry/sources.json` is the machine-readable twin of this file
 
 ## 5 Standing rules for every session
 Read PROMPT.md and README.md first. Label every number. Never write a projection as a score. Check uniqueness before placement and on final dots. Fix shared tools in the template, never fork. Three experiments or two hours, then stop and write the run card.
+
+## 4b Session 3 (2026-10-21, lane H78-CS) — MEASURED (scripts/run_holdout_cs.py, build_submission_cs.py; evidence/h78cs_*.json)
+
+* Along-strike collinear support (15 path-integral features, 1.1/3.1 km, det_elev/rtp/depth_to_base_surf) added to the 103 H78-A features: HOLDOUT-DTI (gems57-pooled-hide-v2, B3/44,090) seed 20 CAND 0.1791 vs CTRL 0.1826, paired Δ −0.0035 [−0.0086, +0.0017] (11,321 withheld); seed 30 CAND 0.1838 vs CTRL 0.1834, Δ +0.0004 [−0.0053, +0.0058] (11,342 withheld). Effect ≈ 0. Far-truth (>10 px): seed 20 Δ −0.0053 [−0.0102, −0.0005]; seed 30 Δ +0.0038 [−0.0013, +0.0095].
+* CTRL_A2 (exact H78-A rerun) reproduces shipped numbers to 4 dp on seed 20 (0.1826/0.1586/0.1843) and gives 0.1834 on seed 30: across-draw point spread 0.001 for this model class.
+* Univariate strength does not imply multivariate value: cs_det_elev_gn_L5_mean is the top single feature (symmetric AUC 0.6022 seed 20) yet the 15-feature block adds nothing (ABL raw19+CS B2 = 0.1365 vs raw19 0.1376 seed 20).
+* Lane-distance measurement: Cand-vs-Ctrl score-surface Spearman ρ = 0.9520 (s20) / 0.9547 (s30); production dot overlap (≤3 px) vs shipped H78-A primary 0.8908, vs altB2 0.8311, vs H19-5 0.4382, D2.8 0.3982, H33 0.3607, H78-MPC 0.3581; surface ρ vs the same binary rasters ≤ 0.1376. Feature-append lanes on A2 are duplicates of H78-A.
+

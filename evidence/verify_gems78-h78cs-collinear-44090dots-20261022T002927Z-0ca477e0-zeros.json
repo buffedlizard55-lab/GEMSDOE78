@@ -1,0 +1,27 @@
+{
+ "file": "gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif",
+ "bytes": 153538,
+ "sha256": "5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43",
+ "positive_pixels": 44090,
+ "footprint_fraction": 0.00853238192791579,
+ "checks": {
+  "single_band": true,
+  "float32": true,
+  "crs_EPSG:32611": true,
+  "shape_3730x3292": true,
+  "transform_(100,0,243350,0,-100,4508550)": true,
+  "no_nodata_tag": true,
+  "all_finite": true,
+  "no_nan_inside_footprint": true,
+  "values_in_[0,1]": true,
+  "binary_values_only": true,
+  "zero_outside_footprint": true,
+  "zero_on_catalogue": true
+ },
+ "all_passed": true,
+ "zip": {
+  "file": "gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.zip",
+  "single_tif_byte_identical": true,
+  "sha256": "d1147a588aac2360011389426a030264dff150c15ba9c8c19a602043026a875b"
+ }
+}

@@ -41,6 +41,7 @@ NAV = """<nav><a href="index.html">Home</a><a href="executive-summary.html">Exec
 <a href="hypotheses.html">Hypotheses & why H33 scored 0.2778</a><a href="holdout.html">Holdout evidence</a>
 <a href="sources.html">Sources</a><a href="irregularities.html">Irregularities</a>
 <a href="h78mpc.html">H78-MPC lane (2nd candidate)</a>
+<a href="h78cs.html">H78-CS lane (negative, session 3)</a>
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE78">Repository</a></nav>"""
 
 

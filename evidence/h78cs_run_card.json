@@ -1,0 +1,398 @@
+{
+  "lane": "H78-CS strike-following collinear support",
+  "repository": "buffedlizard55-lab/GEMSDOE78",
+  "branch": "arena/431f4c40-gemsdoe78",
+  "built_utc": "20261022T002927Z",
+  "hypothesis": "Faults are continuous strands kilometres long, so a true but faint unmapped strand accumulates steered ridge/step evidence coherently along its strike while the isolated texture that dominates per-pixel false positives (fan channels oblique to strike, short contacts, noise) does not; adding 1.1 km and 3.1 km along-strike path integrals of |Hnn| and |gn| on topography, magnetics and basement depth to the H78-A learner therefore raises kernel credit per emitted dot on withheld fault segments relative to the identical learner without them.",
+  "mechanism": "Faults are continuous strands: integrating |Hnn|/|gn| (sigma=3 px, det_elev/rtp/depth_to_base_surf) along the visible-catalogue strike tangent over 1.1/3.1 km is a matched filter that should raise faint-strand SNR vs isolated texture; HGB on 103 H78-A + 15 path-integral features; greedy dots >=2.8 px, <=3 px flank removed.",
+  "non_fault_mimic": "Pleistocene Lake Lahontan shorelines/beach ridges (long range-front-parallel topographic lines without a magnetic/basement step); roads; bedrock strike ridges.",
+  "holdout": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "evaluator_sha256": {
+      "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+      "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+      "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+      "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+    },
+    "seed": 20,
+    "hide_frac": 0.2,
+    "buffer_px": 3,
+    "withheld_positive_pixels": 11321,
+    "candidate": {
+      "config": "CAND_CS|B3|44090",
+      "dti": 0.17911435661791875,
+      "ci95": [
+        0.1608968809720701,
+        0.19607807253643575
+      ]
+    },
+    "ctrl": {
+      "config": "CTRL_A2|B3|44090",
+      "dti": 0.18258300140522551,
+      "ci95": [
+        0.16277714586297692,
+        0.20041890026983677
+      ],
+      "note": "exact rerun control; reproduces shipped H78-A evidence 0.1826/0.1586/0.1843"
+    },
+    "ablation": {
+      "config": "ABL_A0CS|B3|44090",
+      "dti": 0.16342426413289926,
+      "ci95": [
+        0.14528834592939902,
+        0.18161253101688832
+      ]
+    },
+    "paired_delta_cand_minus_ctrl": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": -0.0034686447873067683,
+      "ci95": [
+        -0.008570791251748025,
+        0.0017308388388214688
+      ],
+      "withheld_positive_pixels": 11321
+    },
+    "far_truth_gt10px": {
+      "n_positives": 5150,
+      "scores": {
+        "CTRL_A2|B3|44090": {
+          "dti": 0.07778640614588897,
+          "ci95": [
+            0.06286033712372192,
+            0.09262138776933303
+          ]
+        },
+        "CAND_CS|B3|44090": {
+          "dti": 0.07246999070338682,
+          "ci95": [
+            0.058071750255744174,
+            0.08692075896976457
+          ]
+        },
+        "ABL_A0CS|B3|44090": {
+          "dti": 0.05110226144776541,
+          "ci95": [
+            0.03970300339586019,
+            0.06305992562268002
+          ]
+        }
+      },
+      "paired_delta_cand_minus_ctrl": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "gems57-pooled-hide-v2",
+        "delta": -0.005316415442502151,
+        "ci95": [
+          -0.010155445583166903,
+          -0.0005202906456060625
+        ],
+        "withheld_positive_pixels": 5150
+      }
+    },
+    "surface_rho_candidate_vs_ctrl_seed20": {
+      "spearman_on_dot_union": NaN,
+      "n_dot_union": 5167373,
+      "jaccard_dot_sets": 1.0,
+      "spearman_full_footprint": 0.9519609933745677
+    },
+    "budgets_B3": {
+      "CTRL_A2": {
+        "CTRL_A2|B3|37654": 0.1778428424929495,
+        "CTRL_A2|B3|44090": 0.18258300140522551,
+        "CTRL_A2|B3|50000": 0.18431154590898757,
+        "CTRL_A2|B2|44090": 0.1585854369059286
+      },
+      "CAND_CS": {
+        "CAND_CS|B3|37654": 0.17642167070736467,
+        "CAND_CS|B3|44090": 0.17911435661791875,
+        "CAND_CS|B3|50000": 0.18125008003416263,
+        "CAND_CS|B2|44090": 0.15647796359156832
+      },
+      "ABL_A0CS": {
+        "ABL_A0CS|B3|37654": 0.15622779611647133,
+        "ABL_A0CS|B3|44090": 0.16342426413289926,
+        "ABL_A0CS|B3|50000": 0.16583982336906317,
+        "ABL_A0CS|B2|44090": 0.13651173085447738
+      }
+    }
+  },
+  "replication_seed30": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "seed": 30,
+    "withheld_positive_pixels": 11342,
+    "cand": {
+      "dti": 0.18383744780232142,
+      "ci95": [
+        0.16280648806251188,
+        0.20481043358687598
+      ]
+    },
+    "ctrl": {
+      "dti": 0.18344239770674675,
+      "ci95": [
+        0.16217705638101063,
+        0.20486529783108395
+      ]
+    },
+    "paired_delta_cand_minus_ctrl": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "delta": 0.0003950500955746672,
+      "ci95": [
+        -0.005280272445096114,
+        0.005781707010310133
+      ],
+      "withheld_positive_pixels": 11342
+    },
+    "far_truth": {
+      "CTRL_A2|B3|44090": 0.07909129500336336,
+      "CAND_CS|B3|44090": 0.08293699376719062,
+      "ABL_A0CS|B3|44090": 0.06774677441827189
+    },
+    "role": "replication of the negative per amendment IR-78CS-01; cannot promote this lane"
+  },
+  "canary": {
+    "threshold": 0.9,
+    "max_single_feature_auc": 0.6022,
+    "cs_features": {
+      "cs_det_elev_Hnn_L5_mean": 0.5617,
+      "cs_det_elev_Hnn_L15_mean": 0.5613,
+      "cs_det_elev_gn_L5_mean": 0.6022,
+      "cs_det_elev_gn_L15_mean": 0.5977,
+      "cs_det_elev_Hnn_L15_min": 0.5589,
+      "cs_rtp_Hnn_L5_mean": 0.5255,
+      "cs_rtp_Hnn_L15_mean": 0.5304,
+      "cs_rtp_gn_L5_mean": 0.5371,
+      "cs_rtp_gn_L15_mean": 0.5367,
+      "cs_rtp_Hnn_L15_min": 0.5348,
+      "cs_depth_to_base_surf_Hnn_L5_mean": 0.5015,
+      "cs_depth_to_base_surf_Hnn_L15_mean": 0.5006,
+      "cs_depth_to_base_surf_gn_L5_mean": 0.5207,
+      "cs_depth_to_base_surf_gn_L15_mean": 0.5207,
+      "cs_depth_to_base_surf_Hnn_L15_min": 0.5016
+    },
+    "flagged": {},
+    "clean": true
+  },
+  "correlation_overlap_vs_registry": {
+    "rho_limit": 0.9,
+    "overlap_limit": 0.7,
+    "surface_before_placement": {
+      "H19-5 solid (121131 px; owner-report 0.1922)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.023441504996833014,
+        "spearman_full_footprint": 0.1270200127381118
+      },
+      "D2.8 dots (44090; owner-report 0.2600)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.00853238192791579,
+        "spearman_full_footprint": 0.07137372051656184
+      },
+      "H33-2-B2 dots (37654; owner-report 0.2778)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.007286874781441169,
+        "spearman_full_footprint": 0.05410624306509698
+      },
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.00853238192791579,
+        "spearman_full_footprint": 0.13133220779377994
+      },
+      "H78-A altB2 shipped (44090; inspection only)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.00853238192791579,
+        "spearman_full_footprint": 0.13759220599990138
+      },
+      "H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)": {
+        "spearman_on_dot_union": NaN,
+        "n_dot_union": 5167373,
+        "jaccard_dot_sets": 0.007286874781441169,
+        "spearman_full_footprint": 0.0700358948589502
+      }
+    },
+    "final_dots": {
+      "H19-5 solid (121131 px; owner-report 0.1922)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.43817192107053754,
+        "fraction_of_their_dots_within_3px_of_mine": 0.39705773088639573,
+        "spearman_full_footprint": 0.03307581022814201
+      },
+      "D2.8 dots (44090; owner-report 0.2600)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.3982308913585847,
+        "fraction_of_their_dots_within_3px_of_mine": 0.3677704694942164,
+        "spearman_full_footprint": 0.017427154672313355
+      },
+      "H33-2-B2 dots (37654; owner-report 0.2778)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.3607167158085734,
+        "fraction_of_their_dots_within_3px_of_mine": 0.3548095819833218,
+        "spearman_full_footprint": 0.020204463932957665
+      },
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.8908369244726695,
+        "fraction_of_their_dots_within_3px_of_mine": 0.8849852574279882,
+        "spearman_full_footprint": 0.23408638865672068
+      },
+      "H78-A altB2 shipped (44090; inspection only)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.8311181673848945,
+        "fraction_of_their_dots_within_3px_of_mine": 0.8772510773418009,
+        "spearman_full_footprint": 0.11037261636365225
+      },
+      "H78-MPC shipped (37654; HOLDOUT-DTI 0.0977)": {
+        "fraction_of_my_dots_within_3px_of_theirs": 0.35806305284645046,
+        "fraction_of_their_dots_within_3px_of_mine": 0.40739363679821533,
+        "spearman_full_footprint": 0.024657392695001702
+      }
+    },
+    "surface_max_abs_rho": 0.13759220599990138,
+    "dots_max_abs_rho": 0.23408638865672068,
+    "dots_max_overlap": 0.8908369244726695,
+    "passed": false,
+    "duplicate_lane_vs": [
+      "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)",
+      "H78-A altB2 shipped (44090; inspection only)"
+    ],
+    "note": "Registry = H19-5, D2.8, H33 + this repo's shipped H78-A primary/altB2 and H78-MPC. Duplicate-lane breach (>0.70 dot overlap or >0.90 rho) vs: ['H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)', 'H78-A altB2 shipped (44090; inspection only)']. Separately, seed-20 score-surface rho vs the CTRL_A2 surface was 0.9520: as a model class this lane sits inside H78-A (amendment IR-78CS-01)."
+  },
+  "raster": {
+    "file": "gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif",
+    "sha256": "5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43",
+    "bytes": 153538,
+    "zip": "gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.zip",
+    "zip_sha256": "d1147a588aac2360011389426a030264dff150c15ba9c8c19a602043026a875b",
+    "dots": 44090,
+    "flank_px": 3.0,
+    "budget": 44090,
+    "min_separation_px": 2.8
+  },
+  "raster_sha256": "5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43",
+  "validator_output": {
+    "independent_reread": {
+      "count": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null,
+      "matches_sample": {
+        "crs": true,
+        "shape": true,
+        "transform": true
+      },
+      "all_finite": true,
+      "nan_inside_footprint": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "values_in_0_1": true,
+      "positive_pixels": 44090,
+      "positives_on_catalogue": 0,
+      "positives_outside_footprint": 0,
+      "distinct_values": [
+        0.0,
+        1.0
+      ],
+      "sha256": "5fa189f65465682a6353467eb0cc82fb789ebcb32dd0b5006fa6fe9a1075ad43",
+      "bytes": 153538
+    },
+    "passed": true,
+    "writer_receipt_checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match_sample": true
+  },
+  "validator": {
+    "passed": true
+  },
+  "preregistered_gate_evaluation": {
+    "cand_beats_ctrl_point": false,
+    "cand_beats_repo_best_0p1826": false,
+    "paired_delta_ci_lower_gt_0": false,
+    "canary_clean": true,
+    "uniqueness_pass": false,
+    "validator_pass": true
+  },
+  "submission_name": "gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros",
+  "submission_note": "GEMSDOE78 H78-CS collinear HGB 44090 dots B3; HOLDOUT-DTI 0.1791 s20 vs CTRL 0.1826; NEGATIVE-DUPLICATE-do-not-submit; not a projection",
+  "note_chars": 135,
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "verdict": "negative",
+  "organizer_confirmed_score": null,
+  "organizer_confirmed_note": "none: this file has not been uploaded and (verdict negative) must not be",
+  "selector_guidance": "Do NOT spend a weekly slot on this file: it failed the holdout gate on two seeds AND is a duplicate lane vs the shipped H78-A dots (>0.70 within 3 px; see duplicate_lane_vs). The repo's promotable file remains H78-A primary (docs/index.html). This lane's deliverable is the negative result + the CTRL across-seed replication.",
+  "fit": {
+    "n_pos": 60988,
+    "n_neg": 450000,
+    "n_features": 118,
+    "params": {
+      "max_iter": 300,
+      "learning_rate": 0.06,
+      "max_leaf_nodes": 63,
+      "min_samples_leaf": 200,
+      "l2_regularization": 1.0,
+      "max_bins": 255,
+      "early_stopping": false,
+      "random_state": 0
+    },
+    "fit_seconds": 93.8
+  },
+  "features_base": {
+    "tag": "full",
+    "n_footprint": 5167373,
+    "n_features": 103,
+    "strike_sigma_region_px": 40.0,
+    "strike_sigma_line_px": 1.5,
+    "visible_catalogue_px": 60988,
+    "coherence_median": 0.5577561259269714,
+    "seconds": 108.7
+  },
+  "features_cs": {
+    "tag": "full",
+    "n_footprint": 5167373,
+    "n_features": 15,
+    "bands": [
+      "det_elev",
+      "rtp",
+      "depth_to_base_surf"
+    ],
+    "sigma_px": 3.0,
+    "half_lengths_px": [
+      5,
+      15
+    ],
+    "segment": "straight centre-pixel tangent, bilinear samples every 1 px",
+    "seconds": 54.1
+  },
+  "seconds": 286.2
+}
