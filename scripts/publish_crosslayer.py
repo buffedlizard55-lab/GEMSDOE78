@@ -34,7 +34,15 @@ def publish():
         raise ValueError('stale registry gate')
     if not witnesses or card['holdout']['score'] >= card['holdout']['control_incumbent']['score']:
         raise ValueError('negative run card no longer matches measured gates')
+    consolidated = json.loads((ROOT/'evidence/release_audit.json').read_text()) if (ROOT/'evidence/release_audit.json').exists() else None
+    if consolidated is not None:
+        inventory = {c['file']:c for c in consolidated['candidates']}
+        if tif.name not in inventory or inventory[tif.name]['sha256'] != digest or not all(c['validator']['all_passed'] for c in inventory.values()):
+            raise ValueError('consolidated audit missing or invalid for newest TIFF')
     status = dict(schema_version=2, generated_utc=card['generated_utc'],
+        review_date='2026-10-22', new_tif_generated=True,
+        candidates=consolidated['candidates'] if consolidated else [],
+        authoritative_card='crosslayer_run_card.json',
         generated_tif=tif.name, sha256=digest, verdict='negative',
         ok_to_download_for_inspection=True, ok_to_submit=False,
         reason='Holdout below incumbent and literal registry overlap above 70%; stop.',

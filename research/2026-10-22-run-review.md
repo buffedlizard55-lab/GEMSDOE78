@@ -24,4 +24,4 @@ Official links: [organizer reference code](https://github.com/drivendataorg/gems
 
 Next: do **not** rerun this lane. The selector must resolve the literal lattice veto (without changing the user's threshold), establish complete registry inventory, source-authenticate inputs, and verify submission-page cap/receipts before any future *different* preregistered method or weekly slot. No claim of a guaranteed leaderboard gain.
 
-Verification: `python -m pytest -q tests` → 39 passed, 1 third-party rasterio deprecation warning; `git diff --check` clean; `scripts/verify_tif.py` independent checks all pass. One experiment; within the three-experiment/two-hour budget.
+Verification after merging the concurrent consolidated release audit: `python -m pytest -q tests` → 43 passed, 2 third-party rasterio deprecation warnings; `git diff --check` clean; `scripts/verify_tif.py` independent checks all pass. The current consolidated audit revalidates all six published TIFFs and its status includes the new file. One experiment; within the three-experiment/two-hour budget.

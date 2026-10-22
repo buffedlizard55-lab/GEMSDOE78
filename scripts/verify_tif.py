@@ -14,6 +14,7 @@ def main(path):
         cat = c.read(1) > 0
     with rasterio.open(path) as ds:
         a = ds.read(1); meta = (str(ds.crs), ds.height, ds.width, tuple(ds.transform)[:6]); count = ds.count; dt = ds.dtypes[0]; nod = ds.nodata
+    compatible = a.shape == fp.shape == cat.shape
     checks = {
         "single_band": count == 1, "float32": dt == "float32",
         "crs_EPSG:32611": meta[0] == "EPSG:32611" == ref_meta[0],
@@ -21,23 +22,28 @@ def main(path):
         "transform_(100,0,243350,0,-100,4508550)": meta[3] == (100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0) == ref_meta[3],
         "no_nodata_tag": nod is None,
         "all_finite": bool(np.isfinite(a).all()),
-        "no_nan_inside_footprint": int(np.isnan(a[fp]).sum()) == 0,
+        "no_nan_inside_footprint": compatible and bool(np.isfinite(a[fp]).all()),
         "values_in_[0,1]": bool(a.min() >= 0.0 and a.max() <= 1.0),
         "binary_values_only": set(np.unique(a).tolist()) <= {0.0, 1.0},
-        "zero_outside_footprint": bool((a[~fp] == 0).all()),
-        "zero_on_catalogue": int((a[cat] > 0).sum()) == 0,
+        "zero_outside_footprint": compatible and bool((a[~fp] == 0).all()),
+        "zero_on_catalogue": compatible and int((a[cat] > 0).sum()) == 0,
     }
     out = dict(file=path.name, bytes=path.stat().st_size, sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
-               positive_pixels=int((a > 0).sum()), footprint_fraction=float((a[fp] > 0).mean()),
+               positive_pixels=int((a > 0).sum()), footprint_fraction=float((a[fp] > 0).mean()) if compatible else None,
                checks=checks, all_passed=all(checks.values()))
     z = path.with_suffix(".zip")
     if z.exists():
         with zipfile.ZipFile(z) as zf:
-            names = zf.namelist(); same = len(names) == 1 and zf.read(names[0]) == path.read_bytes()
+            names = zf.namelist(); same = len(names) == 1 and names[0] == path.name and zf.read(names[0]) == path.read_bytes()
         out["zip"] = dict(file=z.name, single_tif_byte_identical=same, sha256=hashlib.sha256(z.read_bytes()).hexdigest())
     if "zip" in out:
         out["all_passed"] = out["all_passed"] and out["zip"]["single_tif_byte_identical"]
     print(json.dumps(out, indent=1)); return 0 if out["all_passed"] else 1
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1]))
+    try:
+        code = main(sys.argv[1])
+    except (OSError, ValueError, IndexError, zipfile.BadZipFile, rasterio.errors.RasterioError) as exc:
+        print(json.dumps({"all_passed": False, "error": str(exc)}))
+        code = 1
+    sys.exit(code)

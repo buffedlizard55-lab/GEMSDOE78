@@ -37,6 +37,9 @@ def main():
     failed = literal_failures(u['dot_rows'])
     fresh = load('evidence/rechecked_overlap.json')
     cs = load('evidence/h78cs_run_card.json')
+    spy = load('evidence/h78spy_run_card.json')
+    cross_path = ROOT / 'evidence/crosslayer_run_card.json'
+    cross = json.loads(cross_path.read_text()) if cross_path.exists() else None
     candidates = []
     for lane, filename, reason in [
         ('H78-A', a['raster']['file'], f"INCOMPLETE: {a_review['reason']}"),
@@ -46,7 +49,26 @@ def main():
         candidates.append(dict(lane=lane, file=filename, sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
                                validator=validate(p), ok_to_download=True, ok_to_submit=False,
                                verdict='negative', reason=reason))
-    card = dict(schema_version=1, review_date='2026-10-21', hypothesis=m['hypothesis'],
+    known = {c['file'] for c in candidates}
+    for p in sorted((ROOT / 'docs/downloads').glob('*.tif')):
+        if p.name in known:
+            continue
+        if cross and p.name == cross['submission_name'] + '.tif':
+            lane = 'CROSS-LAYER STEP'
+            witness = max(cross['registry']['final_dots'], key=lambda r: r['forward_3px_overlap'])
+            reason = (f"DUPLICATE + NEGATIVE: HOLDOUT-DTI {cross['holdout']['score']:.4f} below incumbent; "
+                      f"literal forward overlap {witness['forward_3px_overlap']:.4f} vs pinned lattice exceeds 0.70.")
+        elif p.name == spy['file']:
+            lane = 'H78-SPY'
+            reason = 'DUPLICATE + NEGATIVE: H78-SPY failed its matched holdout control and recorded forward overlap 0.9245 vs H78-A.'
+        else:
+            lane = 'H78-A alternative'
+            reason = 'INCOMPLETE: published historical alternative has no complete registry clearance.'
+        candidates.append(dict(lane=lane,
+                               file=p.name, sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
+                               validator=validate(p), ok_to_download=True, ok_to_submit=False,
+                               verdict='negative', reason=reason))
+    card = dict(schema_version=2, review_date='2026-10-22' , hypothesis=m['hypothesis'],
                 mechanism=m['mechanism'], non_fault_mimic=m['mimic_nonfault_process'],
                 holdout={**m['holdout']['candidate_E2_MPC_SPACED'], 'evidence_class':'HOLDOUT-DTI',
                          'evaluator_version':m['holdout']['evaluator_version'],
@@ -71,7 +93,9 @@ def main():
                 submission_name=prod['name'], submission_note='DO NOT SUBMIT: literal forward-overlap gate failed; retained for reproducibility only.',
                 verdict='negative', ok_to_download=True, ok_to_submit=False, stop_required=True, new_experiments=0,
                 new_tif_generated=False, submission_slots_used=0, organizer_confirmed_score=None,
-                candidates=candidates)
+                candidates=candidates,
+                newer_candidate_card='crosslayer_run_card.json' if cross else None,
+                note_on_newer_candidate=('Historical audit fields new_tif_generated=false/new_experiments=0 describe the prior release review, not the subsequent CROSS-LAYER experiment.' if cross else None))
     for row in fresh['rows']:
         candidate = next(c for c in candidates if c['lane'] == row['lane'])
         if row['candidate_sha256'] != candidate['sha256']:
@@ -80,11 +104,16 @@ def main():
     text = json.dumps(card, indent=2, allow_nan=False) + '\n'
     (ROOT / 'evidence/release_audit.json').write_text(text)
     (ROOT / 'docs/data/release_audit.json').write_text(text)
+    status = dict(schema_version=2, review_date=card['review_date'], ok_to_download=True,
+                  ok_to_submit=False, verdict='negative', new_tif_generated=False,
+                  candidates=candidates, authoritative_card='release_audit.json',
+                  organizer_confirmed_score=None, weekly_cap_verified=False)
+    (ROOT / 'docs/data/status.json').write_text(json.dumps(status, indent=2, allow_nan=False) + '\n')
     rows = ''.join(f'<tr><td>{c["lane"]}</td><td>{"PASS" if c["validator"]["all_passed"] else "FAIL / UNVERIFIED"}</td><td>NO — {html.escape(c["reason"])}</td><td><a download href="downloads/{c["file"]}">Download historical TIFF — do not submit</a></td></tr>' for c in candidates)
     page = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GEMS78 — Submission readiness</title>
 <style>body{font:17px/1.6 system-ui;margin:3rem auto;padding:0 1rem;max-width:1100px;color:#172438;background:#f5f7fb}h1{line-height:1.2}.alert{padding:1.3rem;background:#fff1df;border:2px solid #a64c00;border-radius:12px}table{border-collapse:collapse}td,th{text-align:left;padding:1rem;border-bottom:1px solid #bbc5d1}a{color:#1355a0}code{overflow-wrap:anywhere}</style>
-<h1>GEMS78 · Submission readiness</h1><div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocked both historical candidates. A later inspection raster is also blocked; see the homepage. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.</div>
-<h2>Downloads and automatic checks</h2><table><tr><th>Candidate</th><th>Local format</th><th>Submission gate</th><th>File</th></tr>''' + rows + '''</table>
+<h1>GEMS78 · Submission readiness</h1><div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocks every published candidate, including alternatives. No new unique TIFF was generated in this review. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.</div>
+<p><a href="review-2026-10-22.md">Latest three-pass review and limitations</a> · <a href="data/status.json">Consolidated status feed</a></p><h2>Downloads and automatic checks</h2><table><tr><th>Candidate</th><th>Local format</th><th>Submission gate</th><th>File</th></tr>''' + rows + '''</table>
 <p><a href="downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif">Download inspection GeoTIFF</a> — DO-NOT-SUBMIT. Later H78-SPY file, format-valid and not cleared. <a href="index.html">Homepage</a> states the same gate.</p>
 <p><a href="h78cs.html">H78-CS lane page</a> - session-3 collinear-support file, format-valid, HOLDOUT-DTI negative on two seeds and a duplicate of H78-A (forward overlap 0.8908). Do not submit.</p>
 <p><a href="data/release_audit.json">Machine-readable run card and validator output</a> · <a href="review-release.md">Scientific review, hypotheses and next steps</a></p>
