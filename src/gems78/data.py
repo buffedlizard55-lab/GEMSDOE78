@@ -68,7 +68,9 @@ def build_stack(force: bool = False) -> Path:
     source_sha = sha256(RAW) if RAW.exists() else EXPECTED_SHA["training_features.tif"]
     if STACK.exists() and cache_meta.exists() and not force:
         saved = json.loads(cache_meta.read_text())
-        if saved.get("fill_algorithm") == "nearest-exact-mask-v2" and saved.get("source_sha256") == source_sha:
+        if (saved.get("fill_algorithm") == "nearest-exact-mask-v2"
+                and saved.get("source_sha256") == source_sha
+                and saved.get("stack_sha256") == sha256(STACK)):
             return STACK
     temporary = STACK.with_suffix(STACK.suffix + ".partial")
     with rasterio.open(RAW) as ds:
@@ -80,6 +82,8 @@ def build_stack(force: bool = False) -> Path:
             a = ds.read(i + 1)
             bad = ~np.isfinite(a) | (a <= SENTINEL)
             n_bad = int(bad.sum())
+            if n_bad == a.size:
+                raise ValueError(f"band {i + 1} has no valid cells to fill from")
             if n_bad:
                 if fill_idx is None or not np.array_equal(bad, fill_idx[0]):
                     # Equal nodata COUNTS do not imply equal masks across bands.
@@ -98,7 +102,7 @@ def build_stack(force: bool = False) -> Path:
         del mm
     temporary.replace(STACK)
     (PROC / "stack19_receipt.json").write_text(json.dumps(receipt, indent=2))
-    cache_meta.write_text(json.dumps(dict(fill_algorithm="nearest-exact-mask-v2", source_sha256=source_sha), indent=2))
+    cache_meta.write_text(json.dumps(dict(fill_algorithm="nearest-exact-mask-v2", source_sha256=source_sha, stack_sha256=sha256(STACK)), indent=2))
     return STACK
 
 

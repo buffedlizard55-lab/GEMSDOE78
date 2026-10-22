@@ -68,3 +68,47 @@ def test_builders_finish_with_release_audit():
             assert '100% forward overlap' in text
             assert 'h78cs-collinear' in text
             assert 'h78spy-inspection' in text
+
+
+def test_inventory_covers_every_published_tif():
+    card = json.loads((ROOT / 'evidence/release_audit.json').read_text())
+    files = {p.name for p in (ROOT / 'docs/downloads').glob('*.tif')}
+    assert {c['file'] for c in card['candidates']} == files
+    status = json.loads((ROOT / 'docs/data/status.json').read_text())
+    assert status['candidates'] == card['candidates']
+    assert status['review_date'] == '2026-10-22'
+
+
+def test_wrong_shape_returns_structured_failure(tmp_path):
+    import numpy as np
+    import rasterio
+    from rasterio.transform import from_origin
+    path = tmp_path / 'small.tif'
+    with rasterio.open(path, 'w', driver='GTiff', height=2, width=2,
+                       count=1, dtype='float32', crs='EPSG:32611',
+                       transform=from_origin(243350, 4508550, 100, 100)) as ds:
+        ds.write(np.zeros((2, 2), dtype='float32'), 1)
+    report = audit.validate(path)
+    assert not report['all_passed']
+    assert report['checks']['shape_3730x3292'] is False
+    assert report['footprint_fraction'] is None
+
+
+def test_zip_entry_name_must_match_tif(tmp_path):
+    import zipfile
+    source = next((ROOT / 'docs/downloads').glob('*.tif'))
+    copied = tmp_path / source.name
+    copied.write_bytes(source.read_bytes())
+    with zipfile.ZipFile(copied.with_suffix('.zip'), 'w') as z:
+        z.writestr('unexpected.bin', copied.read_bytes())
+    assert not audit.validate(copied)['all_passed']
+
+
+def test_corrupt_zip_returns_structured_failure(tmp_path):
+    source = next((ROOT / 'docs/downloads').glob('*.tif'))
+    copied = tmp_path / source.name
+    copied.write_bytes(source.read_bytes())
+    copied.with_suffix('.zip').write_bytes(b'broken zip')
+    report = audit.validate(copied)
+    assert report['all_passed'] is False
+    assert 'error' in report

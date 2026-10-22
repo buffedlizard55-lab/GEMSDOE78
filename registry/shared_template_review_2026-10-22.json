@@ -1,0 +1,14 @@
+{
+  "scope": "Shared vendored template, not a private lane fork. Upstream parallel merge already fixed binding_duplicate_decision to literal-all-rasters. This review additionally corrects only a false mathematical docstring in halo_coverage; its arithmetic is unchanged.",
+  "file": "vendor/gems57/uniqueness.py",
+  "upstream_main": "17be658da51fac13622a714f77857b12ea68e987",
+  "upstream_sha256": "0d343c085cafa8a85ab19c1f4d246a38b57e3c222c4e23bac55ef460164a3cd9",
+  "current_sha256": "15638926583106b22f381bea5b4b4ef09795640bfea6f42074f39d00d6a48aeb",
+  "unchanged_evaluator_writer_sha256": {
+    "vendor/gems57/evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+    "vendor/gems57/holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+    "vendor/gems57/metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+    "vendor/gems57/submission_writer.py": "41220185ac2823fe5358603d38f2a915ea3e5f1ab1f94f0b237295b38b4a2565"
+  },
+  "note": "Historical preregistration hashes describe their historical code, not this merged revision. No historical DTI is claimed rerun."
+}

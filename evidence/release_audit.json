@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "review_date": "2026-10-22",
-  "reviewed_utc": "2026-10-22T01:03:18.971880+00:00",
+  "reviewed_utc": "2026-10-22T01:06:33.693159+00:00",
   "protocol_preflight": {
     "schema_version": 1,
-    "reviewed_utc": "2026-10-22T01:03:06.128184+00:00",
+    "reviewed_utc": "2026-10-22T01:06:17.738926+00:00",
     "review_type": "protocol preflight, not a model experiment",
     "assigned_lane": null,
     "hypothesis": "A full-footprint positive registry raster makes the literal 3-pixel forward-overlap gate impossible for every nonempty in-footprint candidate.",
@@ -657,6 +657,97 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "Historical same-model flank alternative, not a new lane. No current slot authorization.",
+      "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
+    },
+    {
+      "lane": "H78-CROSSLAYER",
+      "file": "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif",
+      "sha256": "0b9cbb580dd8f94474744bf87a72abb602403cdccf8c6289bbe9625f4ffe75c3",
+      "validator": {
+        "file": "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif",
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG_32611": true,
+          "shape_3730x3292": true,
+          "transform_matches_sample": true,
+          "no_nodata_tag": true,
+          "reference_hashes_verified": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "bytes": 141096,
+        "sha256": "0b9cbb580dd8f94474744bf87a72abb602403cdccf8c6289bbe9625f4ffe75c3",
+        "positive_pixels": 44090,
+        "footprint_fraction": 0.00853238192791579,
+        "zip": {
+          "file": "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "13fd3ba57f174b211d203a4cbdc0f1d468020a409e1265e1e2938759ca23c788"
+        }
+      },
+      "integrity_passed": true,
+      "final_dots_vs_saturation_witness": {
+        "my_file": "docs/downloads/gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif",
+        "evidence_class": "REGISTRY-MEASUREMENT",
+        "my_dots": 44090,
+        "candidate_decoded_sha256": "be308b543d6b1806d8273459d8bc52c674e6fe06e2e6490f3b56312dbdd270a9",
+        "candidate_file_sha256": "0b9cbb580dd8f94474744bf87a72abb602403cdccf8c6289bbe9625f4ffe75c3",
+        "rho_limit": 0.9,
+        "overlap_limit": 0.7,
+        "jaccard_limit": 0.5,
+        "registry_rasters_expected": 1,
+        "registry_rasters_checked": 1,
+        "complete_accessible_scan": false,
+        "missing_or_invalid": 0,
+        "source_errors": [
+          "Legacy list has no complete-inventory certificate; diagnostic only"
+        ],
+        "worst_spearman_full_footprint": 0.013708351064865119,
+        "worst_rho_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_dot_overlap": 1.0,
+        "worst_overlap_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_jaccard_dot_sets": 0.00853238192791579,
+        "worst_jaccard_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "byte_unique_among_checked": true,
+        "pixel_unique_among_checked": true,
+        "duplicate_count": 1,
+        "unique": false,
+        "rows": [
+          {
+            "repo": "buffedlizard55-lab/17GEMSDOE",
+            "submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+            "file": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+            "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+            "decoded_sha256": "11cb7dffcc88926fee8260f61df01d7712d3a7bb34fcc1bb333fb6b47f77ec05",
+            "their_dots": 5167373,
+            "my_dots_within_3px_of_theirs": 1.0,
+            "their_dots_within_3px_of_mine": 0.11418974399564344,
+            "spearman_full_footprint": 0.013708351064865119,
+            "jaccard_dot_sets": 0.00853238192791579,
+            "identical_bytes": false,
+            "identical_decoded_predictions": false,
+            "duplicate_by_rho": false,
+            "duplicate_by_overlap": true,
+            "duplicate_by_jaccard": false
+          }
+        ],
+        "jaccard_diagnostic_only": true,
+        "verdict": "negative",
+        "stop_required": true,
+        "candidate_rank_variation": true,
+        "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only."
+      },
+      "surface_before_placement": null,
+      "ok_to_download": true,
+      "ok_to_submit": false,
+      "verdict": "negative",
+      "reason": "DUPLICATE + NEGATIVE: separate parallel session generated this file; it failed its holdout control and registry gates. Not generated in this review.",
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     }
   ]

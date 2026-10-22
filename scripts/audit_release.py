@@ -53,12 +53,21 @@ def main():
         with rasterio.open(ROOT / 'data/bridge/sample_submission.tif') as src:
             footprint = np.isfinite(src.read(1))
     candidates = []
-    for lane, filename, reason in [
+    specs = [
         ('H78-A', a['raster']['file'], f"INCOMPLETE: {a_review['reason']}"),
         ('H78-MPC', prod['final_stem'] + '.tif', 'DUPLICATE: recorded forward overlap exceeds the literal threshold. Stop required.'),
         ('H78-CS', cs['raster']['file'], 'DUPLICATE + NEGATIVE: failed matched HOLDOUT-DTI comparison; replication did not establish a gain. Forward 3px overlap vs H78-A 0.8908 exceeds 0.70. Full labelled results: evidence/h78cs_run_card.json.'),
         ('H78-SPY', spy['file'], 'DUPLICATE + NEGATIVE: failed matched holdout control; forward overlap vs H78-A 0.9245 exceeds 0.70.'),
-        ('H78-A-altB2', 'gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif', 'Historical same-model flank alternative, not a new lane. No current slot authorization.')]:
+        ('H78-A-altB2', 'gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif', 'Historical same-model flank alternative, not a new lane. No current slot authorization.')]
+    cross_path = ROOT / 'evidence/crosslayer_run_card.json'
+    if cross_path.exists():
+        cross = load('evidence/crosslayer_run_card.json')
+        specs.append(('H78-CROSSLAYER', cross['submission_name'] + '.tif', 'DUPLICATE + NEGATIVE: separate parallel session generated this file; it failed its holdout control and registry gates. Not generated in this review.'))
+    known = {filename for _, filename, _ in specs}
+    for path in sorted((ROOT / 'docs/downloads').glob('*.tif')):
+        if path.name not in known:
+            specs.append(('UNREGISTERED', path.name, 'No scientific eligibility card is indexed for this artifact; fail closed.'))
+    for lane, filename, reason in specs:
         p = ROOT / 'docs/downloads' / filename
         digest = hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
         try:
@@ -140,13 +149,25 @@ def main():
     for name in ('index.html','executive-summary.html','h78mpc.html','h78mpc-executive-summary.html'):
         (ROOT / 'docs' / name).write_text(page)
     status = load('docs/data/status.json')
-    status.update(current_review_utc=card['reviewed_utc'], authoritative_release='release_audit.json',
+    if cross_path.exists():
+        cross = load('evidence/crosslayer_run_card.json')
+        final = cross['registry']['final_dots']
+        status.update(generated_tif=cross['submission_name'] + '.tif', sha256=cross['raster_sha256'],
+                      worst_forward_3px_overlap=max(r['forward_3px_overlap'] for r in final),
+                      duplicate_witnesses=[r['file'] for r in final if r['forward_3px_overlap'] > .70],
+                      latest_generated_card='crosslayer_run_card.json')
+    status.update(schema_version=3, review_date=card['review_date'],
+                  reason='Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.',
+                  new_tif_generated=False,
+                  candidates=candidates, current_review_new_tif_generated=False, live_feed=False,
+                  weekly_slots_used_by_agent=0, organizer_confirmed=None,
+                  current_review_utc=card['reviewed_utc'], authoritative_release='release_audit.json', authoritative_card='release_audit.json',
                   protocol_preflight='protocol_preflight.json',
                   historical_session_only=True, all_published_candidates=candidates,
                   current_reason='Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.')
     (ROOT / 'docs/data/status.json').write_text(json.dumps(status, indent=2, allow_nan=False) + '\n')
     notice = '<aside id="release-audit-warning" style="padding:20px;background:#fff1df;color:#172438"><strong>Historical analysis — promotion claims superseded.</strong> Current status: OK TO SUBMIT: NO. <a href="index.html">Read the automatic release audit and current protocol saturation certificate.</a></aside>'
-    for name in ('holdout.html', 'hypotheses.html', 'sources.html', 'irregularities.html', 'h78a.html', 'h78a-executive-summary.html', 'h78cs.html', 'h78cs-executive-summary.html'):
+    for name in ('holdout.html', 'hypotheses.html', 'sources.html', 'irregularities.html', 'h78a.html', 'h78a-executive-summary.html', 'h78cs.html', 'h78cs-executive-summary.html', 'crosslayer.html', 'crosslayer-executive-summary.html'):
         p = ROOT / 'docs' / name
         if p.exists():
             old = p.read_text()

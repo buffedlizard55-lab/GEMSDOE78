@@ -1,16 +1,28 @@
 # GEMSDOE78 — automated submission-readiness review
 
-## Download status: YES to download · NO to submit
+**Start every session here, then read [the complete current request](research/USER_REQUEST_2026-10-22.md), [the current protocol/scientific review](docs/review-2026-10-22.md), and [the historical review](docs/review-release.md).** The full current task text is also embedded at the end of this README. User-reported scores in the archive are not organizer receipts. Maximize P(Win): refuse weak or duplicate slot candidates. Own the Outcome: automate validation and publish an unambiguous status.
 
 **No new nonempty TIFF can pass the literal parallel-run rule as written.** A freshly restored, SHA-pinned GEMSDOE17 probability raster is positive across the entire footprint; every allowed dot has forward overlap **1.0**, above the **0.70** stop limit. The shared template produced a grid-checked impossibility certificate. This is a registry diagnostic, not a competition score.
 
-All **five** existing downloadable TIFFs were independently revalidated, and all five are blocked. Format-valid does not mean scientifically eligible or organizer-accepted. No model experiment, copied/renamed TIFF, newly generated TIFF, or weekly slot was used in this review. The prompt also supplies no assigned single method paragraph. Neither blocker is silently waived.
+All **six** existing downloadable TIFFs (including the parallel session’s cross-layer file) were independently revalidated, and all six are blocked. Format-valid does not mean scientifically eligible or organizer-accepted. No model experiment, copied/renamed TIFF, newly generated TIFF, or weekly slot was used in this review. The prompt also supplies no assigned single method paragraph. Neither blocker is silently waived.
 
 - **[Current review: proof, ranked hypotheses, fixes and limitations](docs/review-2026-10-22.md)**
 - **[Automatic protocol preflight/run card](evidence/protocol_preflight.json)**
 - **[Pinned input/witness provenance](registry/preflight_inputs.json)**
 
 Historical evidence below remains useful, but the current protocol certificate takes precedence over every earlier promotion or partial-uniqueness claim.
+
+## Parallel-session artifact (2026-10-22): historical inspection only
+
+A separate parallel session independently generated a cross-layer RTP-magnetics × gravity × basement-depth profile-step TIFF **from the pinned feature stack**, not copied from any earlier submission. [Download the inspection TIFF and see the status at the top of the site](docs/index.html). Name: `gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT`; SHA-256: `0b9cbb580dd8f94474744bf87a72abb602403cdccf8c6289bbe9625f4ffe75c3`. Submission note: `NOT OK TO SUBMIT: cross-layer step candidate; inspect negative/duplicate gate in run card.` **Do not upload.**
+
+- **HOLDOUT-DTI** `gems57-pooled-hide-v2`, seed 20, 11,321 withheld positives: **0.0478 [0.0366, 0.0589]** (95% spatial-block CI). Historical incumbent on the same seed, but different dot budget: **HOLDOUT-DTI 0.1843 [0.1658, 0.2015]**, same evaluator and withheld count. Descriptive, not a paired difference. That parallel-session model fails the holdout gate.
+- Registry full-footprint pre-placement surface |Spearman ρ| maximum **0.0492** among nine local comparators; final **99.898%** of its dots fall within 3 px of the SHA-256-pinned dense lattice comparator, above the literal 70% duplicate stop. This is a **literal duplicate witness** even though overlap with earlier H78-A is only 22.03%. Do not silently exempt dense rasters. The nine-comparator audit is NOT a complete sibling inventory. No organizer receipt; no ORGANIZER-CONFIRMED score. Zero weekly slots used.
+- Independent [validator output and complete JSON run card](evidence/crosslayer_run_card.json): one float32 band, EPSG:32611, 3730×3292, pinned transform, all finite including the footprint, values in [0,1], zeros outside footprint and on mapped faults; ZIP contains exactly the TIFF. [Machine-readable current status](docs/data/status.json) is a static, not live, snapshot; the consolidated release audit now revalidates **all six** published TIFFs. [This run's three-pass review](research/2026-10-22-run-review.md) and [the concurrent consolidated review](docs/review-2026-10-22.md) record their distinct scopes.
+- Review with `.venv/bin/python scripts/publish_crosslayer.py` and `.venv/bin/python scripts/verify_tif.py docs/downloads/gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif`. The one-shot `scripts/run_crosslayer.py` intentionally refuses to rerun after its duplicate-stop card exists; to reproduce the experiment, use a separate checkout **from before this run**, with SHA-pinned inputs restored by `bash scripts/restore_data.sh`. No weekly upload. Provenance: owner mirror hashes, not organizer authentication.
+
+## Historical download status: YES to download · NO to submit
+
 
 - [Download and validation dashboard](https://buffedlizard55-lab.github.io/GEMSDOE78/)
 - [Executive submission guide](docs/executive-summary.html)
@@ -31,7 +43,7 @@ Historical run cards under `evidence/` are preserved, not silently rewritten. Th
 - **H78-MPC HOLDOUT-DTI:** 0.097684 [0.077985, 0.116303] (evaluator `gems57-pooled-hide-v2`, seed 20, 11,321 withheld positives). The paired difference against the fold-fair H33 analogue is +0.003823 [−0.012033, +0.019985], not significant. The stored same-instrument repository best is H78-A B3 at 0.184312 [0.165785, 0.201451]; the cross-lane comparison is descriptive, not a paired test.
 - **H78-MPC uniqueness:** pre-placement maximum sampled |ρ| = 0.1546 (passes 0.90); one-way forward 3-px overlap = 0.730 against a non-spacefilling registry raster and 0.9914 against the literal all-raster witness (both fail the 0.70 stop threshold). The local 74-raster set is not claimed to be globally exhaustive.
 - **H78-A:** current status is **not cleared** because its historical audit covers only three lineage rasters, not the full locally accessible inventory. This is an evidence gap, not a measured duplicate.
-- Both historical files pass local format/range checks and remain available for research/education. **No organizer receipt exists; no file in this repo has an ORGANIZER-CONFIRMED score.** The release review itself ran no new model experiment and spent no slot. The later tooth/spy session did run two experiments and wrote one inspection TIFF; that TIFF is the blocked H78-SPY row above, not a clearance.
+- Both original historical files pass local format/range checks and remain available for research/education. **No organizer receipt exists; no file in this repo has an ORGANIZER-CONFIRMED score.** The release review itself ran no new model experiment and spent no slot. The later tooth/spy session did run two experiments and wrote one inspection TIFF; that TIFF is the blocked H78-SPY row above, not a clearance.
 - **H78-CS (session 3, preregistered `registry/preregistration_h78cs.json`):** 15 along-strike path-integral features on the H78-A stack add nothing on either seed (paired deltas above); its production dots duplicate H78-A (forward 0.8908; score-surface ρ vs control 0.952/0.955). Two transferable measurements: the reproduced A2 control is stable across seeds (B3/44,090: 0.1826 seed 20, 0.1834 seed 30 — the second-seed item in earlier next-work lists, for this model class), and feature-append variants of A2 are the same lane as H78-A and must not be re-proposed as distinct lanes. Full record: `research/h78cs_hypotheses.md`, `evidence/h78cs_*.json`, IR-78CS-01…06.
 
 ## Mandatory starting point for every session
@@ -59,7 +71,7 @@ Read this README, [PROMPT.md](PROMPT.md), and [the current review](docs/review-2
 
 ```bash
 python -m venv .venv
-.venv/bin/pip install -r requirements.txt
+.venv/bin/pip install -r requirements-lock.txt
 # Only 3 pinned inputs; does not restore the 400 MB training stack or use a slot:
 .venv/bin/python scripts/preflight.py --restore
 # Expected exit code: 2 (BLOCKED, with structured JSON, not a crash).

@@ -116,3 +116,15 @@ def test_zip_must_name_the_single_tiff(tmp_path):
         archive.writestr("not-a-tiff.txt", p.read_bytes())
     report = verifier.verify(p)
     assert not report["all_passed"] and not report["zip"]["single_tif_byte_identical"]
+
+
+def test_reference_hash_mismatch_is_not_format_pass(tmp_path, monkeypatch):
+    verifier = module("verify_tif")
+    monkeypatch.setattr(verifier, "ROOT", tmp_path)
+    (tmp_path / "registry").mkdir()
+    (tmp_path / "data").mkdir()
+    (tmp_path / "data/ref.tif").write_bytes(b"not the pinned reference")
+    manifest = dict(files=[dict(id="sample_submission", dest="ref.tif", sha256="0" * 64)])
+    (tmp_path / "registry/data_manifest.json").write_text(json.dumps(manifest))
+    report = verifier.verify(tmp_path / "anything.tif")
+    assert not report["all_passed"] and "reference SHA256 mismatch" in report["error"]
