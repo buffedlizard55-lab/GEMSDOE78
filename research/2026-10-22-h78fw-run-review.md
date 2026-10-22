@@ -155,3 +155,21 @@ knowledge §9 STEP / §10 FW; 37 unique irregularity entries; a literal `\n`
 defect in the FW lane-link patch fixed to a real newline). Consolidated audit
 now covers **8/8 TIFFs, all format-pass, all blocked**; full suite **71
 passed**; preflight exit 2. FW science, verdict, and numbers are unchanged.
+
+## Addendum 2 — H79 direct push + shared-gate fix (~02:00 UTC)
+
+Main moved again (direct pushes `0ae30ea`/`a7ccd31`, no PR): five H79
+lidar-augmented research TIFFs (duplicate-stop 0.835, HOLDOUT-DTI 0.1898 per
+their commit message) with lane pages, run cards, and a rewritten
+`tests/test_session_gate.py`. Their session added no audit specs, so the
+consolidated audit indexes the H79 files via the designed fail-closed
+UNREGISTERED sweep (format-valid, OK TO SUBMIT: NO). Only conflict was the
+generated `docs/index.html`, resolved by regeneration. Consolidated audit now
+covers **13/13 TIFFs, all format-pass, all blocked**.
+
+Their rewritten gate test was red on main: it paired the crosslayer
+`generated_tif` with the H78-SPY card (sha mismatch) and required HOLDOUT in
+a scoreless stop-gate note. Fixed once in the shared test: card resolution
+follows `latest_generated_card` from `evidence/`, and the note-label rule
+applies only when the note quotes a score-like number. Full suite green.
+FW science unchanged.
