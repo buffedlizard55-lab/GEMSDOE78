@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-22T06:05:00Z",
+  "shared_package_path": "vendor/gems57",
+  "private_fork_created": false,
+  "evaluator_modified": false,
+  "submission_writer_modified": false,
+  "evaluator_implementation_sha256": {
+    "evaluate_holdout": "unchanged shared gems57-pooled-hide-v2",
+    "submission_writer": "unchanged shared atomic writer + 15-check validator"
+  },
+  "bugs_found_and_fixed_once_in_shared_template": [
+    {
+      "id": "IR-78-VENDOR-UNIQ-01",
+      "file": "vendor/gems57/uniqueness.py",
+      "functions": [
+        "compare_array_to_registry",
+        "binding_duplicate_decision"
+      ],
+      "severity": "critical-silent-pass-hazard",
+      "defect": "compare_array_to_registry() wrote row['my_dots_within_3px_of_theirs'] without 'forward_overlap' or 'halo_coverage', whereas binding_duplicate_decision(rows) filtered exclusively on r.get('forward_overlap') is not None. Passing compare_array_to_registry()['rows'] directly into binding_duplicate_decision() produced fwd == [] and silently returned duplicate=False even when overlap was 1.0000.",
+      "fix": "compare_array_to_registry() now emits both 'my_dots_within_3px_of_theirs' and 'forward_overlap' plus 'halo_coverage'; binding_duplicate_decision() reads either field seamlessly and explicitly includes 'stop_required' and 'verdict'."
+    },
+    {
+      "id": "IR-78-VENDOR-UNIQ-02",
+      "file": "vendor/gems57/uniqueness.py",
+      "functions": [
+        "compare_array_to_registry"
+      ],
+      "severity": "medium",
+      "defect": "'duplicate_by_rho' tested rho > RHO_LIMIT rather than abs(rho) > RHO_LIMIT, missing inverted surfaces (e.g. 1 - p with rho = -0.95) despite the Parallel-Run Protocol specifying |Spearman rho| > 0.90.",
+      "fix": "Updated 'duplicate_by_rho' to bool(rho is not None and abs(rho) > RHO_LIMIT)."
+    },
+    {
+      "id": "IR-78-VENDOR-UNIQ-03",
+      "file": "vendor/gems57/uniqueness.py",
+      "functions": [
+        "_near"
+      ],
+      "severity": "performance-and-fractional-radius-precision",
+      "defect": "2D scipy.ndimage.binary_dilation on 3730x3292 masks required ~17 min per 1,103-raster scan; naive ceil decomposition failed for non-integer radii such as radius_px=1.5.",
+      "fix": "Replaced with exact separable Euclidean disk decomposition using int(np.floor(radius_px)) and contiguous row-slice ORs; verified bit-for-bit identical across 60 random grids and fractional/integer radii while accelerating full 1,103-raster scans ~3x."
+    }
+  ]
+}

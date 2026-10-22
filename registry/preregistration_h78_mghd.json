@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "lane": "H78-MGHD",
+  "preregistered_utc": "2026-10-22T02:02:00Z",
+  "title": "Multi-Scale Flank-Warp, Sub-Grid 3DEP LiDAR/10m/Chi Geomorphology & GeoDAWN/INGENIOUS Hydrothermal Conduit Fusion with Spatial-OOF Kernel Regression and 300 m Submodular Cover",
+  "budget_max_experiments": 3,
+  "budget_max_hours": 2.0,
+  "forbidden_inputs": [
+    "data/external/sgmc_faults_100m.tif",
+    "data/external/derived_sgmc_faults_100m_u8.tif",
+    "data/external/gdr_qfaults_traces.csv",
+    "gdr_wellspring_in_footprint.csv:dist_known_fault_px",
+    "gdr_volcanic_vents_in_footprint.csv:dist_known_fault_px"
+  ],
+  "canary_max_symmetric_auc": 0.9,
+  "experiments": [
+    {
+      "id": "E1_surface_matched_emitter_seed20",
+      "seed": 20,
+      "hide_frac": 0.2,
+      "buffer_px": 3,
+      "purpose": "Isolate multi-resolution physical feature + spatial-OOF kernel-target surface gain over reproduced CTRL_A2_v2 under identical nms0_B3 emitter at 44,090 and 50,000 dots on the repaired nearest-exact-mask-v2 cache."
+    },
+    {
+      "id": "E2_submodular_kernel_cover_seed20",
+      "seed": 20,
+      "hide_frac": 0.2,
+      "buffer_px": 3,
+      "purpose": "Evaluate exact 300 m triangular-kernel lazy-heap submodular cover on the same E1 out-of-fold predictions against CTRL_A2_v2 at 37,654, 44,090, and 50,000 dots; freeze a single winning configuration before touching seed 30."
+    },
+    {
+      "id": "E3_independent_seed30_and_production",
+      "seed": 30,
+      "hide_frac": 0.2,
+      "buffer_px": 3,
+      "purpose": "Zero-retune replication on independent whole-component draw seed=30 against CTRL_A2_v2, followed by pre-placement surface check across all 1,103 accessible rasters, production GeoTIFF emission, verify_tif check, and full 1,103-raster final-dot audit."
+    }
+  ],
+  "gates": {
+    "format_portal_valid": "verify_tif.py all_passed == True (single-band float32, EPSG:32611, 3730x3292, exact transform, nodata=None, 0 NaN anywhere, values in [0,1], 0 outside footprint, 0 on catalogue, byte-identical single-TIFF ZIP)",
+    "leakage_canary": "max single-feature symmetric ROC AUC <= 0.90",
+    "holdout_beats_repo_best_seed20": "CAND HOLDOUT-DTI > CTRL_A2_v2 best (44,090 & 50,000) AND > historical 0.184312 with paired 20 km spatial-block bootstrap 95% CI lower bound > 0",
+    "holdout_replicates_seed30": "Locked CAND HOLDOUT-DTI > CTRL_A2_v2 on seed=30 with paired 95% CI lower bound > 0",
+    "surface_spearman_all_1103": "Pre-placement full-footprint |Spearman rho| <= 0.90 against every raster in the 1,103-raster accessible inventory",
+    "dot_overlap_discriminating_1022": "Forward 3-px dot overlap <= 0.70 against every discriminating dot-field raster (halo_coverage < 0.70) in the 1,103-raster accessible inventory",
+    "literal_all_1103_binding": "Literal forward 3-px overlap <= 0.70 against ALL 1,103 rasters with zero exemptions; if space-filling witnesses (e.g. 17GEMSDOE halo=1.0) fire, overall submission verdict MUST fail closed (verdict='negative', ok_to_submit=False) while reporting both readings transparently."
+  }
+}

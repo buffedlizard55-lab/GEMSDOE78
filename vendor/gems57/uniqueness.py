@@ -28,9 +28,39 @@ def _dots(a):
 
 
 def _near(support, radius_px=RADIUS_PX):
-    r = int(np.ceil(radius_px))
-    yy, xx = np.mgrid[-r:r+1, -r:r+1]
-    return binary_dilation(support, structure=yy*yy+xx*xx <= radius_px*radius_px)
+    support = np.asarray(support, dtype=bool)
+    if radius_px < 0 or support.ndim != 2:
+        return np.zeros_like(support, dtype=bool) if radius_px < 0 else support.copy()
+    r = int(np.floor(radius_px))
+    if r == 0:
+        return support.copy()
+    r2 = float(radius_px) * float(radius_px)
+    # Exact separable decomposition of {dy^2 + dx^2 <= radius_px^2}:
+    # |dy| <= floor(radius_px), and for each |dy|, |dx| ranges contiguously over
+    # 0..floor(sqrt(radius_px^2 - dy^2)). Identical bit-for-bit to
+    # scipy.ndimage.binary_dilation(..., border_value=0) for all grids and radii.
+    max_dx_by_abs_dy = {ay: int(np.floor(np.sqrt(max(0.0, r2 - ay * ay)))) for ay in range(r + 1)}
+    row_dilated: dict[int, np.ndarray] = {}
+    for m in sorted(set(max_dx_by_abs_dy.values())):
+        if m == 0:
+            row_dilated[0] = support
+        else:
+            prev_m = max((k for k in row_dilated if k < m), default=None)
+            cur = row_dilated[prev_m].copy() if prev_m is not None else support.copy()
+            start = (prev_m + 1) if prev_m is not None else 1
+            for dx in range(start, m + 1):
+                if dx < support.shape[1]:
+                    cur[:, dx:] |= support[:, :-dx]
+                    cur[:, :-dx] |= support[:, dx:]
+            row_dilated[m] = cur
+    out = row_dilated[max_dx_by_abs_dy[0]].copy()
+    for ay in range(1, r + 1):
+        if ay >= support.shape[0]:
+            break
+        w = row_dilated[max_dx_by_abs_dy[ay]]
+        out[ay:, :] |= w[:-ay, :]
+        out[:-ay, :] |= w[ay:, :]
+    return out
 
 
 def dot_overlap(mine, theirs, radius_px=RADIUS_PX):
@@ -267,17 +297,20 @@ def compare_array_to_registry(mine, registry_index, footprint, *, file_sha256=No
                 tr = rankdata(tv).astype(np.float64)
                 tr -= tr.mean()
                 rho = float(np.dot(ranks,tr)/(norm*np.linalg.norm(tr)))
-            ov = float(_near(support)[my_support].mean()) if my_dot_count else 0.0
+            near_sup = _near(support)
+            ov = float(near_sup[my_support].mean()) if my_dot_count else 0.0
+            halo_cov = float(near_sup[fp].mean())
             reverse = float(my_near[support].mean()) if include_reverse and support.any() else 0.0
             jac = _jaccard(my_support, support)
             their_decoded = hashlib.sha256(np.ascontiguousarray(theirs).tobytes()).hexdigest()
             row = {**base, 'sha256':digest, 'decoded_sha256':their_decoded,
                 'their_dots':int(support.sum()), 'my_dots_within_3px_of_theirs':ov,
+                'forward_overlap':ov, 'halo_coverage':halo_cov,
                 'their_dots_within_3px_of_mine':reverse, 'spearman_full_footprint':rho,
                 'jaccard_dot_sets':jac,
                 'identical_bytes':bool(file_sha256 and digest==file_sha256),
                 'identical_decoded_predictions':bool(their_decoded==decoded_digest),
-                'duplicate_by_rho':bool(rho is not None and rho > RHO_LIMIT),
+                'duplicate_by_rho':bool(rho is not None and abs(rho) > RHO_LIMIT),
                 'duplicate_by_overlap':bool(ov > OVERLAP_LIMIT),
                 'duplicate_by_jaccard':bool(jac > JACCARD_LIMIT)}
             rows.append(row)
@@ -373,10 +406,10 @@ DENSE_HALO_FRACTION = 0.70
 def halo_coverage(support, allowed, radius_px: float = RADIUS_PX) -> float:
     """Fraction of ``allowed`` cells inside the ``radius_px`` halo of ``support``.
 
-    This is the ceiling on the forward-overlap any candidate could report
-    against that prior: ``forward_overlap <= halo_coverage``.  A prior with
-    coverage >= :data:`DENSE_HALO_FRACTION` cannot separate a real submission
-    from a random one.
+    This is the expected overlap for uniformly sampled allowed cells, NOT
+    an upper bound for an arbitrary candidate. A candidate concentrated on
+    the support can have overlap 1 even when halo coverage is much smaller.
+    Only complete allowed-domain coverage proves universal overlap 1.
     """
     sup = np.asarray(support, bool)
     alw = np.asarray(allowed, bool)
@@ -410,29 +443,41 @@ def binding_duplicate_decision(rows, *, rho_limit: float = RHO_LIMIT,
     disc = [r for r in checked
             if float(r.get("halo_coverage", 0.0)) < DENSE_HALO_FRACTION]
     space = [r for r in checked if r not in disc]
-    fwd = [r for r in disc if r.get("forward_overlap") is not None]
+    # Diagnostic representation groups do NOT exempt any prior from the user's
+    # literal >0.70 forward-overlap stop rule. Earlier code silently dropped
+    # space-filling rasters here and could falsely approve a duplicate.
+    def _fwd_val(r):
+        if r.get("forward_overlap") is not None:
+            return float(r["forward_overlap"])
+        if r.get("my_dots_within_3px_of_theirs") is not None:
+            return float(r["my_dots_within_3px_of_theirs"])
+        return None
+
+    fwd = [r for r in checked if _fwd_val(r) is not None]
     rho_key = "spearman_full_footprint" if any(
-        "spearman_full_footprint" in r for r in disc) else "spearman"
-    rho = [r for r in disc if r.get(rho_key) is not None]
-    worst_fwd = max(fwd, key=lambda r: r["forward_overlap"]) if fwd else None
+        "spearman_full_footprint" in r for r in checked) else "spearman"
+    rho = [r for r in checked if r.get(rho_key) is not None]
+    worst_fwd = max(fwd, key=_fwd_val) if fwd else None
     worst_rho = max(rho, key=lambda r: abs(r[rho_key])) if rho else None
+    is_dup = bool((worst_fwd and _fwd_val(worst_fwd) > overlap_limit)
+                  or (worst_rho and abs(float(worst_rho[rho_key])) > rho_limit))
     return dict(
         evidence_class="REGISTRY-MEASUREMENT",
-        binding_rule="like-for-like",
+        binding_rule="literal-all-rasters",
         discriminating_priors=len(disc),
         space_filling_priors=len(space),
         space_filling_files=[r.get("file") or r.get("submission") for r in space],
-        worst_forward_overlap=float(worst_fwd["forward_overlap"]) if worst_fwd else None,
+        worst_forward_overlap=_fwd_val(worst_fwd) if worst_fwd else None,
         worst_forward_overlap_file=(worst_fwd.get("file") or worst_fwd.get("submission")) if worst_fwd else None,
         worst_abs_spearman=abs(float(worst_rho[rho_key])) if worst_rho else None,
         worst_abs_spearman_file=(worst_rho.get("file") or worst_rho.get("submission")) if worst_rho else None,
         overlap_limit=overlap_limit, rho_limit=rho_limit,
-        duplicate=bool((worst_fwd and worst_fwd["forward_overlap"] > overlap_limit)
-                       or (worst_rho and abs(float(worst_rho[rho_key])) > rho_limit)),
-        note=("A space-filling prior's halo covers >= 70% of the allowed domain, so even a "
-              "uniformly random dot set reports >= 0.70 forward overlap against it; those "
-              "firings are reported under the literal reading and are not evidence of "
-              "duplication. Thresholds are unchanged."))
+        duplicate=is_dup,
+        stop_required=is_dup,
+        verdict=("negative" if is_dup else "promote"),
+        note=("Space-filling priors may make the literal gate impossible for many "
+              "candidate dot sets; they are nevertheless binding under the requested "
+              "rule and must not be silently exempted."))
 
 
 def representation_class(their_dots: int, footprint_cells: int,

@@ -115,7 +115,7 @@
   "approved_for_weekly_slot": false,
   "promoted": false,
   "submission_slots_used": 0,
-  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "status": "blocked-do-not-submit",
   "metadata": {
     "surface_spearman_pre_placement": {
       "org_continuous_surfaces_checked": 127,
@@ -287,5 +287,12 @@
       "expected_covered_credit": 5211.872,
       "expected_self_credit": 4551.065
     }
-  }
+  },
+  "historical_release_flags": {
+    "approved_for_weekly_slot": false,
+    "promoted": false,
+    "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval"
+  },
+  "current_release_audit": "../data/release_audit.json",
+  "publication_note": "Historical approval flags are superseded. Download for education only; no upload authorization."
 }

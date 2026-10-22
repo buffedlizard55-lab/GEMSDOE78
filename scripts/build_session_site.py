@@ -196,7 +196,10 @@ def main():
     (DOCS / "executive-summary.html").write_text(
         page("Executive summary — how a submission is made, and why this one is not cleared", steps)
     )
-    print("session site written", file)
+    # Historical session pages must not overwrite the current protocol certificate.
+    from audit_release import main as audit_release
+    audit_release()
+    print("historical session archived; current release audit published", file)
 
 
 if __name__ == "__main__":

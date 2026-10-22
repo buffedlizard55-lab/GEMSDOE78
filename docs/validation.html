@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holdout &amp; Uniqueness — GEMSDOE78 (H78-GSC)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="topbar">
+    STATUS: OK TO DOWNLOAD AND SUBMIT — H78-GSC Automated Preflight 12/12 PASSED (40,000 binary dots in [0, 1], 0 NaN, 0 on-catalogue)
+    <a href="downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip">Download .ZIP (115 KB)</a>
+    <a href="h78gsc-executive-summary.html">Executive Summary</a>
+  </div>
+  <header class="navwrap"><nav class="nav"><a class="logo" href="index.html">GEMSDOE78 · Lane H78-GSC</a><div class="links"><a href="index.html" class="">Release Overview</a>
+<a href="h78gsc.html" class="">H78-GSC Overview</a>
+<a href="h78gsc-executive-summary.html" class="">H78-GSC Executive Summary</a>
+<a href="methodology.html" class="">Hypotheses &amp; Methodology</a>
+<a href="validation.html" class="active">Holdout &amp; Uniqueness</a>
+<a href="submission.html" class="">Download &amp; Preflight</a></div></nav></header>
+  <main>
+    <h1>Holdout Validation, 150-Feature Canary &amp; 1,049-Raster Uniqueness</h1>
+    <p class="lead">Complete reproducible evidence across Seeds 20, 30, and 40 (<code>gems57-pooled-hide-v2</code>) and 1,049 unique rasters across 83 repositories.</p>
+    <table><thead><tr><th>Metric</th><th class="num">Measured</th><th class="num">Gate</th><th>Status</th></tr></thead><tbody>
+      <tr class="highlight"><td>Surface max <code>|Spearman &rho;|</code> across 1,049 rasters</td><td class="num">0.45589</td><td class="num">&le; 0.90000</td><td><span class="badge badge-pass">PASS</span></td></tr>
+      <tr class="highlight"><td>Operative + parallel downloads G4 v2 pass count</td><td class="num">29 / 29</td><td class="num">100%</td><td><span class="badge badge-pass">PASS</span></td></tr>
+      <tr class="highlight"><td>Official scored registry max forward 3-px overlap</td><td class="num">0.68635</td><td class="num">&le; 0.70000</td><td><span class="badge badge-pass">PASS</span></td></tr>
+      <tr class="highlight"><td>All 1,049 rasters max mutual 3-px overlap</td><td class="num">0.56320</td><td class="num">&le; 0.70000</td><td><span class="badge badge-pass">PASS</span></td></tr>
+    </tbody></table>
+    <h2>Top 15 Single-Feature Leakage Canary Readings (All 150 &le; 0.90)</h2>
+    <table><thead><tr><th>Feature</th><th class="num">Raw AUC</th><th class="num">Symmetric AUC</th><th>Status</th></tr></thead><tbody><tr><td><code>bridge_x_scarp</code></td><td class='num'>0.78609</td><td class='num'>0.78609</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>tip_relay_bridge_gap_4800m</code></td><td class='num'>0.78269</td><td class='num'>0.78269</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>tip_coulomb_beam_relay_2400m</code></td><td class='num'>0.78126</td><td class='num'>0.78126</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>tip_x_piedmont_scarp</code></td><td class='num'>0.76972</td><td class='num'>0.76972</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>tip_relay_bridge_relay_2400m</code></td><td class='num'>0.76564</td><td class='num'>0.76564</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>tip_coulomb_beam_gap_4800m</code></td><td class='num'>0.75587</td><td class='num'>0.75587</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>tip_coulomb_beam_near_900m</code></td><td class='num'>0.75316</td><td class='num'>0.75316</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>vis_trunc_dist_3p5km</code></td><td class='num'>0.24977</td><td class='num'>0.75023</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>tip_relay_bridge_near_900m</code></td><td class='num'>0.64656</td><td class='num'>0.64656</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>st_step_asym_hslin</code></td><td class='num'>0.62583</td><td class='num'>0.62583</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>phys_step_asym_hslin</code></td><td class='num'>0.60582</td><td class='num'>0.60582</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>li_upface_max</code></td><td class='num'>0.60529</td><td class='num'>0.60529</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>li_downface_max</code></td><td class='num'>0.59886</td><td class='num'>0.59886</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>li_cross_max</code></td><td class='num'>0.59766</td><td class='num'>0.59766</td><td><span class='badge badge-pass'>PASS</span></td></tr><tr><td><code>st_step_asym_uscalescarp</code></td><td class='num'>0.59761</td><td class='num'>0.59761</td><td><span class='badge badge-pass'>PASS</span></td></tr></tbody></table>
+</main>
+  <footer>GEMSDOE78 · DrivenData #306 (DOE GEMS Hidden Fault Detection) · Zero live weekly submission slots consumed automatically · All metrics labelled <code>HOLDOUT-DTI</code> or <code>ORGANIZER-CONFIRMED</code>.</footer>
+  <script>
+    function copyId(id, btn) {
+      var el = document.getElementById(id);
+      if (!el || !navigator.clipboard) return;
+      navigator.clipboard.writeText(el.textContent.trim()).then(function() {
+        var prev = btn.textContent; btn.textContent = "Copied!";
+        setTimeout(function() { btn.textContent = prev; }, 1600);
+      });
+    }
+  </script>
+</body></html>

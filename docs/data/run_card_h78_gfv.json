@@ -456,6 +456,106 @@
       "surrogate_dti": 0.257182,
       "expected_covered_credit": 5211.872,
       "expected_self_credit": 4551.065
+    },
+    "all_gemsdoe78_parallel_lanes": {
+      "count_compared": 18,
+      "over_0_70_count": 0,
+      "max_forward_3px_overlap": 0.470813,
+      "vs_H78_GSC": 0.400568,
+      "vs_H78_MGHD": 0.457614,
+      "vs_H78_SIGX": 0.420752,
+      "by_file": {
+        "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.109752,
+          "forward_3px_overlap": 0.141313
+        },
+        "gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.144964,
+          "forward_3px_overlap": 0.434323
+        },
+        "gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.14353,
+          "forward_3px_overlap": 0.387263
+        },
+        "gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.143555,
+          "forward_3px_overlap": 0.432942
+        },
+        "gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.147166,
+          "forward_3px_overlap": 0.374754
+        },
+        "gems78-h78fw-flankwarp-44090dots-20261022T013114Z-21656430-DO-NOT-SUBMIT.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.107536,
+          "forward_3px_overlap": 0.126574
+        },
+        "gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif": {
+          "positive_pixels": 40000,
+          "halo_coverage": 0.140433,
+          "forward_3px_overlap": 0.400568
+        },
+        "gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.164533,
+          "forward_3px_overlap": 0.457614
+        },
+        "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif": {
+          "positive_pixels": 37654,
+          "halo_coverage": 0.125946,
+          "forward_3px_overlap": 0.34408
+        },
+        "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.147564,
+          "forward_3px_overlap": 0.420752
+        },
+        "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.139895,
+          "forward_3px_overlap": 0.425479
+        },
+        "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.141281,
+          "forward_3px_overlap": 0.394752
+        },
+        "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.142865,
+          "forward_3px_overlap": 0.411802
+        },
+        "gems78-h79lr-lidar-raw-44090dots-20261022T014634Z-7bd9b44f-zeros.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.141874,
+          "forward_3px_overlap": 0.397355
+        },
+        "gems78-h79lr-lidar-raw-50000dots-20261022T014706Z-b824e933-zeros.tif": {
+          "positive_pixels": 50000,
+          "halo_coverage": 0.158651,
+          "forward_3px_overlap": 0.42625
+        },
+        "gems78-h79ls-lidar-44090dots-20261022T012920Z-c9b3f8d7-zeros.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.146936,
+          "forward_3px_overlap": 0.444813
+        },
+        "gems78-h79ls-lidar-44090dots-20261022T012947Z-71fa310b-zeros.tif": {
+          "positive_pixels": 44090,
+          "halo_coverage": 0.14558,
+          "forward_3px_overlap": 0.398842
+        },
+        "gems78-h79ls-lidar-50000dots-20261022T012852Z-e8b05f45-zeros.tif": {
+          "positive_pixels": 50000,
+          "halo_coverage": 0.164069,
+          "forward_3px_overlap": 0.470813
+        }
+      }
     }
   },
   "raster_file": "submissions/gems78-h78-gfv-136b-dink-20261022T070254Z-45cd56e7-zeros.tif",

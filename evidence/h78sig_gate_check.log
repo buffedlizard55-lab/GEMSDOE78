@@ -1,0 +1,6 @@
+G1_format PASS
+G2_canary PASS
+G3_holdout PASS
+G4_uniqueness PASS
+G5_emission PASS
+OK_TO_SUBMIT /home/user/GEMSDOE78/evidence/h78sig_gate_report.json

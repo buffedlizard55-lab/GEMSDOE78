@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "lane": "H78-SIGX",
+  "registered_utc": "2026-10-22",
+  "registered_before_any_new_experiment": true,
+  "hypothesis_document": "research/h78sig_hypotheses.md",
+  "single_method_lane": "Signature-only local fault-signature learner: multi-scale isotropic + strike-steered Gaussian derivatives of six 100 m stack bands (no raw contextual/habitat bands) plus 1 m/10 m DEM-derived within-cell scarp aggregates; HistGradientBoosting; spaced off-catalogue binary dot emission.",
+  "non_fault_mimic": "Lake Lahontan shoreline benches/beach ridges and road/levee cuts (identical lidar scarp maxima, no fault).",
+  "inputs": {
+    "feature_stack_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "manifests": ["registry/data_manifest_gems73.json", "registry/h78sig_inputs.json"],
+    "excluded_by_design": ["sgmc_faults_100m.tif", "derived_sgmc_faults_100m_u8.tif", "gdr_qfaults_traces.csv"],
+    "exclusion_reason": "label-adjacent fault catalogues (leakage-canary spirit)"
+  },
+  "experiment_budget": {"max_experiments": 3, "max_hours": 2, "this_registration_covers_experiment": "E1"},
+  "E1": {
+    "instrument": "vendor/gems57, evaluator gems57-pooled-hide-v2, buffered_component_draw seed=20, hide_frac=0.20, buffer_px=3, visible-only strike field and flank",
+    "arms": {
+      "CTRL_A2": "raw19 + iso + steered (103 features), reproduced in-run; success criterion for instrument identity: B3@44090 pooled HOLDOUT-DTI within 0.005 of the published 0.1826",
+      "SIG100": "derivative columns only (84), ablation isolating removal of raw habitat bands",
+      "SIGX": "84 derivative + 18 external local scarp/topo aggregates (102), the candidate"
+    },
+    "learner": "HistGradientBoostingClassifier(max_iter=300, learning_rate=0.06, max_leaf_nodes=63, min_samples_leaf=200, l2_regularization=1.0, max_bins=255, early_stopping=False, random_state=0); shared training sample (all visible positives, 450000 negatives, seed=20, flank_px=2)",
+    "canary": "symmetric single-feature AUC of every SIGX feature, withheld positives vs active background; any value > 0.90 stops the lane",
+    "emission": "gems78.emit.greedy_dots min_dist=2.8 px, pool=400000 (identical to published CTRL runs); flank B in {3,5} px from VISIBLE catalogue; budgets {37654, 44090}",
+    "comparators": ["registry D2.8 dots as-is (biased: built with full catalogue; labelled, never fold-fair)", "registry H33 dots as-is (same bias, expected near-zero)", "uniform-random surface, seed 123, same emitter B3"],
+    "endpoints": {
+      "overall": "pooled HOLDOUT-DTI per config, paired 20 km spatial-block bootstrap, 1000 draws, seed 520810",
+      "far_strata": "same, with fold truth restricted to withheld pixels >10 px and >20 px from the visible catalogue (definition identical to scripts/diagnose_distance.py); evaluated for @44090 configs of every arm + D2.8 + random",
+      "selection_rule_for_production_emission": "among SIGX B x budget configs, maximize far>10 px pooled DTI (for @37654 use its @44090 flank-mate far ranking if strata not computed), tie-break overall DTI; the rule is fixed here, before results"
+    },
+    "gates": {
+      "G2_canary_max_auc_le": 0.90,
+      "G3a_competence": "selected SIGX config overall pooled HOLDOUT-DTI > random control and > D2.8-as-is on identical folds",
+      "G3b_far_field": "far>10 and far>20 paired deltas vs matched CTRL_A2 reported with CI; 'beats current holdout best overall' reported as a separate binary line vs CTRL_A2 best config",
+      "G4_uniqueness": "pre-placement |Spearman| < 0.90 and final forward 3 px dot overlap < 0.70 vs every restored sparse registry/production raster; continuous fields compared at matched-budget top-K and also literally (correction IR-78-22-03, flagged for owner ratification)",
+      "G1_G5_production": "only if G2+G3a pass: refit on full catalogue, full-catalogue strike field, production flank = selected B, budget = selected budget, binary zeros-outside TIFF via vendor submission_writer, independent scripts/verify_tif.py re-read"
+    }
+  },
+  "score_labelling": "All new numbers are HOLDOUT-DTI unless copied from an organizer submission-page receipt (none exists). Owner-reported live scores are never relabelled.",
+  "slots": "No weekly submission slot is used or approved by this registration (protocol rule 6)."
+}

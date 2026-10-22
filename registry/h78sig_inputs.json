@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "note": "Additional SHA-256-pinned registry rasters needed by lane H78-SIGX gate G4 (pins copied from registry/data_manifest.json and registry/preflight_inputs.json, which were themselves hash-verified in earlier sessions). Byte identity only; not organizer provenance.",
+  "files": [
+    {
+      "id": "registry_h33",
+      "group": "scored",
+      "repo": "buffedlizard55-lab/GEMSDOE32",
+      "ref": "f62038b54dcb7767d4d997f80b033cdc3d42bef9",
+      "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "dest": "registry/h33_2_b2_37654_zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "bytes": 219065
+    },
+    {
+      "id": "saturation_witness_17gemsdoe_e_proba",
+      "group": "scored",
+      "repo": "buffedlizard55-lab/17GEMSDOE",
+      "ref": "6fc71d19d49dca4960d5434bd81b6dd06fcc030a",
+      "path": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+      "dest": "registry/17GEMSDOE_E-proba-multiscale.tif",
+      "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+      "bytes": 25065181
+    }
+  ]
+}
