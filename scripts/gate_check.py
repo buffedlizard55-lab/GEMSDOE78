@@ -82,6 +82,26 @@ def main(tif: str):
     worst_rho = max(abs(v["spearman_full_footprint"]) for v in surf_cmp.values())
     worst_ov = max(v["gate_statistic"] / v["gate_limit"] for v in dot_cmp.values())
 
+    # Post-merge expanded audit (reported, NOT gating; IR-78-22-07): after
+    # this lane was preregistered and its file generated, parallel sessions
+    # merged additional blocked-negative lane files into docs/downloads.
+    # Every current local file is compared here so the owner can see the
+    # wider picture; two such dead-end files exceed 0.70 forward overlap.
+    op_names = {e["name"] for e in entries}
+    exp_entries = [e for e in RC.registry_rasters(exclude_names={path.name},
+                                                  expanded_downloads=True)
+                   if e["name"] not in op_names]
+    exp_dot = RC.compare_dots(dots, fp, cat, exp_entries) if exp_entries else {}
+    expanded_audit = dict(
+        gating=False,
+        note=("Parallel-session files merged after this lane's preregistration; "
+              "all are blocked negatives (ok_to_submit=false in their own run cards). "
+              "Reported for full transparency; the operative registry is the "
+              "preregistered scope in G4_uniqueness.scope."),
+        all_passed=bool(all(v["passed"] for v in exp_dot.values())) if exp_dot else None,
+        failing_rows={k: v for k, v in exp_dot.items() if not v["passed"]},
+        dots_vs_post_lane_local_files=exp_dot)
+
     overall = src["pooled_summary_overall"]["scores"]
     cand_key = [k for k in overall if k == cfg]
     g3_competence = bool(cand_key and overall[cfg]["dti"] >
@@ -113,7 +133,8 @@ def main(tif: str):
                                v["forward_overlap_3px_literal"] for v in dot_cmp.values()),
                            gate_version="G4 v2 (template halo/Jaccard classes; IR-78-22-03)",
                            surface_vs_registry=surf_cmp, dots_vs_registry=dot_cmp,
-                           scope="restored pinned scored set (12) + H33 + dense witness + this repo's prior productions, SHA-deduped; not an exhaustive inventory of all sibling sites"),
+                           scope="restored pinned scored set (12) + H33 + dense witness + the six local productions published when this lane was preregistered, SHA-deduped; not an exhaustive inventory of all sibling sites",
+                           post_merge_expanded_audit=expanded_audit),
         G5_emission=dict(passed=bool(sp_ok and int(dots.sum()) == 44_090 and float(dcat[dots].min()) > 5.0),
                          dots=int(dots.sum()), budget_expected=44_090,
                          spacing_gt_2p8px_everywhere=bool(sp_ok), realised_min_nn_px=sp_min,

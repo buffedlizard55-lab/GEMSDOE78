@@ -1,0 +1,141 @@
+{
+  "file": "gems78-h78fw-flankwarp-44090dots-20261022T013114Z-21656430-DO-NOT-SUBMIT.tif",
+  "sha256": "a18160d5b7d7d28eef47521262e1e3b537d2716960313166e96fab2c0fd617fd",
+  "bytes": 138965,
+  "submission_name": "gems78-h78fw-flankwarp-44090dots-20261022T013114Z-21656430-DO-NOT-SUBMIT",
+  "note": "NOT OK TO SUBMIT: H78-FW flank-warp inspection; see run card gates.",
+  "note_chars": 67,
+  "validator": {
+    "file": "/home/user/GEMSDOE78/docs/downloads/gems78-h78fw-flankwarp-44090dots-20261022T013114Z-21656430-DO-NOT-SUBMIT.tif",
+    "bytes": 138965,
+    "sha256": "a18160d5b7d7d28eef47521262e1e3b537d2716960313166e96fab2c0fd617fd",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.003590636420994997,
+    "emitted_positive_pixels": 44090,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 44090,
+    "footprint_fraction": 0.00853238192791579
+  },
+  "template_report": {
+    "path": "/home/user/GEMSDOE78/docs/downloads/gems78-h78fw-flankwarp-44090dots-20261022T013114Z-21656430-DO-NOT-SUBMIT.tif",
+    "bytes": 138965,
+    "sha256": "a18160d5b7d7d28eef47521262e1e3b537d2716960313166e96fab2c0fd617fd",
+    "bands": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "width": 3292,
+    "height": 3730,
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "ref_bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "blocksize": [
+      256,
+      256
+    ],
+    "fixture_grid": false,
+    "has_validity_mask": false,
+    "nan_pixels": 0,
+    "infinity_pixels": 0,
+    "n_nan": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.003590636420994997,
+    "n_nonzero": 44090,
+    "mass": 44090.0,
+    "mass_outside_footprint": 0,
+    "problems": [],
+    "ok": true,
+    "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+  },
+  "zip_file": "gems78-h78fw-flankwarp-44090dots-20261022T013114Z-21656430-DO-NOT-SUBMIT.zip",
+  "zip_sha256": "df051979b0011b3d1d3c6067d2e8e6f2f48eaddbac3dadb1bad84e4e558cbba8",
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "submission_slots_used": 0,
+  "status": "blocked-do-not-submit",
+  "metadata": {
+    "lane": "H78-FW broad flank warp + central step",
+    "holdout_only": true,
+    "surface": {
+      "sigma_detrend_px": 30.0,
+      "sigma_warp_px": 8.0,
+      "sigma_central_px": 3.0,
+      "norm": "within-footprint p90 cap 1.0",
+      "composite": "sqrt(warp_n * sqrt(rtp_n*grav_n))",
+      "seconds": 7.8,
+      "warp_p90": 48.07001876831055,
+      "rtp_p90": 66.08822631835938,
+      "grav_p90": 1.228933334350586
+    }
+  },
+  "historical_release_flags": {
+    "approved_for_weekly_slot": false,
+    "promoted": false,
+    "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval"
+  },
+  "current_release_audit": "../data/release_audit.json",
+  "publication_note": "Historical approval flags are superseded. Download for education only; no upload authorization."
+}

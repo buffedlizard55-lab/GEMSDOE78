@@ -128,6 +128,6 @@
     "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval"
   },
   "current_release_audit": "../data/release_audit.json",
-  "publication_note": "All project gates G1-G5 pass (independent gate_check). Weekly slot use remains a separate selector decision; no organizer score is claimed.",
+  "publication_note": "Independent gates G1-G5 passed (evidence/h78sig_gate_report.json). Selector still owns weekly-cap choice; no organizer score exists.",
   "gate_report": "../data/h78sig_gate_report.json"
 }

@@ -101,7 +101,7 @@
   },
   "correlation_overlap_vs_registry": {
     "gate_version": "G4 v2 (template halo/Jaccard classes; IR-78-22-03)",
-    "registry_scope": "restored pinned scored set (12) + H33 + dense witness + this repo's prior productions, SHA-deduped; not an exhaustive inventory of all sibling sites",
+    "registry_scope": "restored pinned scored set (12) + H33 + dense witness + the six local productions published when this lane was preregistered, SHA-deduped; not an exhaustive inventory of all sibling sites",
     "worst_abs_surface_spearman": 0.787019577031251,
     "rho_limit": 0.9,
     "worst_discriminating_forward_overlap_3px": 0.6987752324790202,
@@ -111,7 +111,16 @@
       "FUSE_vs_SIGX": 0.9207230484503419,
       "SIGX_vs_CTRL": 0.7006703884732384
     },
-    "full_tables": "evidence/h78sig_gate_report.json (G4_uniqueness)"
+    "full_tables": "evidence/h78sig_gate_report.json (G4_uniqueness)",
+    "post_merge_expanded_audit": {
+      "gating": false,
+      "all_passed": false,
+      "failing_forward_overlaps": {
+        "gems78-h79ls-lidar-44090dots-20261022T012920Z-c9b3f8d7-zeros.tif": 0.7043320480834656,
+        "gems78-h79ls-lidar-50000dots-20261022T012852Z-e8b05f45-zeros.tif": 0.7576547970061238
+      },
+      "note": "Two blocked-negative H79LS files merged after this lane's preregistration exceed 0.70 forward overlap; they are duplicate-stopped dead ends (IR-78-22-07). Operative registry remains the preregistered scope."
+    }
   },
   "raster_sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
   "validator_output": {

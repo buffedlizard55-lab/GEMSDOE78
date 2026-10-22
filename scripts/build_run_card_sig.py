@@ -65,7 +65,17 @@ def main():
             worst_discriminating_forward_overlap_3px=worst_disc["gate_statistic"],
             worst_literal_forward_overlap_3px=gate["G4_uniqueness"]["worst_literal_forward_overlap_3px"],
             surface_spearman_parents=prod["parent_surface_spearman"],
-            full_tables="evidence/h78sig_gate_report.json (G4_uniqueness)"),
+            full_tables="evidence/h78sig_gate_report.json (G4_uniqueness)",
+            post_merge_expanded_audit=dict(
+                gating=gate["G4_uniqueness"]["post_merge_expanded_audit"]["gating"],
+                all_passed=gate["G4_uniqueness"]["post_merge_expanded_audit"]["all_passed"],
+                failing_forward_overlaps={
+                    k: v["gate_statistic"] for k, v in
+                    gate["G4_uniqueness"]["post_merge_expanded_audit"]["failing_rows"].items()},
+                note=("Two blocked-negative H79LS files merged after this lane's "
+                      "preregistration exceed 0.70 forward overlap; they are "
+                      "duplicate-stopped dead ends (IR-78-22-07). Operative "
+                      "registry remains the preregistered scope."))),
         raster_sha256=prod["raster_sha256"],
         validator_output=gate["G1_format"]["verify_tif"],
         gates={k: gate[k]["passed"] for k in

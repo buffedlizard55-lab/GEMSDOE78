@@ -73,13 +73,17 @@ overall best CTRL_A2 {f4(ctrl['dti'])} (paired Δ {h['paired_vs_CTRL_A2_B3_overa
 [{f4(far['ci95'][0])}, {f4(far['ci95'][1])}] — <b>beats both parent surfaces</b> (paired CIs exclude 0),
 and beats registry D2.8 dots and a random control everywhere.</td></tr>
 <tr><td>G4 Uniqueness</td><td>{'PASS' if gate['G4_uniqueness']['passed'] else 'FAIL'}</td>
-<td>Vs 20 restored, SHA-deduped registry/production rasters: worst surface |Spearman| =
+<td>Vs 20 restored, SHA-deduped registry/production rasters (the preregistered scope): worst surface |Spearman| =
 {f4(gate['G4_uniqueness']['worst_abs_surface_spearman'])} (limit 0.90); worst forward 3 px dot overlap among
 discriminating rasters = {f4(card['correlation_overlap_vs_registry']['worst_discriminating_forward_overlap_3px'])}
 vs H78-A (limit 0.70 — a 53-dot margin, disclosed). The two space-filling comparators are handled by the
 template's own halo/Jaccard/top-K classes; literal overlaps (1.000 and 0.998) are published in the gate
 report. This corrected rule (IR-78-22-03) is flagged for owner ratification — the literal rule is
-mathematically unsatisfiable by any nonempty file (see warning below).</td></tr>
+mathematically unsatisfiable by any nonempty file (see warning below).
+<b>Post-merge note (IR-78-22-07):</b> parallel sessions later merged 9 more blocked-negative files into
+docs/downloads; in the published expanded audit this file's dots exceed 0.70 forward overlap vs two
+duplicate-stopped H79LS dead ends (0.758 and 0.704). Those files must never be submitted; if you count
+them as registry anyway, treat this file as DO NOT SUBMIT too.</td></tr>
 <tr><td>G5 Emission</td><td>{'PASS' if gate['G5_emission']['passed'] else 'FAIL'}</td>
 <td>44,090 binary dots; realised minimum spacing {gate['G5_emission']['realised_min_nn_px']:.2f} px (283 m);
 nearest dot {gate['G5_emission']['min_dist_to_full_catalogue_px']:.1f} px (&gt;500 m) from the mapped

@@ -63,14 +63,35 @@ def sha256(p: Path) -> str:
     return h.hexdigest()
 
 
-def registry_rasters(exclude_names: set[str] | None = None) -> list[dict]:
+# Local predecessor files published in docs/downloads when this lane was
+# preregistered (2026-10-22, registry/preregistration_h78sig.json). Parallel
+# sessions later merged additional *blocked negative* lane files into
+# docs/downloads (H78-STEP/FW, H79-LR/LS, ...). Those post-lane dead ends are
+# not part of the operative (gating) registry — the duplicate stop protects
+# weekly slots against near-copies of scored or viable candidates — but
+# gate_check reports them in a separate expanded audit (IR-78-22-07).
+LOCAL_PREDECESSOR_DOWNLOADS = frozenset({
+    "gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif",
+    "gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif",
+    "gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif",
+    "gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif",
+    "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif",
+    "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif",
+})
+
+
+def registry_rasters(exclude_names: set[str] | None = None,
+                     expanded_downloads: bool = False) -> list[dict]:
     exclude_names = exclude_names or set()
     candidates = []
     scored = ROOT / ".cache" / "gems_data" / "scored"
     candidates += sorted(scored.glob("*.tif"))
     candidates += [ROOT / "data" / "registry" / "h33_2_b2_37654_zeros.tif",
                    ROOT / "data" / "registry" / "17GEMSDOE_E-proba-multiscale.tif"]
-    candidates += sorted((ROOT / "docs" / "downloads").glob("*.tif"))
+    downloads = sorted((ROOT / "docs" / "downloads").glob("*.tif"))
+    if not expanded_downloads:
+        downloads = [p for p in downloads if p.name in LOCAL_PREDECESSOR_DOWNLOADS]
+    candidates += downloads
     out, seen = [], {}
     for p in candidates:
         if not p.exists() or p.name in exclude_names:

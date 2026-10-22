@@ -30,47 +30,36 @@ def sha256(path):
     return h.hexdigest()
 
 
-def _fetch_codeload(entry, tmp):
-    """Stream the pinned repo tarball from codeload.github.com (no auth needed
-    for public repos) and extract the single pinned path to ``tmp``.
-
-    Mirrors scripts/restore_data.py:fetch_stream_batch -- same transport, so a
-    broken/expired ``gh`` token (observed 2026-10-22) cannot silently block the
-    fail-closed preflight. Raises on any failure; caller verifies SHA-256.
-    """
-    import shutil
-    import tarfile
-    import urllib.request
-
-    url = f"https://codeload.github.com/{entry['repo']}/tar.gz/{entry['ref']}"
-    req = urllib.request.Request(url, headers={"User-Agent": "gems78-preflight"})
-    with urllib.request.urlopen(req, timeout=180) as resp:
-        with tarfile.open(fileobj=resp, mode="r|gz") as tf:
-            for member in tf:
-                if not member.isfile():
-                    continue
-                rel = member.name.split("/", 1)[1] if "/" in member.name else member.name
-                if rel == entry["path"]:
-                    fh = tf.extractfile(member)
-                    if fh is None:
-                        break
-                    with tmp.open("wb") as out:
-                        shutil.copyfileobj(fh, out, 1 << 20)
-                    return
-    raise ValueError(f"path not found in codeload tarball: {entry['path']}")
-
-
 def restore_entry(entry):
     path = ROOT / entry["local_path"]
     if path.exists() and sha256(path) == entry["sha256"]:
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".partial")
+    import tempfile
     try:
+        fetched = False
         try:
-            _fetch_codeload(entry, tmp)
-        except Exception:
-            # Fall back to authenticated gh (original transport) as a last resort.
+            with tempfile.TemporaryDirectory() as git_dir:
+                subprocess.run(["git", "init", "-q", git_dir], check=True, timeout=30)
+                subprocess.run(
+                    ["git", "-C", git_dir, "remote", "add", "origin", f"https://github.com/{entry['repo']}.git"],
+                    check=True, timeout=30,
+                )
+                subprocess.run(
+                    ["git", "-C", git_dir, "fetch", "-q", "--depth", "1", "--filter=blob:none", "origin", entry["ref"]],
+                    check=True, timeout=180,
+                )
+                with tmp.open("wb") as stream:
+                    subprocess.run(
+                        ["git", "-C", git_dir, "show", f"{entry['ref']}:{entry['path']}"],
+                        stdout=stream, check=True, timeout=180,
+                    )
+                if sha256(tmp) == entry["sha256"]:
+                    fetched = True
+        except (OSError, subprocess.SubprocessError):
+            fetched = False
+        if not fetched:
             with tmp.open("wb") as stream:
                 subprocess.run([
                     "gh", "api",
