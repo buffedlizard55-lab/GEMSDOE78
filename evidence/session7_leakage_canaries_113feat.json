@@ -1,0 +1,1599 @@
+{
+  "ext_meta": {
+    "channels": [
+      "chi_step_max",
+      "chi_step_min",
+      "chi_ksn_max",
+      "chi_log10_area",
+      "chi_zmean",
+      "chi_chan_n",
+      "chi_knick_n",
+      "chi_raised_n",
+      "chi_knick_smooth_r4",
+      "gfv_temp_excess_r3",
+      "gfv_temp_excess_r12",
+      "gfv_geotherm_max_r4",
+      "gfv_geotherm_max_r15",
+      "gfv_geotherm_aniso_strike",
+      "gfv_probe2m_dab_pos_r4",
+      "gfv_probe2m_dab_pos_r14",
+      "gfv_probe2m_surveyed_r10",
+      "gfv_paleo_sinter_r4",
+      "gfv_paleo_sinter_r16",
+      "gfv_volc_vent_r16",
+      "gfv_hydro_pure_current"
+    ],
+    "n_channels": 21,
+    "n_hot_geotherm_anchors": 3303,
+    "n_2m_probes_in_footprint": 2782,
+    "n_paleo_sinters_in_footprint": 281,
+    "n_volc_vents_in_footprint": 21,
+    "n_unique_hydro_nodes_2x": 1369,
+    "dist_known_fault_px_accessed": false,
+    "seconds": 24.31
+  },
+  "canaries": {
+    "seed_20": {
+      "withheld_positive_pixels": 11321,
+      "n_features_tested": 113,
+      "threshold": 0.9,
+      "max_symmetric_auc": 0.78156,
+      "max_feature": "geo_Tpair_sum",
+      "flagged_over_0p90": [],
+      "all_passed": true,
+      "top15": [
+        {
+          "feature": "geo_Tpair_sum",
+          "group": "gfv_geo12",
+          "auc": 0.21844,
+          "symmetric_auc": 0.78156
+        },
+        {
+          "feature": "geo_T1_tip",
+          "group": "gfv_geo12",
+          "auc": 0.2202,
+          "symmetric_auc": 0.7798
+        },
+        {
+          "feature": "geo_log_d_trace",
+          "group": "gfv_geo12",
+          "auc": 0.24556,
+          "symmetric_auc": 0.75444
+        },
+        {
+          "feature": "geo_T1_trace",
+          "group": "gfv_geo12",
+          "auc": 0.24758,
+          "symmetric_auc": 0.75242
+        },
+        {
+          "feature": "geo_J_wide",
+          "group": "gfv_geo12",
+          "auc": 0.69751,
+          "symmetric_auc": 0.69751
+        },
+        {
+          "feature": "geo_fermat_ridge",
+          "group": "gfv_geo12",
+          "auc": 0.67704,
+          "symmetric_auc": 0.67704
+        },
+        {
+          "feature": "geo_J_narrow",
+          "group": "gfv_geo12",
+          "auc": 0.60443,
+          "symmetric_auc": 0.60443
+        },
+        {
+          "feature": "lidar_upface_max",
+          "group": "template80",
+          "auc": 0.60238,
+          "symmetric_auc": 0.60238
+        },
+        {
+          "feature": "lidar_downface_max",
+          "group": "template80",
+          "auc": 0.59828,
+          "symmetric_auc": 0.59828
+        },
+        {
+          "feature": "lidar_cross_max",
+          "group": "template80",
+          "auc": 0.59739,
+          "symmetric_auc": 0.59739
+        },
+        {
+          "feature": "lidar_lappos_max",
+          "group": "template80",
+          "auc": 0.59239,
+          "symmetric_auc": 0.59239
+        },
+        {
+          "feature": "topo10_slope_std",
+          "group": "template80",
+          "auc": 0.58946,
+          "symmetric_auc": 0.58946
+        },
+        {
+          "feature": "lidar_lapneg_max",
+          "group": "template80",
+          "auc": 0.58934,
+          "symmetric_auc": 0.58934
+        },
+        {
+          "feature": "geo_host_len_log",
+          "group": "gfv_geo12",
+          "auc": 0.41178,
+          "symmetric_auc": 0.58822
+        },
+        {
+          "feature": "lidar_step_max",
+          "group": "template80",
+          "auc": 0.58706,
+          "symmetric_auc": 0.58706
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "tf_mag_anom",
+          "group": "template80",
+          "auc": 0.5095,
+          "symmetric_auc": 0.5095
+        },
+        {
+          "feature": "tf_rtp",
+          "group": "template80",
+          "auc": 0.51867,
+          "symmetric_auc": 0.51867
+        },
+        {
+          "feature": "tf_tmi_hg",
+          "group": "template80",
+          "auc": 0.52967,
+          "symmetric_auc": 0.52967
+        },
+        {
+          "feature": "tf_geod_2ndinv",
+          "group": "template80",
+          "auc": 0.56674,
+          "symmetric_auc": 0.56674
+        },
+        {
+          "feature": "tf_iso_grav_anom_slope",
+          "group": "template80",
+          "auc": 0.52313,
+          "symmetric_auc": 0.52313
+        },
+        {
+          "feature": "tf_tc",
+          "group": "template80",
+          "auc": 0.47197,
+          "symmetric_auc": 0.52803
+        },
+        {
+          "feature": "tf_geod_shearrate",
+          "group": "template80",
+          "auc": 0.56624,
+          "symmetric_auc": 0.56624
+        },
+        {
+          "feature": "tf_geod_dilaterate",
+          "group": "template80",
+          "auc": 0.51708,
+          "symmetric_auc": 0.51708
+        },
+        {
+          "feature": "tf_tmi_vg",
+          "group": "template80",
+          "auc": 0.48678,
+          "symmetric_auc": 0.51322
+        },
+        {
+          "feature": "tf_deq_n100a15",
+          "group": "template80",
+          "auc": 0.53644,
+          "symmetric_auc": 0.53644
+        },
+        {
+          "feature": "tf_iso_grav_anom_vg",
+          "group": "template80",
+          "auc": 0.51293,
+          "symmetric_auc": 0.51293
+        },
+        {
+          "feature": "tf_det_elev",
+          "group": "template80",
+          "auc": 0.51313,
+          "symmetric_auc": 0.51313
+        },
+        {
+          "feature": "tf_iso_grav_anom",
+          "group": "template80",
+          "auc": 0.45969,
+          "symmetric_auc": 0.54031
+        },
+        {
+          "feature": "tf_tmi",
+          "group": "template80",
+          "auc": 0.50986,
+          "symmetric_auc": 0.50986
+        },
+        {
+          "feature": "tf_depth_to_base_surf",
+          "group": "template80",
+          "auc": 0.52366,
+          "symmetric_auc": 0.52366
+        },
+        {
+          "feature": "tf_ieq_n100a15",
+          "group": "template80",
+          "auc": 0.54233,
+          "symmetric_auc": 0.54233
+        },
+        {
+          "feature": "tf_cond_surf",
+          "group": "template80",
+          "auc": 0.47809,
+          "symmetric_auc": 0.52191
+        },
+        {
+          "feature": "tf_iso_grav_anom_hg",
+          "group": "template80",
+          "auc": 0.49239,
+          "symmetric_auc": 0.50761
+        },
+        {
+          "feature": "tf_det_elev_slope",
+          "group": "template80",
+          "auc": 0.56424,
+          "symmetric_auc": 0.56424
+        },
+        {
+          "feature": "lidar_ex_max",
+          "group": "template80",
+          "auc": 0.58596,
+          "symmetric_auc": 0.58596
+        },
+        {
+          "feature": "lidar_ex_mean",
+          "group": "template80",
+          "auc": 0.57973,
+          "symmetric_auc": 0.57973
+        },
+        {
+          "feature": "lidar_step_max",
+          "group": "template80",
+          "auc": 0.58706,
+          "symmetric_auc": 0.58706
+        },
+        {
+          "feature": "lidar_lapneg_max",
+          "group": "template80",
+          "auc": 0.58934,
+          "symmetric_auc": 0.58934
+        },
+        {
+          "feature": "lidar_lappos_max",
+          "group": "template80",
+          "auc": 0.59239,
+          "symmetric_auc": 0.59239
+        },
+        {
+          "feature": "lidar_downface_max",
+          "group": "template80",
+          "auc": 0.59828,
+          "symmetric_auc": 0.59828
+        },
+        {
+          "feature": "lidar_upface_max",
+          "group": "template80",
+          "auc": 0.60238,
+          "symmetric_auc": 0.60238
+        },
+        {
+          "feature": "lidar_cross_max",
+          "group": "template80",
+          "auc": 0.59739,
+          "symmetric_auc": 0.59739
+        },
+        {
+          "feature": "lidar_relief",
+          "group": "template80",
+          "auc": 0.58476,
+          "symmetric_auc": 0.58476
+        },
+        {
+          "feature": "lidar_coh100",
+          "group": "template80",
+          "auc": 0.5231,
+          "symmetric_auc": 0.5231
+        },
+        {
+          "feature": "lidar_strike",
+          "group": "template80",
+          "auc": 0.53997,
+          "symmetric_auc": 0.53997
+        },
+        {
+          "feature": "lidar_valid",
+          "group": "template80",
+          "auc": 0.53185,
+          "symmetric_auc": 0.53185
+        },
+        {
+          "feature": "rad_K",
+          "group": "template80",
+          "auc": 0.4653,
+          "symmetric_auc": 0.5347
+        },
+        {
+          "feature": "rad_Th",
+          "group": "template80",
+          "auc": 0.48058,
+          "symmetric_auc": 0.51942
+        },
+        {
+          "feature": "rad_U",
+          "group": "template80",
+          "auc": 0.47387,
+          "symmetric_auc": 0.52613
+        },
+        {
+          "feature": "rad_TC",
+          "group": "template80",
+          "auc": 0.47198,
+          "symmetric_auc": 0.52802
+        },
+        {
+          "feature": "gdx_ThK",
+          "group": "template80",
+          "auc": 0.50347,
+          "symmetric_auc": 0.50347
+        },
+        {
+          "feature": "gdx_UK",
+          "group": "template80",
+          "auc": 0.50881,
+          "symmetric_auc": 0.50881
+        },
+        {
+          "feature": "gdx_UTh",
+          "group": "template80",
+          "auc": 0.50931,
+          "symmetric_auc": 0.50931
+        },
+        {
+          "feature": "gdx_TMI_up150",
+          "group": "template80",
+          "auc": 0.50979,
+          "symmetric_auc": 0.50979
+        },
+        {
+          "feature": "topo10_slope_p90",
+          "group": "template80",
+          "auc": 0.56966,
+          "symmetric_auc": 0.56966
+        },
+        {
+          "feature": "topo10_slope_max",
+          "group": "template80",
+          "auc": 0.57287,
+          "symmetric_auc": 0.57287
+        },
+        {
+          "feature": "topo10_steep_frac",
+          "group": "template80",
+          "auc": 0.55244,
+          "symmetric_auc": 0.55244
+        },
+        {
+          "feature": "topo10_slope_std",
+          "group": "template80",
+          "auc": 0.58946,
+          "symmetric_auc": 0.58946
+        },
+        {
+          "feature": "topo10_relief_local",
+          "group": "template80",
+          "auc": 0.56646,
+          "symmetric_auc": 0.56646
+        },
+        {
+          "feature": "topo10_curv_prof_absmax",
+          "group": "template80",
+          "auc": 0.58693,
+          "symmetric_auc": 0.58693
+        },
+        {
+          "feature": "topo10_aspect_coherence",
+          "group": "template80",
+          "auc": 0.49812,
+          "symmetric_auc": 0.50188
+        },
+        {
+          "feature": "topo10_hs_lineament",
+          "group": "template80",
+          "auc": 0.57768,
+          "symmetric_auc": 0.57768
+        },
+        {
+          "feature": "topo10_dem_mean",
+          "group": "template80",
+          "auc": 0.52989,
+          "symmetric_auc": 0.52989
+        },
+        {
+          "feature": "mpc_rtp_pc",
+          "group": "template80",
+          "auc": 0.49431,
+          "symmetric_auc": 0.50569
+        },
+        {
+          "feature": "mpc_rtp_amp1",
+          "group": "template80",
+          "auc": 0.53148,
+          "symmetric_auc": 0.53148
+        },
+        {
+          "feature": "mpc_rtp_amp2",
+          "group": "template80",
+          "auc": 0.52667,
+          "symmetric_auc": 0.52667
+        },
+        {
+          "feature": "mpc_rtp_amp3",
+          "group": "template80",
+          "auc": 0.5254,
+          "symmetric_auc": 0.5254
+        },
+        {
+          "feature": "mpc_rtp_cos_phase",
+          "group": "template80",
+          "auc": 0.49796,
+          "symmetric_auc": 0.50204
+        },
+        {
+          "feature": "mpc_rtp_sin_phase",
+          "group": "template80",
+          "auc": 0.51734,
+          "symmetric_auc": 0.51734
+        },
+        {
+          "feature": "mpc_rtp_orient_coh",
+          "group": "template80",
+          "auc": 0.49583,
+          "symmetric_auc": 0.50417
+        },
+        {
+          "feature": "mpc_iso_grav_anom_pc",
+          "group": "template80",
+          "auc": 0.50454,
+          "symmetric_auc": 0.50454
+        },
+        {
+          "feature": "mpc_iso_grav_anom_amp1",
+          "group": "template80",
+          "auc": 0.52768,
+          "symmetric_auc": 0.52768
+        },
+        {
+          "feature": "mpc_iso_grav_anom_amp2",
+          "group": "template80",
+          "auc": 0.52716,
+          "symmetric_auc": 0.52716
+        },
+        {
+          "feature": "mpc_iso_grav_anom_amp3",
+          "group": "template80",
+          "auc": 0.52823,
+          "symmetric_auc": 0.52823
+        },
+        {
+          "feature": "mpc_iso_grav_anom_cos_phase",
+          "group": "template80",
+          "auc": 0.52765,
+          "symmetric_auc": 0.52765
+        },
+        {
+          "feature": "mpc_iso_grav_anom_sin_phase",
+          "group": "template80",
+          "auc": 0.51047,
+          "symmetric_auc": 0.51047
+        },
+        {
+          "feature": "mpc_iso_grav_anom_orient_coh",
+          "group": "template80",
+          "auc": 0.49515,
+          "symmetric_auc": 0.50485
+        },
+        {
+          "feature": "mpc_det_elev_pc",
+          "group": "template80",
+          "auc": 0.48748,
+          "symmetric_auc": 0.51252
+        },
+        {
+          "feature": "mpc_det_elev_amp1",
+          "group": "template80",
+          "auc": 0.54401,
+          "symmetric_auc": 0.54401
+        },
+        {
+          "feature": "mpc_det_elev_amp2",
+          "group": "template80",
+          "auc": 0.54426,
+          "symmetric_auc": 0.54426
+        },
+        {
+          "feature": "mpc_det_elev_amp3",
+          "group": "template80",
+          "auc": 0.54289,
+          "symmetric_auc": 0.54289
+        },
+        {
+          "feature": "mpc_det_elev_cos_phase",
+          "group": "template80",
+          "auc": 0.48575,
+          "symmetric_auc": 0.51425
+        },
+        {
+          "feature": "mpc_det_elev_sin_phase",
+          "group": "template80",
+          "auc": 0.52582,
+          "symmetric_auc": 0.52582
+        },
+        {
+          "feature": "mpc_det_elev_orient_coh",
+          "group": "template80",
+          "auc": 0.51613,
+          "symmetric_auc": 0.51613
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_pc",
+          "group": "template80",
+          "auc": 0.50554,
+          "symmetric_auc": 0.50554
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_amp1",
+          "group": "template80",
+          "auc": 0.53504,
+          "symmetric_auc": 0.53504
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_amp2",
+          "group": "template80",
+          "auc": 0.53654,
+          "symmetric_auc": 0.53654
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_amp3",
+          "group": "template80",
+          "auc": 0.53383,
+          "symmetric_auc": 0.53383
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_cos_phase",
+          "group": "template80",
+          "auc": 0.49579,
+          "symmetric_auc": 0.50421
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_sin_phase",
+          "group": "template80",
+          "auc": 0.49966,
+          "symmetric_auc": 0.50034
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_orient_coh",
+          "group": "template80",
+          "auc": 0.48932,
+          "symmetric_auc": 0.51068
+        },
+        {
+          "feature": "frangi_rtp_bright",
+          "group": "template80",
+          "auc": 0.49913,
+          "symmetric_auc": 0.50087
+        },
+        {
+          "feature": "frangi_rtp_dark",
+          "group": "template80",
+          "auc": 0.52016,
+          "symmetric_auc": 0.52016
+        },
+        {
+          "feature": "frangi_det_elev_bright",
+          "group": "template80",
+          "auc": 0.47472,
+          "symmetric_auc": 0.52528
+        },
+        {
+          "feature": "frangi_det_elev_dark",
+          "group": "template80",
+          "auc": 0.57726,
+          "symmetric_auc": 0.57726
+        },
+        {
+          "feature": "chi_step_max",
+          "group": "gfv_ext21",
+          "auc": 0.49845,
+          "symmetric_auc": 0.50155
+        },
+        {
+          "feature": "chi_step_min",
+          "group": "gfv_ext21",
+          "auc": 0.49895,
+          "symmetric_auc": 0.50105
+        },
+        {
+          "feature": "chi_ksn_max",
+          "group": "gfv_ext21",
+          "auc": 0.50455,
+          "symmetric_auc": 0.50455
+        },
+        {
+          "feature": "chi_log10_area",
+          "group": "gfv_ext21",
+          "auc": 0.50031,
+          "symmetric_auc": 0.50031
+        },
+        {
+          "feature": "chi_zmean",
+          "group": "gfv_ext21",
+          "auc": 0.52704,
+          "symmetric_auc": 0.52704
+        },
+        {
+          "feature": "chi_chan_n",
+          "group": "gfv_ext21",
+          "auc": 0.50286,
+          "symmetric_auc": 0.50286
+        },
+        {
+          "feature": "chi_knick_n",
+          "group": "gfv_ext21",
+          "auc": 0.49942,
+          "symmetric_auc": 0.50058
+        },
+        {
+          "feature": "chi_raised_n",
+          "group": "gfv_ext21",
+          "auc": 0.48748,
+          "symmetric_auc": 0.51252
+        },
+        {
+          "feature": "chi_knick_smooth_r4",
+          "group": "gfv_ext21",
+          "auc": 0.52586,
+          "symmetric_auc": 0.52586
+        },
+        {
+          "feature": "gfv_temp_excess_r3",
+          "group": "gfv_ext21",
+          "auc": 0.49476,
+          "symmetric_auc": 0.50524
+        },
+        {
+          "feature": "gfv_temp_excess_r12",
+          "group": "gfv_ext21",
+          "auc": 0.49235,
+          "symmetric_auc": 0.50765
+        },
+        {
+          "feature": "gfv_geotherm_max_r4",
+          "group": "gfv_ext21",
+          "auc": 0.49147,
+          "symmetric_auc": 0.50853
+        },
+        {
+          "feature": "gfv_geotherm_max_r15",
+          "group": "gfv_ext21",
+          "auc": 0.50042,
+          "symmetric_auc": 0.50042
+        },
+        {
+          "feature": "gfv_geotherm_aniso_strike",
+          "group": "gfv_ext21",
+          "auc": 0.49399,
+          "symmetric_auc": 0.50601
+        },
+        {
+          "feature": "gfv_probe2m_dab_pos_r4",
+          "group": "gfv_ext21",
+          "auc": 0.51398,
+          "symmetric_auc": 0.51398
+        },
+        {
+          "feature": "gfv_probe2m_dab_pos_r14",
+          "group": "gfv_ext21",
+          "auc": 0.51313,
+          "symmetric_auc": 0.51313
+        },
+        {
+          "feature": "gfv_probe2m_surveyed_r10",
+          "group": "gfv_ext21",
+          "auc": 0.52274,
+          "symmetric_auc": 0.52274
+        },
+        {
+          "feature": "gfv_paleo_sinter_r4",
+          "group": "gfv_ext21",
+          "auc": 0.49392,
+          "symmetric_auc": 0.50608
+        },
+        {
+          "feature": "gfv_paleo_sinter_r16",
+          "group": "gfv_ext21",
+          "auc": 0.46872,
+          "symmetric_auc": 0.53128
+        },
+        {
+          "feature": "gfv_volc_vent_r16",
+          "group": "gfv_ext21",
+          "auc": 0.49393,
+          "symmetric_auc": 0.50607
+        },
+        {
+          "feature": "gfv_hydro_pure_current",
+          "group": "gfv_ext21",
+          "auc": 0.49433,
+          "symmetric_auc": 0.50567
+        },
+        {
+          "feature": "geo_log_d_trace",
+          "group": "gfv_geo12",
+          "auc": 0.24556,
+          "symmetric_auc": 0.75444
+        },
+        {
+          "feature": "geo_T1_trace",
+          "group": "gfv_geo12",
+          "auc": 0.24758,
+          "symmetric_auc": 0.75242
+        },
+        {
+          "feature": "geo_tortuosity_trace",
+          "group": "gfv_geo12",
+          "auc": 0.45423,
+          "symmetric_auc": 0.54577
+        },
+        {
+          "feature": "geo_T1_tip",
+          "group": "gfv_geo12",
+          "auc": 0.2202,
+          "symmetric_auc": 0.7798
+        },
+        {
+          "feature": "geo_tortuosity_tip",
+          "group": "gfv_geo12",
+          "auc": 0.45295,
+          "symmetric_auc": 0.54705
+        },
+        {
+          "feature": "geo_Tpair_sum",
+          "group": "gfv_geo12",
+          "auc": 0.21844,
+          "symmetric_auc": 0.78156
+        },
+        {
+          "feature": "geo_fermat_ridge",
+          "group": "gfv_geo12",
+          "auc": 0.67704,
+          "symmetric_auc": 0.67704
+        },
+        {
+          "feature": "geo_J_narrow",
+          "group": "gfv_geo12",
+          "auc": 0.60443,
+          "symmetric_auc": 0.60443
+        },
+        {
+          "feature": "geo_J_wide",
+          "group": "gfv_geo12",
+          "auc": 0.69751,
+          "symmetric_auc": 0.69751
+        },
+        {
+          "feature": "geo_J_vent_bridge",
+          "group": "gfv_geo12",
+          "auc": 0.5304,
+          "symmetric_auc": 0.5304
+        },
+        {
+          "feature": "geo_along_tip_cos",
+          "group": "gfv_geo12",
+          "auc": 0.58093,
+          "symmetric_auc": 0.58093
+        },
+        {
+          "feature": "geo_host_len_log",
+          "group": "gfv_geo12",
+          "auc": 0.41178,
+          "symmetric_auc": 0.58822
+        }
+      ]
+    },
+    "seed_30": {
+      "withheld_positive_pixels": 11342,
+      "n_features_tested": 113,
+      "threshold": 0.9,
+      "max_symmetric_auc": 0.77648,
+      "max_feature": "geo_Tpair_sum",
+      "flagged_over_0p90": [],
+      "all_passed": true,
+      "top15": [
+        {
+          "feature": "geo_Tpair_sum",
+          "group": "gfv_geo12",
+          "auc": 0.22352,
+          "symmetric_auc": 0.77648
+        },
+        {
+          "feature": "geo_T1_tip",
+          "group": "gfv_geo12",
+          "auc": 0.22574,
+          "symmetric_auc": 0.77426
+        },
+        {
+          "feature": "geo_log_d_trace",
+          "group": "gfv_geo12",
+          "auc": 0.2488,
+          "symmetric_auc": 0.7512
+        },
+        {
+          "feature": "geo_T1_trace",
+          "group": "gfv_geo12",
+          "auc": 0.25489,
+          "symmetric_auc": 0.74511
+        },
+        {
+          "feature": "geo_J_wide",
+          "group": "gfv_geo12",
+          "auc": 0.69763,
+          "symmetric_auc": 0.69763
+        },
+        {
+          "feature": "geo_fermat_ridge",
+          "group": "gfv_geo12",
+          "auc": 0.66761,
+          "symmetric_auc": 0.66761
+        },
+        {
+          "feature": "geo_host_len_log",
+          "group": "gfv_geo12",
+          "auc": 0.38088,
+          "symmetric_auc": 0.61912
+        },
+        {
+          "feature": "geo_along_tip_cos",
+          "group": "gfv_geo12",
+          "auc": 0.60462,
+          "symmetric_auc": 0.60462
+        },
+        {
+          "feature": "geo_J_narrow",
+          "group": "gfv_geo12",
+          "auc": 0.60116,
+          "symmetric_auc": 0.60116
+        },
+        {
+          "feature": "lidar_upface_max",
+          "group": "template80",
+          "auc": 0.57778,
+          "symmetric_auc": 0.57778
+        },
+        {
+          "feature": "tf_geod_shearrate",
+          "group": "template80",
+          "auc": 0.57271,
+          "symmetric_auc": 0.57271
+        },
+        {
+          "feature": "tf_iso_grav_anom_slope",
+          "group": "template80",
+          "auc": 0.57254,
+          "symmetric_auc": 0.57254
+        },
+        {
+          "feature": "lidar_downface_max",
+          "group": "template80",
+          "auc": 0.57117,
+          "symmetric_auc": 0.57117
+        },
+        {
+          "feature": "lidar_cross_max",
+          "group": "template80",
+          "auc": 0.57091,
+          "symmetric_auc": 0.57091
+        },
+        {
+          "feature": "frangi_det_elev_dark",
+          "group": "template80",
+          "auc": 0.56793,
+          "symmetric_auc": 0.56793
+        }
+      ],
+      "all_features": [
+        {
+          "feature": "tf_mag_anom",
+          "group": "template80",
+          "auc": 0.49784,
+          "symmetric_auc": 0.50216
+        },
+        {
+          "feature": "tf_rtp",
+          "group": "template80",
+          "auc": 0.49135,
+          "symmetric_auc": 0.50865
+        },
+        {
+          "feature": "tf_tmi_hg",
+          "group": "template80",
+          "auc": 0.50528,
+          "symmetric_auc": 0.50528
+        },
+        {
+          "feature": "tf_geod_2ndinv",
+          "group": "template80",
+          "auc": 0.5668,
+          "symmetric_auc": 0.5668
+        },
+        {
+          "feature": "tf_iso_grav_anom_slope",
+          "group": "template80",
+          "auc": 0.57254,
+          "symmetric_auc": 0.57254
+        },
+        {
+          "feature": "tf_tc",
+          "group": "template80",
+          "auc": 0.45363,
+          "symmetric_auc": 0.54637
+        },
+        {
+          "feature": "tf_geod_shearrate",
+          "group": "template80",
+          "auc": 0.57271,
+          "symmetric_auc": 0.57271
+        },
+        {
+          "feature": "tf_geod_dilaterate",
+          "group": "template80",
+          "auc": 0.51741,
+          "symmetric_auc": 0.51741
+        },
+        {
+          "feature": "tf_tmi_vg",
+          "group": "template80",
+          "auc": 0.49951,
+          "symmetric_auc": 0.50049
+        },
+        {
+          "feature": "tf_deq_n100a15",
+          "group": "template80",
+          "auc": 0.54865,
+          "symmetric_auc": 0.54865
+        },
+        {
+          "feature": "tf_iso_grav_anom_vg",
+          "group": "template80",
+          "auc": 0.54317,
+          "symmetric_auc": 0.54317
+        },
+        {
+          "feature": "tf_det_elev",
+          "group": "template80",
+          "auc": 0.47128,
+          "symmetric_auc": 0.52872
+        },
+        {
+          "feature": "tf_iso_grav_anom",
+          "group": "template80",
+          "auc": 0.46736,
+          "symmetric_auc": 0.53264
+        },
+        {
+          "feature": "tf_tmi",
+          "group": "template80",
+          "auc": 0.50327,
+          "symmetric_auc": 0.50327
+        },
+        {
+          "feature": "tf_depth_to_base_surf",
+          "group": "template80",
+          "auc": 0.53141,
+          "symmetric_auc": 0.53141
+        },
+        {
+          "feature": "tf_ieq_n100a15",
+          "group": "template80",
+          "auc": 0.56658,
+          "symmetric_auc": 0.56658
+        },
+        {
+          "feature": "tf_cond_surf",
+          "group": "template80",
+          "auc": 0.51823,
+          "symmetric_auc": 0.51823
+        },
+        {
+          "feature": "tf_iso_grav_anom_hg",
+          "group": "template80",
+          "auc": 0.48011,
+          "symmetric_auc": 0.51989
+        },
+        {
+          "feature": "tf_det_elev_slope",
+          "group": "template80",
+          "auc": 0.53696,
+          "symmetric_auc": 0.53696
+        },
+        {
+          "feature": "lidar_ex_max",
+          "group": "template80",
+          "auc": 0.55994,
+          "symmetric_auc": 0.55994
+        },
+        {
+          "feature": "lidar_ex_mean",
+          "group": "template80",
+          "auc": 0.55389,
+          "symmetric_auc": 0.55389
+        },
+        {
+          "feature": "lidar_step_max",
+          "group": "template80",
+          "auc": 0.56133,
+          "symmetric_auc": 0.56133
+        },
+        {
+          "feature": "lidar_lapneg_max",
+          "group": "template80",
+          "auc": 0.56519,
+          "symmetric_auc": 0.56519
+        },
+        {
+          "feature": "lidar_lappos_max",
+          "group": "template80",
+          "auc": 0.56707,
+          "symmetric_auc": 0.56707
+        },
+        {
+          "feature": "lidar_downface_max",
+          "group": "template80",
+          "auc": 0.57117,
+          "symmetric_auc": 0.57117
+        },
+        {
+          "feature": "lidar_upface_max",
+          "group": "template80",
+          "auc": 0.57778,
+          "symmetric_auc": 0.57778
+        },
+        {
+          "feature": "lidar_cross_max",
+          "group": "template80",
+          "auc": 0.57091,
+          "symmetric_auc": 0.57091
+        },
+        {
+          "feature": "lidar_relief",
+          "group": "template80",
+          "auc": 0.55947,
+          "symmetric_auc": 0.55947
+        },
+        {
+          "feature": "lidar_coh100",
+          "group": "template80",
+          "auc": 0.51793,
+          "symmetric_auc": 0.51793
+        },
+        {
+          "feature": "lidar_strike",
+          "group": "template80",
+          "auc": 0.54171,
+          "symmetric_auc": 0.54171
+        },
+        {
+          "feature": "lidar_valid",
+          "group": "template80",
+          "auc": 0.52921,
+          "symmetric_auc": 0.52921
+        },
+        {
+          "feature": "rad_K",
+          "group": "template80",
+          "auc": 0.45829,
+          "symmetric_auc": 0.54171
+        },
+        {
+          "feature": "rad_Th",
+          "group": "template80",
+          "auc": 0.45042,
+          "symmetric_auc": 0.54958
+        },
+        {
+          "feature": "rad_U",
+          "group": "template80",
+          "auc": 0.46638,
+          "symmetric_auc": 0.53362
+        },
+        {
+          "feature": "rad_TC",
+          "group": "template80",
+          "auc": 0.45364,
+          "symmetric_auc": 0.54636
+        },
+        {
+          "feature": "gdx_ThK",
+          "group": "template80",
+          "auc": 0.46978,
+          "symmetric_auc": 0.53022
+        },
+        {
+          "feature": "gdx_UK",
+          "group": "template80",
+          "auc": 0.50722,
+          "symmetric_auc": 0.50722
+        },
+        {
+          "feature": "gdx_UTh",
+          "group": "template80",
+          "auc": 0.53644,
+          "symmetric_auc": 0.53644
+        },
+        {
+          "feature": "gdx_TMI_up150",
+          "group": "template80",
+          "auc": 0.50303,
+          "symmetric_auc": 0.50303
+        },
+        {
+          "feature": "topo10_slope_p90",
+          "group": "template80",
+          "auc": 0.54035,
+          "symmetric_auc": 0.54035
+        },
+        {
+          "feature": "topo10_slope_max",
+          "group": "template80",
+          "auc": 0.54333,
+          "symmetric_auc": 0.54333
+        },
+        {
+          "feature": "topo10_steep_frac",
+          "group": "template80",
+          "auc": 0.52096,
+          "symmetric_auc": 0.52096
+        },
+        {
+          "feature": "topo10_slope_std",
+          "group": "template80",
+          "auc": 0.55705,
+          "symmetric_auc": 0.55705
+        },
+        {
+          "feature": "topo10_relief_local",
+          "group": "template80",
+          "auc": 0.53674,
+          "symmetric_auc": 0.53674
+        },
+        {
+          "feature": "topo10_curv_prof_absmax",
+          "group": "template80",
+          "auc": 0.55578,
+          "symmetric_auc": 0.55578
+        },
+        {
+          "feature": "topo10_aspect_coherence",
+          "group": "template80",
+          "auc": 0.50659,
+          "symmetric_auc": 0.50659
+        },
+        {
+          "feature": "topo10_hs_lineament",
+          "group": "template80",
+          "auc": 0.54596,
+          "symmetric_auc": 0.54596
+        },
+        {
+          "feature": "topo10_dem_mean",
+          "group": "template80",
+          "auc": 0.47505,
+          "symmetric_auc": 0.52495
+        },
+        {
+          "feature": "mpc_rtp_pc",
+          "group": "template80",
+          "auc": 0.49844,
+          "symmetric_auc": 0.50156
+        },
+        {
+          "feature": "mpc_rtp_amp1",
+          "group": "template80",
+          "auc": 0.50524,
+          "symmetric_auc": 0.50524
+        },
+        {
+          "feature": "mpc_rtp_amp2",
+          "group": "template80",
+          "auc": 0.50315,
+          "symmetric_auc": 0.50315
+        },
+        {
+          "feature": "mpc_rtp_amp3",
+          "group": "template80",
+          "auc": 0.50597,
+          "symmetric_auc": 0.50597
+        },
+        {
+          "feature": "mpc_rtp_cos_phase",
+          "group": "template80",
+          "auc": 0.49814,
+          "symmetric_auc": 0.50186
+        },
+        {
+          "feature": "mpc_rtp_sin_phase",
+          "group": "template80",
+          "auc": 0.50344,
+          "symmetric_auc": 0.50344
+        },
+        {
+          "feature": "mpc_rtp_orient_coh",
+          "group": "template80",
+          "auc": 0.49753,
+          "symmetric_auc": 0.50247
+        },
+        {
+          "feature": "mpc_iso_grav_anom_pc",
+          "group": "template80",
+          "auc": 0.50359,
+          "symmetric_auc": 0.50359
+        },
+        {
+          "feature": "mpc_iso_grav_anom_amp1",
+          "group": "template80",
+          "auc": 0.55396,
+          "symmetric_auc": 0.55396
+        },
+        {
+          "feature": "mpc_iso_grav_anom_amp2",
+          "group": "template80",
+          "auc": 0.55729,
+          "symmetric_auc": 0.55729
+        },
+        {
+          "feature": "mpc_iso_grav_anom_amp3",
+          "group": "template80",
+          "auc": 0.56293,
+          "symmetric_auc": 0.56293
+        },
+        {
+          "feature": "mpc_iso_grav_anom_cos_phase",
+          "group": "template80",
+          "auc": 0.52547,
+          "symmetric_auc": 0.52547
+        },
+        {
+          "feature": "mpc_iso_grav_anom_sin_phase",
+          "group": "template80",
+          "auc": 0.5146,
+          "symmetric_auc": 0.5146
+        },
+        {
+          "feature": "mpc_iso_grav_anom_orient_coh",
+          "group": "template80",
+          "auc": 0.50257,
+          "symmetric_auc": 0.50257
+        },
+        {
+          "feature": "mpc_det_elev_pc",
+          "group": "template80",
+          "auc": 0.50509,
+          "symmetric_auc": 0.50509
+        },
+        {
+          "feature": "mpc_det_elev_amp1",
+          "group": "template80",
+          "auc": 0.51549,
+          "symmetric_auc": 0.51549
+        },
+        {
+          "feature": "mpc_det_elev_amp2",
+          "group": "template80",
+          "auc": 0.51752,
+          "symmetric_auc": 0.51752
+        },
+        {
+          "feature": "mpc_det_elev_amp3",
+          "group": "template80",
+          "auc": 0.52501,
+          "symmetric_auc": 0.52501
+        },
+        {
+          "feature": "mpc_det_elev_cos_phase",
+          "group": "template80",
+          "auc": 0.46358,
+          "symmetric_auc": 0.53642
+        },
+        {
+          "feature": "mpc_det_elev_sin_phase",
+          "group": "template80",
+          "auc": 0.51399,
+          "symmetric_auc": 0.51399
+        },
+        {
+          "feature": "mpc_det_elev_orient_coh",
+          "group": "template80",
+          "auc": 0.52033,
+          "symmetric_auc": 0.52033
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_pc",
+          "group": "template80",
+          "auc": 0.50242,
+          "symmetric_auc": 0.50242
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_amp1",
+          "group": "template80",
+          "auc": 0.55657,
+          "symmetric_auc": 0.55657
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_amp2",
+          "group": "template80",
+          "auc": 0.55724,
+          "symmetric_auc": 0.55724
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_amp3",
+          "group": "template80",
+          "auc": 0.5557,
+          "symmetric_auc": 0.5557
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_cos_phase",
+          "group": "template80",
+          "auc": 0.46686,
+          "symmetric_auc": 0.53314
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_sin_phase",
+          "group": "template80",
+          "auc": 0.49275,
+          "symmetric_auc": 0.50725
+        },
+        {
+          "feature": "mpc_depth_to_base_surf_orient_coh",
+          "group": "template80",
+          "auc": 0.48932,
+          "symmetric_auc": 0.51068
+        },
+        {
+          "feature": "frangi_rtp_bright",
+          "group": "template80",
+          "auc": 0.49508,
+          "symmetric_auc": 0.50492
+        },
+        {
+          "feature": "frangi_rtp_dark",
+          "group": "template80",
+          "auc": 0.50476,
+          "symmetric_auc": 0.50476
+        },
+        {
+          "feature": "frangi_det_elev_bright",
+          "group": "template80",
+          "auc": 0.46016,
+          "symmetric_auc": 0.53984
+        },
+        {
+          "feature": "frangi_det_elev_dark",
+          "group": "template80",
+          "auc": 0.56793,
+          "symmetric_auc": 0.56793
+        },
+        {
+          "feature": "chi_step_max",
+          "group": "gfv_ext21",
+          "auc": 0.504,
+          "symmetric_auc": 0.504
+        },
+        {
+          "feature": "chi_step_min",
+          "group": "gfv_ext21",
+          "auc": 0.50624,
+          "symmetric_auc": 0.50624
+        },
+        {
+          "feature": "chi_ksn_max",
+          "group": "gfv_ext21",
+          "auc": 0.50154,
+          "symmetric_auc": 0.50154
+        },
+        {
+          "feature": "chi_log10_area",
+          "group": "gfv_ext21",
+          "auc": 0.49729,
+          "symmetric_auc": 0.50271
+        },
+        {
+          "feature": "chi_zmean",
+          "group": "gfv_ext21",
+          "auc": 0.47248,
+          "symmetric_auc": 0.52752
+        },
+        {
+          "feature": "chi_chan_n",
+          "group": "gfv_ext21",
+          "auc": 0.50076,
+          "symmetric_auc": 0.50076
+        },
+        {
+          "feature": "chi_knick_n",
+          "group": "gfv_ext21",
+          "auc": 0.49946,
+          "symmetric_auc": 0.50054
+        },
+        {
+          "feature": "chi_raised_n",
+          "group": "gfv_ext21",
+          "auc": 0.49763,
+          "symmetric_auc": 0.50237
+        },
+        {
+          "feature": "chi_knick_smooth_r4",
+          "group": "gfv_ext21",
+          "auc": 0.52651,
+          "symmetric_auc": 0.52651
+        },
+        {
+          "feature": "gfv_temp_excess_r3",
+          "group": "gfv_ext21",
+          "auc": 0.50694,
+          "symmetric_auc": 0.50694
+        },
+        {
+          "feature": "gfv_temp_excess_r12",
+          "group": "gfv_ext21",
+          "auc": 0.50234,
+          "symmetric_auc": 0.50234
+        },
+        {
+          "feature": "gfv_geotherm_max_r4",
+          "group": "gfv_ext21",
+          "auc": 0.4971,
+          "symmetric_auc": 0.5029
+        },
+        {
+          "feature": "gfv_geotherm_max_r15",
+          "group": "gfv_ext21",
+          "auc": 0.50021,
+          "symmetric_auc": 0.50021
+        },
+        {
+          "feature": "gfv_geotherm_aniso_strike",
+          "group": "gfv_ext21",
+          "auc": 0.4975,
+          "symmetric_auc": 0.5025
+        },
+        {
+          "feature": "gfv_probe2m_dab_pos_r4",
+          "group": "gfv_ext21",
+          "auc": 0.52941,
+          "symmetric_auc": 0.52941
+        },
+        {
+          "feature": "gfv_probe2m_dab_pos_r14",
+          "group": "gfv_ext21",
+          "auc": 0.53455,
+          "symmetric_auc": 0.53455
+        },
+        {
+          "feature": "gfv_probe2m_surveyed_r10",
+          "group": "gfv_ext21",
+          "auc": 0.54368,
+          "symmetric_auc": 0.54368
+        },
+        {
+          "feature": "gfv_paleo_sinter_r4",
+          "group": "gfv_ext21",
+          "auc": 0.50115,
+          "symmetric_auc": 0.50115
+        },
+        {
+          "feature": "gfv_paleo_sinter_r16",
+          "group": "gfv_ext21",
+          "auc": 0.48499,
+          "symmetric_auc": 0.51501
+        },
+        {
+          "feature": "gfv_volc_vent_r16",
+          "group": "gfv_ext21",
+          "auc": 0.49346,
+          "symmetric_auc": 0.50654
+        },
+        {
+          "feature": "gfv_hydro_pure_current",
+          "group": "gfv_ext21",
+          "auc": 0.51642,
+          "symmetric_auc": 0.51642
+        },
+        {
+          "feature": "geo_log_d_trace",
+          "group": "gfv_geo12",
+          "auc": 0.2488,
+          "symmetric_auc": 0.7512
+        },
+        {
+          "feature": "geo_T1_trace",
+          "group": "gfv_geo12",
+          "auc": 0.25489,
+          "symmetric_auc": 0.74511
+        },
+        {
+          "feature": "geo_tortuosity_trace",
+          "group": "gfv_geo12",
+          "auc": 0.46761,
+          "symmetric_auc": 0.53239
+        },
+        {
+          "feature": "geo_T1_tip",
+          "group": "gfv_geo12",
+          "auc": 0.22574,
+          "symmetric_auc": 0.77426
+        },
+        {
+          "feature": "geo_tortuosity_tip",
+          "group": "gfv_geo12",
+          "auc": 0.4639,
+          "symmetric_auc": 0.5361
+        },
+        {
+          "feature": "geo_Tpair_sum",
+          "group": "gfv_geo12",
+          "auc": 0.22352,
+          "symmetric_auc": 0.77648
+        },
+        {
+          "feature": "geo_fermat_ridge",
+          "group": "gfv_geo12",
+          "auc": 0.66761,
+          "symmetric_auc": 0.66761
+        },
+        {
+          "feature": "geo_J_narrow",
+          "group": "gfv_geo12",
+          "auc": 0.60116,
+          "symmetric_auc": 0.60116
+        },
+        {
+          "feature": "geo_J_wide",
+          "group": "gfv_geo12",
+          "auc": 0.69763,
+          "symmetric_auc": 0.69763
+        },
+        {
+          "feature": "geo_J_vent_bridge",
+          "group": "gfv_geo12",
+          "auc": 0.55651,
+          "symmetric_auc": 0.55651
+        },
+        {
+          "feature": "geo_along_tip_cos",
+          "group": "gfv_geo12",
+          "auc": 0.60462,
+          "symmetric_auc": 0.60462
+        },
+        {
+          "feature": "geo_host_len_log",
+          "group": "gfv_geo12",
+          "auc": 0.38088,
+          "symmetric_auc": 0.61912
+        }
+      ]
+    }
+  }
+}

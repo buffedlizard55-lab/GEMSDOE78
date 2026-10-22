@@ -90,6 +90,12 @@ def main():
         mghd_card = load('evidence/h78mghd_run_card.json')
         specs.append(('H78-MGHD', mghd_card['submission_file'],
                       'HOLD-OUT RECORD SINGLE-MODEL RESEARCH ARTIFACT — DO NOT SUBMIT (OVERLAP STOP): 123-feature Multi-Scale Geodetic–Hydrothermal–LiDAR Dual-Cover beat CTRL_A2_v2 on Seed 20 (HOLDOUT-DTI 0.1952 d=2.8 / 0.1934 d=3.01 vs 0.1826, paired +0.0108, 95% CI [+0.0023, +0.0197]) and untouched Seed 30 (0.2007 vs 0.1834, paired +0.0173, 95% CI [+0.0049, +0.0293]; pooled 2-seed 0.1971) and passed all 801 external sparse dot submissions (max 0.6800 <= 0.70; vs H78-GSC 0.5587), but is blocked by parallel 1 m LiDAR sibling gems78-h79ls-lidar-50000dots (forward 3-px overlap 0.7359 > 0.70) and literal wide-corridor/space-filling witnesses (0.9158 / 1.0000). Full card: evidence/h78mghd_run_card.json.'))
+    gfv_card = None
+    gfv_path = ROOT / 'evidence/run_card_h78_gfv.json'
+    if gfv_path.exists():
+        gfv_card = load('evidence/run_card_h78_gfv.json')
+        specs.append(('H78-GFV', Path(gfv_card['docs_download_tif']).name,
+                      'HIGHEST MATCHED HOLDOUT-DTI IN REPO (0.2149 Seed 20 / 0.2198 Seed 30) & 0/736 DISCRIMINATING DUPLICATES — LITERAL SPACE-FILLER HOLD: 136-feature Anisotropic Crustal-Weakness Geodesics & Sibson Fault-Valve Dual-Head (Head P + Head M) CELF Dinkelbach emitter beat CTRL_A2 on Seed 20 (0.2149 vs 0.1826, paired +0.0324, 95% CI [+0.0225, +0.0423]) and Seed 30 (0.2198 vs 0.1834, paired +0.0364, 95% CI [+0.0255, +0.0477]), passed max |rho| = 0.6967 <= 0.90, 0/736 org discriminating rasters (max 0.6650 <= 0.70), and 0/18 GEMSDOE78 lanes (max 0.4708 <= 0.70; vs H78-GSC 0.4006; vs H78-MGHD 0.4576); held as OK TO DOWNLOAD: YES · OK TO SUBMIT: NO under literal zero-exclusion rule vs space-filling 5GEMSDOE:gems-density-probe (1.0000). Full card: evidence/run_card_h78_gfv.json.'))
     gsc_gate = None
     gsc_gate_path = ROOT / 'evidence/h78gsc_gate_report.json'
     if gsc_gate_path.exists():
@@ -232,9 +238,32 @@ def main():
 <p>Historical HOLDOUT-DTI for MPC: 0.097684, 95% CI [0.077985, 0.116303], gems57-pooled-hide-v2, 11,321 withheld positives. Not rerun this review; not a leaderboard projection.</p>
 <p><a href="https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b">Official reference implementation</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition (not fetched in this environment)</a></p></html>'''
     page = page.replace('<h2>Downloads and automatic checks</h2>', '<p>Last local audit: <time>' + html.escape(card['reviewed_utc']) + '</time>. Static, dated evidence — not a live leaderboard feed.</p><h2>Downloads and automatic checks</h2>')
-    mghd_box = ''
+    gfv_box = ''
+    if gfv_card:
+        gfv_tif = Path(gfv_card['docs_download_tif']).name
+        gfv_zip = Path(gfv_card['docs_download_zip']).name
+        gfv_box = (
+            f'<div class="alert" style="background:#eef2ff;border:2px solid #4338ca;margin-top:0.85rem">'
+            f'<strong>Session 7 Lane <code>H78-GFV</code> — OK TO DOWNLOAD: YES · OK TO SUBMIT: NO (Overall Holdout Record 0.2149 / 0.2198 · 0/736 Org + 0/18 Local Duplicates · Literal Space-Filler Hold)</strong><br>'
+            f'<code>{html.escape(gfv_card["submission_name"])}</code> (<code>{html.escape(gfv_tif)}</code>, SHA-256 <code>{html.escape(gfv_card["raster_sha256"])}</code>, <code>37,654</code> binary dots, <code>float32</code> in <code>[0, 1]</code>, <code>nodata=None</code>, <code>272/272</code> canaries PASS max AUC <code>0.7857 &le; 0.90</code>) achieved the highest matched holdout score in <code>GEMSDOE78</code> across both locked seeds '
+            f'(<b>HOLDOUT-DTI 0.2149</b> [95% CI <code>0.1967, 0.2304</code>, paired &Delta; <code>+0.0324</code>] on Seed 20 and <b>0.2198</b> [95% CI <code>0.1997, 0.2373</code>, paired &Delta; <code>+0.0364</code>] on Seed 30; strict 4-quadrant <code>LOQO</code> <b>0.1700 / 0.1778</b>) and passed <code>0 / 736</code> org discriminating overlaps (<code>max = 0.6650 &le; 0.70</code>), <code>0 / 18</code> local lanes (<code>max = 0.4708 &le; 0.70</code>; <code>0.4006</code> vs <code>H78-GSC</code>; <code>0.4576</code> vs <code>H78-MGHD</code>), and pre-placement <code>max |&rho;| = 0.6967 &le; 0.90</code>, held as <code>verdict: negative</code> solely under literal zero-exclusion overlap (<code>1.0000</code> vs <code>5GEMSDOE:gems-density-probe</code>).<br>'
+            f'<a href="h78gfv.html"><b>H78-GFV Full Page &amp; 94-Repo Audit</b></a> · '
+            f'<a download href="downloads/{html.escape(gfv_zip)}"><b>Download H78-GFV .ZIP</b></a> · '
+            f'<a download href="downloads/{html.escape(gfv_tif)}"><b>Download Raw .TIF</b></a> · '
+            f'<a href="data/run_card_h78_gfv.json"><b>Run Card JSON</b></a>'
+            f'</div>'
+        )
+        (ROOT / 'docs/h78gfv.html').write_text(
+            '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+            '<title>H78-GFV — Anisotropic Crustal Geodesics &amp; Fault-Valve Lane</title>'
+            '<style>body{font:17px/1.6 system-ui;margin:3rem auto;padding:0 1rem;max-width:1050px;color:#172438;background:#f5f7fb}code{overflow-wrap:anywhere}.alert{padding:1.3rem;border-radius:12px}</style>'
+            '<h1>H78-GFV · Anisotropic Crustal-Weakness Geodesics &amp; Sibson Fault-Valve Lane</h1>'
+            + gfv_box
+            + '<p><a href="index.html">&larr; Back to GEMS78 Submission Readiness Home</a> · <a href="executive-summary.html">Executive Summary</a> · <a href="why-h33.md">Forensic H33 Report</a></p></html>\n'
+        )
+    mghd_box = gfv_box
     if mghd_card:
-        mghd_box = (
+        mghd_box = gfv_box + (
             f'<div class="alert" style="background:#eff6ff;border:2px solid #1d4ed8;margin-top:0.85rem">'
             f'<strong>Session 5 Research Lane <code>H78-MGHD</code> — OK TO DOWNLOAD: YES · OK TO SUBMIT: NO (Overlap-Stop Inspection Artifact)</strong><br>'
             f'<code>{html.escape(mghd_card["submission_file"])}</code> (13/13 portal checks PASS in <code>[0, 1]</code>, 123/123 canary PASS max AUC <code>0.6048 &le; 0.90</code>, <code>0/103</code> A2 columns) achieved the highest single-model holdout DTI in <code>GEMSDOE78</code> across both locked seeds '

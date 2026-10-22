@@ -21,3 +21,7 @@ __pycache__/
 .cache/
 data/restore.log
 src/gems78/*.so
+data/existing_faults.tif
+data/labels.tif
+data/sample_submission.tif
+data/training_features.tif
