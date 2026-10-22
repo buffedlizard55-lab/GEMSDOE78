@@ -38,6 +38,8 @@ def main():
     fresh = load('evidence/rechecked_overlap.json')
     cs = load('evidence/h78cs_run_card.json')
     spy = load('evidence/h78spy_run_card.json')
+    cross_path = ROOT / 'evidence/crosslayer_run_card.json'
+    cross = json.loads(cross_path.read_text()) if cross_path.exists() else None
     candidates = []
     for lane, filename, reason in [
         ('H78-A', a['raster']['file'], f"INCOMPLETE: {a_review['reason']}"),
@@ -51,10 +53,18 @@ def main():
     for p in sorted((ROOT / 'docs/downloads').glob('*.tif')):
         if p.name in known:
             continue
-        reason = ('DUPLICATE + NEGATIVE: H78-SPY failed its matched holdout control and recorded forward overlap 0.9245 vs H78-A.'
-                  if p.name == spy['file'] else
-                  'INCOMPLETE: published historical alternative has no complete registry clearance.')
-        candidates.append(dict(lane='H78-SPY' if p.name == spy['file'] else 'H78-A alternative',
+        if cross and p.name == cross['submission_name'] + '.tif':
+            lane = 'CROSS-LAYER STEP'
+            witness = max(cross['registry']['final_dots'], key=lambda r: r['forward_3px_overlap'])
+            reason = (f"DUPLICATE + NEGATIVE: HOLDOUT-DTI {cross['holdout']['score']:.4f} below incumbent; "
+                      f"literal forward overlap {witness['forward_3px_overlap']:.4f} vs pinned lattice exceeds 0.70.")
+        elif p.name == spy['file']:
+            lane = 'H78-SPY'
+            reason = 'DUPLICATE + NEGATIVE: H78-SPY failed its matched holdout control and recorded forward overlap 0.9245 vs H78-A.'
+        else:
+            lane = 'H78-A alternative'
+            reason = 'INCOMPLETE: published historical alternative has no complete registry clearance.'
+        candidates.append(dict(lane=lane,
                                file=p.name, sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
                                validator=validate(p), ok_to_download=True, ok_to_submit=False,
                                verdict='negative', reason=reason))
@@ -83,7 +93,9 @@ def main():
                 submission_name=prod['name'], submission_note='DO NOT SUBMIT: literal forward-overlap gate failed; retained for reproducibility only.',
                 verdict='negative', ok_to_download=True, ok_to_submit=False, stop_required=True, new_experiments=0,
                 new_tif_generated=False, submission_slots_used=0, organizer_confirmed_score=None,
-                candidates=candidates)
+                candidates=candidates,
+                newer_candidate_card='crosslayer_run_card.json' if cross else None,
+                note_on_newer_candidate=('Historical audit fields new_tif_generated=false/new_experiments=0 describe the prior release review, not the subsequent CROSS-LAYER experiment.' if cross else None))
     for row in fresh['rows']:
         candidate = next(c for c in candidates if c['lane'] == row['lane'])
         if row['candidate_sha256'] != candidate['sha256']:
@@ -119,6 +131,12 @@ def main():
             old = p.read_text()
             if 'id="release-audit-warning"' not in old:
                 p.write_text(old.replace('<main>', '<main>' + notice, 1))
+    # Preserve the newer, independently revalidated cross-layer landing page
+    # when historical site builders invoke this review. The historical card
+    # remains a dated historical audit; the latest gate lives in status.json.
+    if (ROOT / 'evidence/crosslayer_run_card.json').exists():
+        from publish_crosslayer import publish
+        publish()
     return card
 
 if __name__ == '__main__':

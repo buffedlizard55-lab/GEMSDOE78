@@ -196,9 +196,12 @@ def main():
     (DOCS / "executive-summary.html").write_text(
         page("Executive summary — how a submission is made, and why this one is not cleared", steps)
     )
+    # This builder is the archive for the 2026-10-21 SPY session. If a newer
+    # hash-bound candidate exists, its fail-closed publication must be LAST;
+    # otherwise rebuilding the archive would silently roll back the homepage.
     from audit_release import main as audit_release
-    audit_release()
-    print("session site written; current consolidated gate applied", file)
+    audit_release()  # consolidated all-TIFF review, then newer cross-layer landing page
+    print("session site written; consolidated gate applied", file)
 
 
 if __name__ == "__main__":

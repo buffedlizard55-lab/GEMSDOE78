@@ -1,0 +1,20 @@
+pre-placement surface rho: data/registry/h19_5_solid_nan.tif 0.049170720470453705
+pre-placement surface rho: data/registry/d28_44090_nan.tif 0.027090750120556707
+pre-placement surface rho: data/registry/h33_2_b2_37654_zeros.tif 0.023594565256791857
+pre-placement surface rho: data/registry/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif -0.00014777554693329675
+pre-placement surface rho: docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif 0.019569744653853843
+pre-placement surface rho: docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif 0.019864627963276513
+pre-placement surface rho: docs/downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif 0.020114119442933537
+pre-placement surface rho: docs/downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif 0.02712937810655373
+pre-placement surface rho: docs/downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif 0.0207129454849875
+HOLDOUT-DTI {'evidence_class': 'HOLDOUT-DTI', 'evaluator_version': 'gems57-pooled-hide-v2', 'dti': 0.0478024362545514, 'ci95': [0.03661858062228908, 0.058911050900938955], 'withheld_positive_pixels': 11321, 'tpw': 832.7843736485332, 'fpw': 40990.112146635176, 'fnw': 10488.215626351464}
+final overlap: data/registry/h19_5_solid_nan.tif 0.2788160580630529 0.006584168016736306
+final overlap: data/registry/d28_44090_nan.tif 0.2439328645951463 0.002717843358621743
+final overlap: data/registry/h33_2_b2_37654_zeros.tif 0.23524608754819687 0.004297612855212661
+final overlap: data/registry/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif 0.9989793603991834 0.0004796525860266951
+final overlap: docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif 0.2203447493762758 0.014636274454163612
+final overlap: docs/downloads/gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif 0.18809253799047404 0.0006589972960521802
+final overlap: docs/downloads/gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif 0.21707870265366297 0.015048043666677564
+final overlap: docs/downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif 0.21467452937173961 0.006350907784377362
+final overlap: docs/downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif 0.21744159673395327 0.01616897096740982
+CARD /home/user/GEMSDOE78/evidence/crosslayer_run_card.json witnesses 1 TIFF /home/user/GEMSDOE78/docs/downloads/gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif

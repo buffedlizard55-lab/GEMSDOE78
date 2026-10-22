@@ -240,6 +240,42 @@
       "reason": "DUPLICATE + NEGATIVE: HOLDOUT-DTI seed20 0.1791 vs control 0.1826 (seed30 delta +0.0004, CI includes 0); forward 3px overlap vs H78-A 0.8908 exceeds 0.70. evidence/h78cs_run_card.json."
     },
     {
+      "lane": "CROSS-LAYER STEP",
+      "file": "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif",
+      "sha256": "0b9cbb580dd8f94474744bf87a72abb602403cdccf8c6289bbe9625f4ffe75c3",
+      "validator": {
+        "file": "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif",
+        "bytes": 141096,
+        "sha256": "0b9cbb580dd8f94474744bf87a72abb602403cdccf8c6289bbe9625f4ffe75c3",
+        "positive_pixels": 44090,
+        "footprint_fraction": 0.00853238192791579,
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG:32611": true,
+          "shape_3730x3292": true,
+          "transform_(100,0,243350,0,-100,4508550)": true,
+          "no_nodata_tag": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "zip": {
+          "file": "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "13fd3ba57f174b211d203a4cbdc0f1d468020a409e1265e1e2938759ca23c788"
+        }
+      },
+      "ok_to_download": true,
+      "ok_to_submit": false,
+      "verdict": "negative",
+      "reason": "DUPLICATE + NEGATIVE: HOLDOUT-DTI 0.0478 below incumbent; literal forward overlap 0.9990 vs pinned lattice exceeds 0.70."
+    },
+    {
       "lane": "H78-A alternative",
       "file": "gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif",
       "sha256": "665de9df096fb8d0ab65e68e38bbf321ca8488db22db0d4d863a9d63003b8b5a",
@@ -311,5 +347,7 @@
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: H78-SPY failed its matched holdout control and recorded forward overlap 0.9245 vs H78-A."
     }
-  ]
+  ],
+  "newer_candidate_card": "crosslayer_run_card.json",
+  "note_on_newer_candidate": "Historical audit fields new_tif_generated=false/new_experiments=0 describe the prior release review, not the subsequent CROSS-LAYER experiment."
 }
