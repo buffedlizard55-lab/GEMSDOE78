@@ -1,0 +1,48 @@
+name: Submission safety review
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Restore pins and confirm protocol stop
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set +e
+          python scripts/preflight.py --restore > preflight-output.json
+          result=$?
+          set -e
+          cat preflight-output.json
+          test "$result" -eq 2
+          python - <<'PY'
+          import json
+          card = json.load(open('preflight-output.json'))
+          assert card['correlation_overlap_vs_registry']['universal_overlap_blocker']
+          assert not card['training_allowed'] and not card['ok_to_submit']
+          PY
+      - name: Rebuild common release audit
+        run: python scripts/audit_release.py
+      - name: Regression tests
+        run: python -m pytest -q tests
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: submission-safety-evidence
+          path: |
+            preflight-output.json
+            evidence/protocol_preflight.json
+            evidence/release_audit.json

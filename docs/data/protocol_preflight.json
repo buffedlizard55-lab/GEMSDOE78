@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-22T01:03:06.128184+00:00",
+  "review_type": "protocol preflight, not a model experiment",
+  "assigned_lane": null,
+  "hypothesis": "A full-footprint positive registry raster makes the literal 3-pixel forward-overlap gate impossible for every nonempty in-footprint candidate.",
+  "mechanism": "Every permitted dot lies on positive witness support, hence within 3 pixels of it; forward overlap is exactly one.",
+  "non_fault_process": "Continuous probability support is a raster representation, not evidence of a physical fault at every pixel.",
+  "holdout": null,
+  "holdout_note": "No new HOLDOUT-DTI experiment; no organizer receipt; no score projection.",
+  "correlation_overlap_vs_registry": {
+    "evidence_class": "REGISTRY-MEASUREMENT",
+    "witness_file": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+    "witness_sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+    "positive_pixels": 5167373,
+    "allowed_pixels": 5106385,
+    "uncovered_allowed_pixels": 0,
+    "covered_allowed_fraction": 1.0,
+    "universal_overlap_blocker": true,
+    "overlap_limit": 0.7,
+    "support_definition": "finite prediction > 0 (inherited literal support rule)",
+    "implication": "Every nonempty candidate dot set in the allowed domain has forward overlap 1.0 with this prior; therefore it cannot pass the 0.70 gate."
+  },
+  "raster_sha256": null,
+  "validator_output": null,
+  "submission_name": null,
+  "submission_note": "DO NOT SUBMIT: literal registry gate blocks every nonempty candidate; no new raster generated.",
+  "verdict": "negative",
+  "ok_to_download_existing_for_inspection": true,
+  "ok_to_submit": false,
+  "training_allowed": false,
+  "new_tif_generated": false,
+  "new_experiments": 0,
+  "submission_slots_used": 0,
+  "organizer_confirmed_score": null,
+  "stop_required": true,
+  "reasons": [
+    "No single method paragraph was assigned in the current request.",
+    "Literal forward-overlap gate is unsatisfiable for any nonempty allowed prediction: registry witness covers every allowed cell."
+  ],
+  "verified_inputs": [
+    {
+      "id": "existing_faults",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "data/bridge/existing_faults.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "local_path": "data/bridge/existing_faults.tif"
+    },
+    {
+      "id": "sample_submission",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "data/bridge/sample_submission.tif",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "local_path": "data/bridge/sample_submission.tif"
+    },
+    {
+      "id": "saturation_witness",
+      "repo": "buffedlizard55-lab/17GEMSDOE",
+      "ref": "6fc71d19d49dca4960d5434bd81b6dd06fcc030a",
+      "path": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+      "local_path": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+      "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+      "git_blob": "374c88b1da2b803e2ed160de467fd71ae114010d",
+      "bytes": 25065181
+    }
+  ],
+  "scope": "One verified counterexample is enough to prove impossibility. This is NOT a complete registry inventory or a new score-surface audit.",
+  "required_resolution": "An explicit revised registry representation policy and an assigned method lane are needed. Do not exclude continuous rasters silently. Slot selection remains separate."
+}

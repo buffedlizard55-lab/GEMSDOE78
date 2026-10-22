@@ -56,7 +56,7 @@ def test_corrupt_zip_fails_overall_validation(tmp_path):
 
 
 def test_builders_finish_with_release_audit():
-    for name in ('build_site.py', 'build_site_mpc.py'):
+    for name in ('build_site.py', 'build_site_mpc.py', 'build_session_site.py', 'build_site_cs.py'):
         result = subprocess.run([sys.executable, str(ROOT / 'scripts' / name)],
                                 cwd=ROOT, capture_output=True, text=True)
         assert result.returncode == 0, result.stderr
@@ -64,3 +64,7 @@ def test_builders_finish_with_release_audit():
             text = (ROOT / 'docs' / page).read_text()
             assert 'OK TO SUBMIT: NO' in text
             assert 'OK TO SUBMIT: YES' not in text
+            assert 'data/protocol_preflight.json' in text
+            assert '100% forward overlap' in text
+            assert 'h78cs-collinear' in text
+            assert 'h78spy-inspection' in text
