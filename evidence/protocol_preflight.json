@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_utc": "2026-10-22T01:10:15.969221+00:00",
+  "reviewed_utc": "2026-10-22T01:21:30.650734+00:00",
   "review_type": "protocol preflight, not a model experiment",
   "assigned_lane": null,
   "hypothesis": "A full-footprint positive registry raster makes the literal 3-pixel forward-overlap gate impossible for every nonempty in-footprint candidate.",
