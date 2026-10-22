@@ -154,5 +154,29 @@
     "severity": "info",
     "what": "IR-78-04 (only seed 20 run) is now partially closed for the A2 model class: CTRL_A2 seed30 B3/44090 = 0.1834 vs seed20 0.1826 HOLDOUT-DTI. IR-78-09 (near-catalogue concentration) remains open and untested by a distance-stratified budget.",
     "action": "Seed 40 + distance-stratified budget on far-truth stratum remain next-session items."
+  },
+  {
+    "id": "IR-78FW-01",
+    "severity": "high",
+    "what": "Score provenance conflict re-verified 2026-10-22: pinned GEMSDOE32 page (f62038b) says H33-2-B2 'projected 0.2747; UNSCORED'; prompt asserts 0.2778 for the same file plus conflicting leaderboard figures 0.3195 and 0.4413 (and sibling snapshot #1 0.4413). No submission-page receipt exposed anywhere.",
+    "action": "All family/prompt scores labelled owner-report/user-report; registry/live_scores.csv stays empty; no causal live-gain claim; why-h33 page rewritten as evidence-vs-inference."
+  },
+  {
+    "id": "IR-78FW-02",
+    "severity": "medium",
+    "what": "H33 scores 0.0037 HOLDOUT-DTI on the hide-and-recover instrument (seed 20, n=11321) while being the family's best live owner-report (0.2778). Withheld truth sits near visible faults (median 9 px) but H33 deleted every dot within 2 px of the full catalogue, so it is structurally capped on this instrument.",
+    "action": "Reported as an instrument limitation, not evidence about H33 live. Holdout numbers must not be read as live mirrors; distance-stratified evaluation remains open."
+  },
+  {
+    "id": "IR-78FW-03",
+    "severity": "high",
+    "what": "Prompt still supplies no assigned single method paragraph (preflight blocker persists). This session defined one new lane (H78-FW, registry/preregistration_h78fw.json) and stayed inside it rather than mixing prior lanes.",
+    "action": "Owner must assign lanes explicitly before further model experiments; FW lane stops after its preregistered negative (1 experiment)."
+  },
+  {
+    "id": "IR-78FW-04",
+    "severity": "info",
+    "what": "GitHub REST API rate-limited (403) during data restore (part-004 of the training stack) and reference fetches; recovered via zero-rate-limit codeload tarball streaming with SHA-256 verification of every byte.",
+    "action": "Reassembled training_features.tif matches pinned sha256 4371c82e exactly. Future restores should prefer codeload streaming (scripts/restore_data.py pattern) over gh api for large blobs."
   }
 ]

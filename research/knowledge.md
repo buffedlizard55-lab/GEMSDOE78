@@ -74,3 +74,11 @@ Read PROMPT.md and README.md first. Label every score. Never write a projection 
 * Univariate strength does not imply multivariate value: cs_det_elev_gn_L5_mean is the top single feature (symmetric AUC 0.6022 seed 20) yet the 15-feature block adds nothing (ABL raw19+CS B2 = 0.1365 vs raw19 0.1376 seed 20).
 * Lane-distance measurement: Cand-vs-Ctrl score-surface Spearman ρ = 0.9520 (s20) / 0.9547 (s30); production dot overlap (≤3 px) vs shipped H78-A primary 0.8908, vs altB2 0.8311, vs H19-5 0.4382, D2.8 0.3982, H33 0.3607, H78-MPC 0.3581; surface ρ vs the same binary rasters ≤ 0.1376. Feature-append lanes on A2 are duplicates of H78-A.
 
+
+## 9 Session 2026-10-22 lane H78-FW (MEASURED — scripts/run_h78fw.py; evidence/h78fw_run_card.json)
+
+* Catalogue-blind unsupervised surface: detrended-800 m Hessian curvature magnitude corroborated by 300 m RTP+gravity gradient geometric mean; composite sqrt(warp·central); no catalogue input, no learner. HOLDOUT-DTI (gems57-pooled-hide-v2, seed 20, 11,321 withheld, B3/44,090): **0.0482 [0.0363, 0.0607]**. Canary clean (max symmetric AUC 0.5585). Verdict negative.
+* Identical-fold comparators reproduce stored values exactly: D2.8 0.0919, H33 0.0037 (paired FW−D2.8 Δ −0.0437 [−0.0584, −0.0293]). H33's near-zero is structural (far-field pruning vs near-halo withheld truth, IR-78FW-02), not a live statement.
+* Unsupervised catalogue-blind surfaces cluster ≈0.05 (FW 0.0482, crosslayer 0.0478) vs ≈0.18 for catalogue-trained rankers on this instrument: learning P(fault|features) from the catalogue dominates any single unsupervised physics signal for hide-and-recover.
+* Uniqueness: pre-placement surface |ρ| max 0.2256 (pass); final-dot forward 1.0 vs the dense 17GEMSDOE witness (literal duplicate, binding) and ≤0.4083 vs dot-field rasters (informative passes). File `gems78-h78fw-flankwarp-44090dots-20261022T013114Z-21656430-DO-NOT-SUBMIT.tif`, sha256 `a18160d5…`, 13/13 validator checks + ZIP roundtrip. Zero slots used.
+* H33 score provenance re-verified via codeload: pinned GEMSDOE32 page says `projected 0.2747; UNSCORED`; prompt figures 0.2778/0.3195/0.4413 stay unreconciled user/owner reports (IR-78FW-01). Data restore survived a gh API 403 via codeload streaming with exact sha256 match (IR-78FW-04).
