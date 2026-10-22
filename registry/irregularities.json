@@ -154,5 +154,29 @@
     "severity": "info",
     "what": "IR-78-04 (only seed 20 run) is now partially closed for the A2 model class: CTRL_A2 seed30 B3/44090 = 0.1834 vs seed20 0.1826 HOLDOUT-DTI. IR-78-09 (near-catalogue concentration) remains open and untested by a distance-stratified budget.",
     "action": "Seed 40 + distance-stratified budget on far-truth stratum remain next-session items."
+  },
+  {
+    "id": "IR-78STEP-01",
+    "severity": "medium",
+    "what": "Band 6 identity conflict: src/gems78/data.py labels it tc_totalcount and earlier repo documents call it radiometric total count, but the GeoTIFF band description read 2026-10-22 says 'tc - Tilt angle or total curvature - magnetic field derivative for edge detection'. Computation unaffected; geological interpretation of band 6 as radiometrics is unsupported by the file.",
+    "action": "Treated as magnetic-derivative edge band in H78-STEP docs; code label deliberately not renamed (historical feature-name stability). Flagged for template owner in research/h78step_hypotheses.md \u00a73."
+  },
+  {
+    "id": "IR-78STEP-02",
+    "severity": "info",
+    "what": "Prompt again contains no identifiable single method paragraph ('your lane is the single method paragraph below' with no such paragraph), same as IR-78CS-02.",
+    "action": "Lane self-assigned as top-ranked preregistered hypothesis (paired cross-strike flank step) before any result; dedupe vs evidence/h78step_* if a parallel session was assigned step operators."
+  },
+  {
+    "id": "IR-78STEP-03",
+    "severity": "info",
+    "what": "Prompt leaderboard figures conflict (0.4413 current #1 vs '0.3195 is the highest score right now'); neither fetched (login-gated host outside sandbox allowlist).",
+    "action": "Both treated as unverified owner reports; no repo target depends on either."
+  },
+  {
+    "id": "IR-78STEP-04",
+    "severity": "medium",
+    "what": "H78-STEP score surface passes the 0.90 Spearman gate vs every comparator (max 0.1285 vs binary rasters; 0.8822 vs the CTRL_A2 holdout surface) yet 79% of its production dots fall within 3 px of shipped H78-A-lineage dots: surface correlation and final-dot overlap measure different things and the dot rule is the binding constraint.",
+    "action": "Recorded in evidence/h78step_run_card.json; future lanes must budget for dot-level distinctness, not only surface rho."
   }
 ]

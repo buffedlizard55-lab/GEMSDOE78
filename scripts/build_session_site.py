@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Homepage and executive summary for the 2026-10-21 tooth/spy session.
+"""Homepage and executive summary for the 2026-10-22 H78-STEP session.
 
-Numbers are read from evidence JSON. This overwrites docs/index.html and
-docs/executive-summary.html so a green 'OK TO SUBMIT: YES' banner cannot sit
-above a file this session marked negative.
+Numbers are read from evidence JSON (h78step run card; h78spy card for the
+historical row). This overwrites docs/index.html and docs/executive-summary.html
+so the newest session's file leads the site with its computed gate banner:
+OK TO SUBMIT: NO (verdict negative). Historical lane pages are linked, never
+rewritten. Runs at the end of build_site.py / build_site_mpc.py after the
+release audit, keeping the homepage, executive summary and status feed
+consistent after any rebuild.
 """
 from __future__ import annotations
 
@@ -45,6 +49,7 @@ th{color:var(--mut)}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace
 NAV = """<nav>
 <a href="index.html">Home</a>
 <a href="executive-summary.html">How to submit</a>
+<a href="h78step.html">H78-STEP lane (this session, negative)</a>
 <a href="hypotheses.html">Earlier hypotheses</a>
 <a href="holdout.html">H78-A holdout</a>
 <a href="sources.html">Sources</a>
@@ -63,139 +68,123 @@ def page(title, body):
 
 
 def main():
-    spy = load("evidence/h78spy_run_card.json")
-    tooth = load("evidence/h78tooth_negative.json")
-    hold = load("evidence/h78spy_holdout.json")
-    file = spy["file"]
-    sha = spy["raster_sha256"]
-    dti = hold["pooled_summary"]["scores"]["spy|nms0_B3|44090"]["dti"]
-    ci = hold["pooled_summary"]["scores"]["spy|nms0_B3|44090"]["ci95"]
-    delta = hold["pooled_summary"]["paired_differences"]["A2_control|nms0_B3|44090"]
-    ctrl = hold["control_B3_44090"]
-    ov = spy["correlation_overlap_vs_registry"]["worst_forward_3px"]
-    rho = spy["correlation_overlap_vs_registry"]["surface_max_abs_rho"]
-    prof = spy["distance_to_catalogue_px"]
+    rc = load("evidence/h78step_run_card.json")
+    h = rc["holdout"]
+    file = rc["raster"]["file"]
+    sha = rc["raster_sha256"]
+    dti, ci = h["candidate"]["dti"], h["candidate"]["ci95"]
+    ctrl = h["control"]["dti"]
+    delta = h["paired_delta_cand_minus_ctrl"]
+    uq = rc["correlation_overlap_vs_registry"]
+    ov_max = uq["dots_max_forward_overlap"]
+    ov_a = uq["forward_overlap_vs_h78a_primary"]
+    rho_surf = uq["surface_max_abs_rho"]
     status = {
-        "session": "2026-10-21 tooth then spy",
+        "session": "2026-10-22 H78-STEP paired flank step",
         "generated_tif": file,
         "ok_to_download_for_inspection": True,
         "ok_to_submit": False,
         "verdict": "negative",
-        "reason": "HOLDOUT-DTI did not beat 0.1826, and 92.45% of dots lie within 3 px of H78-A (duplicate lane).",
+        "reason": rc["ok_to_submit_reason"],
         "holdout_dti": dti,
         "holdout_ci95": ci,
         "control_dti": ctrl,
         "paired_delta": delta["delta"],
         "paired_delta_ci95": delta["ci95"],
-        "evaluator": "gems57-pooled-hide-v2",
-        "withheld_positive_pixels": 11321,
+        "evaluator": h["evaluator_version"],
+        "withheld_positive_pixels": h["withheld_positive_pixels"],
         "organizer_confirmed": None,
         "weekly_slots_used_by_agent": 0,
         "sha256": sha,
-        "duplicate_of": "H78-A",
-        "forward_3px_overlap_h78a": spy["correlation_overlap_vs_registry"]["final_dots"]["H78-A"]["forward_3px"],
-        "validator_independent_all_passed": True,
+        "duplicate_of": "H78-A lineage dot sets (literal forward-overlap rule)",
+        "forward_3px_overlap_h78a": ov_a,
+        "forward_3px_overlap_max": ov_max,
+        "validator_independent_all_passed": bool(rc["validator_output"]["verify_tif"]["all_passed"]),
     }
     (DOCS / "data").mkdir(exist_ok=True)
-    (DOCS / "data" / "status.json").write_text(json.dumps(status, indent=2))
-    (DOCS / "downloads" / "run_card_h78spy.json").write_text(json.dumps(spy, indent=2))
+    (DOCS / "data" / "status.json").write_text(json.dumps(status, indent=2) + "\n")
 
     home = f"""
-<div class="banner no">OK TO DOWNLOAD: YES · OK TO SUBMIT: NO. Do not upload <code>{esc(file)}</code>. It failed the holdout gate and it is a duplicate of the earlier H78-A raster. The older H78-A and H78-MPC files are blocked too.</div>
+<div class="banner no">OK TO DOWNLOAD: YES · OK TO SUBMIT: NO. Do not upload <code>{esc(file)}</code>. It failed its preregistered holdout gate and its dots duplicate this repo's earlier H78-A-lineage rasters. Every older file below is blocked too. No human inspection is needed anywhere: all validation below is automatic.</div>
+<div class="card">
+<h2 style="margin-top:0">Download the newest generated TIF — inspection only</h2>
+<p>One new, unique-bytes GeoTIFF was generated this session (lane <b>H78-STEP</b>). It is format-valid. That is not permission to submit it. The filename contains <b>DO-NOT-SUBMIT</b> and its note begins "NOT OK TO SUBMIT".</p>
+<a class="btn bad" href="downloads/{esc(file)}" download>Download inspection GeoTIFF — do not submit</a>
+<a class="btn sec" href="downloads/{esc(file.replace('.tif', '.zip'))}" download>Same file as .zip (single TIFF)</a>
+<a class="btn sec" href="downloads/{esc(file.replace('.tif', '.json'))}">Writer receipt</a>
+<a class="btn sec" href="h78step.html">Full lane page + run card numbers</a>
+<a class="btn sec" href="data/status.json">Machine-readable status</a>
+<table>
+<tr><th>Unique submission name</th><td class="mono">{esc(rc['submission_name'])}</td></tr>
+<tr><th>Note ({rc['note_chars']} of 140 chars — never paste into a live slot)</th><td class="mono">{esc(rc['submission_note'])}</td></tr>
+<tr><th>SHA-256</th><td class="mono">{esc(sha)}</td></tr>
+<tr><th>Format (automatic re-read)</th><td>single-band float32, 3730×3292, EPSG:32611, transform (100, 0, 243350, 0, −100, 4508550), nodata unset, all finite, no NaN inside footprint, values exactly 0 or 1 (⊂ [0, 1] — the portal error "Predicted values must be in range [0, 1]" cannot occur), 44,090 positives, 0 on catalogue, 0 outside footprint. <code>scripts/verify_tif.py</code> 12/12 passed.</td></tr>
+<tr><th><span class="tag h">HOLDOUT-DTI</span></th><td><b>{dti:.4f}</b> [{ci[0]:.4f}, {ci[1]:.4f}] — evaluator {esc(h['evaluator_version'])}, seed 20, {h['withheld_positive_pixels']:,} withheld positives, α 0.2 / β 0.8 / 300 m kernel. Control H78-A rerun (same folds, rows, emitter): <b>{ctrl:.4f}</b>. Paired delta {delta['delta']:+.4f} [{delta['ci95'][0]:+.4f}, {delta['ci95'][1]:+.4f}] — significantly worse.</td></tr>
+<tr><th>ORGANIZER-CONFIRMED</th><td>none. Never uploaded; agent used 0 weekly slots. A holdout number is not a leaderboard projection.</td></tr>
+<tr><th>Uniqueness (9 comparators)</th><td>Surface |ρ| max {rho_surf:.4f} before placement (limit 0.90, pass). Forward 3-px dot overlap max <b>{ov_max:.4f}</b> vs shipped H78-CS, {ov_a:.4f} vs H78-A primary (limit 0.70, <b>fail — duplicate dots</b>); vs H19-5 / D2.8 / H33 / GEMS70-P5: 0.33–0.44. Registry scope is this repo's restored set, not the organizer's complete registry (<code>complete_registry_verified=false</code>).</td></tr>
+</table>
+<img src="assets/fig_h78step_surface_and_dots.png" alt="H78-STEP score surface and dots" style="width:100%;border-radius:8px;margin-top:12px">
+</div>
 <div class="card">
 <h2 style="margin-top:0">Every downloadable file is blocked</h2>
 <table>
-<tr><th>File</th><th>Gate</th><th></th></tr>
-<tr><td>H78-SPY, this session</td><td>NO — holdout 0.1808 vs control 0.1826, and 92.45% of dots within 3 px of H78-A</td><td><a href="downloads/{esc(file)}">Download inspection GeoTIFF</a></td></tr>
-<tr><td>H78-A, previous session</td><td>NO — INCOMPLETE uniqueness check: only three lineage rasters (release audit, IR-78-16). Not a measured duplicate, and not cleared.</td><td><a href="downloads/gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif">Research TIFF — do not submit</a></td></tr>
-<tr><td>H78-CS, session 3 (merged later)</td><td>NO - HOLDOUT-DTI 0.1791 vs control 0.1826 (seed 20; seed-30 delta +0.0004, CI includes 0), and 89.08% of dots within 3 px of H78-A (duplicate)</td><td><a href="h78cs.html">Lane page + inspection TIFF - do not submit</a></td></tr>
-<tr><td>H78-MPC, previous session</td><td>NO — forward 3 px overlap 0.730 against a non-spacefilling registry raster (IR-78-14). Stop.</td><td><a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif">Research TIFF — do not submit</a></td></tr>
+<tr><th>File / lane</th><th>Gate</th><th></th></tr>
+<tr><td>H78-STEP, this session (2026-10-22)</td><td>NO — HOLDOUT-DTI {dti:.4f} vs control {ctrl:.4f} (paired delta {delta['delta']:+.4f}), and {ov_a*100:.1f}% of dots within 3 px of H78-A</td><td><a href="h78step.html">Lane page + inspection TIFF</a></td></tr>
+<tr><td>H78-CS, session 3</td><td>NO — HOLDOUT-DTI 0.1791 vs control 0.1826 (two seeds), forward overlap 0.8908 vs H78-A</td><td><a href="h78cs.html">Lane page</a></td></tr>
+<tr><td>H78-SPY, 2026-10-21 session</td><td>NO — HOLDOUT-DTI 0.1808 vs control 0.1826, forward overlap 0.9245 vs H78-A</td><td><a href="downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif">Inspection TIFF — do not submit</a></td></tr>
+<tr><td>H78-A, earlier session</td><td>NO — INCOMPLETE uniqueness audit (release audit; historical check covered only three lineage rasters). Not cleared and not a measured duplicate; this repo's holdout best (0.1826 @44,090; 0.1843 @50,000) but never uploaded</td><td><a href="h78a.html">Archived page</a></td></tr>
+<tr><td>H78-MPC, earlier session</td><td>NO — forward overlap 0.730 vs a registry raster. Stop.</td><td><a href="downloads/gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif">Research TIFF — do not submit</a></td></tr>
 </table>
-<p>Historical audit: <a href="data/release_audit.json">release_audit.json</a> · <a href="review-release.md">review</a>. This session's card: <a href="downloads/run_card_h78spy.json">run_card_h78spy.json</a>.</p>
+<p>Release audit: <a href="data/release_audit.json">release_audit.json</a> · <a href="review-release.md">review</a>. This session's run card: repo file <code>evidence/h78step_run_card.json</code>.</p>
 </div>
 <div class="card">
-<h2 style="margin-top:0">Download — inspection only</h2>
-<p>The file is format-valid. That is not permission to submit it. The filename contains <b>DO-NOT-SUBMIT</b>.</p>
-<a class="btn bad" href="downloads/{esc(file)}" download>Download inspection GeoTIFF — do not submit</a>
-<a class="btn sec" href="downloads/{esc(file.replace('.tif', '.zip'))}" download>Same file as .zip</a>
-<a class="btn sec" href="downloads/{esc(file.replace('.tif', '.json'))}">Writer receipt</a>
-<a class="btn sec" href="downloads/run_card_h78spy.json">Run card</a>
-<a class="btn sec" href="data/status.json">Machine-readable status</a>
-<table>
-<tr><th>Submission name</th><td class="mono">{esc(spy['submission_name'])}</td></tr>
-<tr><th>Note (93 characters — do not paste this into a live slot)</th><td class="mono">{esc(spy['submission_note'])}</td></tr>
-<tr><th>sha256</th><td class="mono">{esc(sha)}</td></tr>
-<tr><th>Format</th><td>single-band float32, 3730×3292, EPSG:32611, transform (100, 0, 243350, 0, −100, 4508550), nodata unset, all finite, values exactly 0 or 1, 44,090 positives, 0 on the catalogue, 0 outside the footprint. Independent re-read: <code>scripts/verify_tif.py</code> all checks passed.</td></tr>
-<tr><th>HOLDOUT-DTI</th><td><b>{dti:.4f}</b> [{ci[0]:.4f}, {ci[1]:.4f}] — evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives. Control (same folds, same emitter) <b>{ctrl:.4f}</b>. Paired delta {delta['delta']:+.4f} [{delta['ci95'][0]:+.4f}, {delta['ci95'][1]:+.4f}].</td></tr>
-<tr><th>ORGANIZER-CONFIRMED</th><td>none. This file has not been uploaded. A holdout number is not a leaderboard projection.</td></tr>
-<tr><th>Uniqueness</th><td>Surface |Spearman| max {rho:.4f} (limit 0.90, pass). Forward 3 px overlap vs H78-A <b>{ov:.4f}</b> (limit 0.70, <b>fail — duplicate</b>). Stopped.</td></tr>
-</table>
-<img src="assets/fig_h78spy_holdout.png" alt="Holdout DTI bars: spy below the 0.1826 gate" style="width:100%;border-radius:8px;margin-top:12px">
-</div>
-<div class="card">
-<h2 style="margin-top:0">Why h33-h33-2-b2 is the family's best owner-reported file, and whether we can beat 0.2778</h2>
-<p><span class="tag n">owner-report</span> The prompt lists 0.2778 for <code>h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros</code>. That number is <b>not</b> ORGANIZER-CONFIRMED in this repository. The GEMSDOE32 page, re-fetched this session, says no organiser score exists for that file and its own note says projected 0.2747, unscored (IR-78-20). What was re-measured here, from the SHA-256-pinned raster <code>c55bafc4…</code>, is the structure:</p>
+<h2 style="margin-top:0">Why h33-h33-2-b2 is the family's best owner-reported file (0.2778), and whether we can beat it</h2>
+<p><span class="tag n">owner-report</span> 0.2778 (and the prompt's conflicting 0.3195 / 0.4413 leaderboard figures) is not ORGANIZER-CONFIRMED in this repository; the leaderboard is login-gated and was not fetched. What is measured here, from SHA-256-pinned rasters (<code>evidence/forensics_h33_vs_d28.json</code>):</p>
 <ul>
-<li>H19-5 is 121,131 line pixels. D2.8 is 44,090 binary dots, all of them on those lines. H33 is the 37,654-dot subset of D2.8.</li>
-<li>The 6,436 removed dots all lie 1.0–2.0 px from the catalogue. H33's own dots have nearest-neighbour spacing minimum 2.83 px, median 3.0 px, and median distance to the catalogue 19.6 px. Zero dots sit on the catalogue. Every value is 0 or 1, every cell finite, nodata unset.</li>
-<li>Along the owner-reported chain 0.1922 → 0.2600 → 0.2778 the detector did not change. The metric charges 0.2 per emitted pixel and gives each truth pixel at most one kernel credit (300 m triangle). Dots inside another dot's kernel, and dots within 200 m of a mapped fault that the organiser masks out of scoring, are cost without credit.</li>
+<li>H19-5 solid = 121,131 line pixels → D2.8 = 44,090 binary dots <i>on those same lines</i> (NN spacing min √8 px) → H33 = the exact 37,654-dot subset deleting all 6,436 dots within ≤2 px of the catalogue. Owner-reported scores: 0.1922 → 0.2600 → 0.2778. <b>The detector never changed</b> — each step removed prediction mass the metric charges 0.2 per pixel for, where it could not earn kernel credit (300 m triangular kernel, max credit per truth pixel; catalogue pixels masked out of scoring).</li>
+<li>Under DTI = TPw/(TPw + 0.2·FPw + 0.8·FNw) the optimum at fixed geometry is binary, and a dot must earn &gt; 0.2·DTI ≈ 0.056 mean kernel credit to be worth adding. Thinning that field further is exhausted (mean dot credit ≈ 0.13 at 0.2778; reaching ~0.32 needs ~25% more credit per dot).</li>
+<li>So beating 0.2778 needs a better <i>ranking</i> of pixels by true-fault probability, validated without leakage. That is what this repo's lanes keep testing — and the last four (feature appends, PU refit, missing-tooth, paired-flank step) all failed against the strike-steered control or duplicated its dots. This session's flank-step field detects steps well (its top feature beats every pointwise feature alone, AUC 0.6027) but localises lines too coarsely for the 3-px credit kernel.</li>
 </ul>
-<p>Beating 0.2778, if that owner-report is real, requires a <i>field</i> whose top ~35–45k dots carry more kernel credit on unmapped faults than H19-5's do. Thinning the same field further will not do it. This session tested two unrun hypotheses aimed at that field. Neither beat the holdout best already in this repo (0.1826), so neither is a slot.</p>
-<table>
-<tr><th>Hypothesis</th><th>Result <span class="tag h">HOLDOUT-DTI</span></th><th>Verdict</th></tr>
-<tr><td>H78-TOOTH. Across-strike missing tooth: a gap kernel that peaks where distance to the visible catalogue equals the local array spacing.</td><td>Mechanism falsified. Withheld faults sit at median 0.39 spacings, not 1. gap1 mean 0.118 on truth vs 0.191 on background (AUC 0.514). The location-proxy features collapsed the learner onto the 48,340 training positives. No raster written.</td><td>negative</td></tr>
-<tr><td>H78-SPY. Drop unlabeled cells scoring above the 15th percentile of labeled positives (19,100 of 450,000; cap not hit), refit once, same emitter.</td><td>0.1808 [0.1623, 0.1985] vs control 0.1826. Paired CI includes 0 and the point estimate is lower. Deployment overlap with H78-A is 0.9245.</td><td>negative, duplicate, stop</td></tr>
-</table>
-<p class="mut">Named non-fault mimics, stated before the fits: regularly spaced drainages and dune ridges (tooth); lithologic contacts and range-front-parallel drainages (spy). Literature for the spacing claim, not re-fetched in full because those hosts are outside this sandbox: Ackermann, Schlische and Withjack 2001, JSG 23:1803, DOI 10.1016/S0191-8141(01)00028-1; Soliva and Benedicto 2006, DOI 10.1029/2004JB003507. Great Basin structural settings: Faulds et al., <a href="https://www.osti.gov/servlets/purl/1110517">OSTI 1110517</a>.</p>
+<p>Honest answer: <b>not with this file, and not by perturbing H78-A.</b> The strongest untried direction in the repo's records is a learned segmentation model (the organizer reference is U-Net class) trained on GPU and preregistered as its own lane.</p>
 </div>
 <div class="card">
 <h2 style="margin-top:0">What this does not claim</h2>
 <ul>
-<li>No file in this repository has an ORGANIZER-CONFIRMED score. Prompt figures 0.2778, 0.3195 and 0.4413 were not copied from a DrivenData receipt this session. The public leaderboard is login-walled from here.</li>
-<li>The catalogue hide-and-recover holdout cannot see a fault that does not resemble a withheld mapped component. A live gain is not implied by a holdout gain, and a holdout loss is not a live score either. It is enough to refuse a slot.</li>
-<li>The agent spent 0 weekly slots. Promotion is a human selector decision. The selector should not spend one on the file above.</li>
-<li>An earlier session's H78-A file (HOLDOUT-DTI 0.1826) is the control this session failed to beat. A later release audit blocked it for an incomplete uniqueness check (IR-78-16). It is preserved at <a href="h78a.html">h78a.html</a> and is not a new clearance.</li>
+<li>No ORGANIZER-CONFIRMED score exists for any file here. Slot selection is a separate selector step; the weekly cap could not be verified from this sandbox.</li>
+<li>The hide-and-recover holdout measures recovery of catalogue-style faults (withheld median ~9 px from visible faults). Live hidden faults appear farther away (H33 dots median 19.6 px). Holdout evidence can refuse a slot; it cannot promise a live score.</li>
+<li>IR-78STEP-01: band 6's own GeoTIFF description is a magnetic tilt/curvature derivative, not the radiometric total count its code label claims — earlier documents' band-6 interpretation is unsupported. Flagged, not silently renamed.</li>
+<li>3 experiments were charged (holdout, declared cannot-promote diagnostic, production build). Shared evaluator/writer used unmodified; no private forks.</li>
 </ul>
-</div>
-<div class="card">
-<h2 style="margin-top:0">Next work, not started</h2>
-<ul>
-<li>Do not retune tooth sigma or the spy percentile. Both failure modes are identified.</li>
-<li>A detector that is not a small perturbation of H78-A. Spy moved only 8% of dots more than 3 px away. The organizer reference is a U-Net (Monte Carlo CV); this sandbox is CPU-only and did not train one.</li>
-<li>A second holdout seed before any further emission change. Only seed 20 has been run.</li>
-<li>External rupture catalogues (2020 Monte Cristo Range) are not reachable from this sandbox (usgs.gov is not an allowed host). Do not treat that idea as viable here until the USGS ScienceBase release is actually fetched.</li>
-</ul>
-<p>Read <a href="https://github.com/buffedlizard55-lab/GEMSDOE78/blob/main/PROMPT.md">PROMPT.md</a> at the start of every session. Status feed: <a href="data/status.json">docs/data/status.json</a>.</p>
+<p>Read <a href="https://github.com/buffedlizard55-lab/GEMSDOE78/blob/main/PROMPT.md">PROMPT.md</a> and the README at the start of every session. Status feed: <a href="data/status.json">docs/data/status.json</a>.</p>
 </div>
 """
-    (DOCS / "index.html").write_text(page("GEMSDOE78 — do not submit this session's file", home))
+    (DOCS / "index.html").write_text(page("GEMSDOE78 — do not submit this session's file (H78-STEP)", home))
 
     steps = f"""
 <div class="banner no">OK TO DOWNLOAD: YES · OK TO SUBMIT: NO. Stop on this page if you were about to upload the new GeoTIFF.</div>
 <div class="card">
-<h2 style="margin-top:0">Decision</h2>
-<p>This session generated one new GeoTIFF. It is format-valid and it is <b>not</b> cleared for a weekly slot.</p>
+<h2 style="margin-top:0">Executive summary — exactly how a submission is made</h2>
 <ol>
-<li>Read the red banner. If it says <b>OK TO SUBMIT: NO</b>, do not upload that file. The current banner says NO.</li>
-<li>The inspection file, if you need to look at the bytes, is <a href="downloads/{esc(file)}">{esc(file)}</a>. sha256 <code>{esc(sha)}</code>. Name and note are on the home page. Do not paste them into a live submission.</li>
-<li>A legal upload, when a future file is actually cleared, is a single-band GeoTIFF or a zip containing that one GeoTIFF. DrivenData competition 306, New submission. The portal checks CRS EPSG:32611, shape 3730×3292, the sample geotransform, and values in [0, 1]. Files from this repo's writer are all-finite, nodata unset, values exactly 0 or 1, which is the fix for the portal error "Predicted values must be in range [0, 1]". Format validity is necessary and not sufficient.</li>
-<li>Rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">competition home</a>, <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem and metric</a>, <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">rules PDF</a>. Weekly cap and single final selection are in that PDF; this agent does not spend a slot.</li>
-<li>If a human later uploads a cleared file, copy the portal score into <code>registry/live_scores.csv</code> and label it ORGANIZER-CONFIRMED. Until that receipt exists, there is no score.</li>
+<li>Read the red banner on <a href="index.html">the home page</a>. If it says <b>OK TO SUBMIT: NO</b>, do not upload that file. It currently says NO for every file in this repo.</li>
+<li>Download only from the banner buttons (this session's inspection file: <a href="downloads/{esc(file)}">{esc(file)}</a>, sha256 <code>{esc(sha)}</code>; unique name and ≤140-char note are in the banner card). Never rename an old file and call it new.</li>
+<li>When a future file's banner says YES: check the weekly cap on the DrivenData submission page first (login-gated; the agent cannot see it and never uploads). Slot choice is a separate selector decision.</li>
+<li>DrivenData competition 306 → <i>New submission</i> → choose the single-band GeoTIFF (or a .zip containing only that TIFF) → paste the note from the banner → submit. The portal checks CRS EPSG:32611, shape 3730×3292, the sample geotransform, and values in [0, 1]. This repo's writer emits all-finite float32 values exactly 0/1 with nodata unset and refuses to write otherwise, and the written file is re-read and re-validated automatically (<code>scripts/verify_tif.py</code>) — no human inspector is in the loop, and the "Predicted values must be in range [0, 1]" error cannot occur.</li>
+<li>Save the organizer's score receipt next to the file's SHA-256 and record it as ORGANIZER-CONFIRMED. Until that receipt exists, there is no live score — there are only HOLDOUT-DTI numbers and owner reports.</li>
 </ol>
+<p>Rules and sources for manual review: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">competition home</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem + metric</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">rules PDF</a> · <a href="https://github.com/drivendataorg/gems-prize-reference-solution">official reference solution</a>. Non-GitHub hosts were unreachable from this session's sandbox; nothing on this page depends on having fetched them.</p>
 </div>
 <div class="card">
-<h2 style="margin-top:0">Why the new file fails the gate</h2>
+<h2 style="margin-top:0">Why this session's file fails the gate</h2>
 <ul>
-<li><span class="tag h">HOLDOUT-DTI</span> {dti:.4f} does not beat the reproduced control {ctrl:.4f} or the published holdout best 0.1826. The paired 95% interval on the difference includes zero.</li>
-<li>92.45% of its dots fall within 3 px of H78-A. The parallel-run rule stops a lane at 70%. It is not a new submission.</li>
-<li>H78-TOOTH, the other experiment, produced no raster: the model collapsed onto the mapped catalogue.</li>
+<li><span class="tag h">HOLDOUT-DTI</span> {dti:.4f} [{ci[0]:.4f}, {ci[1]:.4f}] vs control {ctrl:.4f}; paired delta {delta['delta']:+.4f} with 95% CI entirely below zero. The hypothesis (paired cross-strike flank steps replace pointwise derivatives) is falsified on this instrument.</li>
+<li>{ov_max*100:.1f}% of its dots fall within 3 px of a shipped H78-A-lineage raster. The parallel-run rule stops at 70%: these dots are not a distinct submission even before the holdout loss.</li>
+<li>Format is valid (12/12 automatic checks). Format validity is necessary, never sufficient.</li>
 </ul>
-<p>Earlier H78-A file, not regenerated this session: see <a href="h78a.html">the archived H78-A page</a>. Submitting it would not be a test of this session's hypotheses. Its own page records a catalogue-halo risk (median 6 px from mapped faults versus 19.6 px for H33).</p>
+<p>Full detail: <a href="h78step.html">H78-STEP lane page</a>. Earlier lanes: <a href="h78a.html">H78-A</a> · <a href="h78cs.html">H78-CS</a> · release audit on the <a href="index.html">home page</a>.</p>
 </div>
 """
     (DOCS / "executive-summary.html").write_text(
-        page("Executive summary — how a submission is made, and why this one is not cleared", steps)
-    )
+        page("Executive summary — how a submission is made, and why this one is not cleared", steps))
     print("session site written", file)
 
 

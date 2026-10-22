@@ -1,27 +1,28 @@
 {
-  "session": "2026-10-21 tooth then spy",
-  "generated_tif": "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif",
+  "session": "2026-10-22 H78-STEP paired flank step",
+  "generated_tif": "gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif",
   "ok_to_download_for_inspection": true,
   "ok_to_submit": false,
   "verdict": "negative",
-  "reason": "HOLDOUT-DTI did not beat 0.1826, and 92.45% of dots lie within 3 px of H78-A (duplicate lane).",
-  "holdout_dti": 0.18077914125502179,
+  "reason": "HOLDOUT-DTI gate failed: CAND_STEP 0.1662 vs CTRL_A2 0.1826, paired delta -0.0164 [-0.0235,-0.0090] (gems57-pooled-hide-v2, seed 20, 11,321 withheld). See preregistered_gate_evaluation for every gate item.",
+  "holdout_dti": 0.16621108404336643,
   "holdout_ci95": [
-    0.16226503151974203,
-    0.19852760694969213
+    0.14825848790645388,
+    0.18522966186922332
   ],
-  "control_dti": 0.1825746728455537,
-  "paired_delta": -0.001795531590531918,
+  "control_dti": 0.18258300140522551,
+  "paired_delta": -0.016371917361859084,
   "paired_delta_ci95": [
-    -0.0069339379661185535,
-    0.003693031687086105
+    -0.023539108079345932,
+    -0.009025834083171732
   ],
   "evaluator": "gems57-pooled-hide-v2",
   "withheld_positive_pixels": 11321,
   "organizer_confirmed": null,
   "weekly_slots_used_by_agent": 0,
-  "sha256": "0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3",
-  "duplicate_of": "H78-A",
-  "forward_3px_overlap_h78a": 0.9244726695395782,
+  "sha256": "5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b",
+  "duplicate_of": "H78-A lineage dot sets (literal forward-overlap rule)",
+  "forward_3px_overlap_h78a": 0.7928782036743026,
+  "forward_3px_overlap_max": 0.7936493535949195,
   "validator_independent_all_passed": true
 }

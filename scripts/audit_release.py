@@ -37,11 +37,13 @@ def main():
     failed = literal_failures(u['dot_rows'])
     fresh = load('evidence/rechecked_overlap.json')
     cs = load('evidence/h78cs_run_card.json')
+    st = load('evidence/h78step_run_card.json')
     candidates = []
     for lane, filename, reason in [
         ('H78-A', a['raster']['file'], f"INCOMPLETE: {a_review['reason']}"),
         ('H78-MPC', prod['final_stem'] + '.tif', 'DUPLICATE: recorded forward overlap exceeds the literal threshold. Stop required.'),
-        ('H78-CS', cs['raster']['file'], 'DUPLICATE + NEGATIVE: HOLDOUT-DTI seed20 0.1791 vs control 0.1826 (seed30 delta +0.0004, CI includes 0); forward 3px overlap vs H78-A 0.8908 exceeds 0.70. evidence/h78cs_run_card.json.')]:
+        ('H78-CS', cs['raster']['file'], 'DUPLICATE + NEGATIVE: HOLDOUT-DTI seed20 0.1791 vs control 0.1826 (seed30 delta +0.0004, CI includes 0); forward 3px overlap vs H78-A 0.8908 exceeds 0.70. evidence/h78cs_run_card.json.'),
+        ('H78-STEP', st['raster']['file'], f"DUPLICATE + NEGATIVE: HOLDOUT-DTI seed20 {st['holdout']['candidate']['dti']:.4f} vs control {st['holdout']['control']['dti']:.4f}, paired delta {st['holdout']['paired_delta_cand_minus_ctrl']['delta']:+.4f}; forward 3px overlap max {st['correlation_overlap_vs_registry']['dots_max_forward_overlap']:.4f} exceeds 0.70. evidence/h78step_run_card.json.")]:
         p = ROOT / 'docs/downloads' / filename
         candidates.append(dict(lane=lane, file=filename, sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
                                validator=validate(p), ok_to_download=True, ok_to_submit=False,
@@ -83,10 +85,11 @@ def main():
     rows = ''.join(f'<tr><td>{c["lane"]}</td><td>{"PASS" if c["validator"]["all_passed"] else "FAIL / UNVERIFIED"}</td><td>NO — {html.escape(c["reason"])}</td><td><a download href="downloads/{c["file"]}">Download historical TIFF — do not submit</a></td></tr>' for c in candidates)
     page = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GEMS78 — Submission readiness</title>
 <style>body{font:17px/1.6 system-ui;margin:3rem auto;padding:0 1rem;max-width:1100px;color:#172438;background:#f5f7fb}h1{line-height:1.2}.alert{padding:1.3rem;background:#fff1df;border:2px solid #a64c00;border-radius:12px}table{border-collapse:collapse}td,th{text-align:left;padding:1rem;border-bottom:1px solid #bbc5d1}a{color:#1355a0}code{overflow-wrap:anywhere}</style>
-<h1>GEMS78 · Submission readiness</h1><div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocked both historical candidates. A later inspection raster is also blocked; see the homepage. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.</div>
+<h1>GEMS78 · Submission readiness</h1><div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocked every candidate in the table below (including the 2026-10-22 H78-STEP lane). A later inspection raster is also blocked; see below. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.</div>
 <h2>Downloads and automatic checks</h2><table><tr><th>Candidate</th><th>Local format</th><th>Submission gate</th><th>File</th></tr>''' + rows + '''</table>
 <p><a href="downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif">Download inspection GeoTIFF</a> — DO-NOT-SUBMIT. Later H78-SPY file, format-valid and not cleared. <a href="index.html">Homepage</a> states the same gate.</p>
 <p><a href="h78cs.html">H78-CS lane page</a> - session-3 collinear-support file, format-valid, HOLDOUT-DTI negative on two seeds and a duplicate of H78-A (forward overlap 0.8908). Do not submit.</p>
+<p><a href="h78step.html">H78-STEP lane page</a> - 2026-10-22 paired-flank-step file, format-valid, HOLDOUT-DTI significantly negative vs control and forward dot overlap up to 0.7936 vs shipped H78-A-lineage files. Do not submit.</p>
 <p><a href="data/release_audit.json">Machine-readable run card and validator output</a> · <a href="review-release.md">Scientific review, hypotheses and next steps</a></p>
 <h2>Executive summary: how a future submission proceeds</h2><ol><li>Generate a genuinely new candidate in the assigned lane. Never rename an old prediction as new.</li><li>Run buffered whole-segment hide-and-recover validation, per-feature canaries and a matched current-best control.</li><li>Check the complete indexed registry before placement and on final dots. Stop for rank correlation above 0.90 or forward overlap above 70%; no mutual-overlap substitution.</li><li>Reopen the TIFF and verify one band, finite values in [0,1], footprint, CRS, shape and transform against the pinned template.</li><li>Only a separate selector may authorize upload after the gates pass and the submission-page weekly cap is checked. The cap is currently unverified.</li><li>Then download the approved TIFF, upload at DrivenData New submission, paste its short note, and preserve the organizer receipt bound to its SHA-256.</li></ol>
 <h2>Why H33 might have performed better</h2><p>The repository's raster forensics support a sparse-emission and catalogue-flank-pruning explanation, not proof of a superior geothermal detector. Near-catalogue pixels are not automatically zero-credit; only exact masked catalogue pixels are excluded. Historical owner-reported leaderboard results do not establish causality or predict a new score.</p>

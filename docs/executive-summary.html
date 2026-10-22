@@ -21,6 +21,7 @@ th{color:var(--mut)}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace
 <header><h1>Executive summary — how a submission is made, and why this one is not cleared</h1><nav>
 <a href="index.html">Home</a>
 <a href="executive-summary.html">How to submit</a>
+<a href="h78step.html">H78-STEP lane (this session, negative)</a>
 <a href="hypotheses.html">Earlier hypotheses</a>
 <a href="holdout.html">H78-A holdout</a>
 <a href="sources.html">Sources</a>
@@ -31,23 +32,23 @@ th{color:var(--mut)}code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace
 </nav></header><main>
 <div class="banner no">OK TO DOWNLOAD: YES · OK TO SUBMIT: NO. Stop on this page if you were about to upload the new GeoTIFF.</div>
 <div class="card">
-<h2 style="margin-top:0">Decision</h2>
-<p>This session generated one new GeoTIFF. It is format-valid and it is <b>not</b> cleared for a weekly slot.</p>
+<h2 style="margin-top:0">Executive summary — exactly how a submission is made</h2>
 <ol>
-<li>Read the red banner. If it says <b>OK TO SUBMIT: NO</b>, do not upload that file. The current banner says NO.</li>
-<li>The inspection file, if you need to look at the bytes, is <a href="downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif">gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif</a>. sha256 <code>0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3</code>. Name and note are on the home page. Do not paste them into a live submission.</li>
-<li>A legal upload, when a future file is actually cleared, is a single-band GeoTIFF or a zip containing that one GeoTIFF. DrivenData competition 306, New submission. The portal checks CRS EPSG:32611, shape 3730×3292, the sample geotransform, and values in [0, 1]. Files from this repo's writer are all-finite, nodata unset, values exactly 0 or 1, which is the fix for the portal error "Predicted values must be in range [0, 1]". Format validity is necessary and not sufficient.</li>
-<li>Rules: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">competition home</a>, <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem and metric</a>, <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">rules PDF</a>. Weekly cap and single final selection are in that PDF; this agent does not spend a slot.</li>
-<li>If a human later uploads a cleared file, copy the portal score into <code>registry/live_scores.csv</code> and label it ORGANIZER-CONFIRMED. Until that receipt exists, there is no score.</li>
+<li>Read the red banner on <a href="index.html">the home page</a>. If it says <b>OK TO SUBMIT: NO</b>, do not upload that file. It currently says NO for every file in this repo.</li>
+<li>Download only from the banner buttons (this session's inspection file: <a href="downloads/gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif">gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif</a>, sha256 <code>5ce829b026be18a07c0c36d7ec103895da8b3b0443966f01f0d5c8a5bbea9c4b</code>; unique name and ≤140-char note are in the banner card). Never rename an old file and call it new.</li>
+<li>When a future file's banner says YES: check the weekly cap on the DrivenData submission page first (login-gated; the agent cannot see it and never uploads). Slot choice is a separate selector decision.</li>
+<li>DrivenData competition 306 → <i>New submission</i> → choose the single-band GeoTIFF (or a .zip containing only that TIFF) → paste the note from the banner → submit. The portal checks CRS EPSG:32611, shape 3730×3292, the sample geotransform, and values in [0, 1]. This repo's writer emits all-finite float32 values exactly 0/1 with nodata unset and refuses to write otherwise, and the written file is re-read and re-validated automatically (<code>scripts/verify_tif.py</code>) — no human inspector is in the loop, and the "Predicted values must be in range [0, 1]" error cannot occur.</li>
+<li>Save the organizer's score receipt next to the file's SHA-256 and record it as ORGANIZER-CONFIRMED. Until that receipt exists, there is no live score — there are only HOLDOUT-DTI numbers and owner reports.</li>
 </ol>
+<p>Rules and sources for manual review: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">competition home</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem + metric</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">rules PDF</a> · <a href="https://github.com/drivendataorg/gems-prize-reference-solution">official reference solution</a>. Non-GitHub hosts were unreachable from this session's sandbox; nothing on this page depends on having fetched them.</p>
 </div>
 <div class="card">
-<h2 style="margin-top:0">Why the new file fails the gate</h2>
+<h2 style="margin-top:0">Why this session's file fails the gate</h2>
 <ul>
-<li><span class="tag h">HOLDOUT-DTI</span> 0.1808 does not beat the reproduced control 0.1826 or the published holdout best 0.1826. The paired 95% interval on the difference includes zero.</li>
-<li>92.45% of its dots fall within 3 px of H78-A. The parallel-run rule stops a lane at 70%. It is not a new submission.</li>
-<li>H78-TOOTH, the other experiment, produced no raster: the model collapsed onto the mapped catalogue.</li>
+<li><span class="tag h">HOLDOUT-DTI</span> 0.1662 [0.1483, 0.1852] vs control 0.1826; paired delta -0.0164 with 95% CI entirely below zero. The hypothesis (paired cross-strike flank steps replace pointwise derivatives) is falsified on this instrument.</li>
+<li>79.4% of its dots fall within 3 px of a shipped H78-A-lineage raster. The parallel-run rule stops at 70%: these dots are not a distinct submission even before the holdout loss.</li>
+<li>Format is valid (12/12 automatic checks). Format validity is necessary, never sufficient.</li>
 </ul>
-<p>Earlier H78-A file, not regenerated this session: see <a href="h78a.html">the archived H78-A page</a>. Submitting it would not be a test of this session's hypotheses. Its own page records a catalogue-halo risk (median 6 px from mapped faults versus 19.6 px for H33).</p>
+<p>Full detail: <a href="h78step.html">H78-STEP lane page</a>. Earlier lanes: <a href="h78a.html">H78-A</a> · <a href="h78cs.html">H78-CS</a> · release audit on the <a href="index.html">home page</a>.</p>
 </div>
 </main></body></html>
