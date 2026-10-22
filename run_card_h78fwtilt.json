@@ -3,7 +3,7 @@
   "lane": "H78-FW multi-scale antisymmetric footwall/hangingwall flank-warp flexure",
   "repository": "buffedlizard55-lab/GEMSDOE78",
   "built_utc": "20261022T020704Z",
-  "preregistration": "registry/preregistration_h78fw.json",
+  "preregistration": "registry/preregistration_h78fwtilt.json",
   "hypothesis": "Blind and piedmont normal faults whose narrow (<200 m) surface scarps have been diffused by alluvial-fan deposition or lacustrine reworking retain a broad (0.8-2.8 km) antisymmetric footwall-uplift / hangingwall-subsidence flexural warp in planar-detrended elevation and basement depth, paired with an opposite-sign flank curvature inflection doublet at +/-600 m and cross-layer concordance with central magnetic and isostatic-gravity steps.",
   "mechanism": "Subtract 1.6 km regional background plane (G_1.5 - G_16.0) on det_elev, depth_to_base_surf, rtp, iso_grav_anom, cond_surf, and tc_totalcount; sample opposing strike-normal flanks at d in {4, 8, 14} px (400 m, 800 m, 1.4 km) using the visible-catalogue regional strike angle phi (sigma=40 px, location-blind) to compute odd-parity flank warp A_d, even-parity arch/trough residual S_d, odd-to-even flexural purity A_d/(A_d+S_d), +/-600 m curvature inflection dipole on det_elev/depth_to_base_surf/rtp/iso_grav_anom, signed cross-layer footwall-basement-gravity concordance, and central vertical-gradient/geodetic strain context (67 features total); HistGradientBoostingClassifier; greedy sparse dot emission at separation >= 2.8 px, visible-catalogue flank <= 3.0 px excluded.",
   "non_fault_mimic": "Differential sediment compaction across a buried paleotopographic basin margin or tilted volcanic mesa edge.",

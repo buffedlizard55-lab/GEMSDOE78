@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
-    rc = json.loads((ROOT / "evidence/h78fw_run_card.json").read_text())
+    rc = json.loads((ROOT / "evidence/h78fwtilt_run_card.json").read_text())
     score = np.load(ROOT / "data/processed/score_full_CAND_FW_PURE.npy")
     with rasterio.open(ROOT / "docs/downloads" / rc["raster"]["file"]) as ds:
         dots = ds.read(1)
@@ -65,7 +65,7 @@ def main():
         ax[2].text(bar.get_x() + bar.get_width() / 2, v + 0.022, f"{v:.4f}", ha="center", va="bottom", fontsize=9, fontweight="bold")
     ax[2].legend(loc="lower right", fontsize=8.5)
 
-    out = ROOT / "docs/assets/fig_h78fw_surface_and_dots.png"
+    out = ROOT / "docs/assets/fig_h78fwtilt_surface_and_dots.png"
     out.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
     fig.savefig(out, dpi=130)

@@ -56,11 +56,11 @@ Per the prompt requirements, we formulate and rank four candidate geological hyp
 ### 3.1 Verification of the v2 Nodata-Mask Cache Fix (`stack19.npy`)
 In PR #16, `src/gems78/data.py` was updated to `nearest-exact-mask-v2` (reusing nearest-neighbour fill indices across bands only when their invalid-pixel masks are pixel-identical, rather than equal in count). An open limitation recorded in `README.md` and `docs/review-2026-10-22.md` was that historical holdout scores had not yet been rerun on the rebuilt v2 cache (`stack_sha256: d7f091e732b8103e34e9f9e75fb57d2338edefdc2309a19690d333f8fad98f96`).
 
-In Experiment 1 (`scripts/run_holdout_fw.py`, `evidence/h78fw_holdout_seed20.json`), we rebuilt `stack19.npy` under `nearest-exact-mask-v2` and re-evaluated `CTRL_A2` (`A2_h78_steered`):
+In Experiment 1 (`scripts/run_holdout_fwtilt.py`, `evidence/h78fwtilt_holdout_seed20.json`), we rebuilt `stack19.npy` under `nearest-exact-mask-v2` and re-evaluated `CTRL_A2` (`A2_h78_steered`):
 - **`CTRL_A2|B3|44090` `HOLDOUT-DTI`**: **`0.18258300140522551 [0.1631257, 0.2003036]`** (evaluator `gems57-pooled-hide-v2`, seed 20, 11,321 withheld positive pixels) — **bit-for-bit identical** to the historical `0.18258300140522551` (`tpw = 3201.9973`, `fpw = 39200.0757`, `fnw = 8119.0027`).
 - **Why**: In `training_features.tif` (`4371c82e…`), 18 of the 19 bands share the exact same 1,521 invalid footprint pixels, and band 6 (`tc_totalcount`) has a different count of invalid cells, so both v1 and v2 computed exact per-mask fills on the real competition stack. This closes the cache-verification item with measured evidence.
 
-### 3.2 Leakage Canary (`evidence/h78fw_holdout_seed20.json`)
+### 3.2 Leakage Canary (`evidence/h78fwtilt_holdout_seed20.json`)
 Every one of the 67 `H78-FW` features (and all 103 `H78-A` features; 170 total) was tested alone on the 11,321 withheld positive pixels vs. 300,000 active background pixels:
 - Maximum symmetric AUC across the 67 `H78-FW` features: **`0.5666`** (`fw_ctx_geod_2ndinv`; top flexural warp feature `fw_det_elev_asym_d4` = **`0.5544`**, `fw_det_elev_curv_diff_d6` = **`0.5516`**, `fw_concord_elev_grav_d8` = **`0.5441`**, `fw_concord_elev_base_d14` = **`0.5410`**).
 - Maximum symmetric AUC across all 170 features: **`0.5859`** (`det_elev_s1.5_Hnn`).
@@ -82,9 +82,9 @@ Every one of the 67 `H78-FW` features (and all 103 `H78-A` features; 170 total) 
 
 ---
 
-## 4. Deployment Artifact, Uniqueness Audit & Automated Submission Gate (`evidence/h78fw_run_card.json`)
+## 4. Deployment Artifact, Uniqueness Audit & Automated Submission Gate (`evidence/h78fwtilt_run_card.json`)
 
-In Experiment 2 (`scripts/build_submission_fw.py`), `CAND_FW_PURE` was fit on the full catalogue and emitted at the preregistered 44,090-dot B3 geometry via the unmodified `vendor/gems57/submission_writer.py`:
+In Experiment 2 (`scripts/build_submission_fwtilt.py`), `CAND_FW_PURE` was fit on the full catalogue and emitted at the preregistered 44,090-dot B3 geometry via the unmodified `vendor/gems57/submission_writer.py`:
 - **Generated GeoTIFF**: `docs/downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif`
 - **SHA-256**: `9675701648e74394e119fde17b88439e5cddaafb9be979d8d7f5f634cde98dc6` (`163,991` bytes; ZIP `a52d705cf008c7a3f7510f8687f000908d7267cb0ba1e28d18cb31ab84945da4`).
 - **Independent Format & Value Validation (`scripts/verify_tif.py`)**: **PASS (12/12 checks)** — single-band `float32`, `EPSG:32611`, `3730 × 3292`, transform `(100, 0, 243350, 0, -100, 4508550)`, `nodata=None`, 100% finite (0 NaN inside or outside footprint), values strictly in `[0, 1]` (binary `{0.0, 1.0}`), `44,090` positive pixels, `0` outside footprint, `0` on mapped catalogue, single-TIFF ZIP byte-identical.

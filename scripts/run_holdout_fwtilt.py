@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Experiment 1 of lane H78-FW (preregistered in registry/preregistration_h78fw.json).
+"""Experiment 1 of lane H78-FW (preregistered in registry/preregistration_h78fwtilt.json).
 
 Evaluates multi-scale antisymmetric footwall/hangingwall flank-warp features
 (src/gems78/flank_warp.py) on the buffered whole-component hide-and-recover
@@ -292,7 +292,7 @@ def main():
 
     out = dict(
         lane="H78-FW",
-        preregistration="registry/preregistration_h78fw.json",
+        preregistration="registry/preregistration_h78fwtilt.json",
         evaluator_version=EH.VERSION,
         evaluator_sha256=EH.implementation_hashes(),
         input_sha256={k: v["sha256"] for k, v in inputs.items()},
@@ -336,7 +336,7 @@ def main():
             return [_sanitize_for_json(v) for v in obj]
         return obj
 
-    out_p = ROOT / "evidence" / f"h78fw_holdout_seed{args.seed}.json"
+    out_p = ROOT / "evidence" / f"h78fwtilt_holdout_seed{args.seed}.json"
     out_p.write_text(json.dumps(_sanitize_for_json(out), indent=2, default=float, allow_nan=False) + "\n")
     log("WROTE", out_p, "in", out["seconds_total"], "s")
 

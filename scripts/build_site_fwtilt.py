@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate docs/h78fw.html + docs/h78fw-executive-summary.html from evidence JSONs only.
+"""Generate docs/h78fwtilt.html + docs/h78fwtilt-executive-summary.html from evidence JSONs only.
 
 Lane H78-FW (session 5, 2026-10-22). The banner is computed from the run card verdict:
 promote -> green OK TO SUBMIT: YES; negative -> red OK TO SUBMIT: NO with the
@@ -14,8 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EV, DOCS = ROOT / "evidence", ROOT / "docs"
-rc = json.loads((EV / "h78fw_run_card.json").read_text())
-hold = json.loads((EV / "h78fw_holdout_seed20.json").read_text())
+rc = json.loads((EV / "h78fwtilt_run_card.json").read_text())
+hold = json.loads((EV / "h78fwtilt_holdout_seed20.json").read_text())
 promote = rc["verdict"] == "promote" and rc["ok_to_submit"] is True
 stem = rc["raster"]["file"][:-4]
 h = rc["holdout"]
@@ -126,8 +126,8 @@ Dots: {val['positive_pixels']:,}; zero on catalogue: {val['checks']['zero_on_cat
 <a class="dl" href="downloads/{stem}.tif">⬇ Download .tif {'(submission)' if promote else '(INSPECTION ONLY — DO NOT SUBMIT)'}</a>
 <a class="dl" href="downloads/{stem}.zip">⬇ Download .zip (single TIFF inside)</a>
 <a class="dl" href="downloads/{stem}.json">Writer receipt (JSON)</a>
-<a class="dl" href="data/h78fw_run_card.json">Machine-readable Run Card (JSON)</a>
-<a class="dl" href="h78fw-executive-summary.html">Executive summary — exactly how submission works →</a>
+<a class="dl" href="data/h78fwtilt_run_card.json">Machine-readable Run Card (JSON)</a>
+<a class="dl" href="h78fwtilt-executive-summary.html">Executive summary — exactly how submission works →</a>
 <div class="copy" style="color:#1a1a1a"><b>Unique submission name:</b> <code>{esc(rc['submission_name'])}</code><br>
 <b>Note ({rc['note_chars']}/140 chars):</b> <code>{esc(rc['submission_note'])}</code><br>
 <b>SHA-256 (.tif):</b> <code>{esc(rc['raster_sha256'])}</code> · <b>SHA-256 (.zip):</b> <code>{esc(rc['raster']['zip_sha256'])}</code> · <b>Verdict:</b> <code>{esc(rc['verdict'])}</code> ·
@@ -142,12 +142,12 @@ a measured negative that saves a slot while verifying the v2 stack and breaking 
 <b>Own the Outcome</b> — every number below is generated from SHA-256-verified competition data and published in <code>evidence/h78fw_*.json</code>.</p>
 {banner}
 <div class="card"><h2>The lane in one paragraph</h2>
-<img src="assets/fig_h78fw_surface_and_dots.png" alt="H78-FW production score surface, 44,090 emitted dots, and HOLDOUT-DTI 95% CIs">
+<img src="assets/fig_h78fwtilt_surface_and_dots.png" alt="H78-FW production score surface, 44,090 emitted dots, and HOLDOUT-DTI 95% CIs">
 <p>{esc(rc['mechanism'])}</p>
 <p><b>Named non-fault mimic:</b> {esc(rc['non_fault_mimic'])}</p>
-<p class="small">Preregistration: <code>registry/preregistration_h78fw.json</code> ·
-Hypotheses &amp; H33 forensic analysis: <code>research/h78fw_hypotheses.md</code> · Code: <code>src/gems78/flank_warp.py</code>,
-<code>scripts/run_holdout_fw.py</code>, <code>scripts/build_submission_fw.py</code>, <code>scripts/make_figure_fw.py</code> ·
+<p class="small">Preregistration: <code>registry/preregistration_h78fwtilt.json</code> ·
+Hypotheses &amp; H33 forensic analysis: <code>research/h78fwtilt_hypotheses.md</code> · Code: <code>src/gems78/flank_warp.py</code>,
+<code>scripts/run_holdout_fwtilt.py</code>, <code>scripts/build_submission_fwtilt.py</code>, <code>scripts/make_figure_fwtilt.py</code> ·
 Feature stack: <code>{esc(rc['stack_cache_meta']['fill_algorithm'])}</code> (SHA-256 <code>{esc(rc['stack_cache_meta']['stack_sha256'])}</code>).</p></div>
 
 <div class="card"><h2>Why H33 scored 0.2778 <span class="small">(owner-report; pixel-exact raster forensic proof)</span></h2>
@@ -159,7 +159,7 @@ from the mapped USGS/INGENIOUS fault catalogue (<code>existing_faults.tif</code>
 and NaNs outside the footprint replaced by <code>0.0</code>. Under the organizer's 300 m (3 px) triangular max-credit kernel and pooled Distance-Tolerant IoU
 (<code>DTI = TP_w / (TP_w + 0.2·FP_w + 0.8·FN_w)</code>), pruning 6,436 near-catalogue flank dots where hidden-fault density was below the break-even threshold
 (<code>c̄ &lt; 0.052</code>) directly removed <code>0.2 × 6,436 = 1,287.2</code> units of denominator penalty. Full derivation and ranked hypotheses:
-<code>research/h78fw_hypotheses.md</code> §1–§2.</p></div>
+<code>research/h78fwtilt_hypotheses.md</code> §1–§2.</p></div>
 
 <div class="card"><h2>HOLDOUT-DTI — evaluator {esc(h['evaluator_version'])}, seed {h['seed']}, {h['withheld_positive_pixels']:,} withheld positives</h2>
 <table><tr><th>Arm / Configuration</th><th>HOLDOUT-DTI</th><th>95% CI (157 spatial clusters, 1,000 draws)</th><th>Withheld</th></tr>
@@ -204,7 +204,7 @@ max 3-px forward dot overlap = {uq['literal_all_rasters']['max_forward_3px_overl
 
 exec_summary = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <title>Executive summary — how submission works · H78-FW (negative)</title>{CSS}</head><body>
-<p><a href="h78fw.html">← H78-FW lane page</a> · <a href="index.html">Home (Release Audit &amp; All 7 Candidates)</a></p>
+<p><a href="h78fwtilt.html">← H78-FW lane page</a> · <a href="index.html">Home (Release Audit &amp; All 7 Candidates)</a></p>
 <div class="banner {'ok' if promote else 'bad'}"><h1>{banner_head}</h1><p class="big">{banner_body}</p></div>
 <div class="card"><h2>Exactly how a submission is made (only when the gate says YES)</h2>
 <ol>
@@ -215,6 +215,6 @@ exec_summary = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 </ol></div>
 </body></html>"""
 
-(DOCS / "h78fw.html").write_text(index)
-(DOCS / "h78fw-executive-summary.html").write_text(exec_summary)
-print("Wrote docs/h78fw.html and docs/h78fw-executive-summary.html")
+(DOCS / "h78fwtilt.html").write_text(index)
+(DOCS / "h78fwtilt-executive-summary.html").write_text(exec_summary)
+print("Wrote docs/h78fwtilt.html and docs/h78fwtilt-executive-summary.html")

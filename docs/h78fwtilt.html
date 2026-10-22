@@ -10,7 +10,7 @@ code{background:#eee;padding:2px 5px;border-radius:4px;word-break:break-all}
 .copy{background:#f4f4f4;border:1px dashed #999;border-radius:8px;padding:12px;margin:8px 0}
 img{max-width:100%}.small{font-size:.85rem;color:#555}.warn{background:#fff8e6;border:1px solid #e0b400;border-radius:8px;padding:10px 14px}
 .pass{color:#14663a;font-weight:700}.fail{color:#b3261e;font-weight:700}
-</style></head><body><aside id="release-audit-warning" style="padding:20px;background:#fff1df;color:#172438"><strong>Historical analysis — promotion claims superseded.</strong> Current status: OK TO SUBMIT: NO. <a href="index.html">Read the automatic release audit and current protocol saturation certificate.</a></aside>
+</style></head><body>
 <p><a href="index.html">← Home (Release Audit &amp; All 7 Candidates)</a> · <a href="h78a.html">H78-A</a> · <a href="h78mpc.html">H78-MPC</a> · <a href="h78cs.html">H78-CS</a> · <a href="crosslayer.html">H78-CROSSLAYER</a> ·
 This page is <b>lane H78-FW</b> (session 5, 2026-10-22): multi-scale antisymmetric footwall/hangingwall flank-warp &amp; tilt-block geometry.</p>
 <p><b>Core Values.</b> <b>Maximize P(Win)</b> — a weekly slot is spent only on a preregistered holdout win;
@@ -26,19 +26,19 @@ Dots: 44,090; zero on catalogue: True; zero outside footprint: True.</p>
 <a class="dl" href="downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif">⬇ Download .tif (INSPECTION ONLY — DO NOT SUBMIT)</a>
 <a class="dl" href="downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.zip">⬇ Download .zip (single TIFF inside)</a>
 <a class="dl" href="downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.json">Writer receipt (JSON)</a>
-<a class="dl" href="data/h78fw_run_card.json">Machine-readable Run Card (JSON)</a>
-<a class="dl" href="h78fw-executive-summary.html">Executive summary — exactly how submission works →</a>
+<a class="dl" href="data/h78fwtilt_run_card.json">Machine-readable Run Card (JSON)</a>
+<a class="dl" href="h78fwtilt-executive-summary.html">Executive summary — exactly how submission works →</a>
 <div class="copy" style="color:#1a1a1a"><b>Unique submission name:</b> <code>gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT</code><br>
 <b>Note (106/140 chars):</b> <code>NOT OK TO SUBMIT: H78-FW flank-warp 44090 dots B3; HOLDOUT-DTI 0.1481 vs CTRL 0.1826 s20; negative/blocked</code><br>
 <b>SHA-256 (.tif):</b> <code>9675701648e74394e119fde17b88439e5cddaafb9be979d8d7f5f634cde98dc6</code> · <b>SHA-256 (.zip):</b> <code>a55d9584e5b0cdf83cc11d46550389f4a1cc86a1b54d8b211ecbeaf67b4935fc</code> · <b>Verdict:</b> <code>negative</code> ·
 <b>ORGANIZER-CONFIRMED score: none</b> (never uploaded; must not be). A holdout number is never a leaderboard projection.</div></div>
 <div class="card"><h2>The lane in one paragraph</h2>
-<img src="assets/fig_h78fw_surface_and_dots.png" alt="H78-FW production score surface, 44,090 emitted dots, and HOLDOUT-DTI 95% CIs">
+<img src="assets/fig_h78fwtilt_surface_and_dots.png" alt="H78-FW production score surface, 44,090 emitted dots, and HOLDOUT-DTI 95% CIs">
 <p>Subtract 1.6 km regional background plane (G_1.5 - G_16.0) on det_elev, depth_to_base_surf, rtp, iso_grav_anom, cond_surf, and tc_totalcount; sample opposing strike-normal flanks at d in {4, 8, 14} px (400 m, 800 m, 1.4 km) using the visible-catalogue regional strike angle phi (sigma=40 px, location-blind) to compute odd-parity flank warp A_d, even-parity arch/trough residual S_d, odd-to-even flexural purity A_d/(A_d+S_d), +/-600 m curvature inflection dipole on det_elev/depth_to_base_surf/rtp/iso_grav_anom, signed cross-layer footwall-basement-gravity concordance, and central vertical-gradient/geodetic strain context (67 features total); HistGradientBoostingClassifier; greedy sparse dot emission at separation &gt;= 2.8 px, visible-catalogue flank &lt;= 3.0 px excluded.</p>
 <p><b>Named non-fault mimic:</b> Differential sediment compaction across a buried paleotopographic basin margin or tilted volcanic mesa edge.</p>
-<p class="small">Preregistration: <code>registry/preregistration_h78fw.json</code> ·
-Hypotheses &amp; H33 forensic analysis: <code>research/h78fw_hypotheses.md</code> · Code: <code>src/gems78/flank_warp.py</code>,
-<code>scripts/run_holdout_fw.py</code>, <code>scripts/build_submission_fw.py</code>, <code>scripts/make_figure_fw.py</code> ·
+<p class="small">Preregistration: <code>registry/preregistration_h78fwtilt.json</code> ·
+Hypotheses &amp; H33 forensic analysis: <code>research/h78fwtilt_hypotheses.md</code> · Code: <code>src/gems78/flank_warp.py</code>,
+<code>scripts/run_holdout_fwtilt.py</code>, <code>scripts/build_submission_fwtilt.py</code>, <code>scripts/make_figure_fwtilt.py</code> ·
 Feature stack: <code>nearest-exact-mask-v2</code> (SHA-256 <code>d7f091e732b8103e34e9f9e75fb57d2338edefdc2309a19690d333f8fad98f96</code>).</p></div>
 
 <div class="card"><h2>Why H33 scored 0.2778 <span class="small">(owner-report; pixel-exact raster forensic proof)</span></h2>
@@ -50,7 +50,7 @@ from the mapped USGS/INGENIOUS fault catalogue (<code>existing_faults.tif</code>
 and NaNs outside the footprint replaced by <code>0.0</code>. Under the organizer's 300 m (3 px) triangular max-credit kernel and pooled Distance-Tolerant IoU
 (<code>DTI = TP_w / (TP_w + 0.2·FP_w + 0.8·FN_w)</code>), pruning 6,436 near-catalogue flank dots where hidden-fault density was below the break-even threshold
 (<code>c̄ &lt; 0.052</code>) directly removed <code>0.2 × 6,436 = 1,287.2</code> units of denominator penalty. Full derivation and ranked hypotheses:
-<code>research/h78fw_hypotheses.md</code> §1–§2.</p></div>
+<code>research/h78fwtilt_hypotheses.md</code> §1–§2.</p></div>
 
 <div class="card"><h2>HOLDOUT-DTI — evaluator gems57-pooled-hide-v2, seed 20, 11,321 withheld positives</h2>
 <table><tr><th>Arm / Configuration</th><th>HOLDOUT-DTI</th><th>95% CI (157 spatial clusters, 1,000 draws)</th><th>Withheld</th></tr>

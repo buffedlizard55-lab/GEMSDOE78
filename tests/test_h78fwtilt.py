@@ -24,15 +24,15 @@ def sha256_file(path: Path) -> str:
 
 
 def test_h78fw_run_card_and_holdout_strict_json():
-    rc_path = ROOT / "evidence" / "h78fw_run_card.json"
-    hold_path = ROOT / "evidence" / "h78fw_holdout_seed20.json"
+    rc_path = ROOT / "evidence" / "h78fwtilt_run_card.json"
+    hold_path = ROOT / "evidence" / "h78fwtilt_holdout_seed20.json"
     rc = load_strict_json(rc_path)
     hold = load_strict_json(hold_path)
 
     for mirror in (
-        ROOT / "run_card_h78fw.json",
-        ROOT / "docs" / "data" / "h78fw_run_card.json",
-        ROOT / "docs" / "downloads" / "run_card_h78fw.json",
+        ROOT / "run_card_h78fwtilt.json",
+        ROOT / "docs" / "data" / "h78fwtilt_run_card.json",
+        ROOT / "docs" / "downloads" / "run_card_h78fwtilt.json",
     ):
         assert mirror.exists(), f"Missing run card mirror: {mirror}"
         assert mirror.read_text() == rc_path.read_text()
@@ -72,7 +72,7 @@ def test_h78fw_run_card_and_holdout_strict_json():
 
 
 def test_h78fw_tif_zip_and_verifier():
-    rc = load_strict_json(ROOT / "evidence" / "h78fw_run_card.json")
+    rc = load_strict_json(ROOT / "evidence" / "h78fwtilt_run_card.json")
     tif = ROOT / "docs" / "downloads" / rc["raster"]["file"]
     zip_path = ROOT / "docs" / "downloads" / rc["raster"]["zip"]
     sidecar_path = tif.with_suffix(".json")
@@ -110,7 +110,7 @@ def test_h78fw_pages_and_links():
                 if attr in d:
                     self.links.append(d[attr])
 
-    for page_name in ("h78fw.html", "h78fw-executive-summary.html", "index.html", "executive-summary.html"):
+    for page_name in ("h78fwtilt.html", "h78fwtilt-executive-summary.html", "index.html", "executive-summary.html"):
         page = ROOT / "docs" / page_name
         assert page.exists()
         text = page.read_text()
@@ -126,7 +126,7 @@ def test_h78fw_pages_and_links():
 
 
 def test_h78fw_hypotheses_report():
-    doc = (ROOT / "research" / "h78fw_hypotheses.md").read_text()
+    doc = (ROOT / "research" / "h78fwtilt_hypotheses.md").read_text()
     for token in (
         "0.2778",
         "0.4413",
@@ -143,4 +143,4 @@ def test_h78fw_hypotheses_report():
         "0.148085",
         "0.6542",
     ):
-        assert token in doc, f"Missing {token} in research/h78fw_hypotheses.md"
+        assert token in doc, f"Missing {token} in research/h78fwtilt_hypotheses.md"

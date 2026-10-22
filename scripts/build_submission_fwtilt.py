@@ -86,7 +86,7 @@ def main():
     if existing_fw:
         raise RuntimeError(f"H78-FW inspection TIFF already exists: {existing_fw[0].name}; refusing to manufacture duplicates")
 
-    hold = json.loads((ROOT / "evidence/h78fw_holdout_seed20.json").read_text())
+    hold = json.loads((ROOT / "evidence/h78fwtilt_holdout_seed20.json").read_text())
     ps = hold["pooled_summary_B3_primary"]
     cand_key = "CAND_FW_PURE|B3|44090"
     ctrl_key = "CTRL_A2|B3|44090"
@@ -316,10 +316,10 @@ def main():
         lane="H78-FW multi-scale antisymmetric footwall/hangingwall flank-warp flexure",
         repository="buffedlizard55-lab/GEMSDOE78",
         built_utc=stamp,
-        preregistration="registry/preregistration_h78fw.json",
-        hypothesis=json.loads((ROOT / "registry/preregistration_h78fw.json").read_text())["hypothesis"],
-        mechanism=json.loads((ROOT / "registry/preregistration_h78fw.json").read_text())["mechanism"],
-        non_fault_mimic=json.loads((ROOT / "registry/preregistration_h78fw.json").read_text())["non_fault_mimic"],
+        preregistration="registry/preregistration_h78fwtilt.json",
+        hypothesis=json.loads((ROOT / "registry/preregistration_h78fwtilt.json").read_text())["hypothesis"],
+        mechanism=json.loads((ROOT / "registry/preregistration_h78fwtilt.json").read_text())["mechanism"],
+        non_fault_mimic=json.loads((ROOT / "registry/preregistration_h78fwtilt.json").read_text())["non_fault_mimic"],
         input_sha256=hold["input_sha256"],
         stack_cache_meta=hold["stack_cache_meta"],
         holdout=dict(
@@ -428,7 +428,7 @@ def main():
     )
 
     text = json.dumps(card, indent=2, allow_nan=False) + "\n"
-    for rel in ("evidence/h78fw_run_card.json", "run_card_h78fw.json", "docs/data/h78fw_run_card.json", "docs/downloads/run_card_h78fw.json"):
+    for rel in ("evidence/h78fwtilt_run_card.json", "run_card_h78fwtilt.json", "docs/data/h78fwtilt_run_card.json", "docs/downloads/run_card_h78fwtilt.json"):
         p = ROOT / rel
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(text)

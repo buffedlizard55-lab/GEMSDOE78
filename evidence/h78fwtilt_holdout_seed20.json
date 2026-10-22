@@ -1,6 +1,6 @@
 {
   "lane": "H78-FW",
-  "preregistration": "registry/preregistration_h78fw.json",
+  "preregistration": "registry/preregistration_h78fwtilt.json",
   "evaluator_version": "gems57-pooled-hide-v2",
   "evaluator_sha256": {
     "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
