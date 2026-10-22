@@ -410,15 +410,18 @@ def binding_duplicate_decision(rows, *, rho_limit: float = RHO_LIMIT,
     disc = [r for r in checked
             if float(r.get("halo_coverage", 0.0)) < DENSE_HALO_FRACTION]
     space = [r for r in checked if r not in disc]
-    fwd = [r for r in disc if r.get("forward_overlap") is not None]
+    # Diagnostic representation groups do NOT exempt any prior from the user's
+    # literal >0.70 forward-overlap stop rule. Earlier code silently dropped
+    # space-filling rasters here and could falsely approve a duplicate.
+    fwd = [r for r in checked if r.get("forward_overlap") is not None]
     rho_key = "spearman_full_footprint" if any(
-        "spearman_full_footprint" in r for r in disc) else "spearman"
-    rho = [r for r in disc if r.get(rho_key) is not None]
+        "spearman_full_footprint" in r for r in checked) else "spearman"
+    rho = [r for r in checked if r.get(rho_key) is not None]
     worst_fwd = max(fwd, key=lambda r: r["forward_overlap"]) if fwd else None
     worst_rho = max(rho, key=lambda r: abs(r[rho_key])) if rho else None
     return dict(
         evidence_class="REGISTRY-MEASUREMENT",
-        binding_rule="like-for-like",
+        binding_rule="literal-all-rasters",
         discriminating_priors=len(disc),
         space_filling_priors=len(space),
         space_filling_files=[r.get("file") or r.get("submission") for r in space],
@@ -429,10 +432,9 @@ def binding_duplicate_decision(rows, *, rho_limit: float = RHO_LIMIT,
         overlap_limit=overlap_limit, rho_limit=rho_limit,
         duplicate=bool((worst_fwd and worst_fwd["forward_overlap"] > overlap_limit)
                        or (worst_rho and abs(float(worst_rho[rho_key])) > rho_limit)),
-        note=("A space-filling prior's halo covers >= 70% of the allowed domain, so even a "
-              "uniformly random dot set reports >= 0.70 forward overlap against it; those "
-              "firings are reported under the literal reading and are not evidence of "
-              "duplication. Thresholds are unchanged."))
+        note=("Space-filling priors may make the literal gate impossible for many "
+              "candidate dot sets; they are nevertheless binding under the requested "
+              "rule and must not be silently exempted."))
 
 
 def representation_class(their_dots: int, footprint_cells: int,

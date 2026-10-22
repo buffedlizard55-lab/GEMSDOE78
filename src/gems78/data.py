@@ -74,10 +74,11 @@ def build_stack(force: bool = False) -> Path:
             bad = ~np.isfinite(a) | (a <= SENTINEL)
             n_bad = int(bad.sum())
             if n_bad:
-                if fill_idx is None or n_bad != fill_idx[0]:
-                    # nearest valid-cell indices (recomputed only when the mask changes)
+                if fill_idx is None or n_bad != fill_idx[0] or not np.array_equal(bad, fill_idx[2]):
+                    # The count alone does not identify a mask: equally many
+                    # invalid cells may occur in different locations by band.
                     idx = ndi.distance_transform_edt(bad, return_distances=False, return_indices=True)
-                    fill_idx = (n_bad, idx)
+                    fill_idx = (n_bad, idx, bad.copy())
                 a = a[fill_idx[1][0], fill_idx[1][1]]
             if BAND_NAMES[i] in LOG_BANDS:
                 a = np.log1p(np.maximum(a, 0.0)).astype(np.float32)

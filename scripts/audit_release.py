@@ -102,6 +102,12 @@ def main():
             old = p.read_text()
             if 'id="release-audit-warning"' not in old:
                 p.write_text(old.replace('<main>', '<main>' + notice, 1))
+    # Preserve the newer, independently revalidated cross-layer landing page
+    # when historical site builders invoke this review. The historical card
+    # remains a dated historical audit; the latest gate lives in status.json.
+    if (ROOT / 'evidence/crosslayer_run_card.json').exists():
+        from publish_crosslayer import publish
+        publish()
     return card
 
 if __name__ == '__main__':

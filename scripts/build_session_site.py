@@ -196,6 +196,12 @@ def main():
     (DOCS / "executive-summary.html").write_text(
         page("Executive summary — how a submission is made, and why this one is not cleared", steps)
     )
+    # This builder is the archive for the 2026-10-21 SPY session. If a newer
+    # hash-bound candidate exists, its fail-closed publication must be LAST;
+    # otherwise rebuilding the archive would silently roll back the homepage.
+    if (ROOT / 'evidence/crosslayer_run_card.json').exists():
+        from publish_crosslayer import publish
+        publish()
     print("session site written", file)
 
 

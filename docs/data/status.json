@@ -1,27 +1,27 @@
 {
-  "session": "2026-10-21 tooth then spy",
-  "generated_tif": "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif",
+  "schema_version": 2,
+  "generated_utc": "20261022T005245Z",
+  "generated_tif": "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif",
+  "sha256": "0b9cbb580dd8f94474744bf87a72abb602403cdccf8c6289bbe9625f4ffe75c3",
+  "verdict": "negative",
   "ok_to_download_for_inspection": true,
   "ok_to_submit": false,
-  "verdict": "negative",
-  "reason": "HOLDOUT-DTI did not beat 0.1826, and 92.45% of dots lie within 3 px of H78-A (duplicate lane).",
-  "holdout_dti": 0.18077914125502179,
+  "reason": "Holdout below incumbent and literal registry overlap above 70%; stop.",
+  "holdout_evidence_class": "HOLDOUT-DTI",
+  "holdout_dti": 0.0478024362545514,
   "holdout_ci95": [
-    0.16226503151974203,
-    0.19852760694969213
-  ],
-  "control_dti": 0.1825746728455537,
-  "paired_delta": -0.001795531590531918,
-  "paired_delta_ci95": [
-    -0.0069339379661185535,
-    0.003693031687086105
+    0.03661858062228908,
+    0.058911050900938955
   ],
   "evaluator": "gems57-pooled-hide-v2",
   "withheld_positive_pixels": 11321,
+  "worst_forward_3px_overlap": 0.9989793603991834,
+  "duplicate_witnesses": [
+    "data/registry/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
+  ],
+  "validator_independent_all_passed": true,
   "organizer_confirmed": null,
   "weekly_slots_used_by_agent": 0,
-  "sha256": "0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3",
-  "duplicate_of": "H78-A",
-  "forward_3px_overlap_h78a": 0.9244726695395782,
-  "validator_independent_all_passed": true
+  "live_feed": false,
+  "source": "evidence/crosslayer_run_card.json; static snapshot, not an organizer receipt"
 }
