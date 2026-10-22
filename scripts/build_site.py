@@ -270,11 +270,11 @@ def main():
     # Historical pages are fail-closed first. The session homepage then
     # replaces index and the executive summary so the new inspection file
     # is visible, still with OK TO SUBMIT: NO.
-    from audit_release import main as audit_release
-    audit_release()
     import runpy
     runpy.run_path(str(Path(__file__).with_name("build_session_site.py")), run_name="__main__")
-    print("site built with fail-closed release audit and session negative")
+    from audit_release import main as audit_release
+    audit_release()
+    print("site built with fail-closed release audit and session-7 H78-GFV dashboard")
 
 
 if __name__ == "__main__":

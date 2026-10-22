@@ -10,3 +10,10 @@ __pycache__/
 .venv/
 .cache/
 data/restore.log
+data/restore_receipt.json
+data/existing_faults.tif
+data/labels.tif
+data/sample_submission.tif
+data/training_features.tif
+data/scored/
+

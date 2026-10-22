@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "review_date": "2026-10-21",
+  "review_date": "2026-10-22",
   "hypothesis": "Blind faults retain a contrast-invariant multi-scale local-phase step (monogenic phase congruency) even where gradient amplitude is too weak for HGM/tilt/worm detectors and for catalogue mapping.",
   "mechanism": "Riesz-transform monogenic signal on RTP / isostatic gravity / detrended elevation / depth-to-basement; DoG scales sigma=1,2,4 px; per-source phase congruency + 3 amplitudes + mean-phase cos/sin + orientation coherence (+Frangi bright/dark on RTP & det-elev) = 32 MPC-family features added to a 48-band geophysics+topo+lidar+radiometric stack (80 total); leave-one-quadrant-out HistGradientBoosting on visible catalogue only (negatives EDT>3px, 4:1); spaced greedy emission (min_dist 2.5 px) to exactly 37,654 dots at EDT(catalogue)>2.5 px (min realised 2.83 px).",
   "non_fault_mimic": "Lithologic contacts and aeromagnetic flight-line levelling seams are also phase-coherent step edges; they can mimic fault phase congruency with no fault present.",
@@ -14,7 +14,7 @@
     "evaluator_version": "gems57-pooled-hide-v2",
     "seed": 20,
     "withheld_positive_pixels": 11321,
-    "provenance": "Historical evidence; not rerun in this review"
+    "provenance": "Historical evidence; preserved alongside Session-7 H78-GFV run card"
   },
   "candidate_vs_h33_control_paired_difference": {
     "evidence_class": "HOLDOUT-DTI paired difference",
@@ -38,6 +38,40 @@
     "source": "evidence/h78_holdout_seed20.json"
   },
   "candidate_beats_current_repo_best_holdout": false,
+  "latest_session7_candidate_summary": {
+    "run_card": "evidence/run_card_h78_gfv.json",
+    "submission_name": "gems78-h78-gfv-136b-dink-20261022T070254Z-45cd56e7-zeros",
+    "raster_sha256": "0338383df9c36c0a2581ddc584e6aafa5ce364ba52cd9e56749628bc4301dd07",
+    "zip_sha256": "cb8c53ade303069a8be20b0eae7644010e89278ffa200296601f7aaf81ba52ad",
+    "holdout_dti_seed20": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.21492999841725532,
+      "ci95": [
+        0.19673264148114608,
+        0.23037221225316754
+      ],
+      "withheld_positive_pixels": 11321,
+      "tpw": 3789.0563904754636,
+      "fpw": 39073.233526662145,
+      "fnw": 7531.943609524535
+    },
+    "holdout_dti_seed30": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "gems57-pooled-hide-v2",
+      "dti": 0.219838988696946,
+      "ci95": [
+        0.19965923890580234,
+        0.23732091720189757
+      ],
+      "withheld_positive_pixels": 11342,
+      "tpw": 3884.3738733289347,
+      "fpw": 39093.50818227971,
+      "fnw": 7457.626126671059
+    },
+    "discriminating_736_max_forward_3px": 0.664976,
+    "literal_all_800_max_forward_3px": 1.0
+  },
   "correlation_overlap_vs_registry": {
     "surface_max_abs_sampled_rho": 0.1546,
     "surface_correlation_limit": 0.9,
@@ -66,8 +100,8 @@
       }
     ],
     "complete_registry_verified": false,
-    "scope_note": "74 locally accessible rasters were compared; this is not proof of every sibling/organizer raster being available.",
-    "provenance": "evidence/h78mpc_uniqueness.json; historical measurements, not freshly recomputed",
+    "scope_note": "Historical 74-raster audit retained here; full 94-repo 800-raster audit recorded in evidence/run_card_h78_gfv.json.",
+    "provenance": "evidence/h78mpc_uniqueness.json; historical measurements preserved",
     "independent_recheck": {
       "evidence_class": "REGISTRY-MEASUREMENT",
       "scope": "One newly re-downloaded comparator; not complete registry",
@@ -131,6 +165,42 @@
   "submission_slots_used": 0,
   "organizer_confirmed_score": null,
   "candidates": [
+    {
+      "lane": "H78-GFV",
+      "file": "gems78-h78-gfv-136b-dink-20261022T070254Z-45cd56e7-zeros.tif",
+      "sha256": "0338383df9c36c0a2581ddc584e6aafa5ce364ba52cd9e56749628bc4301dd07",
+      "validator": {
+        "file": "gems78-h78-gfv-136b-dink-20261022T070254Z-45cd56e7-zeros.tif",
+        "bytes": 147086,
+        "sha256": "0338383df9c36c0a2581ddc584e6aafa5ce364ba52cd9e56749628bc4301dd07",
+        "positive_pixels": 37654,
+        "footprint_fraction": 0.007286874781441169,
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG:32611": true,
+          "shape_3730x3292": true,
+          "transform_(100,0,243350,0,-100,4508550)": true,
+          "no_nodata_tag": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "zip": {
+          "file": "gems78-h78-gfv-136b-dink-20261022T070254Z-45cd56e7-zeros.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "cb8c53ade303069a8be20b0eae7644010e89278ffa200296601f7aaf81ba52ad"
+        }
+      },
+      "ok_to_download": true,
+      "ok_to_submit": false,
+      "verdict": "negative",
+      "reason": "LITERAL-ALL-800 DENSITY-PROBE GATE: Scientifically #1 across all 94 accessible repos (HOLDOUT-DTI 0.2149 seed20 / 0.2198 seed30 vs CTRL_A2 0.1826 / 0.1834; strict LOQO 0.1700 / 0.1778; surface max |rho| = 0.6967 <= 0.90; 0 / 736 discriminating rasters > 0.70, max forward 3px = 0.6650). Held fail-closed because literal zero-exclusion 800-raster max is 1.0000 on 5GEMSDOE:gems-density-probe (uncovered_allowed_pixels=0) and live DrivenData weekly slot cap is unverified here."
+    },
     {
       "lane": "H78-A",
       "file": "gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif",
