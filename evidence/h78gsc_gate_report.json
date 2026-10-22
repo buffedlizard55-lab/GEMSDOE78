@@ -58,7 +58,7 @@
   "G4_uniqueness": {
     "passed": true,
     "worst_abs_surface_spearman": 0.45589,
-    "worst_literal_forward_overlap_3px": 0.99843,
+    "worst_literal_forward_overlap_3px": 1.0,
     "operative_all_passed": true,
     "expanded_all_passed": true,
     "dots_vs_registry": {
@@ -167,6 +167,15 @@
         "gate_limit": 0.7,
         "passed": true
       },
+      "17GEMSDOE_E-proba-multiscale.tif": {
+        "kind": "space_filling",
+        "subtype": "graded_topK",
+        "halo_coverage": 1.0,
+        "literal_forward_3px": 1.0,
+        "gate_statistic": 0.06588,
+        "gate_limit": 0.7,
+        "passed": true
+      },
       "gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif": {
         "kind": "discriminating",
         "halo_coverage": 0.11555,
@@ -230,6 +239,14 @@
         "halo_coverage": 0.1126,
         "literal_forward_3px": 0.15172,
         "gate_statistic": 0.15172,
+        "gate_limit": 0.7,
+        "passed": true
+      },
+      "gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif": {
+        "kind": "discriminating",
+        "halo_coverage": 0.17899,
+        "literal_forward_3px": 0.62528,
+        "gate_statistic": 0.62528,
         "gate_limit": 0.7,
         "passed": true
       },

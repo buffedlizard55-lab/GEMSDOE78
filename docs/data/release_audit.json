@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "review_date": "2026-10-22",
-  "reviewed_utc": "2026-10-22T04:47:18.462968+00:00",
+  "reviewed_utc": "2026-10-22T06:27:18.635298+00:00",
   "protocol_preflight": {
     "schema_version": 1,
-    "reviewed_utc": "2026-10-22T04:47:10.521799+00:00",
+    "reviewed_utc": "2026-10-22T06:27:10.324347+00:00",
     "review_type": "protocol preflight, not a model experiment",
     "assigned_lane": null,
     "hypothesis": "A full-footprint positive registry raster makes the literal 3-pixel forward-overlap gate impossible for every nonempty in-footprint candidate.",
@@ -138,7 +138,7 @@
       }
     ],
     "complete_registry_verified": false,
-    "scope_note": "74 locally accessible rasters were compared; this is not proof of every sibling/organizer raster being available.",
+    "scope_note": "74 locally accessible rasters were compared for H78-MPC; full 84-repo (1,114-raster) audit recorded in evidence/h78mghd_uniqueness_summary.json.",
     "provenance": "evidence/h78mpc_uniqueness.json; historical measurements, not freshly recomputed",
     "independent_recheck": {
       "evidence_class": "REGISTRY-MEASUREMENT",
@@ -1125,6 +1125,100 @@
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
+      "lane": "H78-MGHD",
+      "file": "gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif",
+      "sha256": "44429c439118a6e20f77f6da821ecd4e46697da0545314d20b65e81766d8b698",
+      "validator": {
+        "file": "gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif",
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG_32611": true,
+          "shape_3730x3292": true,
+          "transform_matches_sample": true,
+          "no_nodata_tag": true,
+          "reference_hashes_verified": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "bytes": 158254,
+        "sha256": "44429c439118a6e20f77f6da821ecd4e46697da0545314d20b65e81766d8b698",
+        "positive_pixels": 44090,
+        "footprint_fraction": 0.00853238192791579,
+        "zip": {
+          "file": "gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "c26586a32dcf42a284ac96c5c83f9984fdaa85d77e25b79ab86dede4256cdd44"
+        }
+      },
+      "integrity_passed": true,
+      "final_dots_vs_saturation_witness": {
+        "my_file": "docs/downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif",
+        "evidence_class": "REGISTRY-MEASUREMENT",
+        "my_dots": 44090,
+        "candidate_decoded_sha256": "ce1cd8a4c1195a33889d64fcc6dc5108657529088ac2f9a8c3c000bba7768704",
+        "candidate_file_sha256": "44429c439118a6e20f77f6da821ecd4e46697da0545314d20b65e81766d8b698",
+        "rho_limit": 0.9,
+        "overlap_limit": 0.7,
+        "jaccard_limit": 0.5,
+        "registry_rasters_expected": 1,
+        "registry_rasters_checked": 1,
+        "complete_accessible_scan": false,
+        "missing_or_invalid": 0,
+        "source_errors": [
+          "Legacy list has no complete-inventory certificate; diagnostic only"
+        ],
+        "worst_spearman_full_footprint": 0.10094472059460297,
+        "worst_rho_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_dot_overlap": 1.0,
+        "worst_overlap_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_jaccard_dot_sets": 0.00853238192791579,
+        "worst_jaccard_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "byte_unique_among_checked": true,
+        "pixel_unique_among_checked": true,
+        "duplicate_count": 1,
+        "unique": false,
+        "rows": [
+          {
+            "repo": "buffedlizard55-lab/17GEMSDOE",
+            "submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+            "file": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+            "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+            "decoded_sha256": "11cb7dffcc88926fee8260f61df01d7712d3a7bb34fcc1bb333fb6b47f77ec05",
+            "their_dots": 5167373,
+            "my_dots_within_3px_of_theirs": 1.0,
+            "forward_overlap": 1.0,
+            "halo_coverage": 1.0,
+            "their_dots_within_3px_of_mine": 0.17688233460212763,
+            "spearman_full_footprint": 0.10094472059460297,
+            "jaccard_dot_sets": 0.00853238192791579,
+            "identical_bytes": false,
+            "identical_decoded_predictions": false,
+            "duplicate_by_rho": false,
+            "duplicate_by_overlap": true,
+            "duplicate_by_jaccard": false
+          }
+        ],
+        "jaccard_diagnostic_only": true,
+        "verdict": "negative",
+        "stop_required": true,
+        "candidate_rank_variation": true,
+        "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only."
+      },
+      "surface_before_placement": null,
+      "ok_to_download": true,
+      "ok_to_submit": false,
+      "verdict": "negative",
+      "reason": "HOLD-OUT RECORD SINGLE-MODEL RESEARCH ARTIFACT \u2014 DO NOT SUBMIT (OVERLAP STOP): 123-feature Multi-Scale Geodetic\u2013Hydrothermal\u2013LiDAR Dual-Cover beat CTRL_A2_v2 on Seed 20 (HOLDOUT-DTI 0.1952 d=2.8 / 0.1934 d=3.01 vs 0.1826, paired +0.0108, 95% CI [+0.0023, +0.0197]) and untouched Seed 30 (0.2007 vs 0.1834, paired +0.0173, 95% CI [+0.0049, +0.0293]; pooled 2-seed 0.1971) and passed all 801 external sparse dot submissions (max 0.6800 <= 0.70; vs H78-GSC 0.5587), but is blocked by parallel 1 m LiDAR sibling gems78-h79ls-lidar-50000dots (forward 3-px overlap 0.7359 > 0.70) and literal wide-corridor/space-filling witnesses (0.9158 / 1.0000). Full card: evidence/h78mghd_run_card.json.",
+      "gate_report": null,
+      "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
+    },
+    {
       "lane": "H78-GSC",
       "file": "gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif",
       "sha256": "e2f21d496925fb1bd2f36c5b28a0e2356286eca719132545474456f81bc5a8eb",
@@ -1212,7 +1306,7 @@
       "ok_to_download": true,
       "ok_to_submit": true,
       "verdict": "promote-to-selector",
-      "reason": "PRIMARY RECOMMENDED SUBMISSION \u2014 GATES G1-G5 ALL PASS (29/29 operative + expanded uniqueness checks passed; strict 4-quadrant OOF HOLDOUT-DTI 0.1898 Seed 20 [95% CI 0.1695, 0.2108] & 0.1976 3-seed mean, beating prior repo record 0.1826 strictly out-of-fold). Full report: evidence/h78gsc_gate_report.json.",
+      "reason": "PRIMARY RECOMMENDED SUBMISSION \u2014 GATES G1-G5 ALL PASS (30/30 operative + expanded uniqueness checks passed including H78-MGHD at 0.6253 <= 0.70; strict 4-quadrant OOF HOLDOUT-DTI 0.1898 Seed 20 [95% CI 0.1695, 0.2108] & 0.1976 3-seed mean, beating prior repo record 0.1826 strictly out-of-fold). Full report: evidence/h78gsc_gate_report.json.",
       "gate_report": "evidence/h78gsc_gate_report.json",
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
@@ -1304,7 +1398,7 @@
       "ok_to_download": true,
       "ok_to_submit": false,
       "verdict": "negative",
-      "reason": "SUPERSEDED BY H78-GSC: prior H78-SIGX file passed G1-G5 at HOLDOUT-DTI 0.1771 (overall tie, below 0.1826 repo best) and is superseded for the single weekly slot by H78-GSC (0.1898 Seed 20 / 0.1976 3-seed strict OOF, 29/29 uniqueness checks passed). Full report preserved at evidence/h78sig_gate_report.json.",
+      "reason": "SUPERSEDED BY H78-GSC: prior H78-SIGX file passed G1-G5 at HOLDOUT-DTI 0.1771 (overall tie, below 0.1826 repo best) and is superseded for the single weekly slot by H78-GSC (0.1898 Seed 20 / 0.1976 3-seed strict OOF, 30/30 uniqueness checks passed). Full report preserved at evidence/h78sig_gate_report.json.",
       "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },

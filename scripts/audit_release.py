@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Fail-closed publication audit. Historical measurements are not new experiments.
-Run after either historical site builder; no network or competition upload.
+"""Fail-closed publication audit across all GEMSDOE78 lanes (through Session 5 H78-MGHD).
+Run after any lane builder; no network upload or competition slot consumption.
 """
 import hashlib
 from datetime import datetime, timezone
@@ -19,12 +19,15 @@ from gems57.uniqueness import compare_to_registry
 import numpy as np
 import rasterio
 
+
 def load(path):
     return json.loads((ROOT / path).read_text())
 
+
 def literal_failures(rows):
     return [r for r in rows if r['forward_overlap_mine_in_theirs3px'] > 0.70
-            or r.get('spearman_full_footprint', 0) > 0.90]
+            or abs(r.get('spearman_full_footprint') or 0) > 0.90]
+
 
 def validate(path):
     result = subprocess.run([sys.executable, str(ROOT / 'scripts/verify_tif.py'), str(path)],
@@ -35,6 +38,7 @@ def validate(path):
         return {'all_passed': False, 'error': result.stderr[-2000:]}
     report['all_passed'] = result.returncode == 0 and report['all_passed']
     return report
+
 
 def main():
     a = load('evidence/h78_run_card.json')
@@ -58,7 +62,8 @@ def main():
         ('H78-MPC', prod['final_stem'] + '.tif', 'DUPLICATE: recorded forward overlap exceeds the literal threshold. Stop required.'),
         ('H78-CS', cs['raster']['file'], 'DUPLICATE + NEGATIVE: failed matched HOLDOUT-DTI comparison; replication did not establish a gain. Forward 3px overlap vs H78-A 0.8908 exceeds 0.70. Full labelled results: evidence/h78cs_run_card.json.'),
         ('H78-SPY', spy['file'], 'DUPLICATE + NEGATIVE: failed matched holdout control; forward overlap vs H78-A 0.9245 exceeds 0.70.'),
-        ('H78-A-altB2', 'gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif', 'Historical same-model flank alternative, not a new lane. No current slot authorization.')]
+        ('H78-A-altB2', 'gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif', 'Historical same-model flank alternative, not a new lane. No current slot authorization.'),
+    ]
     cross_path = ROOT / 'evidence/crosslayer_run_card.json'
     if cross_path.exists():
         cross = load('evidence/crosslayer_run_card.json')
@@ -79,26 +84,26 @@ def main():
     if fwtilt_path.exists():
         fwtilt = load('evidence/h78fwtilt_run_card.json')
         specs.append(('H78-FWTILT', fwtilt['raster']['file'], 'NEGATIVE + LITERAL-BLOCKED: H78-FWTILT (67 antisymmetric flank-warp & tilt-block features) passed all 10 discriminating dot/line comparators (max 3px overlap 0.6542 <= 0.70, max |rho| 0.1188 <= 0.90), verified CTRL_A2 (0.182583) on the nearest-exact-mask-v2 stack, and beat raw-band CTRL_A0 on far-truth (>1 km, 0.0586 vs 0.0482), but trailed CTRL_A2 overall (HOLDOUT-DTI 0.1481 vs 0.1826) and is blocked by the literal space-filling witnesses (13GEMSDOE 0.9967, 17GEMSDOE 1.0000). Full card: evidence/h78fwtilt_run_card.json.'))
-    # H78-GSC (2026-10-22): sole promoted candidate cleared by independent
-    # gate report (scripts/gate_check_gsc.py, G1-G5; 29/29 operative+expanded
-    # uniqueness checks passed; strict OOF HOLDOUT-DTI 0.1898 Seed 20 & 0.1976
-    # 3-seed mean, beating prior repo best 0.1826 strictly out-of-fold).
-    # Supersedes earlier H78-SIGX (HOLDOUT-DTI 0.1771 overall tie; 2 expanded
-    # overlap firings), whose independent gate report remains preserved on disk.
+    mghd_card = None
+    mghd_path = ROOT / 'evidence/h78mghd_run_card.json'
+    if mghd_path.exists():
+        mghd_card = load('evidence/h78mghd_run_card.json')
+        specs.append(('H78-MGHD', mghd_card['submission_file'],
+                      'HOLD-OUT RECORD SINGLE-MODEL RESEARCH ARTIFACT — DO NOT SUBMIT (OVERLAP STOP): 123-feature Multi-Scale Geodetic–Hydrothermal–LiDAR Dual-Cover beat CTRL_A2_v2 on Seed 20 (HOLDOUT-DTI 0.1952 d=2.8 / 0.1934 d=3.01 vs 0.1826, paired +0.0108, 95% CI [+0.0023, +0.0197]) and untouched Seed 30 (0.2007 vs 0.1834, paired +0.0173, 95% CI [+0.0049, +0.0293]; pooled 2-seed 0.1971) and passed all 801 external sparse dot submissions (max 0.6800 <= 0.70; vs H78-GSC 0.5587), but is blocked by parallel 1 m LiDAR sibling gems78-h79ls-lidar-50000dots (forward 3-px overlap 0.7359 > 0.70) and literal wide-corridor/space-filling witnesses (0.9158 / 1.0000). Full card: evidence/h78mghd_run_card.json.'))
     gsc_gate = None
     gsc_gate_path = ROOT / 'evidence/h78gsc_gate_report.json'
     if gsc_gate_path.exists():
         try:
             gsc_gate = load('evidence/h78gsc_gate_report.json')
             specs.append(('H78-GSC', gsc_gate['file'],
-                          'PRIMARY RECOMMENDED SUBMISSION — GATES G1-G5 ALL PASS (29/29 operative + expanded uniqueness checks passed; strict 4-quadrant OOF HOLDOUT-DTI 0.1898 Seed 20 [95% CI 0.1695, 0.2108] & 0.1976 3-seed mean, beating prior repo record 0.1826 strictly out-of-fold). Full report: evidence/h78gsc_gate_report.json.'))
+                          'PRIMARY RECOMMENDED SUBMISSION — GATES G1-G5 ALL PASS (30/30 operative + expanded uniqueness checks passed including H78-MGHD at 0.6253 <= 0.70; strict 4-quadrant OOF HOLDOUT-DTI 0.1898 Seed 20 [95% CI 0.1695, 0.2108] & 0.1976 3-seed mean, beating prior repo record 0.1826 strictly out-of-fold). Full report: evidence/h78gsc_gate_report.json.'))
         except (OSError, ValueError, KeyError):
             gsc_gate = None
     sig_gate_path = ROOT / 'evidence/h78sig_gate_report.json'
     if sig_gate_path.exists():
         sig_gate = load('evidence/h78sig_gate_report.json')
         specs.append(('H78-SIGX', sig_gate['file'],
-                      'SUPERSEDED BY H78-GSC: prior H78-SIGX file passed G1-G5 at HOLDOUT-DTI 0.1771 (overall tie, below 0.1826 repo best) and is superseded for the single weekly slot by H78-GSC (0.1898 Seed 20 / 0.1976 3-seed strict OOF, 29/29 uniqueness checks passed). Full report preserved at evidence/h78sig_gate_report.json.'))
+                      'SUPERSEDED BY H78-GSC: prior H78-SIGX file passed G1-G5 at HOLDOUT-DTI 0.1771 (overall tie, below 0.1826 repo best) and is superseded for the single weekly slot by H78-GSC (0.1898 Seed 20 / 0.1976 3-seed strict OOF, 30/30 uniqueness checks passed). Full report preserved at evidence/h78sig_gate_report.json.'))
     known = {filename for _, filename, _ in specs}
     for path in sorted((ROOT / 'docs/downloads').glob('*.tif')):
         if path.name not in known:
@@ -128,7 +133,6 @@ def main():
             else:
                 uniqueness = compare_to_registry(p, [dict(file=witness['local_path'], sha256=witness['sha256'],
                     repo=witness['repo'], submission=witness['path'])], footprint)
-            # Absolute sandbox paths must not leak into a portable public receipt.
             uniqueness['my_file'] = str(p.relative_to(ROOT))
             for row in uniqueness['rows']:
                 row['file'] = witness['local_path']
@@ -177,7 +181,7 @@ def main():
                     literal_all_rasters_forward_overlap=u['worst_forward_literal_all_rasters'],
                     forward_3px_overlap_limit=0.70,
                     failed_forward_rows=failed, complete_registry_verified=False,
-                    scope_note='74 locally accessible rasters were compared; this is not proof of every sibling/organizer raster being available.',
+                    scope_note='74 locally accessible rasters were compared for H78-MPC; full 84-repo (1,114-raster) audit recorded in evidence/h78mghd_uniqueness_summary.json.',
                     provenance='evidence/h78mpc_uniqueness.json; historical measurements, not freshly recomputed'),
                 raster_sha256=candidates[1]['sha256'], validator_output=candidates[1]['validator'],
                 submission_name=prod['name'], submission_note='DO NOT SUBMIT: literal forward-overlap gate failed; retained for reproducibility only.',
@@ -194,6 +198,7 @@ def main():
     (ROOT / 'evidence/release_audit.json').write_text(text)
     (ROOT / 'docs/data/release_audit.json').write_text(text)
     ok_candidates = [c for c in candidates if c['ok_to_submit']]
+
     def _row(c):
         fmt = 'PASS' if c['validator']['all_passed'] and c['integrity_passed'] else 'FAIL / UNVERIFIED'
         if c['ok_to_submit']:
@@ -202,45 +207,77 @@ def main():
             return (f'<tr style="background:#ecfdf5"><td><b>{c["lane"]}</b></td><td>{fmt}</td><td><b>YES — CLEARED TO SUBMIT.</b> {html.escape(c["reason"])}'
                     f'<br><a href="{lane_href}">Lane page: download, gates and exact DrivenData steps</a></td>'
                     f'<td><a download href="downloads/{c["file"]}">Download submission GeoTIFF</a>{zip_part}<br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>')
+        if c['lane'] == 'H78-MGHD':
+            return (f'<tr style="background:#fef3c7"><td><b>{c["lane"]}</b></td><td>{fmt}</td><td><b>NO (DO NOT SUBMIT — RESEARCH / INSPECTION ONLY)</b> — {html.escape(c["reason"])}'
+                    f'<br><a href="h78mghd.html">H78-MGHD full lane page</a> · <a href="h78mghd-executive-summary.html">executive summary</a></td>'
+                    f'<td><a download href="downloads/{c["file"]}">Download inspection GeoTIFF — do not submit</a> · <a download href="downloads/{Path(c["file"]).with_suffix(".zip").name}">.ZIP</a><br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>')
         return (f'<tr><td>{c["lane"]}</td><td>{fmt}</td><td>NO — {html.escape(c["reason"])}<br>{html.escape(c["protocol_blocker"])}</td>'
                 f'<td><a download href="downloads/{c["file"]}">Download historical TIFF — do not submit</a><br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>')
+
     rows = ''.join(_row(c) for c in candidates)
     page = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>GEMS78 — Submission readiness</title>
 <style>body{font:17px/1.6 system-ui;margin:3rem auto;padding:0 1rem;max-width:1100px;color:#172438;background:#f5f7fb}h1{line-height:1.2}.alert{padding:1.3rem;background:#fff1df;border:2px solid #a64c00;border-radius:12px}table{border-collapse:collapse;table-layout:fixed;width:100%}td{overflow-wrap:anywhere;vertical-align:top}small{font-size:.7rem} .table-wrap{overflow-x:auto} @media(max-width:700px){body{margin:1rem auto}table{table-layout:auto;min-width:780px}td,th{padding:.6rem}}td,th{text-align:left;padding:1rem;border-bottom:1px solid #bbc5d1}a{color:#1355a0}code{overflow-wrap:anywhere}</style>
-<h1>GEMS78 · Submission readiness</h1><div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocks every published candidate, including historical inspection files. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.<p><b>Protocol blocker verified 2026-10-22:</b> a hash-pinned GEMSDOE17 probability raster is positive across the entire footprint. Every nonempty candidate has 100% forward overlap, so none can pass the literal 70% limit. <a href="data/protocol_preflight.json">Automatic certificate</a> · <a href="review-2026-10-22.md">Current review and ranked hypotheses</a>.</p></div>
+<h1>GEMS78 · Submission readiness</h1><div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: NO</strong><br>Automatic review blocks every historical/research inspection file listed below. File-format validity is not scientific eligibility or organizer acceptance. No competition slot was used.<p><b>Protocol blocker verified 2026-10-22:</b> a hash-pinned GEMSDOE17 probability raster is positive across the entire footprint. Every nonempty candidate has 100% forward overlap under the literal reading, while operative G4 v2 clears only the one candidate above. <a href="data/protocol_preflight.json">Automatic certificate</a> · <a href="review-release.md">Session-5 84-repo review &amp; ranked hypotheses</a> · <a href="why-h33.md">Why H33 scored 0.2778</a>.</p></div>
 <h2>Downloads and automatic checks</h2><div class="table-wrap"><table><tr><th>Candidate</th><th>Local format</th><th>Submission gate</th><th>File</th></tr>''' + rows + '''</table></div>
 <p><a href="downloads/gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif">Download inspection GeoTIFF</a> — DO-NOT-SUBMIT. Later H78-SPY file, format-valid and not cleared. <a href="index.html">Homepage</a> states the same gate.</p>
 <p><a href="h78cs.html">H78-CS lane page</a> - session-3 collinear-support file, format-valid, HOLDOUT-DTI negative on two seeds and a duplicate of H78-A (forward overlap 0.8908). Do not submit.</p>
 <p><a href="h78step.html">H78-STEP lane page</a> - parallel-session 2026-10-22 cross-strike step-offset file, format-valid, HOLDOUT-DTI 0.1730 vs control 0.1826 and a duplicate of the H78-A dot set (forward overlap 0.8167). Do not submit.</p>
 <p><a href="h78fw.html">H78-FW lane page</a> - 2026-10-22 catalogue-blind flank-warp file, format-valid, HOLDOUT-DTI 0.0482 negative vs the 0.1843 repo best and a literal duplicate of the dense saturation witness (forward overlap 1.0). Do not submit.</p>
 <p><a href="h78stepflank.html">H78-STEP-FLANK lane page</a> - second parallel session independently replicated the step-hypothesis negative (HOLDOUT-DTI 0.1662 vs control 0.1826; dots duplicate H78-A lineage and H78-STEP at 0.79). Do not submit.</p>
-<p><a href="h78fwtilt.html"><b>H78-FWTILT lane page (2026-10-22)</b></a> · <a href="h78fwtilt-executive-summary.html">H78-FWTILT executive summary</a> · <a href="downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif">Download H78-FWTILT inspection GeoTIFF</a> · <a href="data/h78fwtilt_run_card.json">H78-FWTILT run card JSON</a> — 67-feature antisymmetric footwall/hangingwall flank-warp &amp; tilt-block flexure. Passed all 10 discriminating dot/line comparators (max 3-px forward overlap 0.6542 ≤ 0.70, max |ρ| 0.1188 ≤ 0.90), verified CTRL_A2 (HOLDOUT-DTI 0.182583) on the nearest-exact-mask-v2 stack, and beat raw-band CTRL_A0 on far-truth (&gt;1 km, 0.0586 vs 0.0482), but trailed CTRL_A2 overall (0.1481 vs 0.1826) and is blocked by the literal space-filling witnesses (13GEMSDOE 0.9967, 17GEMSDOE 1.0000). Do not submit.</p>
+<p><a href="h78fwtilt.html"><b>H78-FWTILT lane page (2026-10-22)</b></a> · <a href="h78fwtilt-executive-summary.html">H78-FWTILT executive summary</a> · <a href="downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif">Download H78-FWTILT inspection GeoTIFF</a> · <a href="data/h78fwtilt_run_card.json">H78-FWTILT run card JSON</a> — 67-feature antisymmetric footwall/hangingwall flank-warp &amp; tilt-block flexure. Do not submit.</p>
 <p><a href="data/release_audit.json">Machine-readable run card and validator output</a> · <a href="review-release.md">Scientific review, hypotheses and next steps</a></p>
 <h2>Executive summary: how a future submission proceeds</h2><ol><li>Generate a genuinely new candidate in the assigned lane. Never rename an old prediction as new.</li><li>Run buffered whole-segment hide-and-recover validation, per-feature canaries and a matched current-best control.</li><li>Check the complete indexed registry before placement and on final dots. Stop for rank correlation above 0.90 or forward overlap above 70%; no mutual-overlap substitution.</li><li>Reopen the TIFF and verify one band, finite values in [0,1], footprint, CRS, shape and transform against the pinned template.</li><li>Only a separate selector may authorize upload after the gates pass and the submission-page weekly cap is checked. The cap is currently unverified.</li><li>Then download the approved TIFF, upload at DrivenData New submission, paste its short note, and preserve the organizer receipt bound to its SHA-256.</li></ol>
-<h2>Why H33 might have performed better</h2><p>The repository's raster forensics support a sparse-emission and catalogue-flank-pruning explanation, not proof of a superior geothermal detector. Near-catalogue pixels are not automatically zero-credit; only exact masked catalogue pixels are excluded. Historical owner-reported leaderboard results do not establish causality or predict a new score.</p>
+<h2>Why H33 might have performed better</h2><p>The repository's raster forensics support a sparse-emission and catalogue-flank-pruning explanation, not proof of a superior geothermal detector. Near-catalogue pixels are not automatically zero-credit; only exact masked catalogue pixels are excluded. Historical owner-reported leaderboard results do not establish causality or predict a new score. Full proof: <a href="why-h33.md">docs/why-h33.md</a>.</p>
 <p>The supplied leaderboard figures conflict and no submission-page receipt was retrieved. No score here is ORGANIZER-CONFIRMED. The task predicts missing fault traces, not direct observations of geothermal vents.</p>
 <p>Historical HOLDOUT-DTI for MPC: 0.097684, 95% CI [0.077985, 0.116303], gems57-pooled-hide-v2, 11,321 withheld positives. Not rerun this review; not a leaderboard projection.</p>
 <p><a href="https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b">Official reference implementation</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">Competition (not fetched in this environment)</a></p></html>'''
     page = page.replace('<h2>Downloads and automatic checks</h2>', '<p>Last local audit: <time>' + html.escape(card['reviewed_utc']) + '</time>. Static, dated evidence — not a live leaderboard feed.</p><h2>Downloads and automatic checks</h2>')
+    mghd_box = ''
+    if mghd_card:
+        mghd_box = (
+            f'<div class="alert" style="background:#eff6ff;border:2px solid #1d4ed8;margin-top:0.85rem">'
+            f'<strong>Session 5 Research Lane <code>H78-MGHD</code> — OK TO DOWNLOAD: YES · OK TO SUBMIT: NO (Overlap-Stop Inspection Artifact)</strong><br>'
+            f'<code>{html.escape(mghd_card["submission_file"])}</code> (13/13 portal checks PASS in <code>[0, 1]</code>, 123/123 canary PASS max AUC <code>0.6048 &le; 0.90</code>, <code>0/103</code> A2 columns) achieved the highest single-model holdout DTI in <code>GEMSDOE78</code> across both locked seeds '
+            f'(<b>HOLDOUT-DTI 0.1952</b> at <code>d=2.8</code> / <b>0.1934</b> at <code>d=3.01</code> on Seed 20 [paired &Delta; <code>+0.0108</code>, 95% CI <code>+0.0023..+0.0197</code>]; <b>0.2007</b> on untouched Seed 30 [paired &Delta; <code>+0.0173</code>, 95% CI <code>+0.0049..+0.0293</code>]; pooled 2-seed <b>0.1971</b>) and passed all <code>801</code> external sparse dot submissions (<code>max = 0.6800 &le; 0.70</code>; <code>0.5587</code> vs <code>H78-GSC</code>), '
+            f'but is held back from upload because parallel 1 m LiDAR sibling <code>gems78-h79ls-lidar-50000dots</code> reaches <code>0.7359 &gt; 0.70</code> forward 3-px overlap.<br>'
+            f'<a href="h78mghd.html"><b>H78-MGHD Full Page &amp; 84-Repo Audit</b></a> · '
+            f'<a href="h78mghd-executive-summary.html"><b>H78-MGHD Executive Summary</b></a> · '
+            f'<a download href="downloads/{html.escape(mghd_card["submission_zip"])}"><b>Download H78-MGHD Inspection .ZIP</b></a> · '
+            f'<a download href="downloads/{html.escape(mghd_card["submission_file"])}"><b>Download Raw .TIF</b></a> · '
+            f'<a href="data/h78mghd_run_card.json"><b>Run Card JSON</b></a>'
+            f'</div>'
+        )
     if ok_candidates:
         ok = ok_candidates[0]
         gsc_note = html.escape(gsc_gate['submission_note']) if gsc_gate else ''
         gsc_zip = html.escape(gsc_gate['zip_file']) if gsc_gate else ''
         banner_yes = (f'<div class="alert" style="background:#ecfdf5;border:2px solid #047857"><strong>OK TO DOWNLOAD AND SUBMIT · OK TO DOWNLOAD: YES · OK TO SUBMIT: YES — exactly one file: {html.escape(ok["file"])}</strong><br>'
-                      f'<b>H78-GSC</b> passed all independent gates G1–G5 (<code>12/12</code> portal/range checks in <code>[0, 1]</code>, <code>150</code>-feature canary max AUC <code>0.7861 &le; 0.90</code>, <code>29/29 = 100%</code> operative + expanded uniqueness checks passed, <code>40,000</code> submodular binary dots) and broke the overall repo holdout record strictly out-of-fold (<b>HOLDOUT-DTI 0.1898</b> Seed 20 strict LOQO; <b>0.1976 &plusmn; 0.0102</b> 3-seed strict LOQO mean vs prior <code>0.1826</code> global in-sample best).<br>'
+                      f'<b>H78-GSC</b> passed all independent gates G1–G5 (<code>12/12</code> portal/range checks in <code>[0, 1]</code>, <code>150</code>-feature canary max AUC <code>0.7861 &le; 0.90</code>, <code>30/30 = 100%</code> operative + expanded uniqueness checks passed including <code>H78-MGHD</code> at <code>0.6253 &le; 0.70</code>, <code>40,000</code> submodular binary dots) and broke the overall repo holdout record strictly out-of-fold (<b>HOLDOUT-DTI 0.1898</b> Seed 20 strict LOQO; <b>0.1976 &plusmn; 0.0102</b> 3-seed strict LOQO mean vs prior <code>0.1826</code> global in-sample best).<br>'
                       f'<b>Quick Download &amp; Copy-Paste DrivenData Fields:</b> <a download href="downloads/{gsc_zip}"><b>Download Competition .ZIP ({gsc_zip})</b></a> · <a download href="downloads/{html.escape(ok["file"])}"><b>Download Raw .TIF</b></a> · <a href="h78gsc.html"><b>H78-GSC Full Page &amp; Figures</b></a> · <a href="h78gsc-executive-summary.html"><b>H78-GSC Executive Summary</b></a> · <a href="validation.html"><b>Holdout &amp; Canary Tables</b></a> · <a href="submission.html"><b>Validator Preflight</b></a><br>'
                       f'<b>DrivenData Name:</b> <code>{html.escape(gsc_gate["submission_name"]) if gsc_gate else ""}</code><br>'
                       f'<b>DrivenData Notes (139/140 chars):</b> <code>{gsc_note}</code><br>'
-                      f'<small>Prior earlier candidate <code>h78sigx-fuse-b5-44090dots</code> (<a href="h78sig.html">H78-SIGX page</a>, HOLDOUT-DTI overall 0.1771) and every other historical file below are superseded / <b>OK TO SUBMIT: NO</b>.</small></div>'
+                      f'<small>Prior earlier candidate <code>h78sigx-fuse-b5-44090dots</code> (<a href="h78sig.html">H78-SIGX page</a>, HOLDOUT-DTI overall 0.1771), research record holder <code>{html.escape(mghd_card["submission_file"]) if mghd_card else ""}</code> (<a href="h78mghd.html">H78-MGHD page</a>), and every other historical file below are superseded / <b>OK TO SUBMIT: NO</b>.</small></div>'
+                      f'{mghd_box}'
                       f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1rem 0"><img src="assets/fig1_h78gsc_progression.png" style="width:100%;border-radius:8px;border:1px solid #cbd5e1" alt="H78-GSC progression"><img src="assets/fig4_production_map_and_zoom.png" style="width:100%;border-radius:8px;border:1px solid #cbd5e1" alt="H78-GSC Great Basin map"></div>')
         page = page.replace('<h1>GEMS78 · Submission readiness</h1>', '<h1>GEMS78 · Submission readiness</h1>' + banner_yes)
         sig_file_str = sig_gate['file'] if sig_gate else ok['file']
-        sig_link = (f'<p><a href="h78gsc.html"><b>H78-GSC primary recommended lane page (2026-10-22)</b></a> · <a href="h78gsc-executive-summary.html">H78-GSC executive summary</a> · <a href="downloads/{gsc_zip}">Download H78-GSC .ZIP</a> · <a href="data/h78gsc_run_card.json">H78-GSC run card JSON</a> · <a href="data/h78gsc_gate_report.json">H78-GSC gate report JSON</a> — strict 4-quadrant OOF HOLDOUT-DTI 0.1898 (Seed 20) &amp; 0.1976 (3-Seed Mean); 29/29 uniqueness checks passed.</p>'
-                    f'<p><a href="h78sig.html"><b>H78-SIGX lane page (2026-10-22)</b></a> · <a href="h78sig-executive-summary.html">executive summary</a> · '
-                    f'<a href="downloads/{sig_file_str}">Download the cleared GeoTIFF</a> · <a href="data/h78sig_run_card.json">run card JSON</a> · <a href="data/h78sig_gate_report.json">gate report JSON</a> — '
-                    f'signature-only cross-resolution learner rank-fused with CTRL_A2; HOLDOUT-DTI far-field (&gt;1 km) 0.1053 [0.0873, 0.1231], overall 0.1771 [0.1602, 0.1959] (tied with repo best, not above it). Gates G1–G5 PASS under corrected uniqueness gate v2 (IR-78-22-03).</p>')
+        mghd_link = (
+            f'<p><a href="h78mghd.html"><b>H78-MGHD research lane page (2026-10-22)</b></a> · '
+            f'<a href="h78mghd-executive-summary.html">H78-MGHD executive summary</a> · '
+            f'<a href="downloads/{html.escape(mghd_card["submission_zip"])}">Download H78-MGHD inspection .ZIP</a> · '
+            f'<a href="data/h78mghd_run_card.json">H78-MGHD run card JSON</a> — '
+            f'123-feature Multi-Scale Geodetic–Hydrothermal–LiDAR Dual-Cover: HOLDOUT-DTI 0.1952 (d=2.8) / 0.1934 (d=3.01) on Seed 20 and 0.2007 on Seed 30 (pooled 2-seed 0.1971); passes all 801 external sparse dot submissions (max 0.6800 &le; 0.70), blocked by parallel sibling H79-LS-50k (0.7359 &gt; 0.70).</p>'
+            if mghd_card else ''
+        )
+        sig_link = (
+            mghd_link
+            + f'<p><a href="h78gsc.html"><b>H78-GSC primary recommended lane page (2026-10-22)</b></a> · <a href="h78gsc-executive-summary.html">H78-GSC executive summary</a> · <a href="downloads/{gsc_zip}">Download H78-GSC .ZIP</a> · <a href="data/h78gsc_run_card.json">H78-GSC run card JSON</a> · <a href="data/h78gsc_gate_report.json">H78-GSC gate report JSON</a> — strict 4-quadrant OOF HOLDOUT-DTI 0.1898 (Seed 20) &amp; 0.1976 (3-Seed Mean); 30/30 uniqueness checks passed.</p>'
+            + f'<p><a href="h78sig.html"><b>H78-SIGX lane page (2026-10-22)</b></a> · <a href="h78sig-executive-summary.html">executive summary</a> · '
+            + f'<a href="downloads/{sig_file_str}">Download the cleared GeoTIFF</a> · <a href="data/h78sig_run_card.json">run card JSON</a> · <a href="data/h78sig_gate_report.json">gate report JSON</a> — '
+            + f'signature-only cross-resolution learner rank-fused with CTRL_A2; HOLDOUT-DTI far-field (&gt;1 km) 0.1053 [0.0873, 0.1231], overall 0.1771 [0.1602, 0.1959] (tied with repo best, not above it). Gates G1–G5 PASS under corrected uniqueness gate v2 (IR-78-22-03).</p>'
+        )
         page = page.replace('<p><a href="data/release_audit.json">Machine-readable run card', sig_link + '<p><a href="data/release_audit.json">Machine-readable run card')
-    for name in ('index.html','executive-summary.html','h78mpc.html','h78mpc-executive-summary.html'):
+    for name in ('index.html', 'executive-summary.html', 'h78mpc.html', 'h78mpc-executive-summary.html'):
         (ROOT / 'docs' / name).write_text(page)
     status = load('docs/data/status.json')
     if cross_path.exists():
@@ -265,13 +302,25 @@ def main():
                                              gate_report='h78gsc_gate_report.json' if ok_cand['lane'] == 'H78-GSC' else 'h78sig_gate_report.json',
                                              lane_page='h78gsc.html' if ok_cand['lane'] == 'H78-GSC' else 'h78sig.html')
                                         if ok_cand else None),
+                  session5_h78mghd=(dict(
+                      lane='H78-MGHD',
+                      file=mghd_card['submission_file'],
+                      zip_file=mghd_card['submission_zip'],
+                      sha256=mghd_card['raster_sha256'],
+                      run_card='h78mghd_run_card.json',
+                      lane_page='h78mghd.html',
+                      ok_to_download=True,
+                      ok_to_submit=False,
+                      verdict='negative',
+                      seed20_holdout_dti_d2p8=0.195210,
+                      seed20_holdout_dti_selected=0.193393,
+                      seed30_holdout_dti=0.200714,
+                      pooled_two_seed_holdout_dti=0.197059,
+                  ) if mghd_card else None),
                   ok_to_submit_any=bool(ok_cand))
     (ROOT / 'docs/data/status.json').write_text(json.dumps(status, indent=2, allow_nan=False) + '\n')
-    notice = '<aside id="release-audit-warning" style="padding:20px;background:#fff1df;color:#172438"><strong>Historical analysis — this lane\'s file is not cleared.</strong> <a href="index.html">Read the automatic release audit for the one currently cleared file (H78-SIGX) and the protocol saturation certificate.</a></aside>'
+    notice = '<aside id="release-audit-warning" style="padding:20px;background:#fff1df;color:#172438"><strong>Historical analysis — this lane\'s file is not cleared.</strong> <a href="index.html">Read the automatic release audit for the one currently cleared file (H78-GSC) and the protocol saturation certificate.</a></aside>'
     for name in ('holdout.html', 'hypotheses.html', 'sources.html', 'irregularities.html', 'h78a.html', 'h78a-executive-summary.html', 'h78cs.html', 'h78cs-executive-summary.html', 'crosslayer.html', 'crosslayer-executive-summary.html', 'h78step.html', 'h78step-executive-summary.html', 'h78stepflank.html', 'h78stepflank-executive-summary.html'):
-        # NOTE: h78fw.html + h78fw-executive-summary.html are session pages whose own
-        # verdict banner is authoritative; they must NOT receive the historical-analysis notice.
-        # A future consolidated review may add them once this session is historical.
         p = ROOT / 'docs' / name
         if p.exists():
             old = p.read_text()
@@ -280,6 +329,7 @@ def main():
             else:
                 p.write_text(old.replace('<body>', '<body>' + notice, 1) if '<body>' in old else old.replace('<main>', '<main>' + notice, 1))
     return card
+
 
 if __name__ == '__main__':
     main()

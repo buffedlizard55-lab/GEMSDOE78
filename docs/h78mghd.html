@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H78-MGHD Full Lane Report &amp; 84-Repo Audit — GEMSDOE78</title>
+<style>
+  body { font: 16px/1.6 system-ui, -apple-system, sans-serif; margin: 2rem auto; padding: 0 1.25rem; max-width: 1140px; color: #0f172a; background: #f8fafc; }
+  h1, h2, h3 { line-height: 1.25; color: #0f172a; }
+  .banner-no { padding: 1.35rem 1.5rem; background: #fef2f2; border: 3px solid #b91c1c; border-radius: 12px; margin-bottom: 1.25rem; }
+  .banner-yes { padding: 1rem 1.25rem; background: #ecfdf5; border: 2px solid #047857; border-radius: 10px; margin-bottom: 1.25rem; }
+  .card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 1.15rem 1.35rem; margin: 1.15rem 0; }
+  .btn { display: inline-block; padding: 0.55rem 0.95rem; border-radius: 8px; text-decoration: none; font-weight: 700; margin: 0.25rem 0.4rem 0.25rem 0; }
+  .btn-dl { background: #1e293b; color: #ffffff !important; }
+  .btn-sec { background: #e2e8f0; color: #0f172a !important; }
+  table { border-collapse: collapse; width: 100%; background: #ffffff; margin: 0.9rem 0; font-size: 0.93rem; }
+  th, td { text-align: left; padding: 0.68rem 0.8rem; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  th { background: #f1f5f9; font-weight: 700; }
+  code { background: #f1f5f9; padding: 0.1rem 0.32rem; border-radius: 4px; font-size: 0.88em; overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<p><a href="index.html">&larr; Back to Main Submission Readiness Hub</a> · <a href="h78mghd-executive-summary.html">Concise Executive Summary</a> · <a href="h78gsc.html">Cleared Primary Submission (H78-GSC)</a> · <a href="why-h33.md">Why H33 Scored 0.2778</a> · <a href="review-release.md">Full 3-Pass Scientific Review</a></p>
+
+<div class="banner-no">
+  <div style="font-size:1.3rem;font-weight:800;color:#991b1b">
+    H78-MGHD ARTIFACT STATUS — OK TO DOWNLOAD: YES · OK TO SUBMIT: NO
+  </div>
+  <p style="margin:0.55rem 0">
+    <strong>Why <code>H78-MGHD</code> is OK to download for research/inspection (<code>13/13</code> portal checks PASS in <code>[0.0, 1.0]</code>) and NOT OK to submit to DrivenData:</strong><br>
+    1. Pure 123-feature Multi-Scale Geodetic–Hydrothermal–LiDAR Dual-Cover (<code>0/103</code> H78-A features, <code>0</code> catalogue features) set the repository single-model <code>HOLDOUT-DTI</code> high-water mark across both locked spatial holdout seeds (<b>0.1952</b> at <code>d=2.8</code> / <b>0.1934</b> at <code>d=3.01</code> on Seed 20; <b>0.2007</b> zero-retune on Seed 30; <b>0.1971</b> pooled 2-seed) and passed all <code>801</code> external sparse dot submissions across all <code>84</code> accessible sibling repos (<code>max = 0.6800 &le; 0.70</code>; <code>0.5587</code> vs <code>H78-GSC</code>).<br>
+    2. Under the Parallel-Run Protocol stop rule, <code>H78-MGHD</code> is held back from upload because parallel 1 m LiDAR sibling <code>gems78-h79ls-lidar-50000dots-20261022T012852Z-e8b05f45-zeros.tif</code> reaches <code>0.7359 &gt; 0.70</code> forward 3-px overlap (and literal wide-corridor / continuous rasters reach <code>0.9158 / 1.0000</code>). Zero competition slots were consumed (<code>weekly_slots_used_by_agent = 0</code>).
+  </p>
+  <div>
+    <a class="btn btn-dl" download href="downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.zip">Download H78-MGHD Inspection .ZIP (124 KB — DO NOT SUBMIT)</a>
+    <a class="btn btn-sec" download href="downloads/gems78-h78mghd-dualcover-44090dots-20261022T032500Z-1045873e-DO-NOT-SUBMIT.tif">Download Raw GeoTIFF (155 KB — DO NOT SUBMIT)</a>
+    <a class="btn btn-sec" href="data/h78mghd_run_card.json">H78-MGHD Run Card JSON</a>
+  </div>
+  <p style="margin:0.55rem 0 0;font-size:0.86rem">
+    <b>GeoTIFF SHA-256:</b> <code>44429c439118a6e20f77f6da821ecd4e46697da0545314d20b65e81766d8b698</code><br>
+    <b>ZIP SHA-256:</b> <code>c26586a32dcf42a284ac96c5c83f9984fdaa85d77e25b79ab86dede4256cdd44</code><br>
+    <b>Note (102 / 140 chars):</b> <code>NOT OK TO SUBMIT: H78-MGHD 44090 dots; HOLDOUT-DTI 0.1934 vs 0.1826; blocked by sibling overlap &gt;0.70.</code>
+  </p>
+</div>
+
+<div class="banner-yes">
+  <b>Repository Cleared Candidate Cross-Reference:</b> In this repository's consolidated release audit, <code>gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif</code> (<a href="h78gsc.html"><b>Lane H78-GSC</b></a>) passes all operative + expanded G4 v2 gates (<code>30/30 = 100%</code>, including <code>0.6253 &le; 0.70</code> against <code>H78-MGHD</code>). Because <code>H78-MGHD</code> and <code>H78-GSC</code> have near-orthogonal score surfaces (<code>Spearman &rho; = +0.0888</code>) and only <code>0.5587</code> dot overlap, an out-of-fold stack of <code>H78-MGHD + H78-GSC</code> is the top next-week research candidate.
+</div>
+
+<h1>H78-MGHD Full Lane Report &amp; 84-Repo Audit</h1>
+<div class="card">
+  <img src="assets/fig_h78mghd_summary.png" style="width:100%;border-radius:8px" alt="H78-MGHD holdout, uniqueness, and step-over map">
+</div>
+
+<h2>1. Locked Spatial Holdout Evidence (<code>HOLDOUT-DTI</code>, <code>gems57-pooled-hide-v2</code>, 1,000-Draw 20 km Block Bootstrap)</h2>
+<table>
+<tr><th>Experiment Arm</th><th>Seed</th><th>Withheld Positives</th><th>Candidate HOLDOUT-DTI [95% CI]</th><th>Matched Incumbent [95% CI]</th><th>Paired &Delta; [95% CI]</th></tr>
+<tr><td><b>E1: H78-MGHD (matched d=2.8, 44,090 dots)</b></td><td>20</td><td>11,321</td><td><b>0.195210</b> [0.1765, 0.2141]</td><td>0.182575 [0.1633, 0.2000]</td><td><b>+0.012635</b> [+0.0041, +0.0211]</td></tr>
+<tr><td><b>E2: H78-MGHD (selected d=3.01, 44,090 dots)</b></td><td>20</td><td>11,321</td><td><b>0.193393</b> [0.1760, 0.2109]</td><td>0.182575 (44.1k) / 0.184310 (50k)</td><td><b>+0.010818</b> [+0.0023, +0.0197]</td></tr>
+<tr><td><b>E3: Untouched Replication (0 retuning, 44,090 dots)</b></td><td>30</td><td>11,342</td><td><b>0.200714</b> [0.1805, 0.2203]</td><td>0.183432 [0.1623, 0.2044]</td><td><b>+0.017282</b> [+0.0049, +0.0293]</td></tr>
+<tr style="background:#eff6ff"><td><b>Pooled Two-Seed Evaluation</b></td><td>20 + 30</td><td>22,663</td><td><b>0.197059</b> [0.1848, 0.2099]</td><td>0.183004 [0.1700, 0.1956]</td><td><b>+0.014056</b> [+0.0070, +0.0211]</td></tr>
+</table>
+
+<h2>2. Multi-Tier Uniqueness Audit Across All 84 Accessible Repos (<code>1,114</code> Total Unique Rasters)</h2>
+<table>
+<tr><th>Audit Tier</th><th>Rasters Compared</th><th>Worst Metric</th><th>Gate Limit</th><th>Outcome</th></tr>
+<tr><td><b>Gate 1A: Pre-placement Continuous Surface</b></td><td>1,103 + 17 local</td><td><code>max |Spearman &rho;| = 0.7677</code> (vs H78-GSC <code>+0.0888</code>)</td><td><code>&le; 0.90</code></td><td>PASS</td></tr>
+<tr><td><b>External Sparse Dot Submissions (&le;65,000 dots, 84 repos)</b></td><td>801</td><td><code>max fwd 3-px = 0.6800</code> (<code>GEMSDOE53</code>; H78-A scored <code>0.7690</code>)</td><td><code>&le; 0.70</code></td><td>PASS (801 / 801)</td></tr>
+<tr><td><b>Merged Local Parallel Siblings (<code>docs/downloads/*.tif</code>)</b></td><td>17</td><td><code>0.5587</code> vs <code>H78-GSC</code>; <code>0.7359</code> vs <code>H79-LS-50k</code></td><td><code>&le; 0.70</code></td><td><b>STOP on H79-LS-50k</b></td></tr>
+<tr><td><b>Literal All-Rasters Reading (Wide Corridors + Space-Filling)</b></td><td>1,103</td><td><code>0.9158</code> (<code>GEMSDOE3</code> 624k) / <code>1.0000</code> (<code>17GEMSDOE</code>)</td><td><code>&le; 0.70</code></td><td><b>STOP -> DO NOT SUBMIT</b></td></tr>
+</table>
+
+<h2>All 17 Merged Local <code>docs/downloads/*.tif</code> Overlaps vs <code>H78-MGHD</code></h2>
+<table>
+<tr><th>Sibling Artifact</th><th style="text-align:right">Dots</th><th style="text-align:right">Fwd 3-px</th><th style="text-align:right">Rev 3-px</th><th style="text-align:right">Surface &rho;</th><th>0.70 Status</th></tr>
+<tr><td><code>gems78-h79ls-lidar-50000dots-20261022T012852Z-e8b05f45-zeros.tif</code></td><td style='text-align:right'>50,000</td><td style='text-align:right'><b>0.7359</b></td><td style='text-align:right'>0.7666</td><td style='text-align:right'>+0.1226</td><td>STOP (>0.70)</td></tr><tr><td><code>gems78-h79ls-lidar-44090dots-20261022T012920Z-c9b3f8d7-zeros.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6931</b></td><td style='text-align:right'>0.7939</td><td style='text-align:right'>+0.1178</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78a-strike-steered-44090dots-20261021T223126Z-cefe8ce1-zeros.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6698</b></td><td style='text-align:right'>0.7797</td><td style='text-align:right'>+0.1136</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78cs-collinear-44090dots-20261022T002927Z-0ca477e0-zeros.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6655</b></td><td style='text-align:right'>0.7804</td><td style='text-align:right'>+0.1136</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h79lr-lidar-raw-50000dots-20261022T014706Z-b824e933-zeros.tif</code></td><td style='text-align:right'>50,000</td><td style='text-align:right'><b>0.6645</b></td><td style='text-align:right'>0.7112</td><td style='text-align:right'>+0.1145</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6537</b></td><td style='text-align:right'>0.7880</td><td style='text-align:right'>+0.1137</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6493</b></td><td style='text-align:right'>0.7691</td><td style='text-align:right'>+0.1112</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h79ls-lidar-44090dots-20261022T012947Z-71fa310b-zeros.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6381</b></td><td style='text-align:right'>0.7910</td><td style='text-align:right'>+0.1268</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78step-flankstep-44090dots-20261022T013740Z-5e78c1c6-DO-NOT-SUBMIT.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6366</b></td><td style='text-align:right'>0.7587</td><td style='text-align:right'>+0.1084</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h79lr-lidar-raw-44090dots-20261022T014634Z-7bd9b44f-zeros.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6242</b></td><td style='text-align:right'>0.7364</td><td style='text-align:right'>+0.1102</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6182</b></td><td style='text-align:right'>0.6568</td><td style='text-align:right'>+0.1019</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78a-strike-steered-44090dots-20261021T223133Z-ec00c053-altB2-zeros.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.6133</b></td><td style='text-align:right'>0.7757</td><td style='text-align:right'>+0.1234</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.5742</b></td><td style='text-align:right'>0.6570</td><td style='text-align:right'>+0.0945</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif</code></td><td style='text-align:right'>40,000</td><td style='text-align:right'><b>0.5587</b></td><td style='text-align:right'>0.6253</td><td style='text-align:right'>+0.0888</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78mpc-monogenic-pc-spaced-37654dots-20261021T223000Z-c7932fbd-zeros.tif</code></td><td style='text-align:right'>37,654</td><td style='text-align:right'><b>0.3464</b></td><td style='text-align:right'>0.4646</td><td style='text-align:right'>+0.0696</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-crosslayer-step-20261022T005245Z-bf9c0b4c20-DO-NOT-SUBMIT.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.1651</b></td><td style='text-align:right'>0.2441</td><td style='text-align:right'>+0.0122</td><td>PASS (<=0.70)</td></tr><tr><td><code>gems78-h78fw-flankwarp-44090dots-20261022T013114Z-21656430-DO-NOT-SUBMIT.tif</code></td><td style='text-align:right'>44,090</td><td style='text-align:right'><b>0.1457</b></td><td style='text-align:right'>0.2183</td><td style='text-align:right'>-0.0040</td><td>PASS (<=0.70)</td></tr>
+</table>
+<h2>Programmatic GeoTIFF &amp; ZIP Verification Checks (<code>scripts/verify_tif.py</code> — Zero Human Deferral)</h2>
+<table>
+<tr><th>Check</th><th>Measured Value</th><th>Status</th></tr>
+<tr><td><code>single_band</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>float32</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>crs_EPSG_32611</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>shape_3730x3292</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>transform_matches_sample</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>no_nodata_tag</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>reference_hashes_verified</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>all_finite</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>no_nan_inside_footprint</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>values_in_[0,1]</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>binary_values_only</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>zero_outside_footprint</code></td><td><code>True</code></td><td>PASS</td></tr><tr><td><code>zero_on_catalogue</code></td><td><code>True</code></td><td>PASS</td></tr>
+</table>
+</body>
+</html>

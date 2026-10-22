@@ -10,9 +10,14 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
+import tarfile
+import tempfile
+import urllib.request
 
 import numpy as np
 import rasterio
@@ -34,9 +39,10 @@ def restore_entry(entry):
     path = ROOT / entry["local_path"]
     if path.exists() and sha256(path) == entry["sha256"]:
         return
+    if path.parent.is_symlink() and not path.parent.exists():
+        os.makedirs(path.parent.resolve(), exist_ok=True)
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".partial")
-    import tempfile
     try:
         fetched = False
         try:
@@ -59,6 +65,25 @@ def restore_entry(entry):
                     fetched = True
         except (OSError, subprocess.SubprocessError):
             fetched = False
+        if not fetched:
+            try:
+                url = f"https://codeload.github.com/{entry['repo']}/tar.gz/{entry['ref']}"
+                req = urllib.request.Request(url, headers={"User-Agent": "gemsdoe78-preflight/1.0"})
+                with urllib.request.urlopen(req, timeout=180) as resp:
+                    with tarfile.open(fileobj=resp, mode="r|gz") as tf:
+                        for member in tf:
+                            if not member.isfile():
+                                continue
+                            rel = member.name.split("/", 1)[1] if "/" in member.name else member.name
+                            if rel == entry["path"]:
+                                fh = tf.extractfile(member)
+                                if fh is not None:
+                                    with tmp.open("wb") as stream:
+                                        shutil.copyfileobj(fh, stream, 1 << 20)
+                                    fetched = sha256(tmp) == entry["sha256"]
+                                break
+            except Exception:
+                fetched = False
         if not fetched:
             with tmp.open("wb") as stream:
                 subprocess.run([
@@ -100,7 +125,7 @@ def run(restore=False, lane=None):
             errors.append(f"{entry['id']}: {exc}")
     cert = None
     if not errors:
-        paths = {e["id"]: ROOT / e["local_path"] for e in verified}
+        paths = {e["id"]: ROOT / entry_p["local_path"] for e, entry_p in zip(verified, verified)}
         try:
             with rasterio.open(paths["sample_submission"]) as src:
                 fp = np.isfinite(src.read(1))

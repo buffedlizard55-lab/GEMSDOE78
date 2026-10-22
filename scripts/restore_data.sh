@@ -1,84 +1,143 @@
 #!/usr/bin/env bash
-# Restore every input from its SHA-256-pinned GitHub mirror (registry/data_manifest.json)
-# and verify the hashes. Uses zero-rate-limit git blob fetch over github.com first,
-# falling back to gh api only if needed.
+# Restore every SHA-256-pinned input from GitHub mirrors (registry/data_manifest.json +
+# registry/data_manifest_gems73.json) using zero-rate-limit git blob fetch or streaming
+# codeload.github.com tarballs first, falling back to gh api only if needed.
 set -euo pipefail
-cd "$(dirname "$0")/../data"
-mkdir -p bridge registry external raw
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT/data"
+mkdir -p bridge registry external raw scored
 
-TMP_GIT="$(mktemp -d)"
-trap 'rm -rf "$TMP_GIT" ./*/*.partial ./raw/training_features.tif.assembling' EXIT
+PYTHON="${ROOT}/.venv/bin/python"
+if [ ! -x "$PYTHON" ]; then
+  PYTHON="python3"
+fi
 
-git init -q "$TMP_GIT"
-
-fetch_git_blob() {
-  local repo="$1" ref="$2" path="$3" dest="$4"
-  local remote_name
-  remote_name="r_$(printf '%s' "$repo" | tr '/-' '__')"
-  if ! git -C "$TMP_GIT" remote get-url "$remote_name" >/dev/null 2>&1; then
-    git -C "$TMP_GIT" remote add "$remote_name" "https://github.com/${repo}.git"
-  fi
-  if ! git -C "$TMP_GIT" cat-file -e "${ref}^{commit}" 2>/dev/null; then
-    git -C "$TMP_GIT" fetch -q --depth 1 --filter=blob:none "$remote_name" "$ref"
-  fi
-  git -C "$TMP_GIT" show "${ref}:${path}" > "${dest}.partial"
-  mv "${dest}.partial" "$dest"
-}
-
-fetch() {
-  local repo="$1" ref="$2" path="$3" dest="$4"
-  if fetch_git_blob "$repo" "$ref" "$path" "$dest" 2>/dev/null; then
-    echo "fetched $dest (git)"
-    return 0
-  fi
-  rm -f "${dest}.partial"
-  gh api "repos/$repo/contents/$path?ref=$ref" -H "Accept: application/vnd.github.raw" > "${dest}.partial"
-  mv "${dest}.partial" "$dest"
-  echo "fetched $dest (gh-api)"
-}
-
-while read -r repo ref path dest; do
-  [ -s "$dest" ] || fetch "$repo" "$ref" "$path" "$dest"
-done < <(python3 - <<'PY'
+"$PYTHON" - <<'PY'
+from collections import defaultdict
+import hashlib
 import json
-for f in json.load(open("../registry/data_manifest.json"))["files"]:
-    if "path" in f:
-        print(f["repo"], f["ref"], f["path"], f["dest"])
-PY
-)
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tarfile
+import tempfile
+import urllib.request
 
-if [ ! -s raw/training_features.tif ]; then
-  rm -f raw/training_features.tif.assembling
-  for i in 0 1 2 3 4; do
-    fetch buffedlizard55-lab/GEMSDOE c0c06ac82178f26b94fce3397036ef8f12a2f3a0 "data/bridge/gems-geodawn-numerical-features.tif.part-00$i" "raw/part-00$i"
-    [ -s "raw/part-00$i" ]
-    cat "raw/part-00$i" >> raw/training_features.tif.assembling
-    rm -f "raw/part-00$i"
-  done
-  mv raw/training_features.tif.assembling raw/training_features.tif
-fi
+manifest = json.loads(Path("../registry/data_manifest.json").read_text())
 
-# Also restore pinned registry comparators (13gems lattice from GEMSDOE24 & GEMSDOE70 p5)
-if [ ! -s registry/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif ]; then
-  fetch buffedlizard55-lab/GEMSDOE24 07345ea0604953d7efb858d9cfbc21e20c7aca0b "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif" "registry/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
-fi
-if [ ! -s registry/gems70_p5_54000.tif ]; then
-  if ! git -C "$TMP_GIT" remote get-url r_gems70 >/dev/null 2>&1; then
-    git -C "$TMP_GIT" remote add r_gems70 "https://github.com/buffedlizard55-lab/GEMSDOE70.git"
-  fi
-  git -C "$TMP_GIT" fetch -q --depth 1 --filter=blob:none r_gems70 cd915f3f67ba82aa7f99412fc10f1586b49bfab1
-  git -C "$TMP_GIT" cat-file blob cd915f3f67ba82aa7f99412fc10f1586b49bfab1 > registry/gems70_p5_54000.tif.partial
-  mv registry/gems70_p5_54000.tif.partial registry/gems70_p5_54000.tif
-  echo "fetched registry/gems70_p5_54000.tif (git)"
-fi
+def sha256(p: Path) -> str:
+    h = hashlib.sha256()
+    with p.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
-python3 - <<'PY'
-import json, hashlib, sys
+batches = defaultdict(dict)
+missing = set()
+for entry in manifest["files"]:
+    dest = Path(entry["dest"])
+    if dest.exists() and sha256(dest) == entry["sha256"]:
+        continue
+    missing.add(entry["id"])
+    key = (entry["repo"], entry["ref"])
+    if "parts" in entry:
+        for part in entry["parts"]:
+            batches[key][part] = Path("raw") / Path(part).name
+    else:
+        batches[key][entry["path"]] = dest
+
+# Optional pinned comparators referenced by sibling lanes
+extra_items = [
+    ("buffedlizard55-lab/GEMSDOE24", "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+     "inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+     Path("registry/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif")),
+]
+for repo, ref, rel, dest in extra_items:
+    if not dest.exists():
+        batches[(repo, ref)][rel] = dest
+
+g73 = Path("../registry/data_manifest_gems73.json")
+if g73.exists():
+    m73 = json.loads(g73.read_text())
+    for grp, items in m73.items():
+        if grp not in ("external", "scored") or not isinstance(items, list):
+            continue
+        for entry in items:
+            dest = Path(grp) / Path(entry.get("dest", entry["path"])).name
+            if dest.exists() and ("sha256" not in entry or sha256(dest) == entry["sha256"]):
+                continue
+            batches[(entry["repo"], entry["ref"])][entry["path"]] = dest
+
+for (repo, ref), wanted in batches.items():
+    extracted = set()
+    url = f"https://codeload.github.com/{repo}/tar.gz/{ref}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "gemsdoe78-restore/1.0"})
+        with urllib.request.urlopen(req, timeout=300) as resp:
+            with tarfile.open(fileobj=resp, mode="r|gz") as tf:
+                for member in tf:
+                    if not member.isfile():
+                        continue
+                    rel = member.name.split("/", 1)[1] if "/" in member.name else member.name
+                    if rel in wanted:
+                        out_p = wanted[rel]
+                        out_p.parent.mkdir(parents=True, exist_ok=True)
+                        tmp = out_p.with_suffix(out_p.suffix + ".partial")
+                        fh = tf.extractfile(member)
+                        if fh is not None:
+                            with tmp.open("wb") as out_f:
+                                shutil.copyfileobj(fh, out_f, 1 << 20)
+                            tmp.replace(out_p)
+                            extracted.add(rel)
+                            print(f"streamed {out_p}", flush=True)
+                        if len(extracted) == len(wanted):
+                            break
+    except Exception as exc:
+        print(f"codeload warning ({repo}@{ref[:8]}): {exc}", file=sys.stderr)
+
+    for rel, out_p in wanted.items():
+        if rel not in extracted and not out_p.exists():
+            out_p.parent.mkdir(parents=True, exist_ok=True)
+            tmp = out_p.with_suffix(out_p.suffix + ".partial")
+            with tmp.open("wb") as out_f:
+                subprocess.run(
+                    ["gh", "api", f"repos/{repo}/contents/{rel}?ref={ref}", "-H", "Accept: application/vnd.github.raw"],
+                    stdout=out_f, check=True, timeout=180,
+                )
+            tmp.replace(out_p)
+            print(f"fetched {out_p}", flush=True)
+
+# Optional blob-pinned comparator gems70_p5_54000.tif
+p70 = Path("registry/gems70_p5_54000.tif")
+if not p70.exists():
+    try:
+        with tempfile.TemporaryDirectory() as gd:
+            subprocess.run(["git", "init", "-q", gd], check=True, timeout=30)
+            subprocess.run(["git", "-C", gd, "remote", "add", "r", "https://github.com/buffedlizard55-lab/GEMSDOE70.git"], check=True, timeout=30)
+            subprocess.run(["git", "-C", gd, "fetch", "-q", "--depth", "1", "--filter=blob:none", "r", "cd915f3f67ba82aa7f99412fc10f1586b49bfab1"], check=True, timeout=120)
+            with p70.open("wb") as out_f:
+                subprocess.run(["git", "-C", gd, "cat-file", "blob", "cd915f3f67ba82aa7f99412fc10f1586b49bfab1"], stdout=out_f, check=True, timeout=120)
+    except Exception:
+        p70.unlink(missing_ok=True)
+
 ok = True
-for f in json.load(open("../registry/data_manifest.json"))["files"]:
-    h = hashlib.sha256(open(f["dest"], "rb").read()).hexdigest()
-    print(("OK  " if h == f["sha256"] else "FAIL"), f["dest"], h)
-    ok &= h == f["sha256"]
+for entry in manifest["files"]:
+    dest = Path(entry["dest"])
+    if "parts" in entry and entry["id"] in missing:
+        tmp = dest.with_suffix(".assembling")
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        with tmp.open("wb") as out_f:
+            for part in entry["parts"]:
+                part_p = Path("raw") / Path(part).name
+                with part_p.open("rb") as in_f:
+                    shutil.copyfileobj(in_f, out_f, 1 << 20)
+                part_p.unlink(missing_ok=True)
+        tmp.replace(dest)
+    got = sha256(dest)
+    print(("OK  " if got == entry["sha256"] else "FAIL"), entry["dest"], got, flush=True)
+    ok &= got == entry["sha256"]
+
 sys.exit(0 if ok else 1)
 PY
 echo RESTORE_VERIFIED
