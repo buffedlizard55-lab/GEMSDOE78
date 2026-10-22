@@ -58,11 +58,12 @@ def test_homepage_banner_is_no_and_comes_first():
     # module guards (crosslayer/H79) remains blocked.
     html = (ROOT / "docs" / "index.html").read_text()
     assert "OK TO SUBMIT: YES — exactly one file:" in html
+    assert "gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif" in html
     assert "h78sigx-fuse-b5-44090dots" in html
     assert html.find("OK TO SUBMIT: YES") < html.find("Download")
     assert "do not submit" in html.lower()
     status = json.loads((ROOT / "docs/data/status.json").read_text())
-    assert status["current_ok_candidate"]["lane"] == "H78-SIGX"
+    assert status["current_ok_candidate"]["lane"] == "H78-GSC"
     exec_html = (ROOT / "docs" / "executive-summary.html").read_text()
     assert "OK TO SUBMIT: YES — exactly one file:" in exec_html
 

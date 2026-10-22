@@ -40,8 +40,8 @@ def test_release_evidence_is_strict_json_and_negative():
     # H78-SIGX session: exactly one candidate may be ok_to_submit, and only
     # via its independent gate report (fail closed otherwise).
     oks = [c for c in card['candidates'] if c['ok_to_submit']]
-    assert [c['lane'] for c in oks] == ['H78-SIGX']
-    assert oks[0]['gate_report'] == 'evidence/h78sig_gate_report.json'
+    assert [c['lane'] for c in oks] == ['H78-GSC']
+    assert oks[0]['gate_report'] == 'evidence/h78gsc_gate_report.json'
 
 
 def test_missing_input_fails_closed(tmp_path):
@@ -60,14 +60,14 @@ def test_corrupt_zip_fails_overall_validation(tmp_path):
 
 
 def test_builders_finish_with_release_audit():
-    for name in ('build_site.py', 'build_site_mpc.py', 'build_session_site.py', 'build_site_cs.py'):
+    for name in ('build_site.py', 'build_site_mpc.py', 'build_session_site.py', 'build_site_cs.py', 'build_site_gsc.py'):
         result = subprocess.run([sys.executable, str(ROOT / 'scripts' / name)],
                                 cwd=ROOT, capture_output=True, text=True)
         assert result.returncode == 0, result.stderr
         for page in ('index.html','executive-summary.html','h78mpc.html','h78mpc-executive-summary.html'):
             text = (ROOT / 'docs' / page).read_text()
-            # One cleared H78-SIGX file; every historical file still NO.
             assert 'OK TO SUBMIT: YES — exactly one file:' in text
+            assert 'gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif' in text
             assert 'h78sigx-fuse-b5-44090dots' in text
             assert 'Download historical TIFF — do not submit' in text
             assert 'data/protocol_preflight.json' in text

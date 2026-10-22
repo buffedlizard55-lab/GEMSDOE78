@@ -79,18 +79,26 @@ def main():
     if fwtilt_path.exists():
         fwtilt = load('evidence/h78fwtilt_run_card.json')
         specs.append(('H78-FWTILT', fwtilt['raster']['file'], 'NEGATIVE + LITERAL-BLOCKED: H78-FWTILT (67 antisymmetric flank-warp & tilt-block features) passed all 10 discriminating dot/line comparators (max 3px overlap 0.6542 <= 0.70, max |rho| 0.1188 <= 0.90), verified CTRL_A2 (0.182583) on the nearest-exact-mask-v2 stack, and beat raw-band CTRL_A0 on far-truth (>1 km, 0.0586 vs 0.0482), but trailed CTRL_A2 overall (HOLDOUT-DTI 0.1481 vs 0.1826) and is blocked by the literal space-filling witnesses (13GEMSDOE 0.9967, 17GEMSDOE 1.0000). Full card: evidence/h78fwtilt_run_card.json.'))
-    # H78-SIGX (2026-10-22): the only lane whose eligibility is decided by an
-    # independent gate report (scripts/gate_check.py, G1-G5). Registration is
-    # read from that report; any doubt fails closed to the generic NO path.
-    sig_gate = None
+    # H78-GSC (2026-10-22): sole promoted candidate cleared by independent
+    # gate report (scripts/gate_check_gsc.py, G1-G5; 29/29 operative+expanded
+    # uniqueness checks passed; strict OOF HOLDOUT-DTI 0.1898 Seed 20 & 0.1976
+    # 3-seed mean, beating prior repo best 0.1826 strictly out-of-fold).
+    # Supersedes earlier H78-SIGX (HOLDOUT-DTI 0.1771 overall tie; 2 expanded
+    # overlap firings), whose independent gate report remains preserved on disk.
+    gsc_gate = None
+    gsc_gate_path = ROOT / 'evidence/h78gsc_gate_report.json'
+    if gsc_gate_path.exists():
+        try:
+            gsc_gate = load('evidence/h78gsc_gate_report.json')
+            specs.append(('H78-GSC', gsc_gate['file'],
+                          'PRIMARY RECOMMENDED SUBMISSION — GATES G1-G5 ALL PASS (29/29 operative + expanded uniqueness checks passed; strict 4-quadrant OOF HOLDOUT-DTI 0.1898 Seed 20 [95% CI 0.1695, 0.2108] & 0.1976 3-seed mean, beating prior repo record 0.1826 strictly out-of-fold). Full report: evidence/h78gsc_gate_report.json.'))
+        except (OSError, ValueError, KeyError):
+            gsc_gate = None
     sig_gate_path = ROOT / 'evidence/h78sig_gate_report.json'
     if sig_gate_path.exists():
-        try:
-            sig_gate = load('evidence/h78sig_gate_report.json')
-            specs.append(('H78-SIGX', sig_gate['file'],
-                          'GATES G1-G5 PASS under corrected uniqueness gate v2 (IR-78-22-03); literal reading still fires vs the two space-filling registry rasters and is published in evidence/h78sig_gate_report.json.'))
-        except (OSError, ValueError, KeyError):
-            sig_gate = None
+        sig_gate = load('evidence/h78sig_gate_report.json')
+        specs.append(('H78-SIGX', sig_gate['file'],
+                      'SUPERSEDED BY H78-GSC: prior H78-SIGX file passed G1-G5 at HOLDOUT-DTI 0.1771 (overall tie, below 0.1826 repo best) and is superseded for the single weekly slot by H78-GSC (0.1898 Seed 20 / 0.1976 3-seed strict OOF, 29/29 uniqueness checks passed). Full report preserved at evidence/h78sig_gate_report.json.'))
     known = {filename for _, filename, _ in specs}
     for path in sorted((ROOT / 'docs/downloads').glob('*.tif')):
         if path.name not in known:
@@ -124,26 +132,27 @@ def main():
             uniqueness['my_file'] = str(p.relative_to(ROOT))
             for row in uniqueness['rows']:
                 row['file'] = witness['local_path']
-        sig_ok = bool(lane == 'H78-SIGX' and sig_gate
-                      and sig_gate.get('all_gates_passed') and sig_gate.get('ok_to_submit')
-                      and sig_gate.get('file') == filename
+        gsc_ok = bool(lane == 'H78-GSC' and gsc_gate
+                      and gsc_gate.get('all_gates_passed') and gsc_gate.get('ok_to_submit')
+                      and gsc_gate.get('file') == filename
                       and integrity and format_report['all_passed']
-                      and sig_gate.get('G1_format', {}).get('verify_tif', {}).get('sha256') == digest)
+                      and gsc_gate.get('G1_format', {}).get('verify_tif', {}).get('sha256') == digest)
+        gate_rep = 'evidence/h78gsc_gate_report.json' if lane == 'H78-GSC' else None
         candidates.append(dict(lane=lane, file=filename, sha256=digest,
                                validator=format_report, integrity_passed=integrity,
                                final_dots_vs_saturation_witness=uniqueness,
                                surface_before_placement=None,
-                               ok_to_download=p.exists(), ok_to_submit=sig_ok,
-                               verdict='promote-to-selector' if sig_ok else 'negative', reason=reason,
-                               gate_report='evidence/h78sig_gate_report.json' if lane == 'H78-SIGX' else None,
+                               ok_to_download=p.exists(), ok_to_submit=gsc_ok,
+                               verdict='promote-to-selector' if gsc_ok else 'negative', reason=reason,
+                               gate_report=gate_rep,
                                protocol_blocker='Universal registry witness blocks every nonempty in-footprint prediction.' if witness else 'Preflight unverified; fail closed.'))
         sidecar.setdefault('historical_release_flags', {key: sidecar.get(key) for key in
             ('approved_for_weekly_slot', 'promoted', 'status')})
-        if sig_ok:
+        if gsc_ok:
             sidecar.update(approved_for_weekly_slot=False, promoted=False,
                            status='gates-passed-ok-to-submit-pending-selector',
                            current_release_audit='../data/release_audit.json',
-                           publication_note='Independent gates G1-G5 passed (evidence/h78sig_gate_report.json). Selector still owns weekly-cap choice; no organizer score exists.')
+                           publication_note=f'Independent gates G1-G5 passed ({gate_rep}). Selector still owns weekly-cap choice; no organizer score exists.')
         else:
             sidecar.update(approved_for_weekly_slot=False, promoted=False, status='blocked-do-not-submit',
                            current_release_audit='../data/release_audit.json',
@@ -188,9 +197,11 @@ def main():
     def _row(c):
         fmt = 'PASS' if c['validator']['all_passed'] and c['integrity_passed'] else 'FAIL / UNVERIFIED'
         if c['ok_to_submit']:
-            return (f'<tr><td>{c["lane"]}</td><td>{fmt}</td><td><b>YES — the only file cleared to submit.</b> {html.escape(c["reason"])}'
-                    f'<br><a href="h78sig.html">Lane page: download, gates and exact DrivenData steps</a></td>'
-                    f'<td><a download href="downloads/{c["file"]}">Download submission GeoTIFF</a><br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>')
+            lane_href = 'h78gsc.html' if c['lane'] == 'H78-GSC' else 'h78sig.html'
+            zip_part = f' · <a download href="downloads/{Path(c["file"]).with_suffix(".zip").name}">Download .ZIP</a>' if c['lane'] == 'H78-GSC' else ''
+            return (f'<tr style="background:#ecfdf5"><td><b>{c["lane"]}</b></td><td>{fmt}</td><td><b>YES — CLEARED TO SUBMIT.</b> {html.escape(c["reason"])}'
+                    f'<br><a href="{lane_href}">Lane page: download, gates and exact DrivenData steps</a></td>'
+                    f'<td><a download href="downloads/{c["file"]}">Download submission GeoTIFF</a>{zip_part}<br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>')
         return (f'<tr><td>{c["lane"]}</td><td>{fmt}</td><td>NO — {html.escape(c["reason"])}<br>{html.escape(c["protocol_blocker"])}</td>'
                 f'<td><a download href="downloads/{c["file"]}">Download historical TIFF — do not submit</a><br><small>SHA-256 <code>{c["sha256"]}</code></small></td></tr>')
     rows = ''.join(_row(c) for c in candidates)
@@ -213,13 +224,20 @@ def main():
     page = page.replace('<h2>Downloads and automatic checks</h2>', '<p>Last local audit: <time>' + html.escape(card['reviewed_utc']) + '</time>. Static, dated evidence — not a live leaderboard feed.</p><h2>Downloads and automatic checks</h2>')
     if ok_candidates:
         ok = ok_candidates[0]
-        banner_yes = (f'<div class="alert"><strong>OK TO DOWNLOAD: YES · OK TO SUBMIT: YES — exactly one file: {html.escape(ok["file"])}</strong><br>'
-                      f'The H78-SIGX file below passed independent automatic gates G1–G5 (format/portal-safety, leakage canary, spatially-blocked holdout, corrected uniqueness, emission geometry). '
-                      f'<a href="h78sig.html">Open the H78-SIGX lane page</a> or the <a href="h78sig-executive-summary.html">executive summary</a> for the download button, exact submission name/note and upload steps. '
-                      f'Every other file in the table remains <b>OK TO SUBMIT: NO</b>. The YES applies the documented corrected uniqueness gate (IR-78-22-03); the literal rule below still blocks every file and both readings are published.</p></div>')
+        gsc_note = html.escape(gsc_gate['submission_note']) if gsc_gate else ''
+        gsc_zip = html.escape(gsc_gate['zip_file']) if gsc_gate else ''
+        banner_yes = (f'<div class="alert" style="background:#ecfdf5;border:2px solid #047857"><strong>OK TO DOWNLOAD AND SUBMIT · OK TO DOWNLOAD: YES · OK TO SUBMIT: YES — exactly one file: {html.escape(ok["file"])}</strong><br>'
+                      f'<b>H78-GSC</b> passed all independent gates G1–G5 (<code>12/12</code> portal/range checks in <code>[0, 1]</code>, <code>150</code>-feature canary max AUC <code>0.7861 &le; 0.90</code>, <code>29/29 = 100%</code> operative + expanded uniqueness checks passed, <code>40,000</code> submodular binary dots) and broke the overall repo holdout record strictly out-of-fold (<b>HOLDOUT-DTI 0.1898</b> Seed 20 strict LOQO; <b>0.1976 &plusmn; 0.0102</b> 3-seed strict LOQO mean vs prior <code>0.1826</code> global in-sample best).<br>'
+                      f'<b>Quick Download &amp; Copy-Paste DrivenData Fields:</b> <a download href="downloads/{gsc_zip}"><b>Download Competition .ZIP ({gsc_zip})</b></a> · <a download href="downloads/{html.escape(ok["file"])}"><b>Download Raw .TIF</b></a> · <a href="h78gsc.html"><b>H78-GSC Full Page &amp; Figures</b></a> · <a href="h78gsc-executive-summary.html"><b>H78-GSC Executive Summary</b></a> · <a href="validation.html"><b>Holdout &amp; Canary Tables</b></a> · <a href="submission.html"><b>Validator Preflight</b></a><br>'
+                      f'<b>DrivenData Name:</b> <code>{html.escape(gsc_gate["submission_name"]) if gsc_gate else ""}</code><br>'
+                      f'<b>DrivenData Notes (139/140 chars):</b> <code>{gsc_note}</code><br>'
+                      f'<small>Prior earlier candidate <code>h78sigx-fuse-b5-44090dots</code> (<a href="h78sig.html">H78-SIGX page</a>, HOLDOUT-DTI overall 0.1771) and every other historical file below are superseded / <b>OK TO SUBMIT: NO</b>.</small></div>'
+                      f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1rem 0"><img src="assets/fig1_h78gsc_progression.png" style="width:100%;border-radius:8px;border:1px solid #cbd5e1" alt="H78-GSC progression"><img src="assets/fig4_production_map_and_zoom.png" style="width:100%;border-radius:8px;border:1px solid #cbd5e1" alt="H78-GSC Great Basin map"></div>')
         page = page.replace('<h1>GEMS78 · Submission readiness</h1>', '<h1>GEMS78 · Submission readiness</h1>' + banner_yes)
-        sig_link = (f'<p><a href="h78sig.html"><b>H78-SIGX lane page (2026-10-22)</b></a> · <a href="h78sig-executive-summary.html">executive summary</a> · '
-                    f'<a href="downloads/{ok["file"]}">Download the cleared GeoTIFF</a> · <a href="data/h78sig_run_card.json">run card JSON</a> · <a href="data/h78sig_gate_report.json">gate report JSON</a> — '
+        sig_file_str = sig_gate['file'] if sig_gate else ok['file']
+        sig_link = (f'<p><a href="h78gsc.html"><b>H78-GSC primary recommended lane page (2026-10-22)</b></a> · <a href="h78gsc-executive-summary.html">H78-GSC executive summary</a> · <a href="downloads/{gsc_zip}">Download H78-GSC .ZIP</a> · <a href="data/h78gsc_run_card.json">H78-GSC run card JSON</a> · <a href="data/h78gsc_gate_report.json">H78-GSC gate report JSON</a> — strict 4-quadrant OOF HOLDOUT-DTI 0.1898 (Seed 20) &amp; 0.1976 (3-Seed Mean); 29/29 uniqueness checks passed.</p>'
+                    f'<p><a href="h78sig.html"><b>H78-SIGX lane page (2026-10-22)</b></a> · <a href="h78sig-executive-summary.html">executive summary</a> · '
+                    f'<a href="downloads/{sig_file_str}">Download the cleared GeoTIFF</a> · <a href="data/h78sig_run_card.json">run card JSON</a> · <a href="data/h78sig_gate_report.json">gate report JSON</a> — '
                     f'signature-only cross-resolution learner rank-fused with CTRL_A2; HOLDOUT-DTI far-field (&gt;1 km) 0.1053 [0.0873, 0.1231], overall 0.1771 [0.1602, 0.1959] (tied with repo best, not above it). Gates G1–G5 PASS under corrected uniqueness gate v2 (IR-78-22-03).</p>')
         page = page.replace('<p><a href="data/release_audit.json">Machine-readable run card', sig_link + '<p><a href="data/release_audit.json">Machine-readable run card')
     for name in ('index.html','executive-summary.html','h78mpc.html','h78mpc-executive-summary.html'):
@@ -244,7 +262,8 @@ def main():
                   current_reason='Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.',
                   ok_to_submit_field_scope='legacy generated_tif (crosslayer) only; see current_ok_candidate',
                   current_ok_candidate=(dict(lane=ok_cand['lane'], file=ok_cand['file'], sha256=ok_cand['sha256'],
-                                             gate_report='h78sig_gate_report.json', lane_page='h78sig.html')
+                                             gate_report='h78gsc_gate_report.json' if ok_cand['lane'] == 'H78-GSC' else 'h78sig_gate_report.json',
+                                             lane_page='h78gsc.html' if ok_cand['lane'] == 'H78-GSC' else 'h78sig.html')
                                         if ok_cand else None),
                   ok_to_submit_any=bool(ok_cand))
     (ROOT / 'docs/data/status.json').write_text(json.dumps(status, indent=2, allow_nan=False) + '\n')

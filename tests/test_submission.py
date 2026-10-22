@@ -117,9 +117,10 @@ def test_prior_root_candidate_fails_closed_until_full_registry_audit():
     # Since the H78-SIGX session (2026-10-22) the banner clears exactly one
     # named file under gates G1-G5; H78-A itself remains not cleared.
     assert "OK TO DOWNLOAD: YES · OK TO SUBMIT: YES — exactly one file:" in home
+    assert "gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif" in home
     assert "h78sigx-fuse-b5-44090dots" in home and "h78sigx-fuse-b5-44090dots" in summary
     oks = [c for c in release["candidates"] if c["ok_to_submit"]]
-    assert [c["lane"] for c in oks] == ["H78-SIGX"]
+    assert [c["lane"] for c in oks] == ["H78-GSC"]
     assert root_candidate["ok_to_submit"] is False
     assert "INCOMPLETE" in root_candidate["reason"]
     assert "not a measured duplicate finding" in root_candidate["reason"]

@@ -114,8 +114,7 @@ def test_consolidated_release_audit_lists_step_blocked():
     assert step[0]["ok_to_submit"] is False and step[0]["verdict"] == "negative"
     assert step[0]["validator"]["all_passed"] and step[0]["integrity_passed"]
     home = (ROOT / "docs/index.html").read_text()
-    # H78-SIGX session: homepage clears exactly one other file; STEP stays NO.
     assert "OK TO SUBMIT: YES — exactly one file:" in home
     oks = [c for c in audit["candidates"] if c["ok_to_submit"]]
-    assert [c["lane"] for c in oks] == ["H78-SIGX"]
+    assert [c["lane"] for c in oks] == ["H78-GSC"]
     assert CARD["raster"]["file"] in home
