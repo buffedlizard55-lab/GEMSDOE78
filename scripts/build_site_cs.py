@@ -215,3 +215,7 @@ HOLDOUT-DTI {f4(h['candidate']['dti'])} {ci(h['candidate'])} vs CTRL {f4(h['ctrl
 (DOCS / "h78cs.html").write_text(index)
 (DOCS / "h78cs-executive-summary.html").write_text(exec_summary)
 print("WROTE docs/h78cs.html + docs/h78cs-executive-summary.html promote =", promote)
+
+# All publication entry points finish with the current consolidated gate.
+from audit_release import main as audit_release
+audit_release()
