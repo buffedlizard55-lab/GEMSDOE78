@@ -1,0 +1,97 @@
+00:57:34 inputs verified {'training_features.tif': True, 'existing_faults.tif': True, 'sample_submission.tif': True}
+00:57:37 visible 48340 hidden 11321 scored 11321
+step det_elev done 11s
+step rtp done 22s
+step iso_grav_anom done 33s
+step depth_to_base_surf done 45s
+step cond_surf done 56s
+01:01:12 features ready base 153.5 s step 61.4 s
+01:01:29 canary max 0.615 STEP max 0.615 flagged {}
+01:01:31 far-truth positives 5150
+01:02:40 fit {'arm': 'CTRL_A2', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 103, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 65.4}
+01:03:44 CTRL_A2 B3 greedy 1.2 s avail 60000
+01:03:50   CTRL_A2|B3|37654 HOLDOUT-DTI 0.1778
+01:03:57   CTRL_A2|B3|44090 HOLDOUT-DTI 0.1826
+01:04:03   CTRL_A2|B3|44090 far-truth HOLDOUT-DTI 0.07778640614588897
+01:04:10   CTRL_A2|B3|50000 HOLDOUT-DTI 0.1843
+01:04:11 CTRL_A2 B2 greedy 1.2 s avail 60000
+01:04:17   CTRL_A2|B2|44090 HOLDOUT-DTI 0.1586
+01:05:02 fit {'arm': 'CAND_STEP', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 73, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 42.8}
+01:07:12 CAND_STEP B3 greedy 1.1 s avail 60000
+01:07:18   CAND_STEP|B3|37654 HOLDOUT-DTI 0.1685
+01:07:24   CAND_STEP|B3|44090 HOLDOUT-DTI 0.173
+01:07:30   CAND_STEP|B3|44090 far-truth HOLDOUT-DTI 0.06961141536955584
+01:07:36   CAND_STEP|B3|50000 HOLDOUT-DTI 0.1751
+01:07:38 CAND_STEP B2 greedy 1.2 s avail 60000
+01:07:44   CAND_STEP|B2|44090 HOLDOUT-DTI 0.1492
+01:07:58 fit {'arm': 'ABL_A0', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 19, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 12.6}
+01:08:44 ABL_A0 B3 greedy 1.2 s avail 60000
+01:08:50   ABL_A0|B3|37654 HOLDOUT-DTI 0.1529
+01:08:57   ABL_A0|B3|44090 HOLDOUT-DTI 0.1586
+01:09:03   ABL_A0|B3|44090 far-truth HOLDOUT-DTI 0.048239735477577976
+01:09:09   ABL_A0|B3|50000 HOLDOUT-DTI 0.1611
+01:09:10 ABL_A0 B2 greedy 1.2 s avail 60000
+01:09:16   ABL_A0|B2|44090 HOLDOUT-DTI 0.1376
+01:09:48 fit {'arm': 'ABL_STEPO', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 54, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 30.2}
+01:11:33 ABL_STEPO B3 greedy 1.1 s avail 60000
+01:11:40   ABL_STEPO|B3|37654 HOLDOUT-DTI 0.1175
+01:11:46   ABL_STEPO|B3|44090 HOLDOUT-DTI 0.1199
+01:11:53   ABL_STEPO|B3|44090 far-truth HOLDOUT-DTI 0.07533787261101445
+01:11:59   ABL_STEPO|B3|50000 HOLDOUT-DTI 0.1196
+01:12:00 ABL_STEPO B2 greedy 1.1 s avail 60000
+01:12:07   ABL_STEPO|B2|44090 HOLDOUT-DTI 0.1139
+01:12:09 surface rho CAND vs CTRL {'spearman_on_dot_union': nan, 'n_dot_union': 5167373, 'jaccard_dot_sets': 1.0, 'spearman_full_footprint': 0.9013193107092258}
+01:12:09 wrote /home/user/GEMSDOE78/evidence/h78step_holdout_seed20.json in 875.0 s
+{
+ "CTRL_A2|B3|44090": [
+  0.1826,
+  [
+   0.1633,
+   0.2
+  ]
+ ],
+ "CAND_STEP|B3|44090": [
+  0.173,
+  [
+   0.1559,
+   0.1903
+  ]
+ ],
+ "ABL_A0|B3|44090": [
+  0.1586,
+  [
+   0.1396,
+   0.1777
+  ]
+ ],
+ "ABL_STEPO|B3|44090": [
+  0.1199,
+  [
+   0.1048,
+   0.1356
+  ]
+ ]
+}
+{
+ "CTRL_A2|B3|44090": [
+  -0.0096,
+  [
+   -0.0176,
+   -0.0025
+  ]
+ ],
+ "ABL_A0|B3|44090": [
+  0.0144,
+  [
+   0.0031,
+   0.0257
+  ]
+ ],
+ "ABL_STEPO|B3|44090": [
+  0.0531,
+  [
+   0.037,
+   0.0705
+  ]
+ ]
+}
