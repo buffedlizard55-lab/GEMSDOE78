@@ -22,7 +22,7 @@ from scipy import ndimage as ndi
 
 from .data import BAND_NAMES
 
-STEER_BANDS = ["det_elev", "rtp", "iso_grav_anom", "depth_to_base_surf", "cond_surf", "tc_totalcount"]
+STEER_BANDS = ["det_elev", "rtp", "iso_grav_anom", "depth_to_base_surf", "cond_surf", "tc"]
 SCALES = (1.5, 3.0)
 
 

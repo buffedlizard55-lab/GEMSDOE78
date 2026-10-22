@@ -24,7 +24,7 @@ STACK = PROC / "stack19.npy"
 SENTINEL = -3.0e38
 
 BAND_NAMES = [
-    "mag_anom", "rtp", "tmi_hg", "geod_2ndinv", "iso_grav_anom_slope", "tc_totalcount",
+    "mag_anom", "rtp", "tmi_hg", "geod_2ndinv", "iso_grav_anom_slope", "tc",
     "geod_shearrate", "geod_dilaterate", "tmi_vg", "deq_n100a15", "iso_grav_anom_vg",
     "det_elev", "iso_grav_anom", "tmi", "depth_to_base_surf", "ieq_n100a15", "cond_surf",
     "iso_grav_anom_hg", "det_elev_slope",

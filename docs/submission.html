@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download &amp; Submit — GEMSDOE78 (H78-GSC)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="topbar">
+    VERDICT: OK TO DOWNLOAD AND SUBMIT — Automated Preflight 12/12 PASSED (40,000 binary dots in [0, 1], 0 NaN, 0 on-catalogue)
+    <a href="downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip">Download .ZIP (115 KB)</a>
+    <a href="executive-summary.html">Read Executive Summary</a>
+  </div>
+  <header class="navwrap">
+    <nav class="nav">
+      <a class="logo" href="index.html">GEMSDOE78 · Lane H78-GSC</a>
+      <div class="links">
+        <a href="index.html" class="">Overview</a>
+<a href="executive-summary.html" class="">Executive Summary</a>
+<a href="methodology.html" class="">Hypotheses &amp; Methodology</a>
+<a href="validation.html" class="">Holdout &amp; Uniqueness</a>
+<a href="submission.html" class="active">Download &amp; Submit</a>
+<a href="irregularities.html" class="">Irregularities</a>
+<a href="sources.html" class="">Verified Sources</a>
+<a href="h78mpc.html" class="">Archive: H78-MPC</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+
+    <h1>Competition Download, SHA-256 Hashes &amp; Zero-Human-Intervention Preflight</h1>
+    <p class="lead">
+      Complete machine-verified receipt for uploading directly to DrivenData Competition #306 (DOE GEMS).
+    </p>
+    
+    <section class="status-banner" aria-label="Submission readiness status">
+      <span class="status-kicker">OK TO DOWNLOAD AND SUBMIT · ZERO HUMAN FIXES NEEDED</span>
+      <div class="status-title">Promoted Artifact: <code>gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif</code> (Verdict: <code>PROMOTE</code>)</div>
+      <div>
+        Validated automatically without human intervention via fail-closed <code>vendor/gems57/submission_writer.py</code> and independent <code>scripts/verify_tif.py</code>:
+        single-band <code>float32</code>, <code>EPSG:32611</code>, <code>3730 &times; 3292</code>, sample transform <code>(100, 0, 243350, 0, -100, 4508550)</code>,
+        <code>nodata=None</code>, <strong>100% finite everywhere</strong>, values strictly in <strong><code>[0, 1]</code></strong> (eliminating the DrivenData <em>"Predicted values must be in range [0, 1]"</em> portal rejection),
+        <strong>40,000 spaced dots</strong> (<code>min_nn = 2.83 px</code>), <strong>0 on-catalogue pixels</strong>.
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip">Download Competition ZIP (gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip)</a>
+        <a class="btn btn-secondary" href="downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif">Download Raw GeoTIFF (gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif)</a>
+        <a class="btn btn-secondary" href="downloads/run_card.json">Download Run Card JSON</a>
+        <a class="btn btn-secondary" href="executive-summary.html">Executive Summary &rarr;</a>
+      </div>
+    </section>
+    <div class="copy-box">
+      <div class="copy-head">
+        <span>DrivenData Submission Name (50 / 140 chars)</span>
+        <button class="btn btn-secondary" style="padding:0.25rem 0.6rem;font-size:0.78rem" onclick="copyId('sub-name', this)">Copy Name</button>
+      </div>
+      <pre id="sub-name">gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros</pre>
+    </div>
+    <div class="copy-box">
+      <div class="copy-head">
+        <span>DrivenData Submission Notes (129 / 140 chars)</span>
+        <button class="btn btn-secondary" style="padding:0.25rem 0.6rem;font-size:0.78rem" onclick="copyId('sub-note', this)">Copy Notes</button>
+      </div>
+      <pre id="sub-note">H78-GSC OOF: domain-res multi-physics + NaN 1m LiDAR/10m 3DEP/chi knickpoints + PU-spy + relay bridge + exact 300m submodular 40k</pre>
+    </div>
+
+
+    <h2>Artifact Checksums &amp; Spatial Diagnostics</h2>
+    <table>
+      <thead><tr><th>Property</th><th>Verified Value</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td><strong>Verdict</strong></td><td><strong>OK TO DOWNLOAD AND SUBMIT (<code>promote</code>)</strong></td></tr>
+        <tr><td>Competition ZIP File</td><td><a href="downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip"><code>downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip</code></a> (115,382 bytes)</td></tr>
+        <tr><td>Competition ZIP SHA-256</td><td><code>c0408bb9b22599fab796528d80f8d79523e6650b2b2c57bbe790341c631e90bc</code></td></tr>
+        <tr><td>Raw GeoTIFF File</td><td><a href="downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif"><code>downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif</code></a> (147,599 bytes)</td></tr>
+        <tr><td>Raw GeoTIFF SHA-256</td><td><code>e2f21d496925fb1bd2f36c5b28a0e2356286eca719132545474456f81bc5a8eb</code></td></tr>
+        <tr><td>Emitted Binary Dots</td><td><code>40,000</code> (values strictly <code>{0.0, 1.0}</code> in <code>float32</code>)</td></tr>
+        <tr><td>Quadrant Balance (NW / NE / SW / SE)</td><td><code>10,206</code> / <code>10,091</code> / <code>11,341</code> / <code>8,362</code></td></tr>
+        <tr><td>LiDAR vs Rural Non-LiDAR Split</td><td><code>79.34%</code> inside 1 m LiDAR / <code>20.66%</code> in 10 m 3DEP non-LiDAR basins (matches true 21.1% non-LiDAR area)</td></tr>
+        <tr><td>Nearest-Neighbour Dot Spacing</td><td><code>min_nn = 2.8284 px</code> · <code>median_nn = 3.1623 px</code> · <code>frac &le; 1.5 px = 0.0</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Independent <code>scripts/verify_tif.py</code> Check-by-Check Output (12 / 12 Passed)</h2>
+    <table>
+      <thead><tr><th>Check Name</th><th class="num">Result</th><th>Status</th></tr></thead>
+      <tbody><tr class='highlight'><td><code>single_band</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>float32</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>crs_EPSG:32611</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>shape_3730x3292</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>transform_(100,0,243350,0,-100,4508550)</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>no_nodata_tag</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>all_finite</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>no_nan_inside_footprint</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>values_in_[0,1]</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>binary_values_only</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>zero_outside_footprint</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr>
+<tr class='highlight'><td><code>zero_on_catalogue</code></td><td class='num'>True</td><td><span class='badge badge-pass'>PASS</span></td></tr></tbody>
+    </table>
+
+  </main>
+  <footer>
+    GEMSDOE78 · DrivenData Competition #306 (DOE GEMS Hidden Fault Detection) · Branch <code>arena/13ef58cb-gemsdoe78</code> · Zero live weekly submission slots consumed automatically · All metrics explicitly tagged <code>HOLDOUT-DTI</code> or <code>ORGANIZER-CONFIRMED</code>.
+  </footer>
+  <script>
+    function copyId(id, btn) {
+      var el = document.getElementById(id);
+      if (!el || !navigator.clipboard) return;
+      navigator.clipboard.writeText(el.textContent.trim()).then(function() {
+        var prev = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(function() { btn.textContent = prev; }, 1600);
+      });
+    }
+  </script>
+</body>
+</html>

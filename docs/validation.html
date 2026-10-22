@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holdout &amp; Uniqueness Validation — GEMSDOE78 (H78-GSC)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="topbar">
+    VERDICT: OK TO DOWNLOAD AND SUBMIT — Automated Preflight 12/12 PASSED (40,000 binary dots in [0, 1], 0 NaN, 0 on-catalogue)
+    <a href="downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip">Download .ZIP (115 KB)</a>
+    <a href="executive-summary.html">Read Executive Summary</a>
+  </div>
+  <header class="navwrap">
+    <nav class="nav">
+      <a class="logo" href="index.html">GEMSDOE78 · Lane H78-GSC</a>
+      <div class="links">
+        <a href="index.html" class="">Overview</a>
+<a href="executive-summary.html" class="">Executive Summary</a>
+<a href="methodology.html" class="">Hypotheses &amp; Methodology</a>
+<a href="validation.html" class="active">Holdout &amp; Uniqueness</a>
+<a href="submission.html" class="">Download &amp; Submit</a>
+<a href="irregularities.html" class="">Irregularities</a>
+<a href="sources.html" class="">Verified Sources</a>
+<a href="h78mpc.html" class="">Archive: H78-MPC</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+
+    <h1>Holdout Validation, 150-Feature Leakage Canary &amp; 1,049-Raster Uniqueness Audit</h1>
+    <p class="lead">
+      Every number on this page is a reproducible measurement produced by <code>vendor/gems57/evaluate_holdout.py</code>
+      (<code>gems57-pooled-hide-v2</code>), <code>scripts/run_stage_a_seed20.py</code>, and <code>scripts/build_final_submission_and_audit.py</code>.
+    </p>
+
+    <h2>1. Three-Seed Spatial Replication (Seeds 20, 30, 40 — Strict Out-of-Fold LOQO)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Model Arm</th>
+          <th>Protocol</th>
+          <th class="num">Mean HOLDOUT-DTI</th>
+          <th class="num">Std Across 3 Seeds</th>
+          <th class="num">Min &ndash; Max Across Seeds</th>
+          <th class="num">Mean Far &gt;10 px</th>
+          <th class="num">Mean Far &gt;20 px</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight"><td><code>H78_GSC_MFNC_cal_LOQO_submod44090</code></td><td>Strict 4-Quadrant OOF</td><td class="num">0.19762</td><td class="num">0.01024</td><td class="num">0.18930 &ndash; 0.20905</td><td class="num">0.08990</td><td class="num">0.02841</td></tr>
+        <tr class="highlight"><td><code>H78_GSC_MFNC_cal_LOQO_submod38k</code></td><td>Strict 4-Quadrant OOF</td><td class="num">0.19756</td><td class="num">0.01024</td><td class="num">0.18977 &ndash; 0.20916</td><td class="num">0.09153</td><td class="num">0.02941</td></tr>
+        <tr class="highlight"><td><code>H78_GSC_DualBlend_w0p82_LOQO_submod40k</code></td><td>Strict 4-Quadrant OOF</td><td class="num">0.19731</td><td class="num">0.01058</td><td class="num">0.18639 &ndash; 0.20752</td><td class="num">0.09787</td><td class="num">0.03705</td></tr>
+        <tr><td><code>H78_GSC_GlobalVis_submod44090</code></td><td>Global-Visible Reference</td><td class="num">0.20275</td><td class="num">0.00884</td><td class="num">0.19380 &ndash; 0.21147</td><td class="num">0.08151</td><td class="num">0.02487</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. Exhaustive Uniqueness Audit Across All 1,049 Unique Rasters (83 Repositories)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Uniqueness Metric</th>
+          <th class="num">Measured Value</th>
+          <th class="num">Protocol Limit</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight"><td>Pre-placement surface max <code>|Spearman &rho;|</code> across all 1,049 rasters</td><td class="num">0.45589</td><td class="num">&le; 0.90000</td><td><span class="badge badge-pass">PASS</span></td></tr>
+        <tr class="highlight"><td>Official scored registry worst one-sided forward 3-px overlap</td><td class="num">0.68635</td><td class="num">&le; 0.70000</td><td><span class="badge badge-pass">PASS</span></td></tr>
+        <tr class="highlight"><td>Official scored registry worst mutual 3-px overlap</td><td class="num">0.42996</td><td class="num">&le; 0.70000</td><td><span class="badge badge-pass">PASS</span></td></tr>
+        <tr class="highlight"><td>All sparse 5k&ndash;75k dot submissions across all 83 repos (max of forward &amp; reverse)</td><td class="num">0.65448</td><td class="num">&le; 0.70000</td><td><span class="badge badge-pass">PASS</span></td></tr>
+        <tr class="highlight"><td>All 1,049 rasters across all 83 repos worst mutual 3-px overlap</td><td class="num">0.56320</td><td class="num">&le; 0.70000</td><td><span class="badge badge-pass">PASS</span></td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Top 15 Features in Single-Feature Leakage Canary (All 150 Tested &le; 0.90)</h2>
+    <table>
+      <thead>
+        <tr><th>Feature Name</th><th class="num">Raw AUC</th><th class="num">Symmetric AUC</th><th>Gate</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>bridge_x_scarp</code></td><td class='num'>0.78609</td><td class='num'>0.78609</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>tip_relay_bridge_gap_4800m</code></td><td class='num'>0.78269</td><td class='num'>0.78269</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>tip_coulomb_beam_relay_2400m</code></td><td class='num'>0.78126</td><td class='num'>0.78126</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>tip_x_piedmont_scarp</code></td><td class='num'>0.76972</td><td class='num'>0.76972</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>tip_relay_bridge_relay_2400m</code></td><td class='num'>0.76564</td><td class='num'>0.76564</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>tip_coulomb_beam_gap_4800m</code></td><td class='num'>0.75587</td><td class='num'>0.75587</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>tip_coulomb_beam_near_900m</code></td><td class='num'>0.75316</td><td class='num'>0.75316</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>vis_trunc_dist_3p5km</code></td><td class='num'>0.24977</td><td class='num'>0.75023</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>tip_relay_bridge_near_900m</code></td><td class='num'>0.64656</td><td class='num'>0.64656</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>st_step_asym_hslin</code></td><td class='num'>0.62583</td><td class='num'>0.62583</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>phys_step_asym_hslin</code></td><td class='num'>0.60582</td><td class='num'>0.60582</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>li_upface_max</code></td><td class='num'>0.60529</td><td class='num'>0.60529</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>li_downface_max</code></td><td class='num'>0.59886</td><td class='num'>0.59886</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>li_cross_max</code></td><td class='num'>0.59766</td><td class='num'>0.59766</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+<tr><td><code>st_step_asym_uscalescarp</code></td><td class='num'>0.59761</td><td class='num'>0.59761</td><td><span class='badge badge-pass'>PASS (&le; 0.90)</span></td></tr>
+      </tbody>
+    </table>
+
+  </main>
+  <footer>
+    GEMSDOE78 · DrivenData Competition #306 (DOE GEMS Hidden Fault Detection) · Branch <code>arena/13ef58cb-gemsdoe78</code> · Zero live weekly submission slots consumed automatically · All metrics explicitly tagged <code>HOLDOUT-DTI</code> or <code>ORGANIZER-CONFIRMED</code>.
+  </footer>
+  <script>
+    function copyId(id, btn) {
+      var el = document.getElementById(id);
+      if (!el || !navigator.clipboard) return;
+      navigator.clipboard.writeText(el.textContent.trim()).then(function() {
+        var prev = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(function() { btn.textContent = prev; }, 1600);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+{
+  "lane": "GEMSDOE78",
+  "preregistered_utc": "2026-10-21T01:31:00Z",
+  "evaluator": {
+    "module": "vendor/gems57/evaluate_holdout.py",
+    "version": "gems57-pooled-hide-v2",
+    "alpha": 0.2,
+    "beta": 0.8,
+    "kernel": "triangular_300m_3px",
+    "bootstrap_block_m": 20000,
+    "bootstrap_draws": 1000,
+    "seeds": [20, 30, 40]
+  },
+  "leakage_canary_gate": {
+    "rule": "Compute raw and symmetric ROC-AUC on strictly withheld truth vs active non-truth cells across every single candidate feature before model fitting. Any feature with symmetric AUC > 0.90 is quarantined as leakage until proven clean.",
+    "max_allowed_single_feature_auc": 0.90
+  },
+  "uniqueness_gate": {
+    "registry_size": 1089,
+    "preplacement_max_abs_spearman_rho": 0.90,
+    "max_dot_overlap_3px": 0.70,
+    "reporting": "Report BOTH literal forward/reverse/mutual overlap against all 1,089 rasters AND discriminating/informative (<70% 3-px halo footprint) + same-density like-for-like metrics."
+  },
+  "promotion_gate": {
+    "must_beat_global_visible_best_dti": 0.18257,
+    "must_beat_strict_loqo_best_dti": 0.11016,
+    "must_pass_c_pied_live_winner_band": 0.085,
+    "max_experiments_budget": 3
+  },
+  "hypotheses_ranked": [
+    {
+      "rank": 1,
+      "id": "H78-GSC",
+      "title": "Domain-Residualized Multi-Physics Geothermal-Structural Confluence (Sub-Pixel 1m/10m Scarp + Fluvial Chi Knickpoints + Buried Basement Step + Dilatant Strain & Hydrothermal Alteration)",
+      "status": "selected_primary",
+      "layers": [
+        "training_features.tif[0..18] (mag_anom, rtp, tmi_hg, geod_2ndinv, iso_grav_anom_slope, tc, geod_shearrate, geod_dilaterate, tmi_vg, deq_n100a15, iso_grav_anom_vg, det_elev, iso_grav_anom, tmi, depth_to_base_surf, ieq_n100a15, cond_surf, iso_grav_anom_hg, det_elev_slope)",
+        "external/lidar_scarp_features_u8.tif (ex_max, ex_mean, step_max, lapneg_max, lappos_max, downface_max, upface_max, cross_max, relief, coh100, strike, valid -> NaN-masked outside coverage)",
+        "external/topo_10m_derived_100m_u8.tif (slope_p90, slope_max, steep_frac, slope_std, relief_local, curv_prof_absmax, aspect_coherence, hs_lineament, dem_mean)",
+        "external/dem10_chi_100m_i16.tif & dem10_chi_100m_u8.tif (step_max_x1000, step_min_x1000, ksn_max_m0.9, log10_area_m2_x1000, zmean_m, chan_n, knick_n, raised_n, valid_n)",
+        "external/geodawn_rad_u8.tif & geodawn_extensions_u8.tif (K, Th, U, TC, ThK, UK, UTh, TMI_up150)"
+      ],
+      "named_mimic": "Incised alluvial-fan arroyos, Pleistocene pluvial shoreline berms (Lahontan/Bonneville), and steep un-faulted range-core crags",
+      "expected_gain_dti": "+0.035 to +0.065 HOLDOUT-DTI over 0.1826 (and +0.045 to +0.080 LOQO DTI over 0.1102)",
+      "compute_minutes": 18
+    },
+    {
+      "rank": 2,
+      "id": "H78-PU-SPY",
+      "title": "Out-of-Fold Positive-Unlabeled (Elkan-Noto) Piedmont Alluvial False-Negative Cleaning + Fault-Tip Strike Extension",
+      "status": "selected_ablation_arm_exp3",
+      "layers": ["Visible SGMC fault graph (fold-restricted)", "depth_to_base_surf", "lidar_scarp_features_u8.tif", "topo_10m_derived_100m_u8.tif"],
+      "named_mimic": "Erosional range-front pediment nicklines lacking subsurface basement density offset",
+      "expected_gain_dti": "+0.008 to +0.020 far-fault & piedmont DTI",
+      "compute_minutes": 6
+    },
+    {
+      "rank": 3,
+      "id": "H78-SUBMOD",
+      "title": "Exact 300 m Triangular-Kernel Lazy-Greedy Submodular Expected-Credit Allocation with Power-Sharpened Core Calibration",
+      "status": "selected_allocation_arm_exp3",
+      "layers": ["Calibrated fault probability surface p(u)", "Visible catalogue flank mask"],
+      "named_mimic": "Diffuse low-probability hydrothermal/playa alteration halos inflating 300 m disk integrals without a discrete fault core",
+      "expected_gain_dti": "+0.004 to +0.015 HOLDOUT-DTI",
+      "compute_minutes": 2
+    },
+    {
+      "rank": 4,
+      "id": "H78-WORM-RADON",
+      "title": "Multi-Azimuth 16-Angle Radon Potential-Field Worming Across Deep Basin Cover",
+      "status": "deferred_scalar_subset_included",
+      "layers": ["tmi_hg", "tc", "TMI_up150", "iso_grav_anom_hg", "depth_to_base_surf"],
+      "named_mimic": "Oligocene caldera ring margins and Mesozoic pluton contact aureoles lacking Quaternary reactivation",
+      "expected_gain_dti": "+0.005 to +0.012 HOLDOUT-DTI standalone",
+      "compute_minutes": 25
+    },
+    {
+      "rank": 5,
+      "id": "H78-RAD-COND",
+      "title": "Airborne Gamma-Ray Potassic/Uranium Alteration Plume x Electrical Conductivity Upflow",
+      "status": "deferred_scalar_subset_included",
+      "layers": ["geodawn_rad_u8.tif (K, Th, U, TC)", "geodawn_extensions_u8.tif (ThK, UK, UTh)", "cond_surf"],
+      "named_mimic": "Evaporitic alkali-playa potassium clays and unfaulted Miocene epithermal mining districts",
+      "expected_gain_dti": "+0.003 to +0.009 HOLDOUT-DTI standalone",
+      "compute_minutes": 10
+    }
+  ],
+  "experiments_plan": [
+    {
+      "experiment": 1,
+      "name": "Exp1_MultiSeed_And_LOQO_Baselines",
+      "description": "Strict baseline controls (A0_std19, A1_iso, A2_h78_steered, H33-control, H78-MPC) evaluated on shared gems57-pooled-hide-v2 across seeds 20/30/40 plus strict 4-quadrant LOQO and zero-fit Instrument C_pied."
+    },
+    {
+      "experiment": 2,
+      "name": "Exp2_H78_GSC_MultiPhysics_And_DomainResidualization_Ablation",
+      "description": "Progressive ablation ladder adding (a) NaN-masked 1m LiDAR + 10m 3DEP sub-pixel scarp excess, (b) previously unused fluvial chi/knickpoint geomorphology + GeoDAWN K/Th/U + TMI_up150 + basement-step confluence, and (c) long-wavelength (sigma=25 px) domain residualization + fault-tip strike-steered derivatives across both strict LOQO and global-visible holdout."
+    },
+    {
+      "experiment": 3,
+      "name": "Exp3_H78_GSC_PUSpy_PrevalenceCal_SubmodularAllocation",
+      "description": "Add out-of-fold Elkan-Noto PU spy negative cleaning, (quadrant x has_lidar) prevalence probability calibration, and exact 300 m submodular vs spaced allocation optimization across multi-seed holdout (seeds 20, 30, 40) to freeze the zero-memorization cross-fitted production submission."
+    }
+  ]
+}

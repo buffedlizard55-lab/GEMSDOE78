@@ -1,0 +1,153 @@
+{
+  "ok_to_submit": true,
+  "submission_name": "gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros",
+  "submission_note": "H78-GSC OOF: domain-res multi-physics + NaN 1m LiDAR/10m 3DEP/chi knickpoints + PU-spy + relay bridge + exact 300m submodular 40k",
+  "submission_note_chars": 129,
+  "tif_path": "docs/downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif",
+  "tif_bytes": 147599,
+  "tif_sha256": "e2f21d496925fb1bd2f36c5b28a0e2356286eca719132545474456f81bc5a8eb",
+  "zip_path": "docs/downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip",
+  "zip_bytes": 114126,
+  "zip_sha256": "c0408bb9b22599fab796528d80f8d79523e6650b2b2c57bbe790341c631e90bc",
+  "writer_receipt": {
+    "file": "gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif",
+    "sha256": "e2f21d496925fb1bd2f36c5b28a0e2356286eca719132545474456f81bc5a8eb",
+    "bytes": 147599,
+    "submission_name": "gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros",
+    "note": "H78-GSC OOF: domain-res multi-physics + NaN 1m LiDAR/10m 3DEP/chi knickpoints + PU-spy + relay bridge + exact 300m submodular 40k",
+    "note_chars": 129,
+    "validator": {
+      "file": "/home/user/GEMSDOE78/docs/downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif",
+      "bytes": 147599,
+      "sha256": "e2f21d496925fb1bd2f36c5b28a0e2356286eca719132545474456f81bc5a8eb",
+      "meta": {
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "count": 1,
+        "nodata": null,
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "profile_compress": "deflate"
+      },
+      "band_description": [
+        null
+      ],
+      "n_finite": 12279160,
+      "n_nan": 0,
+      "n_infinite": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.0032575519289821386,
+      "emitted_positive_pixels": 40000,
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "dimensions_3730x3292": true,
+        "crs_epsg_32611": true,
+        "transform_matches_sample_submission": true,
+        "no_nan_anywhere": true,
+        "no_inf_anywhere": true,
+        "no_sentinel_values": true,
+        "range_0_1_guaranteed": true,
+        "min_ge_0": true,
+        "max_le_1": true,
+        "in_footprint_all_finite": true,
+        "in_footprint_range_0_1": true,
+        "outside_footprint_zero": true,
+        "zero_dots_on_mapped_catalogue": true
+      },
+      "all_checks_passed": true,
+      "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+      "on_catalogue_positive_pixels": 0,
+      "in_footprint_positive_pixels": 40000,
+      "footprint_fraction": 0.007740877231041769
+    },
+    "template_report": {
+      "path": "/home/user/GEMSDOE78/docs/downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.tif",
+      "bytes": 147599,
+      "sha256": "e2f21d496925fb1bd2f36c5b28a0e2356286eca719132545474456f81bc5a8eb",
+      "bands": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "width": 3292,
+      "height": 3730,
+      "bounds": [
+        243350.0,
+        4135550.0,
+        572550.0,
+        4508550.0
+      ],
+      "ref_bounds": [
+        243350.0,
+        4135550.0,
+        572550.0,
+        4508550.0
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null,
+      "blocksize": [
+        256,
+        256
+      ],
+      "fixture_grid": false,
+      "has_validity_mask": false,
+      "nan_pixels": 0,
+      "infinity_pixels": 0,
+      "n_nan": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "mean": 0.0032575519289821386,
+      "n_nonzero": 40000,
+      "mass": 40000.0,
+      "mass_outside_footprint": 0,
+      "problems": [],
+      "ok": true,
+      "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+    },
+    "zip_file": "gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip",
+    "zip_sha256": "c0408bb9b22599fab796528d80f8d79523e6650b2b2c57bbe790341c631e90bc",
+    "approved_for_weekly_slot": false,
+    "promoted": false,
+    "submission_slots_used": 0,
+    "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+    "metadata": {}
+  },
+  "production_stats": {
+    "n_dots": 40000,
+    "on_catalogue_dots": 0,
+    "min_d_cat_px": 3.1623,
+    "median_d_cat_px": 7.616,
+    "p90_d_cat_px": 22.472,
+    "frac_le_5px": 0.3067,
+    "frac_gt_20px": 0.1243,
+    "lidar_1m_frac": 0.7934,
+    "non_lidar_frac": 0.2066,
+    "c_pied_zero_fit_dti": 0.08868,
+    "frac_nn_le_1p5": 0.0,
+    "min_nn_dist_px": 2.8284,
+    "median_nn_dist_px": 3.1623,
+    "quadrant_dots": {
+      "NW": 10206,
+      "NE": 10091,
+      "SW": 11341,
+      "SE": 8362
+    }
+  }
+}

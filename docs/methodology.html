@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hypotheses &amp; Methodology — GEMSDOE78 (H78-GSC)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="topbar">
+    VERDICT: OK TO DOWNLOAD AND SUBMIT — Automated Preflight 12/12 PASSED (40,000 binary dots in [0, 1], 0 NaN, 0 on-catalogue)
+    <a href="downloads/gems78-h78gsc-oof-submod40k-20261021T033000Z-zeros.zip">Download .ZIP (115 KB)</a>
+    <a href="executive-summary.html">Read Executive Summary</a>
+  </div>
+  <header class="navwrap">
+    <nav class="nav">
+      <a class="logo" href="index.html">GEMSDOE78 · Lane H78-GSC</a>
+      <div class="links">
+        <a href="index.html" class="">Overview</a>
+<a href="executive-summary.html" class="">Executive Summary</a>
+<a href="methodology.html" class="active">Hypotheses &amp; Methodology</a>
+<a href="validation.html" class="">Holdout &amp; Uniqueness</a>
+<a href="submission.html" class="">Download &amp; Submit</a>
+<a href="irregularities.html" class="">Irregularities</a>
+<a href="sources.html" class="">Verified Sources</a>
+<a href="h78mpc.html" class="">Archive: H78-MPC</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+
+    <h1>Geological Hypotheses &amp; Multi-Physics Architecture</h1>
+    <p class="lead">
+      Five ranked, physically grounded fault-discovery hypotheses designed specifically to capture Quaternary piedmont scarps,
+      en-echelon relay ramps, and blind basin-interior faults missing from USGS / INGENIOUS compilations.
+    </p>
+    <h2>Ranked Hypotheses, Physical Transforms &amp; Non-Fault Mimics</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Rank &amp; ID</th>
+          <th>Geological Target &amp; Layers</th>
+          <th>Mathematical Transform</th>
+          <th>Named Non-Fault Mimic Process</th>
+          <th>Strict LOQO Verdict</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight"><td><strong>#1 · H78-GSC-1 + GSC-4</strong></td><td>Buried Quaternary piedmont scarps · 1 m 3DEP LiDAR + seamless 10 m 3DEP + Quaternary cover</td><td>Strike-steered crest <code>-H_nn + 0.35|H_tt - H_nn|</code>, step asymmetry <code>|g_n|/(g_t+0.02)</code>, two-stage PU spy cleaning on unlabeled piedmont scarps</td><td>Pleistocene Lake Lahontan / Bonneville shoreline strandlines &amp; coalescing fan toes</td><td><span class="badge badge-pass">PROMOTED (+0.0199 LOQO)</span></td></tr>
+        <tr class="highlight"><td><strong>#2 · H78-GSC-2</strong></td><td>Unmapped 0.9–4.8 km en-echelon relay step-overs · Strictly fold-visible <code>existing_faults.tif</code> + hybrid physics strike</td><td>Vector endpoint tangent <code>(u_x, u_y)</code> + forward Coulomb stress cones + antiparallel paired facing-tip geometric mean <code>sqrt(E_+ E_-)</code> &times; scarp</td><td>Erosional canyon mouths truncating bedrock fault traces at range fronts</td><td><span class="badge badge-pass">PROMOTED (#1 Gain 6.24%)</span></td></tr>
+        <tr class="highlight"><td><strong>#3 · H78-GSC-3</strong></td><td>Active base-level fall across range fronts · 10 m USGS 3DEP DEM + piedmont mask</td><td>Fluvial steepness step <code>chi_step_interp_350m</code> &amp; raised channel density <code>chi_raised_density_400m</code></td><td>Differential lithologic resistance across welded tuffs / basalt caprocks</td><td><span class="badge badge-pass">PROMOTED (#7 Gain 2.59%)</span></td></tr>
+        <tr class="highlight"><td><strong>#4 · H78-GSC-5</strong></td><td>Blind basin-interior graben faults · Gravity, RTP magnetics (Band-6 <code>tc</code> fixed), MT resistivity, 3D ComCat, GeoDAWN springs</td><td>Domain-residual separation (2.5 km minus 12 km), zero-crossing tilt worms, 3D hypocentral shells, hydrothermal spring confluence</td><td>Pluton / caldera ring margins &amp; aeromagnetic survey levelling seams</td><td><span class="badge badge-pass">PROMOTED (+0.0175 LOQO)</span></td></tr>
+        <tr><td><strong>#5 · H78-NoisyOR</strong></td><td>Probabilistic tail union of structural &amp; pure-physics heads</td><td><code>1 - (1 - &alpha; p_mfnc)(1 - &beta; p_phys)</code> across <code>&alpha; &isin; {0.45..0.88}</code></td><td>Tail amplification on volcanic mesa rims</td><td>Rejected vs Linear Blend (0.1798 vs 0.1866)</td></tr>
+      </tbody>
+    </table>
+
+    <figure>
+      <img src="assets/fig3_canary_and_feature_gain.png" alt="150-feature leakage canary and LightGBM feature importance">
+      <figcaption>Figure 4. Left: Single-feature symmetric AUC across the top 14 of all 150 features on withheld fault segments (maximum <code>0.78609 &le; 0.90</code> gate; paired relay bridge + scarp outperforms pure distance <code>0.75023</code> by <code>+0.0359</code>). Right: Top learned LightGBM gain shares combining relay bridges, scarp crests, fluvial &chi;, and domain-residual potential fields.</figcaption>
+    </figure>
+
+  </main>
+  <footer>
+    GEMSDOE78 · DrivenData Competition #306 (DOE GEMS Hidden Fault Detection) · Branch <code>arena/13ef58cb-gemsdoe78</code> · Zero live weekly submission slots consumed automatically · All metrics explicitly tagged <code>HOLDOUT-DTI</code> or <code>ORGANIZER-CONFIRMED</code>.
+  </footer>
+  <script>
+    function copyId(id, btn) {
+      var el = document.getElementById(id);
+      if (!el || !navigator.clipboard) return;
+      navigator.clipboard.writeText(el.textContent.trim()).then(function() {
+        var prev = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(function() { btn.textContent = prev; }, 1600);
+      });
+    }
+  </script>
+</body>
+</html>
