@@ -1,0 +1,135 @@
+{
+  "file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+  "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+  "bytes": 153846,
+  "submission_name": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT",
+  "note": "GEMSDOE78 H78-STEP xstrike-step HGB 44090 dots B3; HOLDOUT-DTI 0.1730 s20 vs CTRL 0.1826; NEGATIVE-DUPLICATE-do-not-submit; not a projection",
+  "note_chars": 140,
+  "validator": {
+    "file": "/home/user/GEMSDOE78/docs/downloads/gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+    "bytes": 153846,
+    "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+    "meta": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "count": 1,
+      "nodata": null,
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "profile_compress": "deflate"
+    },
+    "band_description": [
+      null
+    ],
+    "n_finite": 12279160,
+    "n_nan": 0,
+    "n_infinite": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.003590636420994997,
+    "emitted_positive_pixels": 44090,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "transform_matches_sample_submission": true,
+      "no_nan_anywhere": true,
+      "no_inf_anywhere": true,
+      "no_sentinel_values": true,
+      "range_0_1_guaranteed": true,
+      "min_ge_0": true,
+      "max_le_1": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_zero": true,
+      "zero_dots_on_mapped_catalogue": true
+    },
+    "all_checks_passed": true,
+    "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_positive_pixels": 44090,
+    "footprint_fraction": 0.00853238192791579
+  },
+  "template_report": {
+    "path": "/home/user/GEMSDOE78/docs/downloads/gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
+    "bytes": 153846,
+    "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+    "bands": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "width": 3292,
+    "height": 3730,
+    "bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "ref_bounds": [
+      243350.0,
+      4135550.0,
+      572550.0,
+      4508550.0
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "blocksize": [
+      256,
+      256
+    ],
+    "fixture_grid": false,
+    "has_validity_mask": false,
+    "nan_pixels": 0,
+    "infinity_pixels": 0,
+    "n_nan": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "mean": 0.003590636420994997,
+    "n_nonzero": 44090,
+    "mass": 44090.0,
+    "mass_outside_footprint": 0,
+    "problems": [],
+    "ok": true,
+    "validation_class": "local on-disk template/range check; not organizer upload acceptance"
+  },
+  "zip_file": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.zip",
+  "zip_sha256": "cd27d00313594b48a2ef1c436d01bfb7cd62f00e8096773a3d4335bc85534808",
+  "approved_for_weekly_slot": false,
+  "promoted": false,
+  "submission_slots_used": 0,
+  "status": "locally validated within separately recorded inventory scope; not organizer acceptance or slot approval",
+  "metadata": {
+    "lane": "H78-STEP",
+    "arm": "CAND_STEP",
+    "flank_px": 3.0,
+    "budget": 44090,
+    "gate_at_write": {
+      "cand_beats_ctrl_point": false,
+      "cand_beats_repo_best_0p1826": false,
+      "paired_delta_ci_lower_gt_0": false,
+      "canary_clean": true,
+      "surface_rho_vs_ctrl_le_0p90": false,
+      "seed30_delta_point_gt_0": true,
+      "uniqueness_pass": false,
+      "validator_pass": true
+    }
+  }
+}

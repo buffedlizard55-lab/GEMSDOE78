@@ -1,27 +1,48 @@
 {
-  "session": "2026-10-21 tooth then spy",
-  "generated_tif": "gems78-h78spy-inspection-44090dots-20261021T234636Z-277ac69b-DO-NOT-SUBMIT.tif",
+  "session": "2026-10-22 H78-STEP cross-strike step-offset concordance",
+  "generated_tif": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT.tif",
   "ok_to_download_for_inspection": true,
   "ok_to_submit": false,
   "verdict": "negative",
-  "reason": "HOLDOUT-DTI did not beat 0.1826, and 92.45% of dots lie within 3 px of H78-A (duplicate lane).",
-  "holdout_dti": 0.18077914125502179,
+  "selector_note": "Do NOT spend a weekly slot on this file: it failed the preregistered gate (cand_beats_ctrl_point, cand_beats_repo_best_0p1826, paired_delta_ci_lower_gt_0, surface_rho_vs_ctrl_le_0p90, uniqueness_pass). It is published for inspection/reproducibility only. No file in this repo is currently cleared; see evidence/release_audit.json for prior lanes.",
+  "holdout_dti": 0.1729996841092334,
   "holdout_ci95": [
-    0.16226503151974203,
-    0.19852760694969213
+    0.15588761919299393,
+    0.19027510115782803
   ],
-  "control_dti": 0.1825746728455537,
-  "paired_delta": -0.001795531590531918,
+  "control_dti": 0.18258300140522551,
+  "paired_delta": -0.009583317295992128,
   "paired_delta_ci95": [
-    -0.0069339379661185535,
-    0.003693031687086105
+    -0.017629674583754498,
+    -0.002462783370834324
   ],
   "evaluator": "gems57-pooled-hide-v2",
   "withheld_positive_pixels": 11321,
+  "evidence_class": "HOLDOUT-DTI",
   "organizer_confirmed": null,
   "weekly_slots_used_by_agent": 0,
-  "sha256": "0a0767f2986ba13462440ae72340ea7e089860b18d469edfb0ab05689f0168f3",
-  "duplicate_of": "H78-A",
-  "forward_3px_overlap_h78a": 0.9244726695395782,
-  "validator_independent_all_passed": true
+  "sha256": "f76ad302fd8889899b1d1c04c340c5beca0dcabea50c63d4100461a0609f8c07",
+  "submission_name": "gems78-h78step-xstrike-44090dots-20261022T011826Z-e6e72188-zeros-DO-NOT-SUBMIT",
+  "submission_note": "GEMSDOE78 H78-STEP xstrike-step HGB 44090 dots B3; HOLDOUT-DTI 0.1730 s20 vs CTRL 0.1826; NEGATIVE-DUPLICATE-do-not-submit; not a projection",
+  "note_chars": 140,
+  "dots": 44090,
+  "gate": {
+    "cand_beats_ctrl_point": false,
+    "cand_beats_repo_best_0p1826": false,
+    "paired_delta_ci_lower_gt_0": false,
+    "canary_clean": true,
+    "surface_rho_vs_ctrl_le_0p90": false,
+    "seed30_delta_point_gt_0": true,
+    "uniqueness_pass": false,
+    "validator_pass": true
+  },
+  "dots_max_forward_3px_overlap": 0.8166704468133363,
+  "surface_max_abs_rho": 0.13099103706732979,
+  "duplicate_lane_vs": [
+    "H78-A primary shipped (44090; HOLDOUT-DTI 0.1826)",
+    "H78-A altB2 shipped (44090; inspection only)",
+    "H78-SPY shipped (44090; HOLDOUT-DTI 0.1808, negative)",
+    "H78-CS shipped (44090; HOLDOUT-DTI 0.1791, negative)"
+  ],
+  "run_card": "evidence/h78step_run_card.json"
 }
