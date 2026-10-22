@@ -101,3 +101,18 @@ def test_site_banner_matches_verdict():
     assert "HOLDOUT-DTI" in html and "ORGANIZER-CONFIRMED" in html
     assert (ROOT / "docs/h78step-executive-summary.html").exists()
     assert (ROOT / "docs/assets/fig_h78step_holdout.png").exists()
+
+
+def test_consolidated_release_audit_lists_step_blocked():
+    # Post-merge integration: main's consolidated audit owns the homepage and
+    # must carry H78-STEP as a blocked candidate with the same raster bytes.
+    audit = json.loads((ROOT / "evidence/release_audit.json").read_text())
+    step = [c for c in audit["candidates"] if c["lane"] == "H78-STEP"]
+    assert len(step) == 1
+    assert step[0]["file"] == CARD["raster"]["file"]
+    assert step[0]["sha256"] == CARD["raster_sha256"]
+    assert step[0]["ok_to_submit"] is False and step[0]["verdict"] == "negative"
+    assert step[0]["validator"]["all_passed"] and step[0]["integrity_passed"]
+    home = (ROOT / "docs/index.html").read_text()
+    assert "OK TO SUBMIT: NO" in home and "OK TO SUBMIT: YES" not in home
+    assert CARD["raster"]["file"] in home

@@ -190,5 +190,11 @@
         "severity": "info",
         "what": "evidence/h78step_holdout_seed20.json and evidence/h78step_run_card.json contain a JSON NaN literal (vendor surface_rho spearman_on_dot_union between two continuous surfaces). Python json parses it; strict JSON parsers may not (same as IR-78CS-05).",
         "action": "Left verbatim as vendor output for parity with prior evidence; read spearman_full_footprint only, or use a permissive parser."
+    },
+    {
+        "id": "IR-78STEP-07",
+        "severity": "medium",
+        "what": "Post-merge collision discovered at PR time (2026-10-22): parallel sessions merged to main (PRs #16-#18) while H78-STEP ran, including (a) H78-CROSSLAYER, an independent unsigned-physics implementation of the same deferred cross-strike-step hypothesis family, and (b) a consolidated release audit with a universal full-support registry witness (forward overlap 1.0 for every nonempty candidate). At branch point neither existed, so H78-STEP's frozen 9-raster registry could not include them; also the IR-78STEP-03 builder-chain fix is superseded by main's design where audit_release.py is the final publication step, and vendor/gems57/uniqueness.py + scripts/verify_tif.py were extended after this lane's evidence was generated (thresholds unchanged).",
+        "action": "Merged main preserving all parallel evidence; H78-STEP added as a seventh blocked candidate in scripts/audit_release.py (homepage/status owned by the consolidated audit; build_site_step.py curtailed to lane pages only). Dedupe diagnostic in evidence/h78step_vs_crosslayer_overlap.json: forward overlap 0.1699/0.2116, binary surface rho 0.0148 -- the two step implementations are not duplicates of each other, but both stay negative/blocked. Verdict unchanged; 0 slots used."
     }
 ]

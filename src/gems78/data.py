@@ -62,22 +62,34 @@ def verify_inputs() -> dict:
 def build_stack(force: bool = False) -> Path:
     """Nodata-filled float32 memmap of the 19 bands (C, H, W)."""
     PROC.mkdir(parents=True, exist_ok=True)
-    if STACK.exists() and not force:
-        return STACK
+    # A pre-v2 cache may contain incorrect fills for equal-count/different masks.
+    # It must not silently survive this correctness fix.
+    cache_meta = PROC / "stack19_cache.json"
+    source_sha = sha256(RAW) if RAW.exists() else EXPECTED_SHA["training_features.tif"]
+    if STACK.exists() and cache_meta.exists() and not force:
+        saved = json.loads(cache_meta.read_text())
+        if (saved.get("fill_algorithm") == "nearest-exact-mask-v2"
+                and saved.get("source_sha256") == source_sha
+                and saved.get("stack_sha256") == sha256(STACK)):
+            return STACK
+    temporary = STACK.with_suffix(STACK.suffix + ".partial")
     with rasterio.open(RAW) as ds:
         C, H, W = ds.count, ds.height, ds.width
-        mm = np.lib.format.open_memmap(STACK, mode="w+", dtype=np.float32, shape=(C, H, W))
+        mm = np.lib.format.open_memmap(temporary, mode="w+", dtype=np.float32, shape=(C, H, W))
         fill_idx = None
         receipt = []
         for i in range(C):
             a = ds.read(i + 1)
             bad = ~np.isfinite(a) | (a <= SENTINEL)
             n_bad = int(bad.sum())
+            if n_bad == a.size:
+                raise ValueError(f"band {i + 1} has no valid cells to fill from")
             if n_bad:
-                if fill_idx is None or n_bad != fill_idx[0]:
-                    # nearest valid-cell indices (recomputed only when the mask changes)
+                if fill_idx is None or not np.array_equal(bad, fill_idx[0]):
+                    # Equal nodata COUNTS do not imply equal masks across bands.
+                    # Reuse indices only for a pixel-identical mask.
                     idx = ndi.distance_transform_edt(bad, return_distances=False, return_indices=True)
-                    fill_idx = (n_bad, idx)
+                    fill_idx = (bad.copy(), idx)
                 a = a[fill_idx[1][0], fill_idx[1][1]]
             if BAND_NAMES[i] in LOG_BANDS:
                 a = np.log1p(np.maximum(a, 0.0)).astype(np.float32)
@@ -88,7 +100,9 @@ def build_stack(force: bool = False) -> Path:
             del a
         mm.flush()
         del mm
+    temporary.replace(STACK)
     (PROC / "stack19_receipt.json").write_text(json.dumps(receipt, indent=2))
+    cache_meta.write_text(json.dumps(dict(fill_algorithm="nearest-exact-mask-v2", source_sha256=source_sha, stack_sha256=sha256(STACK)), indent=2))
     return STACK
 
 

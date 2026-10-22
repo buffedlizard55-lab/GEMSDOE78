@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "note": "GitHub owner mirrors; pins establish byte identity, not organizer provenance. Witness is a prior registry prediction, never training data.",
+  "files": [
+    {
+      "id": "existing_faults",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "data/bridge/existing_faults.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "local_path": "data/bridge/existing_faults.tif"
+    },
+    {
+      "id": "sample_submission",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+      "path": "data/bridge/sample_submission.tif",
+      "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "local_path": "data/bridge/sample_submission.tif"
+    },
+    {
+      "id": "saturation_witness",
+      "repo": "buffedlizard55-lab/17GEMSDOE",
+      "ref": "6fc71d19d49dca4960d5434bd81b6dd06fcc030a",
+      "path": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+      "local_path": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+      "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+      "git_blob": "374c88b1da2b803e2ed160de467fd71ae114010d",
+      "bytes": 25065181
+    }
+  ]
+}

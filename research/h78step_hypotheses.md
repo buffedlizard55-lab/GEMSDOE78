@@ -156,3 +156,26 @@ data (1 m lidar derivatives as primary signal), a spatial model class (U-Net), o
 different emission stratum — ranked in the README's next-work list. H78-RELIEF,
 H78-CTX, H78-ASYM and H78-G were **not run** (budget; ASYM is partly subsumed by
 STEP's cond step + concordance, which did not rescue the lane).
+
+**Post-merge corrigendum (2026-10-22, at PR merge).** While this session ran, parallel
+sessions merged (a) an independent implementation of the same deferred cross-strike-step
+hypothesis family — H78-CROSSLAYER, an *unsigned physics-field* concordance with no
+learner and no catalogue features, HOLDOUT-DTI 0.0478 [0.0366, 0.0589] per
+`evidence/crosslayer_run_card.json` — and (b) a consolidated release audit proving a
+stronger form of IR-78STEP-05: a SHA-pinned GEMSDOE17 probability raster is positive
+across the *entire* footprint, so **every** nonempty candidate has literal forward
+overlap 1.0 > 0.70 (`evidence/protocol_preflight.json`, `docs/review-2026-10-22.md`).
+Consequences, none of which change this lane's measurements or verdict: the
+consolidated audit (not this lane's site builder) now owns the homepage / executive
+summary / status feed, and H78-STEP is integrated into it as a seventh blocked
+candidate; the IR-78STEP-03 builder-chain fix is superseded by main's
+"audit is the final publication step" design (`scripts/build_site_step.py` now writes
+only the lane pages); `vendor/gems57/uniqueness.py` and `scripts/verify_tif.py` were
+extended by the parallel sessions *after* this lane's evidence was generated with the
+branch-point versions (thresholds 0.90 / 0.70 unchanged; hashes pinned in the
+preregistration remain the provenance of `evidence/h78step_*.json`). Dedupe diagnostic
+(REGISTRY-MEASUREMENT, `evidence/h78step_vs_crosslayer_overlap.json`): the two step
+implementations are not duplicates of each other — forward dot overlap 0.1699 (STEP in
+CROSSLAYER) / 0.2116 (reverse), binary surface ρ 0.0148 — but both are blocked
+independently and by the universal witness. Selector: dedupe any future "cross-strike
+step" assignment against both `evidence/h78step_*` and `evidence/crosslayer_*`.

@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Generate the H78-STEP lane pages + homepage + executive summary from evidence JSONs.
+"""Generate the H78-STEP lane pages from evidence JSONs.
 
 Lane H78-STEP (session 2026-10-22). The banner is computed from the run-card
 verdict/gate; every number is copied from evidence/h78step_*.json at build
 time, nothing is typed by hand. Historical lanes stay blocked exactly as in
 evidence/release_audit.json / their own run cards (never re-promoted here).
-Also writes docs/data/status.json (machine-readable current status feed) and
-docs/downloads/run_card_h78step.json (copy of the run card).
+
+POST-MERGE SCOPE: this builder writes ONLY docs/h78step.html,
+docs/h78step-executive-summary.html and docs/downloads/run_card_h78step.json.
+The homepage, executive summary and docs/data/status.json are owned by the
+consolidated release audit (scripts/audit_release.py, final publication
+step on main), into which H78-STEP is integrated as a blocked candidate.
 """
 from __future__ import annotations
 
@@ -267,13 +271,16 @@ preregistration: <code>registry/preregistration_h78step.json</code>.</p>
 (DOCS / "h78step-executive-summary.html").write_text(page(
     "GEMSDOE78 H78-STEP executive summary",
     f"<h1>Executive summary — H78-STEP</h1>{banner}{howto}{holdout_card}{sources}"))
-(DOCS / "index.html").write_text(page(
-    "GEMSDOE78 — " + ("new file cleared for selector" if promote else "do not submit this session’s file"),
-    f"<h1>GEMSDOE78 — download &amp; submission status (2026-10-22 session: H78-STEP)</h1>{banner}{blocked_table}{howto}{why_h33}{holdout_card}{sources}"))
-(DOCS / "executive-summary.html").write_text(page(
-    "GEMSDOE78 executive summary — how to submit",
-    f"<h1>Executive summary — how a submission is made, and this file's status</h1>{banner}{howto}{blocked_table}{val_card}{sources}"))
-
+# POST-MERGE (2026-10-22): the consolidated release audit on main
+# (scripts/audit_release.py) is the final publication step and owns
+# docs/index.html, docs/executive-summary.html and docs/data/status.json.
+# This lane builder therefore writes ONLY the H78-STEP lane pages and its
+# run-card copy; H78-STEP is integrated into the audit's candidate specs so
+# the consolidated homepage lists it as blocked. (At branch point this
+# script also wrote the homepage/status; superseded -- IR-78STEP-07.)
+# The `blocked_table`/`status` objects below are retained as the lane's
+# record for the lane pages' companion evidence, not written over the
+# consolidated homepage/status feed.
 status = dict(
     session="2026-10-22 H78-STEP cross-strike step-offset concordance",
     generated_tif=rc["raster"]["file"],
@@ -300,8 +307,7 @@ status = dict(
     duplicate_lane_vs=uq["duplicate_lane_vs"],
     run_card="evidence/h78step_run_card.json",
 )
-(DOCS / "data" / "status.json").write_text(json.dumps(status, indent=2) + "\n")
-# NOTE: docs/data/submission.json is the H78-A run-card copy written by
-# scripts/build_submission.py; do not overwrite historical lane artifacts.
+# NOTE: docs/data/status.json + docs/data/submission.json belong to the
+# consolidated audit / historical lanes; never overwrite them from here.
 (DOCS / "downloads" / "run_card_h78step.json").write_text(json.dumps(rc, indent=2, default=float) + "\n")
-print("site written; promote =", promote, "; stem =", stem)
+print("lane pages written; promote =", promote, "; stem =", stem, "; lane status keys:", len(status))

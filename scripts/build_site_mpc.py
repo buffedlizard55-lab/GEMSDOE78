@@ -190,9 +190,5 @@ Never record a HOLDOUT-DTI or a projection as an organizer score.</p></div>
 print("site written; promote =", promote)
 
 # Historical promotion text must never bypass the current release gate.
-# Ends with the current-session homepage builder (H78-STEP, 2026-10-22;
-# previously build_session_site.py -- see IR-78STEP-03).
 from audit_release import main as audit_release
 audit_release()
-import runpy
-runpy.run_path(str(Path(__file__).with_name("build_site_step.py")), run_name="__main__")
