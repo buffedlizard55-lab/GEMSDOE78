@@ -1,0 +1,51 @@
+01:23:27 fit {'arm': 'DIAG_A2STEP', 'n_pos': 48340, 'n_neg': 450000, 'n_features': 157, 'params': {'max_iter': 300, 'learning_rate': 0.06, 'max_leaf_nodes': 63, 'min_samples_leaf': 200, 'l2_regularization': 1.0, 'max_bins': 255, 'early_stopping': False, 'random_state': 0}, 'fit_seconds': 130.7}
+01:26:39 surface rho DIAG vs CTRL {'spearman_on_dot_union': nan, 'n_dot_union': 5167373, 'jaccard_dot_sets': 0.9999278163198205, 'spearman_full_footprint': 0.9291830333557451}
+01:26:49   CTRL_A2|B3|37654 HOLDOUT-DTI 0.1778
+01:26:57   CTRL_A2|B3|44090 HOLDOUT-DTI 0.1826
+01:27:12   CTRL_A2|B3|50000 HOLDOUT-DTI 0.1843
+01:27:22   CAND_STEP|B3|37654 HOLDOUT-DTI 0.16
+01:27:29   CAND_STEP|B3|44090 HOLDOUT-DTI 0.1662
+01:27:45   CAND_STEP|B3|50000 HOLDOUT-DTI 0.168
+01:27:54   DIAG_A2STEP|B3|37654 HOLDOUT-DTI 0.1739
+01:28:01   DIAG_A2STEP|B3|44090 HOLDOUT-DTI 0.179
+01:28:16   DIAG_A2STEP|B3|50000 HOLDOUT-DTI 0.1798
+01:28:17 wrote /home/user/GEMSDOE78/evidence/h78step_append_diag_seed20.json in 429.9 s
+{
+ "CTRL_A2|B3|44090": [
+  0.1826,
+  [
+   0.1628,
+   0.2004
+  ]
+ ],
+ "CAND_STEP|B3|44090": [
+  0.1662,
+  [
+   0.147,
+   0.1836
+  ]
+ ],
+ "DIAG_A2STEP|B3|44090": [
+  0.179,
+  [
+   0.1618,
+   0.1941
+  ]
+ ]
+}
+{
+ "CTRL_A2|B3|44090": [
+  -0.0036,
+  [
+   -0.0104,
+   0.0031
+  ]
+ ],
+ "CAND_STEP|B3|44090": [
+  0.0128,
+  [
+   0.0069,
+   0.0193
+  ]
+ ]
+}
