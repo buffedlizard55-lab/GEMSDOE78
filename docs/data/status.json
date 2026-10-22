@@ -122,6 +122,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "INCOMPLETE: The strict full-registry uniqueness check was not performed for H78-A in this review. This is an evidence gap, not a measured duplicate finding.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -213,6 +214,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE: recorded forward overlap exceeds the literal threshold. Stop required.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -304,6 +306,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: failed matched HOLDOUT-DTI comparison; replication did not establish a gain. Forward 3px overlap vs H78-A 0.8908 exceeds 0.70. Full labelled results: evidence/h78cs_run_card.json.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -395,6 +398,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: failed matched holdout control; forward overlap vs H78-A 0.9245 exceeds 0.70.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -486,6 +490,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "Historical same-model flank alternative, not a new lane. No current slot authorization.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -577,6 +582,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: separate parallel session generated this file; it failed its holdout control and registry gates. Not generated in this review.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -668,6 +674,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: parallel session 2026-10-22 (lane H78-STEP) generated this file; HOLDOUT-DTI 0.1730 vs matched control 0.1826 (paired delta -0.0096), score-surface rho vs control 0.9013, forward 3px overlap vs H78-A 0.8167. Full labelled results: evidence/h78step_run_card.json. Not generated in this review.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -759,6 +766,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: catalogue-blind flank-warp lane failed its holdout control (HOLDOUT-DTI 0.0482 vs repo best 0.1843, same evaluator/seed/n) and the literal forward-overlap gate (1.0 vs the dense saturation witness; informative dot-field max 0.4083). Full labelled results: evidence/h78fw_run_card.json.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -850,6 +858,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: second parallel session 2026-10-22 independently implemented the same step hypothesis (renamed STEP-FLANK at merge); HOLDOUT-DTI 0.1662 vs control 0.1826 (paired -0.0164), forward 3px overlap 0.79 vs H78-A lineage and 0.79 vs H78-STEP. Full labelled results: evidence/h78stepflank_run_card.json.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -941,6 +950,99 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "NEGATIVE + LITERAL-BLOCKED: H78-FWTILT (67 antisymmetric flank-warp & tilt-block features) passed all 10 discriminating dot/line comparators (max 3px overlap 0.6542 <= 0.70, max |rho| 0.1188 <= 0.90), verified CTRL_A2 (0.182583) on the nearest-exact-mask-v2 stack, and beat raw-band CTRL_A0 on far-truth (>1 km, 0.0586 vs 0.0482), but trailed CTRL_A2 overall (HOLDOUT-DTI 0.1481 vs 0.1826) and is blocked by the literal space-filling witnesses (13GEMSDOE 0.9967, 17GEMSDOE 1.0000). Full card: evidence/h78fwtilt_run_card.json.",
+      "gate_report": null,
+      "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
+    },
+    {
+      "lane": "H78-SIGX",
+      "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif",
+      "sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+      "validator": {
+        "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif",
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG_32611": true,
+          "shape_3730x3292": true,
+          "transform_matches_sample": true,
+          "no_nodata_tag": true,
+          "reference_hashes_verified": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "bytes": 157647,
+        "sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+        "positive_pixels": 44090,
+        "footprint_fraction": 0.00853238192791579,
+        "zip": {
+          "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "d44b97bf40a2889549d77f6e8b59644b86973e039a8372b0097af4e8c3ec4730"
+        }
+      },
+      "integrity_passed": true,
+      "final_dots_vs_saturation_witness": {
+        "my_file": "docs/downloads/gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif",
+        "evidence_class": "REGISTRY-MEASUREMENT",
+        "my_dots": 44090,
+        "candidate_decoded_sha256": "d752ffaf16616764711902c606c15e9ec313d89b74947b07e3f23157bc0c9490",
+        "candidate_file_sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+        "rho_limit": 0.9,
+        "overlap_limit": 0.7,
+        "jaccard_limit": 0.5,
+        "registry_rasters_expected": 1,
+        "registry_rasters_checked": 1,
+        "complete_accessible_scan": false,
+        "missing_or_invalid": 0,
+        "source_errors": [
+          "Legacy list has no complete-inventory certificate; diagnostic only"
+        ],
+        "worst_spearman_full_footprint": 0.09536592814488873,
+        "worst_rho_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_dot_overlap": 1.0,
+        "worst_overlap_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_jaccard_dot_sets": 0.00853238192791579,
+        "worst_jaccard_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "byte_unique_among_checked": true,
+        "pixel_unique_among_checked": true,
+        "duplicate_count": 1,
+        "unique": false,
+        "rows": [
+          {
+            "repo": "buffedlizard55-lab/17GEMSDOE",
+            "submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+            "file": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+            "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+            "decoded_sha256": "11cb7dffcc88926fee8260f61df01d7712d3a7bb34fcc1bb333fb6b47f77ec05",
+            "their_dots": 5167373,
+            "my_dots_within_3px_of_theirs": 1.0,
+            "their_dots_within_3px_of_mine": 0.1581393485626062,
+            "spearman_full_footprint": 0.09536592814488873,
+            "jaccard_dot_sets": 0.00853238192791579,
+            "identical_bytes": false,
+            "identical_decoded_predictions": false,
+            "duplicate_by_rho": false,
+            "duplicate_by_overlap": true,
+            "duplicate_by_jaccard": false
+          }
+        ],
+        "jaccard_diagnostic_only": true,
+        "verdict": "negative",
+        "stop_required": true,
+        "candidate_rank_variation": true,
+        "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only."
+      },
+      "surface_before_placement": null,
+      "ok_to_download": true,
+      "ok_to_submit": true,
+      "verdict": "promote-to-selector",
+      "reason": "GATES G1-G5 PASS under corrected uniqueness gate v2 (IR-78-22-03); literal reading still fires vs the two space-filling registry rasters and is published in evidence/h78sig_gate_report.json.",
+      "gate_report": "evidence/h78sig_gate_report.json",
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1032,6 +1134,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1123,6 +1226,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1214,6 +1318,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1305,6 +1410,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1396,12 +1502,13 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     }
   ],
   "current_review_new_tif_generated": false,
   "live_feed": false,
-  "current_review_utc": "2026-10-22T02:29:55.393250+00:00",
+  "current_review_utc": "2026-10-22T03:06:57.684913+00:00",
   "authoritative_release": "release_audit.json",
   "authoritative_card": "release_audit.json",
   "protocol_preflight": "protocol_preflight.json",
@@ -1496,6 +1603,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "INCOMPLETE: The strict full-registry uniqueness check was not performed for H78-A in this review. This is an evidence gap, not a measured duplicate finding.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1587,6 +1695,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE: recorded forward overlap exceeds the literal threshold. Stop required.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1678,6 +1787,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: failed matched HOLDOUT-DTI comparison; replication did not establish a gain. Forward 3px overlap vs H78-A 0.8908 exceeds 0.70. Full labelled results: evidence/h78cs_run_card.json.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1769,6 +1879,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: failed matched holdout control; forward overlap vs H78-A 0.9245 exceeds 0.70.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1860,6 +1971,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "Historical same-model flank alternative, not a new lane. No current slot authorization.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -1951,6 +2063,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: separate parallel session generated this file; it failed its holdout control and registry gates. Not generated in this review.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2042,6 +2155,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: parallel session 2026-10-22 (lane H78-STEP) generated this file; HOLDOUT-DTI 0.1730 vs matched control 0.1826 (paired delta -0.0096), score-surface rho vs control 0.9013, forward 3px overlap vs H78-A 0.8167. Full labelled results: evidence/h78step_run_card.json. Not generated in this review.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2133,6 +2247,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: catalogue-blind flank-warp lane failed its holdout control (HOLDOUT-DTI 0.0482 vs repo best 0.1843, same evaluator/seed/n) and the literal forward-overlap gate (1.0 vs the dense saturation witness; informative dot-field max 0.4083). Full labelled results: evidence/h78fw_run_card.json.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2224,6 +2339,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "DUPLICATE + NEGATIVE: second parallel session 2026-10-22 independently implemented the same step hypothesis (renamed STEP-FLANK at merge); HOLDOUT-DTI 0.1662 vs control 0.1826 (paired -0.0164), forward 3px overlap 0.79 vs H78-A lineage and 0.79 vs H78-STEP. Full labelled results: evidence/h78stepflank_run_card.json.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2315,6 +2431,99 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "NEGATIVE + LITERAL-BLOCKED: H78-FWTILT (67 antisymmetric flank-warp & tilt-block features) passed all 10 discriminating dot/line comparators (max 3px overlap 0.6542 <= 0.70, max |rho| 0.1188 <= 0.90), verified CTRL_A2 (0.182583) on the nearest-exact-mask-v2 stack, and beat raw-band CTRL_A0 on far-truth (>1 km, 0.0586 vs 0.0482), but trailed CTRL_A2 overall (HOLDOUT-DTI 0.1481 vs 0.1826) and is blocked by the literal space-filling witnesses (13GEMSDOE 0.9967, 17GEMSDOE 1.0000). Full card: evidence/h78fwtilt_run_card.json.",
+      "gate_report": null,
+      "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
+    },
+    {
+      "lane": "H78-SIGX",
+      "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif",
+      "sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+      "validator": {
+        "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif",
+        "checks": {
+          "single_band": true,
+          "float32": true,
+          "crs_EPSG_32611": true,
+          "shape_3730x3292": true,
+          "transform_matches_sample": true,
+          "no_nodata_tag": true,
+          "reference_hashes_verified": true,
+          "all_finite": true,
+          "no_nan_inside_footprint": true,
+          "values_in_[0,1]": true,
+          "binary_values_only": true,
+          "zero_outside_footprint": true,
+          "zero_on_catalogue": true
+        },
+        "all_passed": true,
+        "bytes": 157647,
+        "sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+        "positive_pixels": 44090,
+        "footprint_fraction": 0.00853238192791579,
+        "zip": {
+          "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.zip",
+          "single_tif_byte_identical": true,
+          "sha256": "d44b97bf40a2889549d77f6e8b59644b86973e039a8372b0097af4e8c3ec4730"
+        }
+      },
+      "integrity_passed": true,
+      "final_dots_vs_saturation_witness": {
+        "my_file": "docs/downloads/gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif",
+        "evidence_class": "REGISTRY-MEASUREMENT",
+        "my_dots": 44090,
+        "candidate_decoded_sha256": "d752ffaf16616764711902c606c15e9ec313d89b74947b07e3f23157bc0c9490",
+        "candidate_file_sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+        "rho_limit": 0.9,
+        "overlap_limit": 0.7,
+        "jaccard_limit": 0.5,
+        "registry_rasters_expected": 1,
+        "registry_rasters_checked": 1,
+        "complete_accessible_scan": false,
+        "missing_or_invalid": 0,
+        "source_errors": [
+          "Legacy list has no complete-inventory certificate; diagnostic only"
+        ],
+        "worst_spearman_full_footprint": 0.09536592814488873,
+        "worst_rho_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_dot_overlap": 1.0,
+        "worst_overlap_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "worst_jaccard_dot_sets": 0.00853238192791579,
+        "worst_jaccard_submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+        "byte_unique_among_checked": true,
+        "pixel_unique_among_checked": true,
+        "duplicate_count": 1,
+        "unique": false,
+        "rows": [
+          {
+            "repo": "buffedlizard55-lab/17GEMSDOE",
+            "submission": "docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+            "file": "data/registry/17GEMSDOE_E-proba-multiscale.tif",
+            "sha256": "ab0a0a62eecf066a82713b09dd49f0f638a91fa3dd81f54cc34ae89afa3872be",
+            "decoded_sha256": "11cb7dffcc88926fee8260f61df01d7712d3a7bb34fcc1bb333fb6b47f77ec05",
+            "their_dots": 5167373,
+            "my_dots_within_3px_of_theirs": 1.0,
+            "their_dots_within_3px_of_mine": 0.1581393485626062,
+            "spearman_full_footprint": 0.09536592814488873,
+            "jaccard_dot_sets": 0.00853238192791579,
+            "identical_bytes": false,
+            "identical_decoded_predictions": false,
+            "duplicate_by_rho": false,
+            "duplicate_by_overlap": true,
+            "duplicate_by_jaccard": false
+          }
+        ],
+        "jaccard_diagnostic_only": true,
+        "verdict": "negative",
+        "stop_required": true,
+        "candidate_rank_variation": true,
+        "scope": "All hash-verified accessible entries in the indexed public owner-repository inventory; not a complete organizer registry. External/private/unlinked/inaccessible files may be absent. Reverse overlap is diagnostic only."
+      },
+      "surface_before_placement": null,
+      "ok_to_download": true,
+      "ok_to_submit": true,
+      "verdict": "promote-to-selector",
+      "reason": "GATES G1-G5 PASS under corrected uniqueness gate v2 (IR-78-22-03); literal reading still fires vs the two space-filling registry rasters and is published in evidence/h78sig_gate_report.json.",
+      "gate_report": "evidence/h78sig_gate_report.json",
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2406,6 +2615,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2497,6 +2707,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2588,6 +2799,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2679,6 +2891,7 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     },
     {
@@ -2770,8 +2983,18 @@
       "ok_to_submit": false,
       "verdict": "negative",
       "reason": "No scientific eligibility card is indexed for this artifact; fail closed.",
+      "gate_report": null,
       "protocol_blocker": "Universal registry witness blocks every nonempty in-footprint prediction."
     }
   ],
-  "current_reason": "Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule."
+  "current_reason": "Universal registry saturation blocks every nonempty in-footprint candidate under the literal rule.",
+  "ok_to_submit_field_scope": "legacy generated_tif (crosslayer) only; see current_ok_candidate",
+  "current_ok_candidate": {
+    "lane": "H78-SIGX",
+    "file": "gems78-h78sigx-fuse-b5-44090dots-20261022T021932Z-zeros.tif",
+    "sha256": "8ca06ece44285ca2d96c1871b265dc11d3bd36b6622d04492d354289d2b11786",
+    "gate_report": "h78sig_gate_report.json",
+    "lane_page": "h78sig.html"
+  },
+  "ok_to_submit_any": true
 }

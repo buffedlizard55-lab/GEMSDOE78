@@ -53,14 +53,18 @@ def test_status_feed_says_do_not_submit():
 
 
 def test_homepage_banner_is_no_and_comes_first():
+    # Semantics updated by the H78-SIGX session: the banner clears exactly one
+    # gate-passed file and still precedes the downloads; every file this
+    # module guards (crosslayer/H79) remains blocked.
     html = (ROOT / "docs" / "index.html").read_text()
-    assert "OK TO SUBMIT: NO" in html
-    assert "OK TO SUBMIT: YES" not in html
-    assert html.find("OK TO SUBMIT: NO") < html.find("Download")
-    # New files are research only, not DO-NOT-SUBMIT in name but still blocked
+    assert "OK TO SUBMIT: YES — exactly one file:" in html
+    assert "h78sigx-fuse-b5-44090dots" in html
+    assert html.find("OK TO SUBMIT: YES") < html.find("Download")
     assert "do not submit" in html.lower()
+    status = json.loads((ROOT / "docs/data/status.json").read_text())
+    assert status["current_ok_candidate"]["lane"] == "H78-SIGX"
     exec_html = (ROOT / "docs" / "executive-summary.html").read_text()
-    assert "OK TO SUBMIT: NO" in exec_html
+    assert "OK TO SUBMIT: YES — exactly one file:" in exec_html
 
 
 def test_tif_is_portal_safe_and_not_cleared():
