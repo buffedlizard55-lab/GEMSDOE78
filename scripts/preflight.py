@@ -36,13 +36,36 @@ def restore_entry(entry):
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".partial")
+    import tempfile
     try:
-        with tmp.open("wb") as stream:
-            subprocess.run([
-                "gh", "api",
-                f"repos/{entry['repo']}/contents/{entry['path']}?ref={entry['ref']}",
-                "-H", "Accept: application/vnd.github.raw",
-            ], stdout=stream, check=True, timeout=180)
+        fetched = False
+        try:
+            with tempfile.TemporaryDirectory() as git_dir:
+                subprocess.run(["git", "init", "-q", git_dir], check=True, timeout=30)
+                subprocess.run(
+                    ["git", "-C", git_dir, "remote", "add", "origin", f"https://github.com/{entry['repo']}.git"],
+                    check=True, timeout=30,
+                )
+                subprocess.run(
+                    ["git", "-C", git_dir, "fetch", "-q", "--depth", "1", "--filter=blob:none", "origin", entry["ref"]],
+                    check=True, timeout=180,
+                )
+                with tmp.open("wb") as stream:
+                    subprocess.run(
+                        ["git", "-C", git_dir, "show", f"{entry['ref']}:{entry['path']}"],
+                        stdout=stream, check=True, timeout=180,
+                    )
+                if sha256(tmp) == entry["sha256"]:
+                    fetched = True
+        except (OSError, subprocess.SubprocessError):
+            fetched = False
+        if not fetched:
+            with tmp.open("wb") as stream:
+                subprocess.run([
+                    "gh", "api",
+                    f"repos/{entry['repo']}/contents/{entry['path']}?ref={entry['ref']}",
+                    "-H", "Accept: application/vnd.github.raw",
+                ], stdout=stream, check=True, timeout=180)
         if sha256(tmp) != entry["sha256"]:
             raise ValueError(f"SHA256 mismatch: {entry['local_path']}")
         tmp.replace(path)

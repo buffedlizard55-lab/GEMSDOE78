@@ -4,13 +4,31 @@
 
 **No new nonempty TIFF can pass the literal parallel-run rule as written.** A freshly restored, SHA-pinned GEMSDOE17 probability raster is positive across the entire footprint; every allowed dot has forward overlap **1.0**, above the **0.70** stop limit. The shared template produced a grid-checked impossibility certificate. This is a registry diagnostic, not a competition score.
 
-All **six** existing downloadable TIFFs (including the parallel session’s cross-layer file) were independently revalidated, and all six are blocked. Format-valid does not mean scientifically eligible or organizer-accepted. No model experiment, copied/renamed TIFF, newly generated TIFF, or weekly slot was used in this review. The prompt also supplies no assigned single method paragraph. Neither blocker is silently waived.
+All **seven** existing downloadable TIFFs (including Session 5's `H78-FW` antisymmetric flank-warp TIFF and the earlier parallel session's cross-layer TIFF) were independently revalidated, and all seven are blocked from competition upload. Format-valid does not mean scientifically eligible or organizer-accepted.
 
+- **[Session 5 (`H78-FW`) scientific report, H33 forensic analysis, and 4 ranked hypotheses](research/h78fw_hypotheses.md)**
+- **[Session 5 (`H78-FW`) lane page](docs/h78fw.html)** · **[Executive summary](docs/h78fw-executive-summary.html)** · **[Run card JSON](evidence/h78fw_run_card.json)** · **[Holdout seed-20 JSON](evidence/h78fw_holdout_seed20.json)**
 - **[Current review: proof, ranked hypotheses, fixes and limitations](docs/review-2026-10-22.md)**
 - **[Automatic protocol preflight/run card](evidence/protocol_preflight.json)**
 - **[Pinned input/witness provenance](registry/preflight_inputs.json)**
 
 Historical evidence below remains useful, but the current protocol certificate takes precedence over every earlier promotion or partial-uniqueness claim.
+
+## Session 5 (2026-10-22): `H78-FW` Multi-Scale Antisymmetric Footwall/Hangingwall Flank-Warp (`OK TO DOWNLOAD: YES · OK TO SUBMIT: NO`)
+
+In Session 5, we restored the SHA-256-pinned competition dataset via zero-rate-limit Git blob fetch (`bash scripts/restore_data.sh`), rebuilt `data/processed/stack19.npy` under `nearest-exact-mask-v2` (`sha256: d7f091e732b8103e34e9f9e75fb57d2338edefdc2309a19690d333f8fad98f96`), ranked 4 geological hypotheses (`H78-FW`, `H78-DRN`, `H78-TER`, `H78-MCR`), and evaluated and built the top-ranked lane **`H78-FW`** (`src/gems78/flank_warp.py`, 67 antisymmetric footwall/hangingwall flank-warp features across `det_elev`, `depth_to_base_surf`, `rtp`, `iso_grav_anom`, `cond_surf`, `tc_totalcount`, `geod_shearrate`, `geod_2ndinv`, and `ieq_n100a15`):
+
+- **Generated unique GeoTIFF:** [`docs/downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif`](docs/downloads/gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT.tif) (`sha256: 9675701648e74394e119fde17b88439e5cddaafb9be979d8d7f5f634cde98dc6`, `152,491` bytes; ZIP `a55d9584e5b0cdf83cc11d46550389f4a1cc86a1b54d8b211ecbeaf67b4935fc`; 12/12 format checks passed via `scripts/verify_tif.py`).
+- **Unique name:** `gems78-h78fw-flank-warp-44090dots-20261022T020704Z-c7df4b42-DO-NOT-SUBMIT`
+- **Short note (`106/140` chars):** `NOT OK TO SUBMIT: H78-FW flank-warp 44090 dots B3; HOLDOUT-DTI 0.1481 vs CTRL 0.1826 s20; negative/blocked`
+- **Resolution of `nearest-exact-mask-v2` cache verification:** `CTRL_A2|B3|44090` reproduced **`HOLDOUT-DTI = 0.182583 [0.163126, 0.200304]`** (`gems57-pooled-hide-v2`, seed 20, `11,321` withheld positives) to six decimal places on the newly rebuilt v2 stack.
+- **`H78-FW` Holdout (`evidence/h78fw_holdout_seed20.json`):**
+  - Leakage canary: **0 features flagged** (`max = 0.5666` across 67 FW features; `max = 0.5859` across all 170 features).
+  - Pooled all-withheld (`11,321` positives): `CAND_FW_PURE|B3|44090` = **`HOLDOUT-DTI 0.148085 [0.129897, 0.165510]`** vs `CTRL_A2|B3|44090` = **`0.182583 [0.163126, 0.200304]`** (paired delta **`-0.034498 [-0.045263, -0.022748]`**).
+  - Far-truth (`> 10 px = 1 km` from visible faults, `5,150` positives): `CAND_FW_PURE|B3|44090` = **`HOLDOUT-DTI 0.058569 [0.046233, 0.070713]`**, beating raw-band `CTRL_A0|B3|44090` (**`0.048240 [0.035120, 0.062931]`**) by **`+0.010329 [-0.001489, +0.021501]`**.
+- **Uniqueness vs 12 registry & sibling rasters (`evidence/h78fw_run_card.json`):**
+  - **PASSED against all 10 discriminating sparse dot/line comparators** (`H19-5`, `D2.8`, `H33`, `GEMSDOE70`, `H78-A`, `H78-A-altB2`, `H78-MPC`, `H78-SPY`, `H78-CS`, `H78-CROSSLAYER`): max pre-placement `|Spearman rho| = 0.1188 <= 0.90`, max 3-px forward dot overlap = **`0.6542 <= 0.70`** (`0.6542` vs `H78-A`, `0.3001` vs `H33`, `0.3283` vs `D2.8`).
+  - **FAILED against the 2 space-filling comparators** (`13GEMSDOE` 5-px lattice `0.9967`; `17GEMSDOE` full-footprint probability witness `1.0000`). Verdict: **`negative` (`OK TO DOWNLOAD: YES · OK TO SUBMIT: NO`)**.
 
 ## Parallel-session artifact (2026-10-22): historical inspection only
 
@@ -32,9 +50,12 @@ A separate parallel session independently generated a cross-layer RTP-magnetics 
 | Candidate | Format | Scientific eligibility |
 |---|---|---|
 | H78-A strike-steered | Automatically revalidated against pinned grid | **Blocked:** only three registry comparators; complete uniqueness not established |
+| H78-A-altB2 strike-steered B2 flank | Automatically revalidated against pinned grid | **Blocked:** historical same-model flank alternative (HOLDOUT-DTI 0.1586 vs B3 0.1826); not a new lane |
 | H78-MPC monogenic phase congruency | Automatically revalidated against pinned grid | **Duplicate / stop:** recorded forward overlap exceeds the literal threshold |
 | H78-SPY inspection, 2026-10-21 | Format-valid; independent `verify_tif.py` passed | **Blocked:** HOLDOUT-DTI 0.1808 [0.1623, 0.1985] vs reproduced control 0.1826; paired delta −0.0018 [−0.0069, +0.0037]; forward overlap vs H78-A 0.9245. Filename ends in `DO-NOT-SUBMIT`. |
 | H78-CS collinear support, session 3 (merged after this audit) | Format-valid; independent `verify_tif.py` 12/12 passed | **Blocked / duplicate:** HOLDOUT-DTI seed 20 0.1791 [0.1609, 0.1961] vs reproduced control 0.1826, paired delta −0.0035 [−0.0086, +0.0017]; seed-30 replication delta +0.0004 [−0.0053, +0.0058]; forward overlap vs H78-A 0.8908. Note contains `NEGATIVE-DUPLICATE-do-not-submit`. Page: [`docs/h78cs.html`](docs/h78cs.html), card `evidence/h78cs_run_card.json`. |
+| H78-CROSSLAYER profile-step, session 4 | Format-valid; independent `verify_tif.py` 12/12 passed | **Blocked / duplicate:** HOLDOUT-DTI 0.0478 [0.0366, 0.0589]; forward overlap vs 13GEMSDOE lattice 0.9990. Page: [`docs/crosslayer.html`](docs/crosslayer.html), card `evidence/crosslayer_run_card.json`. |
+| **H78-FW antisymmetric flank-warp, session 5 (2026-10-22)** | Format-valid; independent `verify_tif.py` 12/12 passed | **Blocked / negative:** Passed all 10 discriminating dot/line comparators (max 3-px forward overlap **0.6542 ≤ 0.70**, max \|ρ\| **0.1188 ≤ 0.90**), verified `CTRL_A2` (**0.182583**) on `nearest-exact-mask-v2` stack, and beat raw-band `CTRL_A0` on far-truth (`>1 km`, **0.0586 vs 0.0482**), but trailed `CTRL_A2` on pooled holdout (**0.1481 [0.1299, 0.1655] vs 0.1826**) and is blocked by the literal space-filling witnesses (`13GEMSDOE` 0.9967, `17GEMSDOE` 1.0000). Page: [`docs/h78fw.html`](docs/h78fw.html), card [`evidence/h78fw_run_card.json`](evidence/h78fw_run_card.json). |
 
 Historical run cards under `evidence/` are preserved, not silently rewritten. Their `promote` verdicts are **superseded** by `evidence/release_audit.json`. They are not current upload authorizations. All remaining historical analyses must be read with the current review.
 
